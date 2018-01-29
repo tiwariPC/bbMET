@@ -43,6 +43,9 @@ parser.add_option("-P", "--OtherPlots", action="store_true",  dest="OtherPlots")
 
 parser.add_option("--csv", action="store_true",  dest="CSV")
 parser.add_option("--deepcsv", action="store_true",  dest="DeepCSV")
+
+parser.add_option("--se", action="store_true",  dest="SE")
+parser.add_option("--met", action="store_true",  dest="MET")
 ########################################################################################################################
 ########################## cut values########################################################################
 ########################################################################################################################
@@ -64,8 +67,21 @@ if options.CSV==None:
 
 if options.DeepCSV==None:
     options.DeepCSV = False
+
+if options.SE==None:
+    options.SE==False
+
+if options.MET==None:
+    options.MET==False
     
-if options.CSV: print "Using CSVv2 as b-tag discriminator."    
+if options.SE: print "Using SingleElectron dataset."
+if options.MET: print "Using MET dataset."
+
+if not options.SE and not options.MET:
+    print "Please run using --se or --met. Exiting."
+    sys.exit()
+
+if options.CSV: print "Using CSVv2 as b-tag discriminator."
 if options.DeepCSV: print "Using DeepCSV as b-tag discriminator."
 
 if not options.CSV and not options.DeepCSV:
@@ -440,10 +456,14 @@ def AnalyzeDataSet():
         #**************************** REMEMBER TO CHANGE DEPENDING ON THE DATASET YOU ARE USING ********************************
         #==========================================================================
         #
+        whichDataset = False
         
-#        if not MET_trig: continue                  # For signal and mu regions with MET dataset
-        if not SE_trig: continue                    # For electron regions with SE dataset
+        if options.MET:
+            whichDataset = MET_trig   # For signal and mu regions with MET dataset
+        if options.SE:
+            whichDataset = SE_trig  # For electron regions with SE dataset
         
+        if not whichDataset: continue
         
         #============================ CAUTION =====================================
         #**************************************************************************
