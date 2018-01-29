@@ -348,6 +348,9 @@ def AnalyzeDataSet():
         nTHINdeepCSVJets           = skimmedTree.__getattr__('st_AK4deepCSVnJet')
         thindeepCSVjetP4           = skimmedTree.__getattr__('st_AK4deepCSVjetP4')
         thinJetdeepCSV             = skimmedTree.__getattr__('st_AK4deepCSVjetDeepCSV_b')
+        THINdeepCSVjetHadronFlavor = skimmedTree.__getattr__('st_AK4deepCSVjetHadronFlavor')
+        thindeepCSVjetNhadEF       = skimmedTree.__getattr__('st_AK4deepCSVjetNHadEF')
+        thindeepCSVjetChadEF       = skimmedTree.__getattr__('st_AK4deepCSVjetCHadEF')
         
         nEle                       = skimmedTree.__getattr__('st_nEle')
         eleP4                      = skimmedTree.__getattr__('st_eleP4')
@@ -395,9 +398,6 @@ def AnalyzeDataSet():
         TOPRecoil                  = skimmedTree.__getattr__('TOPRecoil')
         TOPPhi                     = skimmedTree.__getattr__('TOPPhi')
         
-        THINdeepCSVjetHadronFlavor = skimmedTree.__getattr__('st_AK4deepCSVjetHadronFlavor')
-        thindeepCSVjetNhadEF = skimmedTree.__getattr__('st_AK4deepCSVjetNHadEF')
-        thindeepCSVjetChadEF = skimmedTree.__getattr__('st_AK4deepCSVjetCHadEF')
         
         for trig in triglist:
             exec(trig+" = skimmedTree.__getattr__('st_"+trig+"')")
