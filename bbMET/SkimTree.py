@@ -118,6 +118,9 @@ def AnalyzeDataSet():
     st_AK4deepCSVnJet               = array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
     st_AK4deepCSVjetP4              = ROOT.std.vector('TLorentzVector')()
     st_AK4deepCSVjetDeepCSV_b       = ROOT.std.vector('float')()
+    st_AK4deepCSVjetHadronFlavor    = ROOT.std.vector('int')()
+    st_AK4deepCSVjetNHadEF          = ROOT.std.vector('float')()
+    st_AK4deepCSVjetCHadEF          = ROOT.std.vector('float')()
     
     
     st_nEle                = array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
@@ -189,11 +192,8 @@ def AnalyzeDataSet():
 #    outTree.Branch( 'st_HLT_Ele27_WPLoose_Gsf', st_HLT_Ele27_WPLoose_Gsf , 'st_HLT_Ele27_WPLoose_Gsf/O')
     
     outTree.Branch( 'st_THINnJet',st_THINnJet, 'st_THINnJet/L' )
-    #outTree.Branch( 'st_THINnJet',st_AK4deepCSVnJet, 'st_AK4deepCSVnJet/L' )
     outTree.Branch( 'st_THINjetP4',st_THINjetP4 ) 
-    #outTree.Branch( 'st_THINjetP4',st_AK4deepCSVjetP4 )
     outTree.Branch( 'st_THINjetCISVV2',st_THINjetCISVV2 ) 
-    #outTree.Branch( 'st_THINjetCISVV2',st_AK4deepCSVjetDeepCSV_b ) 
     outTree.Branch( 'st_THINjetHadronFlavor',st_THINjetHadronFlavor ) 
     outTree.Branch( 'st_THINjetNHadEF',st_THINjetNHadEF )
     outTree.Branch( 'st_THINjetCHadEF',st_THINjetCHadEF )
@@ -201,14 +201,19 @@ def AnalyzeDataSet():
     
     outTree.Branch( 'st_AK4deepCSVnJet',st_AK4deepCSVnJet, 'st_AK4deepCSVnJet/L' )
     outTree.Branch( 'st_AK4deepCSVjetP4',st_AK4deepCSVjetP4 ) 
-    outTree.Branch( 'st_AK4deepCSVjetDeepCSV_b',st_AK4deepCSVjetDeepCSV_b )    
+    outTree.Branch( 'st_AK4deepCSVjetDeepCSV_b',st_AK4deepCSVjetDeepCSV_b )
+    outTree.Branch( 'st_AK4deepCSVjetHadronFlavor',st_AK4deepCSVjetHadronFlavor ) 
+    outTree.Branch( 'st_AK4deepCSVjetNHadEF',st_AK4deepCSVjetNHadEF )
+    outTree.Branch( 'st_AK4deepCSVjetCHadEF',st_AK4deepCSVjetCHadEF )
+    
     
     outTree.Branch( 'st_nEle',st_nEle , 'st_nEle/L') 
     outTree.Branch( 'st_eleP4',st_eleP4 )
     outTree.Branch( 'st_eleIsPassLoose', st_eleIsPassLoose)#, 'st_eleIsPassLoose/O' )
     outTree.Branch( 'st_eleIsPassMedium', st_eleIsPassMedium)#, 'st_eleIsPassMedium/O' )
     outTree.Branch( 'st_eleIsPassTight', st_eleIsPassTight)#, 'st_eleIsPassTight/O' )
-                   
+   
+   
     outTree.Branch( 'st_nMu',st_nMu , 'st_nMu/L') 
     outTree.Branch( 'st_muP4',st_muP4 ) 
     outTree.Branch( 'st_isLooseMuon', st_isLooseMuon)#, 'st_isLooseMuon/O' )
@@ -287,6 +292,9 @@ def AnalyzeDataSet():
             nTHINdeepCSVJets           = skimmedTree.__getattr__('AK4deepCSVnJet')
             thindeepCSVjetP4           = skimmedTree.__getattr__('AK4deepCSVjetP4')
             thinJetdeepCSV             = skimmedTree.__getattr__('AK4deepCSVjetDeepCSV_b')
+            THINdeepCSVjetHadronFlavor = skimmedTree.__getattr__('AK4deepCSVjetHadronFlavor')
+            thindeepCSVjetNhadEF       = skimmedTree.__getattr__('AK4deepCSVjetNHadEF')
+            thindeepCSVjetChadEF       = skimmedTree.__getattr__('AK4deepCSVjetCHadEF')
         except:
             if ievent==0: print "\n**********WARNING: Looks like the ntuple is from an older version, as DeepCSV jet collection is missing. DeepCSV information will NOT be stored.**********\n"
         
@@ -532,6 +540,9 @@ def AnalyzeDataSet():
         
         st_AK4deepCSVjetP4.clear()
         st_AK4deepCSVjetDeepCSV_b.clear()
+        st_AK4deepCSVjetHadronFlavor.clear()
+        st_AK4deepCSVjetNHadEF.clear()
+        st_AK4deepCSVjetCHadEF.clear()
         
         st_eleP4.clear()
         st_muP4.clear()
@@ -558,6 +569,9 @@ def AnalyzeDataSet():
             for ithinjet in thindCSVjetpassindex:
                 st_AK4deepCSVjetP4.push_back(thindeepCSVjetP4[ithinjet])
                 st_AK4deepCSVjetDeepCSV_b.push_back(thinJetdeepCSV[ithinjet])
+                st_AK4deepCSVjetHadronFlavor.push_back(THINdeepCSVjetHadronFlavor[ithinjet])
+                st_AK4deepCSVjetNHadEF.push_back(thindeepCSVjetNhadEF[ithinjet])
+                st_AK4deepCSVjetCHadEF.push_back(thindeepCSVjetChadEF[ithinjet])
         except:
             pass
             
