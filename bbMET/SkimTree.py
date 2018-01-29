@@ -149,6 +149,7 @@ def AnalyzeDataSet():
     mcweight = array( 'f', [ 0 ] )
     st_pu_nTrueInt= array( 'f', [ 0 ] ) #ROOT.std.vector('std::vector<float>')()
     st_THINjetNPV= array( 'f', [ 0 ] ) #ROOT.std.vector('std::vector<float>')()
+    st_AK4deepCSVjetNPV= array( 'f', [ 0 ] )
     
     st_nGenPar = array( 'L', [ 0 ] ) 
     st_genParId = ROOT.std.vector('int')()
@@ -231,6 +232,7 @@ def AnalyzeDataSet():
     outTree.Branch( 'st_HPSTau_4Momentum', st_HPSTau_4Momentum) 
     
     outTree.Branch( 'st_pu_nTrueInt', st_pu_nTrueInt, 'st_pu_nTrueInt/F') 
+    outTree.Branch( 'st_AK4deepCSVjetNPV', st_AK4deepCSVjetNPV, 'st_AK4deepCSVjetNPV/F')
     outTree.Branch( 'st_THINjetNPV', st_THINjetNPV, 'st_THINjetNPV/F')
     outTree.Branch( 'mcweight', mcweight, 'mcweight/F')
     outTree.Branch( 'st_nGenPar',st_nGenPar,'st_nGenPar/L' )  #nGenPar/I
@@ -295,6 +297,7 @@ def AnalyzeDataSet():
             THINdeepCSVjetHadronFlavor = skimmedTree.__getattr__('AK4deepCSVjetHadronFlavor')
             thindeepCSVjetNhadEF       = skimmedTree.__getattr__('AK4deepCSVjetNHadEF')
             thindeepCSVjetChadEF       = skimmedTree.__getattr__('AK4deepCSVjetCHadEF')
+            THINdeepCSVjetNPV          = skimmedTree.__getattr__('AK4deepCSVjetNPV')
         except:
             if ievent==0: print "\n**********WARNING: Looks like the ntuple is from an older version, as DeepCSV jet collection is missing. DeepCSV information will NOT be stored.**********\n"
         
@@ -601,6 +604,10 @@ def AnalyzeDataSet():
 
         st_pu_nTrueInt[0] = pu_nTrueInt
         st_THINjetNPV[0] = THINjetNPV
+        try:
+            st_AK4deepCSVjetNPV[0] = THINdeepCSVjetNPV
+        except:
+            pass
 #        print pu_nTrueInt 
 #        print st_pu_nTrueInt[0]
         st_nGenPar[0] =  nGenPar
