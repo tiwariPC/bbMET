@@ -14,6 +14,10 @@ pileup2016file = TFile('pileUPinfo2016.root')
 pileup2016histo=pileup2016file.Get('hpileUPhist')
 eleReweightFile = TFile('eleTrig.root')
 eleEtaPt = eleReweightFile.Get('hEffEtaPt')
+metTrigEff_zmmfile = TFile('metTriggerEfficiency_zmm_recoil_monojet_TH1F.root')
+metTrigZmm = metTrigEff_zmmfile.Get('hden_monojet_recoil_clone_passed')
+metTrigEff_wmnfile = TFile('metTriggerEfficiency_recoil_monojet_TH1F.root')
+metTrigWmn = metTrigEff_wmnfile.Get('hden_monojet_recoil_clone_passed')
 
 ROOT.gROOT.ProcessLine('.L BTagCalibrationStandalone.cpp+') 
 
@@ -1338,9 +1342,10 @@ def AnalyzeDataSet():
                                         CR2mu2bCutFlow['jetconds']+=1
 
 
-
+        metTrigZmmReweight=1.0
         #2mu, 1 b-tagged  
         if nMu==2 and nEle==0 and ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v) and ZmumuMass>70. and ZmumuMass<110. and ZmumuRecoil>200. and jetcond and ZdPhicond:
+            metTrigZmmReweight = metTrigZmm.GetBinContent(ZmumuRecoil)
 #            CRCutFlow['nlepcond']+=1
             alllepPT=[lep.Pt() for lep in myMuos]
             lepindex=[i for i in range(len(myMuos))]            
@@ -1643,10 +1648,11 @@ def AnalyzeDataSet():
                                     CR1mu2bCutFlow['nbjets']+=1
                                     if jetcond and SR2jet2:
                                         CR1mu2bCutFlow['jetconds']+=1                  
+        metTrigWmnReweight=1.0
         #1mu, 1 b-tagged  
         if nMu==1 and nEle==0 and ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v) and WmunuRecoil>200. and jetcond and WdPhicond and Wmunumass>50. and Wmunumass<160.:
             iLeadLep=0
-                
+            metTrigWmnReweight = metTrigWmn.GetBinContent(WmunuRecoil)
             if myMuos[iLeadLep].Pt() > 30. and myMuTightID[iLeadLep]:       # and myMuIso[iLeadLep]<0.15
                         
                 WpT = math.sqrt( ( pfMet*math.cos(pfMetPhi) + myMuos[iLeadLep].Px())**2 + ( pfMet*math.sin(pfMetPhi) + myMuos[iLeadLep].Py())**2)                
@@ -1970,7 +1976,7 @@ def AnalyzeDataSet():
         #print (len_puweight, pu_nTrueInt, puweight)
         
         
-        allweights = puweight * mcweight * genpTReweighting * eleweight
+        allweights = puweight * mcweight * genpTReweighting * eleweight * metTrigZmmReweight * metTrigWmnReweight
 #        print puweight
 #        print mcWeight
 #        print mcweight
