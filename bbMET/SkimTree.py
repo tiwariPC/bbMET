@@ -639,91 +639,54 @@ def AnalyzeDataSet():
         TOPRecoil[0] = -1.0
         TOPPhi[0] = -10.
         
-        
+# ------------------
+# Z CR
+# ------------------
+
         ## for dielectron 
-        if len(myEles) >=2:
-#            ele1 = myEles[0]
-#            ele2 = myEles[1]
-#            p4_ele1 = eleP4[ele1]
-#            p4_ele2 = eleP4[ele2]
-            
-            
-            for iele1 in myEles:
-                p4_ele1 = eleP4[iele1]
-                for iele2 in myEles:
-                    if iele2 > iele1 and eleCharge[iele1]*eleCharge[iele2]<0:
-                        p4_ele2 = eleP4[iele2]
-                        ee_mass = ( p4_ele1 + p4_ele2 ).M()                        
-                        zeeRecoilPx = -( pfMet*math.cos(pfMetPhi) - p4_ele1.Px() - p4_ele2.Px())
-                        zeeRecoilPy = -( pfMet*math.sin(pfMetPhi) - p4_ele1.Py() - p4_ele2.Py())
-                        ZeeRecoilPt =  math.sqrt(zeeRecoilPx * zeeRecoilPx  +  zeeRecoilPy*zeeRecoilPy)
-                        if ee_mass > 70.0 and ee_mass < 110.0 and ZeeRecoilPt > 200.:
-                            ZeeRecoil[0] = ZeeRecoilPt
-                            ZeeMass[0] = ee_mass
-                            ZeePhi[0] = arctan(-zeeRecoilPx,-zeeRecoilPy)
-                            break
-            
-                           
-            
-#            ee_mass = ( p4_ele1 + p4_ele2 ).M()
-#            
-#            #if not  ( (ee_mass > 70.0 ) & (ee_mass < 110.0) ): continue
-#            if not ( eleCharge[ele1] * eleCharge[ele2] > 0 ) :            
-#                zeeRecoilPx = -( pfMet*math.cos(pfMetPhi) - p4_ele1.Px() - p4_ele2.Px())
-#                zeeRecoilPy = -( pfMet*math.sin(pfMetPhi) - p4_ele1.Py() - p4_ele2.Py())
-#                ZeeRecoil[0] =  math.sqrt(zeeRecoilPx * zeeRecoilPx  +  zeeRecoilPy*zeeRecoilPy)
-#                ZeeMass[0] = ee_mass
-                
-        ## hardrecoil cut for ZJETS sample
-#            if samplename == "ZJETS":
-#               ZeeRecoilstatus =(ZeeRecoil > 200)
-#               print(samplename,ZeeRecoilstatus)
-#               if ZeeRecoilstatus == False : continue
-           
+        if len(myEles) == 2:
+
+            iele1=myEles[0]
+            iele2=myEles[1]
+            p4_ele1 = eleP4[iele1]
+            p4_ele2 = eleP4[iele2]
+            if eleCharge[iele1]*eleCharge[iele2]<0:
+                ee_mass = ( p4_ele1 + p4_ele2 ).M()                        
+                zeeRecoilPx = -( pfMet*math.cos(pfMetPhi) - p4_ele1.Px() - p4_ele2.Px())
+                zeeRecoilPy = -( pfMet*math.sin(pfMetPhi) - p4_ele1.Py() - p4_ele2.Py())
+                ZeeRecoilPt =  math.sqrt(zeeRecoilPx**2  +  zeeRecoilPy**2)
+                if ee_mass > 70.0 and ee_mass < 110.0 and ZeeRecoilPt > 200.:
+                    ZeeRecoil[0] = ZeeRecoilPt
+                    ZeeMass[0] = ee_mass
+                    ZeePhi[0] = arctan(-zeeRecoilPx,-zeeRecoilPy)
         
         ## for dimu
-        if len(myMuos) >=2:
-#            mu1 = myMuos[0]
-#            mu2 = myMuos[1]
-#            p4_mu1 = muP4[mu1]
-#            p4_mu2 = muP4[mu2]
-#            
-#            mumu_mass = ( p4_mu1 + p4_mu2 ).M()
-#            
-#            #if not  ( (mumu_mass > 70.0 ) & (mumu_mass < 110.0) ): continue
-#            if not ( muCharge[mu1] * muCharge[mu2] > 0 ) :
-#                zmumuRecoilPx = -( pfMet*math.cos(pfMetPhi)  - p4_mu1.Px() - p4_mu2.Px())
-#                zmumuRecoilPy = -( pfMet*math.sin(pfMetPhi)  - p4_mu1.Py() - p4_mu2.Py())
-#                ZmumuRecoil[0] =  math.sqrt(zmumuRecoilPx * zmumuRecoilPx  +  zmumuRecoilPy*zmumuRecoilPy)
-#                ZmumuMass[0] = mumu_mass
-            for imu1 in myMuos:
-                p4_mu1 = muP4[imu1]
-                for imu2 in myMuos:
-                    if imu2 > imu1 and muCharge[imu1]*muCharge[imu2]<0:
-                        p4_mu2 = muP4[imu2]
-                        mumu_mass = ( p4_mu1 + p4_mu2 ).M()                        
-                        zmumuRecoilPx = -( pfMet*math.cos(pfMetPhi) - p4_mu1.Px() - p4_mu2.Px())
-                        zmumuRecoilPy = -( pfMet*math.sin(pfMetPhi) - p4_mu1.Py() - p4_mu2.Py())
-                        ZmumuRecoilPt =  math.sqrt(zmumuRecoilPx * zmumuRecoilPx  +  zmumuRecoilPy*zmumuRecoilPy)
-                        if mumu_mass > 70.0 and mumu_mass < 110.0 and ZmumuRecoilPt > 200.:
-                            ZmumuRecoil[0] = ZmumuRecoilPt
-                            ZmumuMass[0] = mumu_mass
-                            ZmumuPhi[0] = arctan(-zmumuRecoilPx,-zmumuRecoilPy)
-                            break
+        if len(myMuos) ==2:
+            imu1=myMuos[0]
+            imu2=myMuos[1]
+            p4_mu1 = muP4[imu1]
+            p4_mu2 = muP4[imu2]
+            if muCharge[imu1]*muCharge[imu2]<0:
+                mumu_mass = ( p4_mu1 + p4_mu2 ).M()                        
+                zmumuRecoilPx = -( pfMet*math.cos(pfMetPhi) - p4_mu1.Px() - p4_mu2.Px())
+                zmumuRecoilPy = -( pfMet*math.sin(pfMetPhi) - p4_mu1.Py() - p4_mu2.Py())
+                ZmumuRecoilPt =  math.sqrt(zmumuRecoilPx**2  +  zmumuRecoilPy**2)
+                if mumu_mass > 70.0 and mumu_mass < 110.0 and ZmumuRecoilPt > 200.:
+                    ZmumuRecoil[0] = ZmumuRecoilPt
+                    ZmumuMass[0] = mumu_mass
+                    ZmumuPhi[0] = arctan(-zmumuRecoilPx,-zmumuRecoilPy)
                 
-        ## hardrecoil cut for ZJETS sample
-#        if samplename == "ZJETS":
         if len(myEles) >=2:
             ZRecoilstatus =(ZeeRecoil[0] > 200)                
         elif len(myMuos) >=2:
             ZRecoilstatus =(ZmumuRecoil[0] > 200)
         else:
             ZRecoilstatus=False
-#         print(samplename,ZRecoilstatus)
-#         if ZRecoilstatus == False : continue
-        
-        
-        
+            
+            
+# ------------------
+# W CR
+# ------------------           
         
         ## for Single electron  
         if len(myEles) == 1:
@@ -732,30 +695,20 @@ def AnalyzeDataSet():
            
            e_mass = MT(p4_ele1.Pt(),pfMet, DeltaPhi(p4_ele1.Phi(),pfMetPhi)) #transverse mass defined as sqrt{2pT*MET*(1-cos(dphi)}
            
-           #if not  ( (e_mass > 50.0 ) & (e_mass < 160.0) ): continue
-           
            WenuRecoilPx = -( pfMet*math.cos(pfMetPhi) - p4_ele1.Px())
            WenuRecoilPy = -( pfMet*math.sin(pfMetPhi) - p4_ele1.Py())
-           WenuRecoilPt = math.sqrt(WenuRecoilPx * WenuRecoilPx  +  WenuRecoilPy*WenuRecoilPy)
+           WenuRecoilPt = math.sqrt(WenuRecoilPx**2  +  WenuRecoilPy**2)
            if WenuRecoilPt > 200.:
                WenuRecoil[0] = WenuRecoilPt
                Wenumass[0] = e_mass
                WenuPhi[0] = arctan(-WenuRecoilPx,-WenuRecoilPy)
-           
-        ## hardrecoil cut for WJETS sample   
-#        if samplename == "WJETS":
-#           WenuRecoilstatus =(WenuRecoil > 200)
-#           print(samplename,WenuRecoilstatus) 
-#           if WenuRecoilstatus == False : continue
-         
+ 
         ## for Single muon  
         if len(myMuos) == 1:
            mu1 = myMuos[0]
            p4_mu1 = muP4[mu1]
            
            mu_mass = MT(p4_mu1.Pt(),pfMet, DeltaPhi(p4_mu1.Phi(),pfMetPhi)) #transverse mass defined as sqrt{2pT*MET*(1-cos(dphi)} 
-           
-           #if not  ( (mu_mass > 50.0 ) & (mu_mass < 160.0) ): continue
            
            WmunuRecoilPx = -( pfMet*math.cos(pfMetPhi) - p4_mu1.Px())
            WmunuRecoilPy = -( pfMet*math.sin(pfMetPhi) - p4_mu1.Py())
@@ -765,48 +718,35 @@ def AnalyzeDataSet():
                Wmunumass[0] = mu_mass
                WmunuPhi[0] = arctan(-WmunuRecoilPx,-WmunuRecoilPy)
            
-        ## hardrecoil cut for WJETS sample
-#        if samplename == "WJETS":
+           
         if len(myEles) == 1:
             WRecoilstatus =(WenuRecoil[0] > 200)
         elif len(myMuos) == 1:
             WRecoilstatus =(WmunuRecoil[0] > 200)
         else:
             WRecoilstatus=False
-#            print(samplename,WRecoilstatus) 
-#            if WRecoilstatus == False : continue
-         
-         
-         
+
+# ------------------
+# Top CR
+# ------------------  
          
         ## for Single electron && Single Muon
-        if len(myEles) >= 1 and len(myMuos) >= 1:
-#           ele1 = myEles[0]
-#           p4_ele1 = eleP4[ele1]
-#           mu1 = myMuos[0]
-#           p4_mu1 = muP4[mu1]
-#           
-#           #e_mass = MT(p4_ele1.Pt(),pfMet, DeltaPhi(p4_ele1.Phi(),pfMetPhi)) #transverse mass defined as sqrt{2pT*MET*(1-cos(dphi)}
-#           #mu_mass = MT(p4_mu1.Pt(),pfMet, DeltaPhi(p4_mu1.Phi(),pfMetPhi))
-#           #if not  ( (e_mass > 50.0 ) & (e_mass < 160.0) ): continue
-#           
-#           TOPenumunuRecoilPx = -( pfMet*math.cos(pfMetPhi) - p4_mu1.Px() -p4_ele1.Px())
-#           TOPenumunuRecoilPy = -( pfMet*math.sin(pfMetPhi) - p4_mu1.Py() -p4_ele1.Py())
-#           TOPRecoil[0] =  math.sqrt(TOPenumunuRecoilPx * TOPenumunuRecoilPx  +  TOPenumunuRecoilPy*TOPenumunuRecoilPy)
-            for iele in myEles:
-                p4_ele1 = eleP4[iele]
-                for imu in myMuos:                    
-                    p4_mu1 = muP4[imu]
-                    TOPenumunuRecoilPx = -( pfMet*math.cos(pfMetPhi) - p4_mu1.Px() -p4_ele1.Px())
-                    TOPenumunuRecoilPy = -( pfMet*math.sin(pfMetPhi) - p4_mu1.Py() -p4_ele1.Py())
-                    TOPenumunuRecoilPt =  math.sqrt(TOPenumunuRecoilPx * TOPenumunuRecoilPx  +  TOPenumunuRecoilPy*TOPenumunuRecoilPy)
-                    if TOPenumunuRecoilPt > 200:
-                        TOPRecoil[0] = TOPenumunuRecoilPt
-                        TOPPhi[0] = arctan(-TOPenumunuRecoilPx,-TOPenumunuRecoilPy)
-                        break
+        if len(myEles) == 1 and len(myMuos) == 1:
+            ele1 = myEles[0]
+            p4_ele1 = eleP4[ele1]
+            mu1 = myMuos[0]
+            p4_mu1 = muP4[mu1]
+            
+            if muCharge[mu1]*eleCharge[ele1]<0:
+                TOPenumunuRecoilPx = -( pfMet*math.cos(pfMetPhi) - p4_mu1.Px() -p4_ele1.Px())
+                TOPenumunuRecoilPy = -( pfMet*math.sin(pfMetPhi) - p4_mu1.Py() -p4_ele1.Py())
+                TOPenumunuRecoilPt =  math.sqrt(TOPenumunuRecoilPx**2 + TOPenumunuRecoilPy**2)
+                if TOPenumunuRecoilPt > 200:
+                    TOPRecoil[0] = TOPenumunuRecoilPt
+                    TOPPhi[0] = arctan(-TOPenumunuRecoilPx,-TOPenumunuRecoilPy)
            
          
-        TOPRecoilstatus =(TOPRecoil[0] > 200)
+        TOPRecoilstatus = (TOPRecoil[0] > 200.)
         
         if pfmetstatus==False and ZRecoilstatus==False and WRecoilstatus==False and TOPRecoilstatus==False:
             continue
