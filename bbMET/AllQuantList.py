@@ -8,6 +8,8 @@ def getAll():
                 
             for jetnum in [1,2,3]:
                 allquantlist.append('jet'+str(jetnum)+"_"+jetprop+"_"+region+"2")                                         
+    allquantlist.append('dr_jet_sr1')
+    allquantlist.append('dr_jet_sr2')
 
     for nSR in ['1','2']:                                                   # Leptons: Makes all combinations of region, lepton number, etc.
 #        for lep in ['mu','el']:

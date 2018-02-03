@@ -171,8 +171,11 @@ class MonoHbbQuantities:
                 bins='50'
                 low='0.'
                 high='1000.'
+            elif 'dr_jet_sr2' in quant or 'dr_jet_sr1' in quant:
+                bins='400'
+                low='0.'
+                high='4.'
             return bins,low,high
-        
         for quant in allquantlist:
             bins,low,high=getBins(quant)         
             exec("self.h_"+quant+".append(TH1F('h_"+quant+"_','h_"+quant+"_',"+bins+","+low+","+high+"))")

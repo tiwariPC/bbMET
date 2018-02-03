@@ -1,0 +1,25 @@
+hltGetConfiguration /users/zabai/CMSSW_10_0_0_HLT1/DQM_Paths/V2 --setup /dev/CMSSW_10_0_0/GRun --globaltag 94X_mc2017_realistic_TSG_2017_12_19_13_49_40 --input root://cms-xrd-global.cern.ch//store/mc/RunIISummer17DRStdmix/TT_TuneCUETP8M2T4_13TeV-powheg-pythia8/GEN-SIM-RAW/NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v2/50000/0043237F-0DA1-E711-AD49-346AC29F11B8.root --mc --process MYHLT --full --offline --customise HLTrigger/Configuration/customizeHLTforCMSSW.customiseFor2017DtUnpacking  --prescale none --max-events 500 --output full > hlt_dqm_1.py
+
+
+root://cms-xrd-global.cern.ch//store/mc/RunIISummer17DRStdmix/TT_TuneCUETP8M2T4_13TeV-powheg-pythia8/GEN-SIM-RAW/NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v2/50000/0043237F-0DA1-E711-AD49-346AC29F11B8.root
+
+
+
+hltGetConfiguration /users/zabai/CMSSW_10_0_0_HLT1/DQM_Paths/V2 --setup /dev/CMSSW_10_0_0/GRun \
+ --globaltag 94X_mc2017_realistic_TSG_2017_12_19_13_49_40 \
+ --input root://cms-xrd-global.cern.ch//store/mc/RunIISummer17DRStdmix/TT_TuneCUETP8M2T4_13TeV-powheg-pythia8/GEN-SIM-RAW/NZSFlatPU28to62_92X_upgrade2017_realistic_v10-v2/50000/0043237F-0DA1-E711-AD49-346AC29F11B8.root \
+ --mc --process MYHLT --full --offline \
+ --customise HLTrigger/Configuration/customizeHLTforCMSSW.customiseFor2017DtUnpacking \
+ --prescale none --max-events 10 --output full > hlt_dqm_1.py
+ 
+ 
+ 
+ 
+ 
+/MET/Run2016C-03Feb2017-v1/MINIAOD 
+/MET/Run2016D-03Feb2017-v1/MINIAOD
+/MET/Run2016E-03Feb2017-v1/MINIAOD
+/MET/Run2016F-03Feb2017-v1/MINIAOD
+/MET/Run2016G-03Feb2017-v1/MINIAOD
+/MET/Run2016H-03Feb2017_ver2-v1/MINIAOD
+/MET/Run2016H-03Feb2017_ver3-v1/MINIAOD
