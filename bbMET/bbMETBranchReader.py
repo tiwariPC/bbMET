@@ -12,12 +12,30 @@ from bbMETQuantities import *
 #from PileUpWeights import PUWeight
 pileup2016file = TFile('pileUPinfo2016.root')
 pileup2016histo=pileup2016file.Get('hpileUPhist')
-eleReweightFile = TFile('eleTrig.root')
-eleEtaPt = eleReweightFile.Get('hEffEtaPt')
-metTrigEff_zmmfile = TFile('metTriggerEfficiency_zmm_recoil_monojet_TH1F.root')
-metTrigZmm = metTrigEff_zmmfile.Get('hden_monojet_recoil_clone_passed')
-metTrigEff_wmnfile = TFile('metTriggerEfficiency_recoil_monojet_TH1F.root')
-metTrigWmn = metTrigEff_wmnfile.Get('hden_monojet_recoil_clone_passed')
+
+#Electron Trigger reweights
+eleTrigReweightFile = TFile('scalefactors/electron_Trigger_eleTrig.root')
+eleTrig_hEffEtaPt = eleTrigReweightFile.Get('hEffEtaPt')
+
+#Electron Reconstruction efficiency. Scale factors for 80X
+eleRecoSFFile = TFile('scalefactors/electron_Reco_SFs_egammaEffi_txt_EGM2D.root')
+eleRecoSF_EGamma_SF2D = eleRecoSFFile.Get('EGamma_SF2D')
+
+#Loose electron ID SFs
+eleLooseIDSFFile = TFile('scalefactors/electron_Loose_ID_SFs_egammaEffi_txt_EGM2D.root')
+eleLooseIDSF_EGamma_SF2D = eleLooseIDSFFile.Get('EGamma_SF2D')
+
+#Tight electron ID SFs
+eleTightIDSFFile = TFile('scalefactors/electron_Tight_ID_SFs_egammaEffi_txt_EGM2D.root')
+eleTightIDSF_EGamma_SF2D = eleTightIDSFFile.Get('EGamma_SF2D')
+
+#MET Trigger reweights
+metTrigEff_zmmfile = TFile('scalefactors/metTriggerEfficiency_zmm_recoil_monojet_TH1F.root')
+metTrig_firstmethod = metTrigEff_zmmfile.Get('hden_monojet_recoil_clone_passed')
+
+metTrigEff_secondfile = TFile('scalefactors/metTriggerEfficiency_recoil_monojet_TH1F.root')
+metTrig_secondmethod = metTrigEff_secondfile.Get('hden_monojet_recoil_clone_passed')
+
 
 ROOT.gROOT.ProcessLine('.L BTagCalibrationStandalone.cpp+') 
 
@@ -1186,7 +1204,7 @@ def AnalyzeDataSet():
             sortedindex=[lepind for pt,lepind in sorted(zip(alllepPT,lepindex), reverse=True)]     # Indices of leps in thinjetP4 in decscending order of jetPT
             
             iLeadLep=sortedindex[0]
-            iSecondLep=sortedindex[1]            
+            iSecondLep=sortedindex[1]
             
             if myEles[iLeadLep].Pt() > 30. and myEleTightID[iLeadLep] and myEles[iSecondLep].Pt() > 10. and myEleLooseID[iSecondLep]:            
             
@@ -1342,10 +1360,10 @@ def AnalyzeDataSet():
                                         CR2mu2bCutFlow['jetconds']+=1
 
 
-        metTrigZmmReweight=1.0
+        metTrig_firstmethodReweight=1.0
         #2mu, 1 b-tagged  
         if nMu==2 and nEle==0 and ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v) and ZmumuMass>70. and ZmumuMass<110. and ZmumuRecoil>200. and jetcond and ZdPhicond:
-            metTrigZmmReweight = metTrigZmm.GetBinContent(ZmumuRecoil)
+            
 #            CRCutFlow['nlepcond']+=1
             alllepPT=[lep.Pt() for lep in myMuos]
             lepindex=[i for i in range(len(myMuos))]            
@@ -1648,11 +1666,11 @@ def AnalyzeDataSet():
                                     CR1mu2bCutFlow['nbjets']+=1
                                     if jetcond and SR2jet2:
                                         CR1mu2bCutFlow['jetconds']+=1                  
-        metTrigWmnReweight=1.0
+        metTrig_secondmethodReweight=1.0
         #1mu, 1 b-tagged  
         if nMu==1 and nEle==0 and ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v) and WmunuRecoil>200. and jetcond and WdPhicond and Wmunumass>50. and Wmunumass<160.:
             iLeadLep=0
-            metTrigWmnReweight = metTrigWmn.GetBinContent(WmunuRecoil)
+            metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(WmunuRecoil)
             if myMuos[iLeadLep].Pt() > 30. and myMuTightID[iLeadLep]:       # and myMuIso[iLeadLep]<0.15
                         
                 WpT = math.sqrt( ( pfMet*math.cos(pfMetPhi) + myMuos[iLeadLep].Px())**2 + ( pfMet*math.sin(pfMetPhi) + myMuos[iLeadLep].Py())**2)                
@@ -1941,20 +1959,50 @@ def AnalyzeDataSet():
         if isData==1:   genpTReweighting  =  1.0
         if not isData :  genpTReweighting = GenWeightProducer(samplename, nGenPar, genParId, genMomParId, genParSt,genParP4)
 #        print genpTReweighting
-        
+        ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+        ## MET reweight
+        # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+        if ZmumuRecoil > 200:
+            metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(ZmumuRecoil)
+            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
+        elif ZeeRecoil > 200:
+            metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(ZmumuRecoil)
+            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
+        elif
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Ele reweight
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-        eleweight = 1.0
+        eleTrig_reweight = 1.0
         for iele in range(nEle):
             elept = eleP4[iele].Pt()
             eleeta = eleP4[iele].Eta()
-            xbin = eleEtaPt.GetXaxis().FindBin(eleeta)
-            ybin = eleEtaPt.GetYaxis().FindBin(elept)
-            eleweight *= eleEtaPt.GetBinContent(xbin,ybin)
-
+            xbin = eleTrig_hEffEtaPt.GetXaxis().FindBin(eleeta)
+            ybin = eleTrig_hEffEtaPt.GetYaxis().FindBin(elept)
+            eleTrig_reweight *= eleTrig_hEffEtaPt.GetBinContent(xbin,ybin)
+        
+        eleRecoSF = 1.0
+        for iele in range(nEle):
+            elept = eleP4[iele].Pt()
+            eleeta = eleP4[iele].Eta()
+            xbin = eleRecoSF_EGamma_SF2D.GetXaxis().FindBin(eleeta)
+            ybin = eleRecoSF_EGamma_SF2D.GetYaxis().FindBin(elept)
+            eleRecoSF *= eleRecoSF_EGamma_SF2D.GetBinContent(xbin,ybin)
+            
+        eleIDSF_loose = 1.0
+        eleIDSF_tight = 1.0
+        for iele in range(nEle):
+            elept = eleP4[iele].Pt()
+            eleeta = eleP4[iele].Eta()
+            if elept > 30:
+                xbin = eleTightIDSF_EGamma_SF2D.GetXaxis().FindBin(eleeta)
+                ybin = eleTightIDSF_EGamma_SF2D.GetYaxis().FindBin(elept)
+                eleIDSF_tight *= eleTightIDSF_EGamma_SF2D.GetBinContent(xbin,ybin)
+            else:
+                xbin = eleLooseIDSF_EGamma_SF2D.GetXaxis().FindBin(eleeta)
+                ybin = eleLooseIDSF_EGamma_SF2D.GetYaxis().FindBin(elept)
+                eleIDSF_loose *= eleLooseIDSF_EGamma_SF2D.GetBinContent(xbin,ybin)
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Pileup weight
@@ -1975,8 +2023,8 @@ def AnalyzeDataSet():
             
         #print (len_puweight, pu_nTrueInt, puweight)
         
-        
-        allweights = puweight * mcweight * genpTReweighting * eleweight * metTrigZmmReweight * metTrigWmnReweight
+        eleweights = eleTrig_reweight * eleRecoSF * eleIDSF_loose * eleIDSF_tight
+        allweights = puweight * mcweight * genpTReweighting * eleweights * metTrig_firstmethodReweight * metTrig_secondmethodReweight
 #        print puweight
 #        print mcWeight
 #        print mcweight
