@@ -708,7 +708,7 @@ def AnalyzeDataSet():
                         if mumu_mass > 70.0 and mumu_mass < 110.0 and ZmumuRecoilPt > 200.:
                             ZmumuRecoil[0] = ZmumuRecoilPt
                             ZmumuMass[0] = mumu_mass
-                            ZeePhi[0] = arctan(-zmumuRecoilPx,-zmumuRecoilPy)
+                            ZmumuPhi[0] = arctan(-zmumuRecoilPx,-zmumuRecoilPy)
                             break
                 
         ## hardrecoil cut for ZJETS sample
