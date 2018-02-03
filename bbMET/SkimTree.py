@@ -129,6 +129,12 @@ def AnalyzeDataSet():
     st_eleIsPassMedium     = ROOT.std.vector('bool')()
     st_eleIsPassTight      = ROOT.std.vector('bool')()
     
+    st_nPho                = array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
+    st_phoP4               = ROOT.std.vector('TLorentzVector')()
+    st_phoIsPassLoose      = ROOT.std.vector('bool')()
+    st_phoIsPassMedium     = ROOT.std.vector('bool')()
+    st_phoIsPassTight      = ROOT.std.vector('bool')()
+    
     st_nMu= array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
     st_muP4                = ROOT.std.vector('TLorentzVector')()
     st_isLooseMuon         = ROOT.std.vector('bool')()
@@ -213,6 +219,12 @@ def AnalyzeDataSet():
     outTree.Branch( 'st_eleIsPassLoose', st_eleIsPassLoose)#, 'st_eleIsPassLoose/O' )
     outTree.Branch( 'st_eleIsPassMedium', st_eleIsPassMedium)#, 'st_eleIsPassMedium/O' )
     outTree.Branch( 'st_eleIsPassTight', st_eleIsPassTight)#, 'st_eleIsPassTight/O' )
+    
+    outTree.Branch( 'st_nPho',st_nPho , 'st_nPho/L') 
+    outTree.Branch( 'st_phoP4',st_phoP4 )
+    outTree.Branch( 'st_phoIsPassLoose', st_phoIsPassLoose)#, 'st_phoIsPassLoose/O' )
+    outTree.Branch( 'st_phoIsPassMedium', st_phoIsPassMedium)#, 'st_phoIsPassMedium/O' )
+    outTree.Branch( 'st_phoIsPassTight', st_phoIsPassTight)#, 'st_phoIsPassTight/O' )
    
    
     outTree.Branch( 'st_nMu',st_nMu , 'st_nMu/L') 
@@ -259,7 +271,10 @@ def AnalyzeDataSet():
     
     outTree.Branch( 'TOPRecoil', TOPRecoil, 'TOPRecoil/F')
     outTree.Branch( 'TOPPhi', TOPPhi, 'TOPPhi/F')
-
+    
+    if len(sys.argv)>2:
+        NEntries=int(sys.argv[2])
+        print "WARNING: Running in TEST MODE"
     
     for ievent in range(NEntries):
     
@@ -327,7 +342,13 @@ def AnalyzeDataSet():
         mcWeight                   = skimmedTree.__getattr__('mcWeight')
         pu_nTrueInt                = skimmedTree.__getattr__('pu_nTrueInt')         #int()
         THINjetNPV                 = skimmedTree.__getattr__('THINjetNPV')         #int()
-         
+        
+        nPho                       = skimmedTree.__getattr__('nPho')
+        phoP4                      = skimmedTree.__getattr__('phoP4')
+        phoIsPassLoose             = skimmedTree.__getattr__('phoIsPassLoose')
+        phoIsPassMedium            = skimmedTree.__getattr__('phoIsPassMedium')
+        phoIsPassTight             = skimmedTree.__getattr__('phoIsPassTight')
+        
 #        print skimmedTree.__getattr__('pu_nTrueInt')
 #        print pu_nTrueInt 
 #        print
@@ -549,6 +570,7 @@ def AnalyzeDataSet():
         
         st_eleP4.clear()
         st_muP4.clear()
+        st_phoP4.clear()
         st_muChHadIso.clear()
         st_muGamIso.clear()
         st_muNeHadIso.clear()
@@ -600,7 +622,12 @@ def AnalyzeDataSet():
         for itau in myTaus:
             st_HPSTau_4Momentum.push_back(tauP4[itau])
             
-        
+        st_nPho[0]=nPho
+        for ipho in range(nPho):
+            st_phoP4.push_back(phoP4[ipho])
+            st_phoIsPassLoose.push_back(bool(phoIsPassLoose[ipho]))
+            st_phoIsPassMedium.push_back(bool(phoIsPassMedium[ipho]))
+            st_phoIsPassTight.push_back(bool(phoIsPassTight[ipho]))
 
         st_pu_nTrueInt[0] = pu_nTrueInt
         st_THINjetNPV[0] = THINjetNPV
@@ -626,7 +653,7 @@ def AnalyzeDataSet():
         
         WmunuRecoil[0] = -1.0
         Wmunumass[0] = -1.0
-        WmunuPhi[0] = -1.0
+        WmunuPhi[0] = -10.
         
         ZeeMass[0] = -1.0
         ZeeRecoil[0] = -1.0
@@ -751,12 +778,12 @@ def AnalyzeDataSet():
         if pfmetstatus==False and ZRecoilstatus==False and WRecoilstatus==False and TOPRecoilstatus==False:
             continue
          
-#        if ZRecoilstatus:
-#            print ('Z: ',nEle, nMu, ZeeMass[0], ZmumuMass[0])
+        if ZRecoilstatus:
+            print ('Z: ',nEle, nMu, ZeeMass[0], ZmumuMass[0])
 #        if WRecoilstatus:
 #            print ('W: ', Wenumass[0], Wmunumass[0])
-#        if TOPRecoilstatus:
-#            print ('T: ',nEle, nMu, TOPenumunuRecoilPt)
+        if TOPRecoilstatus:
+            print ('T: ',nEle, nMu, TOPenumunuRecoilPt)
             
             
             
