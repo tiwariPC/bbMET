@@ -167,14 +167,15 @@ class MonoHbbQuantities:
                 bins='200'
                 low='0.'
                 high='1000.'
-            else:                   # for pT, mass, etc.
-                bins='50'
-                low='0.'
-                high='1000.'
             elif 'dr_jet_sr2' in quant or 'dr_jet_sr1' in quant:
                 bins='400'
                 low='0.'
                 high='4.'
+            else:                   # for pT, mass, etc.
+                bins='50'
+                low='0.'
+                high='1000.'
+            
             return bins,low,high
         for quant in allquantlist:
             bins,low,high=getBins(quant)         
