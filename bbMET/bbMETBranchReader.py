@@ -2042,7 +2042,7 @@ def AnalyzeDataSet():
         #print (len_puweight, pu_nTrueInt, puweight)
         
         eleweights = eleTrig_reweight * eleRecoSF * eleIDSF_loose * eleIDSF_tight
-        allweights = puweight * mcweight * genpTReweighting * eleweights * metTrig_firstmethodReweight * metTrig_secondmethodReweight
+        allweights = puweight * mcweight * genpTReweighting * eleweights * metTrig_Reweight
 #        print puweight
 #        print mcWeight
 #        print mcweight
