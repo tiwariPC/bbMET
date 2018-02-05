@@ -778,12 +778,12 @@ def AnalyzeDataSet():
         if pfmetstatus==False and ZRecoilstatus==False and WRecoilstatus==False and TOPRecoilstatus==False:
             continue
          
-        if ZRecoilstatus:
-            print ('Z: ',nEle, nMu, ZeeMass[0], ZmumuMass[0])
+        #if ZRecoilstatus:
+            #print ('Z: ',nEle, nMu, ZeeMass[0], ZmumuMass[0])
 #        if WRecoilstatus:
 #            print ('W: ', Wenumass[0], Wmunumass[0])
-        if TOPRecoilstatus:
-            print ('T: ',nEle, nMu, TOPenumunuRecoilPt)
+        #if TOPRecoilstatus:
+            #print ('T: ',nEle, nMu, TOPenumunuRecoilPt)
             
             
             
