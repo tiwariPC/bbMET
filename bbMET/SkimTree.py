@@ -485,7 +485,7 @@ def AnalyzeDataSet():
             #if (j1.Pt() > 30.0)&(abs(j1.Eta())<2.4)&(bool(passThinJetLooseID[ithinjet])==True)&(bool(passThinJetPUID[ithinjet]) == True):
             if (j1.Pt() > 30.0)&(abs(j1.Eta())<2.4)&(bool(passThinJetLooseID[ithinjet])==True):
                 thinjetpassindex.append(ithinjet)
-            if thinJetCSV[ithinjet] > CSVMWP: nBjets += 1
+                if thinJetCSV[ithinjet] > CSVMWP: nBjets += 1
 #        print ('njet: ',len(thinjetpassindex))
 #        if len(thinjetpassindex) < 1 : continue
 #        print nBjets
