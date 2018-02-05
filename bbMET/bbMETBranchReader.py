@@ -1963,28 +1963,38 @@ def AnalyzeDataSet():
         #----------------------------------------------------------------------------------------------------------------------------------------------------------------
         metTrig_Reweight=1.0
         if ZmumuRecoil > 200:
-            metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(ZmumuRecoil)
-            metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(ZmumuRecoil)
+            xbin1 = metTrig_firstmethod.GetXaxis().FindBin(ZmumuRecoil)
+            xbin2 = metTrig_secondmethod.GetXaxis().FindBin(ZmumuRecoil)
+            metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
+            metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
             metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
 #            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
         elif ZeeRecoil > 200:
-            metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(ZeeRecoil)
-            metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(ZeeRecoil)
+            xbin1 = metTrig_firstmethod.GetXaxis().FindBin(ZeeRecoil)
+            xbin2 = metTrig_secondmethod.GetXaxis().FindBin(ZeeRecoil)
+            metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
+            metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
             metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
 #            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
         elif WmunuRecoil > 200:
-            metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(WmunuRecoil)
-            metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(WmunuRecoil)
+            xbin1 = metTrig_firstmethod.GetXaxis().FindBin(WmunuRecoil)
+            xbin2 = metTrig_secondmethod.GetXaxis().FindBin(WmunuRecoil)
+            metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
+            metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
             metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
 #            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
         elif WenuRecoil > 200:
-            metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(WenuRecoil)
-            metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(WenuRecoil)
+            xbin1 = metTrig_firstmethod.GetXaxis().FindBin(WenuRecoil)
+            xbin2 = metTrig_secondmethod.GetXaxis().FindBin(WenuRecoil)
+            metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
+            metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
             metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
 #            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
         elif TOPRecoil > 200:
-            metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(TOPRecoil)
-            metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(TOPRecoil)
+            xbin1 = metTrig_firstmethod.GetXaxis().FindBin(TOPRecoil)
+            xbin2 = metTrig_secondmethod.GetXaxis().FindBin(TOPRecoil)
+            metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
+            metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
             metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
 #            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
