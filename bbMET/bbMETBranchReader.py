@@ -1360,7 +1360,6 @@ def AnalyzeDataSet():
                                         CR2mu2bCutFlow['jetconds']+=1
 
 
-        metTrig_firstmethodReweight=1.0
         #2mu, 1 b-tagged  
         if nMu==2 and nEle==0 and ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v) and ZmumuMass>70. and ZmumuMass<110. and ZmumuRecoil>200. and jetcond and ZdPhicond:
             
@@ -1666,11 +1665,11 @@ def AnalyzeDataSet():
                                     CR1mu2bCutFlow['nbjets']+=1
                                     if jetcond and SR2jet2:
                                         CR1mu2bCutFlow['jetconds']+=1                  
-        metTrig_secondmethodReweight=1.0
+
         #1mu, 1 b-tagged  
         if nMu==1 and nEle==0 and ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v) and WmunuRecoil>200. and jetcond and WdPhicond and Wmunumass>50. and Wmunumass<160.:
             iLeadLep=0
-            metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(WmunuRecoil)
+            
             if myMuos[iLeadLep].Pt() > 30. and myMuTightID[iLeadLep]:       # and myMuIso[iLeadLep]<0.15
                         
                 WpT = math.sqrt( ( pfMet*math.cos(pfMetPhi) + myMuos[iLeadLep].Px())**2 + ( pfMet*math.sin(pfMetPhi) + myMuos[iLeadLep].Py())**2)                
@@ -1960,15 +1959,34 @@ def AnalyzeDataSet():
         if not isData :  genpTReweighting = GenWeightProducer(samplename, nGenPar, genParId, genMomParId, genParSt,genParP4)
 #        print genpTReweighting
         ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-        ## MET reweight
+        ## MET reweights
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+        metTrig_Reweight=1.0
         if ZmumuRecoil > 200:
             metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(ZmumuRecoil)
-            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
+            metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(ZmumuRecoil)
+            metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+#            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
         elif ZeeRecoil > 200:
-            metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(ZmumuRecoil)
-            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
-        elif
+            metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(ZeeRecoil)
+            metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(ZeeRecoil)
+            metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+#            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
+        elif WmunuRecoil > 200:
+            metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(WmunuRecoil)
+            metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(WmunuRecoil)
+            metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+#            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
+        elif WenuRecoil > 200:
+            metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(WenuRecoil)
+            metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(WenuRecoil)
+            metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+#            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
+        elif TOPRecoil > 200:
+            metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(TOPRecoil)
+            metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(TOPRecoil)
+            metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+#            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Ele reweight
@@ -2024,7 +2042,7 @@ def AnalyzeDataSet():
         #print (len_puweight, pu_nTrueInt, puweight)
         
         eleweights = eleTrig_reweight * eleRecoSF * eleIDSF_loose * eleIDSF_tight
-        allweights = puweight * mcweight * genpTReweighting * eleweights * metTrig_firstmethodReweight * metTrig_secondmethodReweight
+        allweights = puweight * mcweight * genpTReweighting * eleweights * metTrig_Reweight
 #        print puweight
 #        print mcWeight
 #        print mcweight
