@@ -2156,7 +2156,6 @@ def AnalyzeDataSet():
         allquantities.N_Pho           = 0
         allquantities.N_b             = len(mybjets)
         allquantities.N_j             = nTHINJets
-
         allquantities.weight    = allweights
         allquantities.totalevents = 1
         
