@@ -2121,7 +2121,7 @@ def AnalyzeDataSet():
             else:
                 leadele=1
             elept = eleP4[leadele].Pt()
-            eleeta = eleP4[leadmu].Eta()
+            eleeta = eleP4[leadele].Eta()
         if nEle==1 or nEle==2:
             xbin = eleTrig_hEffEtaPt.GetXaxis().FindBin(eleeta)
             ybin = eleTrig_hEffEtaPt.GetYaxis().FindBin(elept)
