@@ -2,6 +2,7 @@
 from ROOT import TFile, TTree, TH1F, TH1D, TH1, TCanvas, TChain,TGraphAsymmErrors, TMath, TH2D, TLorentzVector, TF1, AddressOf
 import ROOT as ROOT
 import os
+import random
 import sys, optparse
 from array import array
 import math
@@ -18,16 +19,49 @@ eleTrigReweightFile = TFile('scalefactors/electron_Trigger_eleTrig.root')
 eleTrig_hEffEtaPt = eleTrigReweightFile.Get('hEffEtaPt')
 
 #Electron Reconstruction efficiency. Scale factors for 80X
-eleRecoSFFile = TFile('scalefactors/electron_Reco_SFs_egammaEffi_txt_EGM2D.root')
-eleRecoSF_EGamma_SF2D = eleRecoSFFile.Get('EGamma_SF2D')
+eleRecoSFsFile = TFile('scalefactors/electron_Reco_SFs_egammaEffi_txt_EGM2D.root')
+eleRecoSF_EGamma_SF2D = eleRecoSFsFile.Get('EGamma_SF2D')
 
 #Loose electron ID SFs
-eleLooseIDSFFile = TFile('scalefactors/electron_Loose_ID_SFs_egammaEffi_txt_EGM2D.root')
-eleLooseIDSF_EGamma_SF2D = eleLooseIDSFFile.Get('EGamma_SF2D')
+eleLooseIDSFsFile = TFile('scalefactors/electron_Loose_ID_SFs_egammaEffi_txt_EGM2D.root')
+eleLooseIDSF_EGamma_SF2D = eleLooseIDSFsFile.Get('EGamma_SF2D')
 
 #Tight electron ID SFs
-eleTightIDSFFile = TFile('scalefactors/electron_Tight_ID_SFs_egammaEffi_txt_EGM2D.root')
-eleTightIDSF_EGamma_SF2D = eleTightIDSFFile.Get('EGamma_SF2D')
+eleTightIDSFsFile = TFile('scalefactors/electron_Tight_ID_SFs_egammaEffi_txt_EGM2D.root')
+eleTightIDSF_EGamma_SF2D = eleTightIDSFsFile.Get('EGamma_SF2D')
+
+#Muon Trigger SFs
+#BCDEF
+muonTrigSFsRunBCDEFFile = TFIle('scalefactors/muon_single_lepton_trigger_EfficienciesAndSF_RunBtoF.root')
+muonTrigSFs_EfficienciesAndSF_RunBtoF = muonTrigSFsRunBCDEFFile.Get('IsoMu24_OR_IsoTkMu24_PtEtaBins/abseta_pt_ratio')
+#GH
+muonTrigSFsRunGHFile = TFIle('scalefactors/muon_single_lepton_trigger_EfficienciesAndSF_Period4.root')
+muonTrigSFs_EfficienciesAndSF_Period4 = muonTrigSFsRunBCDEFFile.Get('IsoMu24_OR_IsoTkMu24_PtEtaBins/abseta_pt_ratio')
+
+#Muon ID SFs
+#BCDEF
+muonIDSFsBCDEFFile = TFile('muon_ID_SFs_EfficienciesAndSF_BCDEF.root')
+muonLooseIDSFs_EfficienciesAndSF_BCDEF = muonIDSFsBCDEFFile.Get('MC_NUM_LooseID_DEN_genTracks_PAR_pt_eta/abseta_pt_ratio')
+muonTightIDSFs_EfficienciesAndSF_BCDEF = muonIDSFsBCDEFFile.Get('MC_NUM_TightID_DEN_genTracks_PAR_pt_eta/abseta_pt_ratio')
+#GH
+muonIDSFsGHFile = TFile('muon_ID_SFs_EfficienciesAndSF_GH.root')
+muonLooseIDSFs_EfficienciesAndSF_GH = muonIDSFsGHFile.Get('MC_NUM_LooseID_DEN_genTracks_PAR_pt_eta/abseta_pt_ratio')
+muonTightIDSFs_EfficienciesAndSF_GH = muonIDSFsGHFile.Get('MC_NUM_TightID_DEN_genTracks_PAR_pt_eta/abseta_pt_ratio')
+
+#Muon Iso SFs
+#BCDEF
+muonIsoSFsBCDEFFile = TFile('muon_Iso_SFs_EfficienciesAndSF_BCDEF.root')
+muonLooseIsoSFs_EfficienciesAndSF_BCDEF = muonIsoSFsBCDEFFile.Get('LooseISO_LooseID_pt_eta/abseta_pt_ratio')
+muonTightIsoSFs_EfficienciesAndSF_BCDEF = muonIsoSFsBCDEFFile.Get('TightISO_TightID_pt_eta/abseta_pt_ratio')
+#GH
+muonIsoSFsGHFile = TFile('muon_Iso_SFs_EfficienciesAndSF_GH.root')
+muonLooseIsoSFs_EfficienciesAndSF_GH = muonIsoSFsGHFile.Get('LooseISO_LooseID_pt_eta/abseta_pt_ratio')
+muonTightIsoSFs_EfficienciesAndSF_GH = muonIsoSFsGHFile.Get('TightISO_TightID_pt_eta/abseta_pt_ratio')
+
+#Muon Tracking SFs
+muonTrackingSFsFile = TFile('muon_Tracking_SFs_Tracking_EfficienciesAndSF_BCDEFGH.root')
+muonTrackingSFs_EfficienciesAndSF_BCDEFGH = muonTrackingSFsFile.Get('ratio_eff_aeta_dr030e030_corr')
+
 
 #MET Trigger reweights
 metTrigEff_zmmfile = TFile('scalefactors/metTriggerEfficiency_zmm_recoil_monojet_TH1F.root')
@@ -1902,10 +1936,6 @@ def AnalyzeDataSet():
                     allquantities.reg_1mu1e2b_nUncleanTau = nUncleanTau
                     allquantities.reg_1mu1e2b_nUncleanEle = nUncleanEle
                     allquantities.reg_1mu1e2b_nUncleanMu = nUncleanMu
-                
-                
-                
-        
 
         
         zCR=False
@@ -1997,18 +2027,92 @@ def AnalyzeDataSet():
             metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
             metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
 #            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
+
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+        ## Muon reweight
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-        ## Ele reweight
+        #
+        uni = random.uniform(0., 1.)
+        muonTrig_SF = 1.0
+        for imu in range(nMu):
+            mupt = muP4[imu].Pt()
+            abeta = abs(muP4[imu].Eta())
+            if mupt > 30:
+                if uni < 0.75:
+                    xbin = muonTrigSFs_EfficienciesAndSF_RunBtoF.GetXaxis().FindBin(abeta)
+                    ybin = muonTrigSFs_EfficienciesAndSF_RunBtoF.GetYaxis().FindBin(mupt)
+                    muonTrig_SF *= muonTrigSFs_EfficienciesAndSF_RunBtoF.GetBinContent(xbin,ybin)
+                elif uni > 0.75:
+                    xbin = muonTrigSFs_EfficienciesAndSF_Period4.GetXaxis().FindBin(abeta)
+                    ybin = muonTrigSFs_EfficienciesAndSF_Period4.GetYaxis().FindBin(mupt)
+                    muonTrig_SF *= muonTrigSFs_EfficienciesAndSF_Period4.GetBinContent(xbin,ybin)
+            
+        muIDSF_loose = 1.0
+        muIDSF_tight = 1.0
+        for imu in range(nMu):
+            mupt = muP4[imu].Pt()
+            abeta = abs(muP4[imu].Eta())
+            if uni < 0.75:
+                if mupt > 30:
+                    xbin = muonTightIDSFs_EfficienciesAndSF_BCDEF.GetXaxis().FindBin(abeta)
+                    ybin = muonTightIDSFs_EfficienciesAndSF_BCDEF.GetYaxis().FindBin(elept)
+                    muIDSF_tight *= muonTightIDSFs_EfficienciesAndSF_BCDEF.GetBinContent(xbin,ybin)
+                else:
+                    xbin = muonLooseIDSFs_EfficienciesAndSF_BCDEF.GetXaxis().FindBin(eleeta)
+                    ybin = muonLooseIDSFs_EfficienciesAndSF_BCDEF.GetYaxis().FindBin(elept)
+                    muIDSF_loose *= muonLooseIDSFs_EfficienciesAndSF_BCDEF.GetBinContent(xbin,ybin)
+            if uni > 0.75:
+                if mupt > 30:
+                    xbin = muonTightIDSFs_EfficienciesAndSF_GH.GetXaxis().FindBin(abeta)
+                    ybin = muonTightIDSFs_EfficienciesAndSF_GH.GetYaxis().FindBin(mupt)
+                    muIDSF_tight *= muonTightIDSFs_EfficienciesAndSF_GH.GetBinContent(xbin,ybin)
+                else:
+                    xbin = muonLooseIDSFs_EfficienciesAndSF_GH.GetXaxis().FindBin(eleeta)
+                    ybin = muonLooseIDSFs_EfficienciesAndSF_GH.GetYaxis().FindBin(elept)
+                    muIDSF_loose *= muonLooseIDSFs_EfficienciesAndSF_GH.GetBinContent(xbin,ybin)
+                    
+        muIsoSF_loose = 1.0
+        muIsoSF_tight = 1.0
+        for imu in range(nMu):
+            mupt = muP4[imu].Pt()
+            abeta = abs(muP4[imu].Eta())
+            muiso = MuIso[imu]
+            if uni < 0.75:
+                if muiso < 0.15:
+                    xbin = muonTightIsoSFs_EfficienciesAndSF_BCDEF.GetXaxis().FindBin(abeta)
+                    ybin = muonTightIsoSFs_EfficienciesAndSF_BCDEF.GetYaxis().FindBin(mupt)
+                    muIsoSF_tight *= muonTightIsoSFs_EfficienciesAndSF_BCDEF.GetBinContent(xbin,ybin)
+                elif muiso < 0.25:
+                    xbin = muonLooseIsoSFs_EfficienciesAndSF_BCDEF.GetXaxis().FindBin(abeta)
+                    ybin = muonLooseIsoSFs_EfficienciesAndSF_BCDEF.GetYaxis().FindBin(mupt)
+                    muIsoSF_loose *= muonLooseIsoSFs_EfficienciesAndSF_BCDEF.GetBinContent(xbin,ybin)
+            if uni > 0.75:
+                if muiso < 0.15:
+                    xbin = muonTightIsoSFs_EfficienciesAndSF_GH.GetXaxis().FindBin(abeta)
+                    ybin = muonTightIsoSFs_EfficienciesAndSF_GH.GetYaxis().FindBin(mupt)
+                    muIsoSF_tight *= muonTightIsoSFs_EfficienciesAndSF_GH.GetBinContent(xbin,ybin)
+                elif muiso < 0.25:
+                    xbin = muonLooseIsoSFs_EfficienciesAndSF_GH.GetXaxis().FindBin(abeta)
+                    ybin = muonLooseIsoSFs_EfficienciesAndSF_GH.GetYaxis().FindBin(mupt)
+                    muIsoSF_loose *= muonLooseIsoSFs_EfficienciesAndSF_GH.GetBinContent(xbin,ybin)
+        
+        muTracking_SF = 1.0
+        for imu in range(nMu):
+            abeta = abs(muP4[imu].Eta())
+            xbin = muonTrackingSFs_EfficienciesAndSF_BCDEFGH.GetXaxis().FindBin(abeta)
+            muTracking_SF *= muonTrackingSFs_EfficienciesAndSF_BCDEFGH.GetBinContent(xbin)
+        
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+        ## Electron reweight
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         eleTrig_reweight = 1.0
         for iele in range(nEle):
             elept = eleP4[iele].Pt()
             eleeta = eleP4[iele].Eta()
-            xbin = eleTrig_hEffEtaPt.GetXaxis().FindBin(eleeta)
-            ybin = eleTrig_hEffEtaPt.GetYaxis().FindBin(elept)
-            eleTrig_reweight *= eleTrig_hEffEtaPt.GetBinContent(xbin,ybin)
+            if elept > 30:
+                xbin = eleTrig_hEffEtaPt.GetXaxis().FindBin(eleeta)
+                ybin = eleTrig_hEffEtaPt.GetYaxis().FindBin(elept)
+                eleTrig_reweight *= eleTrig_hEffEtaPt.GetBinContent(xbin,ybin)
         
         eleRecoSF = 1.0
         for iele in range(nEle):
@@ -2031,10 +2135,9 @@ def AnalyzeDataSet():
                 xbin = eleLooseIDSF_EGamma_SF2D.GetXaxis().FindBin(eleeta)
                 ybin = eleLooseIDSF_EGamma_SF2D.GetYaxis().FindBin(elept)
                 eleIDSF_loose *= eleLooseIDSF_EGamma_SF2D.GetBinContent(xbin,ybin)
-        # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+                
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Pileup weight
-        # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 #        allpuweights = PUWeight()
 #        len_puweight = len(allpuweights)
@@ -2050,19 +2153,20 @@ def AnalyzeDataSet():
 #            print pu_nTrueInt
             
         #print (len_puweight, pu_nTrueInt, puweight)
-        
+        # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+        ## Total weight
+        # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+        muweights = muTrig_SF * muIDSF_loose * muIDSF_tight * muIsoSF_loose * muIsoSF_Tight * muTracking_SF
+        if muweights == 0.0:
+            print 'Warning:: muon weight is 0, setting it to 1'
+            muweights = 1.0
+
         eleweights = eleTrig_reweight * eleRecoSF * eleIDSF_loose * eleIDSF_tight
         if eleweights == 0.0:
             print 'Warning:: electron weight is 0, setting it to 1'
             eleweights = 1.0
         allweights = puweight * mcweight * genpTReweighting * eleweights * metTrig_Reweight
-#        print puweight
-#        print mcWeight
-#        print mcweight
-#        print genpTReweighting
-#        print allweights
-#        print
-                
+
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## BTag Scale Factor 
         if options.CSV:
