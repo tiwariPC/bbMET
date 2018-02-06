@@ -32,10 +32,10 @@ eleTightIDSF_EGamma_SF2D = eleTightIDSFsFile.Get('EGamma_SF2D')
 
 #Muon Trigger SFs
 #BCDEF
-muonTrigSFsRunBCDEFFile = TFIle('scalefactors/muon_single_lepton_trigger_EfficienciesAndSF_RunBtoF.root')
+muonTrigSFsRunBCDEFFile = TFile('scalefactors/muon_single_lepton_trigger_EfficienciesAndSF_RunBtoF.root')
 muonTrigSFs_EfficienciesAndSF_RunBtoF = muonTrigSFsRunBCDEFFile.Get('IsoMu24_OR_IsoTkMu24_PtEtaBins/abseta_pt_ratio')
 #GH
-muonTrigSFsRunGHFile = TFIle('scalefactors/muon_single_lepton_trigger_EfficienciesAndSF_Period4.root')
+muonTrigSFsRunGHFile = TFile('scalefactors/muon_single_lepton_trigger_EfficienciesAndSF_Period4.root')
 muonTrigSFs_EfficienciesAndSF_Period4 = muonTrigSFsRunBCDEFFile.Get('IsoMu24_OR_IsoTkMu24_PtEtaBins/abseta_pt_ratio')
 
 #Muon ID SFs
