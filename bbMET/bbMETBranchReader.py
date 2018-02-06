@@ -40,26 +40,26 @@ muonTrigSFs_EfficienciesAndSF_Period4 = muonTrigSFsRunBCDEFFile.Get('IsoMu24_OR_
 
 #Muon ID SFs
 #BCDEF
-muonIDSFsBCDEFFile = TFile('muon_ID_SFs_EfficienciesAndSF_BCDEF.root')
+muonIDSFsBCDEFFile = TFile('scalefactors/muon_ID_SFs_EfficienciesAndSF_BCDEF.root')
 muonLooseIDSFs_EfficienciesAndSF_BCDEF = muonIDSFsBCDEFFile.Get('MC_NUM_LooseID_DEN_genTracks_PAR_pt_eta/abseta_pt_ratio')
 muonTightIDSFs_EfficienciesAndSF_BCDEF = muonIDSFsBCDEFFile.Get('MC_NUM_TightID_DEN_genTracks_PAR_pt_eta/abseta_pt_ratio')
 #GH
-muonIDSFsGHFile = TFile('muon_ID_SFs_EfficienciesAndSF_GH.root')
+muonIDSFsGHFile = TFile('scalefactors/muon_ID_SFs_EfficienciesAndSF_GH.root')
 muonLooseIDSFs_EfficienciesAndSF_GH = muonIDSFsGHFile.Get('MC_NUM_LooseID_DEN_genTracks_PAR_pt_eta/abseta_pt_ratio')
 muonTightIDSFs_EfficienciesAndSF_GH = muonIDSFsGHFile.Get('MC_NUM_TightID_DEN_genTracks_PAR_pt_eta/abseta_pt_ratio')
 
 #Muon Iso SFs
 #BCDEF
-muonIsoSFsBCDEFFile = TFile('muon_Iso_SFs_EfficienciesAndSF_BCDEF.root')
+muonIsoSFsBCDEFFile = TFile('scalefactors/muon_Iso_SFs_EfficienciesAndSF_BCDEF.root')
 muonLooseIsoSFs_EfficienciesAndSF_BCDEF = muonIsoSFsBCDEFFile.Get('LooseISO_LooseID_pt_eta/abseta_pt_ratio')
 muonTightIsoSFs_EfficienciesAndSF_BCDEF = muonIsoSFsBCDEFFile.Get('TightISO_TightID_pt_eta/abseta_pt_ratio')
 #GH
-muonIsoSFsGHFile = TFile('muon_Iso_SFs_EfficienciesAndSF_GH.root')
+muonIsoSFsGHFile = TFile('scalefactors/muon_Iso_SFs_EfficienciesAndSF_GH.root')
 muonLooseIsoSFs_EfficienciesAndSF_GH = muonIsoSFsGHFile.Get('LooseISO_LooseID_pt_eta/abseta_pt_ratio')
 muonTightIsoSFs_EfficienciesAndSF_GH = muonIsoSFsGHFile.Get('TightISO_TightID_pt_eta/abseta_pt_ratio')
 
 #Muon Tracking SFs
-muonTrackingSFsFile = TFile('muon_Tracking_SFs_Tracking_EfficienciesAndSF_BCDEFGH.root')
+muonTrackingSFsFile = TFile('scalefactors/muon_Tracking_SFs_Tracking_EfficienciesAndSF_BCDEFGH.root')
 muonTrackingSFs_EfficienciesAndSF_BCDEFGH = muonTrackingSFsFile.Get('ratio_eff_aeta_dr030e030_corr')
 
 
@@ -2156,7 +2156,7 @@ def AnalyzeDataSet():
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Total weight
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-        muweights = muTrig_SF * muIDSF_loose * muIDSF_tight * muIsoSF_loose * muIsoSF_Tight * muTracking_SF
+        muweights = muonTrig_SF * muIDSF_loose * muIDSF_tight * muIsoSF_loose * muIsoSF_Tight * muTracking_SF
         if muweights == 0.0:
             print 'Warning:: muon weight is 0, setting it to 1'
             muweights = 1.0
