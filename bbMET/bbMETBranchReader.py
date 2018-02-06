@@ -2156,7 +2156,7 @@ def AnalyzeDataSet():
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Total weight
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-        muweights = muonTrig_SF * muIDSF_loose * muIDSF_tight * muIsoSF_loose * muIsoSF_Tight * muTracking_SF
+        muweights = muonTrig_SF * muIDSF_loose * muIDSF_tight * muIsoSF_loose * muIsoSF_tight * muTracking_SF
         if muweights == 0.0:
             print 'Warning:: muon weight is 0, setting it to 1'
             muweights = 1.0
@@ -2165,7 +2165,7 @@ def AnalyzeDataSet():
         if eleweights == 0.0:
             print 'Warning:: electron weight is 0, setting it to 1'
             eleweights = 1.0
-        allweights = puweight * mcweight * genpTReweighting * eleweights * metTrig_Reweight
+        allweights = puweight * mcweight * genpTReweighting * eleweights * metTrig_Reweight * muweights
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## BTag Scale Factor 
