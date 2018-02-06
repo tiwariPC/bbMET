@@ -2034,19 +2034,25 @@ def AnalyzeDataSet():
         #
         uni = random.uniform(0., 1.)
         muonTrig_SF = 1.0
-        for imu in range(nMu):
-            mupt = muP4[imu].Pt()
-            abeta = abs(muP4[imu].Eta())
-            if mupt > 30:
-                if uni < 0.75:
-                    xbin = muonTrigSFs_EfficienciesAndSF_RunBtoF.GetXaxis().FindBin(abeta)
-                    ybin = muonTrigSFs_EfficienciesAndSF_RunBtoF.GetYaxis().FindBin(mupt)
-                    muonTrig_SF *= muonTrigSFs_EfficienciesAndSF_RunBtoF.GetBinContent(xbin,ybin)
-                elif uni > 0.75:
-                    xbin = muonTrigSFs_EfficienciesAndSF_Period4.GetXaxis().FindBin(abeta)
-                    ybin = muonTrigSFs_EfficienciesAndSF_Period4.GetYaxis().FindBin(mupt)
-                    muonTrig_SF *= muonTrigSFs_EfficienciesAndSF_Period4.GetBinContent(xbin,ybin)
-            
+        if nMu == 1:
+            mupt = muP4[0].Pt()
+            abeta = abs(muP4[0].Eta())
+        if nMu == 2:
+            if muP4[0].Pt() > muP4[1].Pt():
+                leadmu=0
+            else:
+                leadmu=1
+            mupt = muP4[leadmu].Pt()
+            abeta = abs(muP4[leadmu].Eta())
+        if nMu==1 or nMu==2:
+            if uni < 0.75:
+                xbin = muonTrigSFs_EfficienciesAndSF_RunBtoF.GetXaxis().FindBin(abeta)
+                ybin = muonTrigSFs_EfficienciesAndSF_RunBtoF.GetYaxis().FindBin(mupt)
+                muonTrig_SF *= muonTrigSFs_EfficienciesAndSF_RunBtoF.GetBinContent(xbin,ybin)
+            elif uni > 0.75:
+                xbin = muonTrigSFs_EfficienciesAndSF_Period4.GetXaxis().FindBin(abeta)
+                ybin = muonTrigSFs_EfficienciesAndSF_Period4.GetYaxis().FindBin(mupt)
+                muonTrig_SF *= muonTrigSFs_EfficienciesAndSF_Period4.GetBinContent(xbin,ybin)
         muIDSF_loose = 1.0
         muIDSF_tight = 1.0
         for imu in range(nMu):
@@ -2106,13 +2112,20 @@ def AnalyzeDataSet():
         ## Electron reweight
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         eleTrig_reweight = 1.0
-        for iele in range(nEle):
-            elept = eleP4[iele].Pt()
-            eleeta = eleP4[iele].Eta()
-            if elept > 30:
-                xbin = eleTrig_hEffEtaPt.GetXaxis().FindBin(eleeta)
-                ybin = eleTrig_hEffEtaPt.GetYaxis().FindBin(elept)
-                eleTrig_reweight *= eleTrig_hEffEtaPt.GetBinContent(xbin,ybin)
+        if nEle == 1:
+            elept = eleP4[0].Pt()
+            eleeta = eleP4[0].Eta()
+        if nEle == 2:
+            if eleP4[0].Pt() > eleP4[1].Pt():
+                leadele=0
+            else:
+                leadele=1
+            elept = eleP4[leadele].Pt()
+            eleeta = eleP4[leadmu].Eta()
+        if nEle==1 or nEle==2:
+            xbin = eleTrig_hEffEtaPt.GetXaxis().FindBin(eleeta)
+            ybin = eleTrig_hEffEtaPt.GetYaxis().FindBin(elept)
+            eleTrig_reweight *= eleTrig_hEffEtaPt.GetBinContent(xbin,ybin)
         
         eleRecoSF = 1.0
         for iele in range(nEle):
