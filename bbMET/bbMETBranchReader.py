@@ -2101,7 +2101,7 @@ def AnalyzeDataSet():
             abeta = abs(muP4[imu].Eta())
             #xbin = muonTrackingSFs_EfficienciesAndSF_BCDEFGH.GetXaxis().FindBin(abeta)
             #muTracking_SF *= muonTrackingSFs_EfficienciesAndSF_BCDEFGH.GetBinContent(xbin)
-            muTracking_SF *= muonTrackingSFs_EfficienciesAndSF_BCDEFGH.GetY(abeta)
+            muTracking_SF *= muonTrackingSFs_EfficienciesAndSF_BCDEFGH.Eval(abeta)
         
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Electron reweight
