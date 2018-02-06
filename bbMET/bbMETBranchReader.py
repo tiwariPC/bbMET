@@ -2099,9 +2099,8 @@ def AnalyzeDataSet():
         muTracking_SF = 1.0
         for imu in range(nMu):
             abeta = abs(muP4[imu].Eta())
-            #xbin = muonTrackingSFs_EfficienciesAndSF_BCDEFGH.GetXaxis().FindBin(abeta)
-            #muTracking_SF *= muonTrackingSFs_EfficienciesAndSF_BCDEFGH.GetBinContent(xbin)
             muTracking_SF *= muonTrackingSFs_EfficienciesAndSF_BCDEFGH.Eval(abeta)
+
         
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Electron reweight
@@ -2166,6 +2165,7 @@ def AnalyzeDataSet():
         if eleweights == 0.0:
             print 'Warning:: electron weight is 0, setting it to 1'
             eleweights = 1.0
+        # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         allweights = puweight * mcweight * genpTReweighting * eleweights * metTrig_Reweight * muweights
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
