@@ -2188,6 +2188,14 @@ def AnalyzeDataSet():
         if puweight == 0.0:
             print 'Warning:: puweight is 0, setting it to 1'
             puweight = 1.0
+        
+        if genpTReweighting == 0.0:
+            print 'Warning:: genpTReweighting is 0, setting it to 1'
+            genpTReweighting = 1.0
+            
+        if metTrig_Reweight == 0.0:
+            print 'Warning:: metTrig_Reweight is 0, setting it to 1'
+            metTrig_Reweight = 1.0
 
         muweights = muonTrig_SF * muIDSF_loose * muIDSF_tight * muIsoSF_loose * muIsoSF_tight * muTracking_SF
         if muweights == 0.0:
