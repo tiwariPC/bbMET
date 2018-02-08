@@ -64,7 +64,8 @@ class MonoHbbQuantities:
         ## 2d histograms 
         self.h_met_vs_mass     = []
         
-        self.weight   = 1.0 
+        self.weight   = 1.0
+        self.weight_NoPU = 1.0
 
         self.weight_pdf   = []
         self.weight_muR   = []
@@ -171,6 +172,10 @@ class MonoHbbQuantities:
                 bins='400'
                 low='0.'
                 high='4.'
+            elif 'PV' in quant:
+                bins='40'
+                low='0.'
+                high='40.'
             else:                   # for pT, mass, etc.
                 bins='50'
                 low='0.'
@@ -210,6 +215,7 @@ class MonoHbbQuantities:
         
     def FillPreSel(self):
         WF = self.weight
+        WF1 = self.weight_NoPU
         
         preselquantlist=AllQuantList.getPresel()
         for quant in preselquantlist:
@@ -217,6 +223,7 @@ class MonoHbbQuantities:
     
     def FillRegionHisto(self):
         WF = self.weight
+        WF1 = self.weight_NoPU
         
         regquants=AllQuantList.getRegionQuants()
         for quant in regquants:
@@ -224,6 +231,7 @@ class MonoHbbQuantities:
         
     def FillHisto(self):
         WF = self.weight
+        WF1 = self.weight_NoPU
         #print "WF = ", WF
         self.h_met[0]        .Fill(self.met,       WF)
         
@@ -256,7 +264,10 @@ class MonoHbbQuantities:
 
         allquantlist=AllQuantList.getAll()
         for quant in allquantlist:
-            exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF)")
+            if quant != 'noPuReweightPV':
+                exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF)")
+            else:
+                if self.noPuReweightPV is not None: self.h_noPuReweightPV[0].Fill(self.noPuReweightPV, WF1)
         
        
     def WriteHisto(self, (nevts,nevts_weight,npass,cutflowvalues,cutflownames,cutflowvaluesSR1,cutflownamesSR1,cutflowvaluesSR2,cutflownamesSR2,CRvalues,CRnames,regionnames,CRcutnames,CRcutflowvaluesSet)):

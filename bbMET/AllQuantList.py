@@ -11,6 +11,8 @@ def getAll():
     allquantlist.append('dr_jet_sr1')
     allquantlist.append('dr_jet_sr2')
     allquantlist.append('metTrigSysUnc')
+    allquantlist.append('noPuReweightPV')
+    allquantlist.append('PuReweightPV')
 
     for nSR in ['1','2']:                                                   # Leptons: Makes all combinations of region, lepton number, etc.
 #        for lep in ['mu','el']:

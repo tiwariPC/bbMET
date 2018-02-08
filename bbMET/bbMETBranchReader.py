@@ -30,6 +30,10 @@ eleLooseIDSF_EGamma_SF2D = eleLooseIDSFsFile.Get('EGamma_SF2D')
 eleTightIDSFsFile = TFile('scalefactors/electron_Tight_ID_SFs_egammaEffi_txt_EGM2D.root')
 eleTightIDSF_EGamma_SF2D = eleTightIDSFsFile.Get('EGamma_SF2D')
 
+# Veto cut-based electron ID SFs
+eleVetoCutBasedIDSFsFile = TFile('scalefactors/electron_Veto_cut-based_ID_SFs_egammaEffi_txt_EGM2D.root')
+eleVetoCutBasedIDSF_egammaEffi_txt_EGM2D = eleVetoCutBasedIDSFsFile.Get('EGamma_SF2D')
+
 #Muon Trigger SFs
 #BCDEF
 muonTrigSFsRunBCDEFFile = TFile('scalefactors/muon_single_lepton_trigger_EfficienciesAndSF_RunBtoF.root')
@@ -416,6 +420,7 @@ def AnalyzeDataSet():
         THINjetHadronFlavor        = skimmedTree.__getattr__('st_THINjetHadronFlavor')
         thinjetNhadEF              = skimmedTree.__getattr__('st_THINjetNHadEF')
         thinjetChadEF              = skimmedTree.__getattr__('st_THINjetCHadEF')
+        thinjetNPV                 = skimmedTree.__getattr__('st_THINjetNPV')
         
         nTHINdeepCSVJets           = skimmedTree.__getattr__('st_AK4deepCSVnJet')
         thindeepCSVjetP4           = skimmedTree.__getattr__('st_AK4deepCSVjetP4')
@@ -423,6 +428,7 @@ def AnalyzeDataSet():
         THINdeepCSVjetHadronFlavor = skimmedTree.__getattr__('st_AK4deepCSVjetHadronFlavor')
         thindeepCSVjetNhadEF       = skimmedTree.__getattr__('st_AK4deepCSVjetNHadEF')
         thindeepCSVjetChadEF       = skimmedTree.__getattr__('st_AK4deepCSVjetCHadEF')
+        thindeepCSVjetNPV          =skimmedTree.__getattr__('st_AK4deepCSVjetNPV')
         
         nEle                       = skimmedTree.__getattr__('st_nEle')
         eleP4                      = skimmedTree.__getattr__('st_eleP4')
@@ -2148,7 +2154,15 @@ def AnalyzeDataSet():
                 xbin = eleLooseIDSF_EGamma_SF2D.GetXaxis().FindBin(eleeta)
                 ybin = eleLooseIDSF_EGamma_SF2D.GetYaxis().FindBin(elept)
                 eleIDSF_loose *= eleLooseIDSF_EGamma_SF2D.GetBinContent(xbin,ybin)
-                
+        
+        eleVetoCutBasedIDSF = 1.0
+        for iele in range(nEle):
+            elept = eleP4[iele].Pt()
+            eleeta = eleP4[iele].Eta()
+            xbin = eleVetoCutBasedIDSF_egammaEffi_txt_EGM2D.GetXaxis().FindBin(eleeta)
+            ybin = eleVetoCutBasedIDSF_egammaEffi_txt_EGM2D.GetYaxis().FindBin(elept)
+            eleVetoCutBasedIDSF *= eleVetoCutBasedIDSF_egammaEffi_txt_EGM2D.GetBinContent(xbin,ybin)
+            
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Pileup weight
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -2174,7 +2188,7 @@ def AnalyzeDataSet():
             print 'Warning:: muon weight is 0, setting it to 1'
             muweights = 1.0
 
-        eleweights = eleTrig_reweight * eleRecoSF * eleIDSF_loose * eleIDSF_tight
+        eleweights = eleTrig_reweight * eleRecoSF * eleIDSF_loose * eleIDSF_tight * eleVetoCutBasedIDSF
         if eleweights == 0.0:
             print 'Warning:: electron weight is 0, setting it to 1'
             eleweights = 1.0
@@ -2264,8 +2278,7 @@ def AnalyzeDataSet():
                     allweights = allweights * sf_resolved3[0]
 
         if isData: allweights = 1.0 
-        
-        
+        allweights_noPU = allweights/puweight
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------        
         
         
@@ -2277,7 +2290,8 @@ def AnalyzeDataSet():
         allquantities.N_Pho           = 0
         allquantities.N_b             = len(mybjets)
         allquantities.N_j             = nTHINJets
-        allquantities.weight    = allweights
+        allquantities.weight          = allweights
+        allquantities.weight_NoPU     = allweights_noPU
         allquantities.totalevents = 1
         
         allquantlist=AllQuantList.getAll()
@@ -2334,7 +2348,14 @@ def AnalyzeDataSet():
            allquantities.min_dPhi_sr2    = jetSR2Info[3]      
            allquantities.met_sr2         = jetSR2Info[4]   
            allquantities.jet1_nhf_sr2    = jetSR2Info[5]
-           allquantities.jet1_chf_sr2    = jetSR2Info[6]  
+           allquantities.jet1_chf_sr2    = jetSR2Info[6]
+           
+        if options.CSV:
+            allquantities.PuReweightPV    = thinjetNPV
+            allquantities.noPuReweightPV  = thinjetNPV
+        if options.DeepCSV:
+            allquantities.PuReweightPV    = thindeepCSVjetNPV
+            allquantities.noPuReweightPV  = thindeepCSVjetNPV
                        
 
             
