@@ -15,10 +15,10 @@ cmssw_setup sandbox-CMSSW_8_0_26_patch1-939efad.tar.bz2
 cd $CMSSW_BASE
 cmsenv
 cd ../../
-until xrdcp -f "$1" BRinput.root; do
-  sleep 60
-done
-python bbMETBranchReader.py -a -i BRinput.root -D . -o BROutput.root --csv --met
+# until xrdcp -f "$1" BRinput.root; do
+#   sleep 60
+# done
+python bbMETBranchReader.py -a -i "$1" -D . -o BROutput.root --csv --met
 
 exitcode=$?
 
