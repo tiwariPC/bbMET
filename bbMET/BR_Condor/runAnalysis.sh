@@ -20,8 +20,6 @@ until xrdcp -f "$1" BRinput.root; do
 done
 python bbMETBranchReader.py -a -i BRinput.root -D . -o BROutput.root --csv --met
 
-#python MonoHBranchReader.py -a -i "$1" -D . -o BROutput.root
-
 exitcode=$?
 
 if [ ! -e "BROutput.root" ]; then
