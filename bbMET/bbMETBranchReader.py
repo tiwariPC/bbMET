@@ -2185,9 +2185,9 @@ def AnalyzeDataSet():
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Total weight
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-        if puweights == 0.0:
+        if puweight == 0.0:
             print 'Warning:: puweight is 0, setting it to 1'
-            puweights = 1.0
+            puweight = 1.0
 
         muweights = muonTrig_SF * muIDSF_loose * muIDSF_tight * muIsoSF_loose * muIsoSF_tight * muTracking_SF
         if muweights == 0.0:
