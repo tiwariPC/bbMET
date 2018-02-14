@@ -148,7 +148,7 @@ class MonoHbbQuantities:
                 bins='12'
                 low='0'
                 high='12'
-            elif 'ntau' in quant or 'nele' in quant or 'nmu' in quant or 'nUnclean' in quant:
+            elif 'ntau' in quant or 'npho' in quant or 'nele' in quant or 'nmu' in quant or 'nUnclean' in quant:
                 bins='6'
                 low='0'
                 high='6'
@@ -173,9 +173,9 @@ class MonoHbbQuantities:
                 low='0.'
                 high='4.'
             elif 'PV' in quant:
-                bins='40'
+                bins='100'
                 low='0.'
-                high='40.'
+                high='100.'
             else:                   # for pT, mass, etc.
                 bins='50'
                 low='0.'
