@@ -276,6 +276,7 @@ def AnalyzeDataSet():
     outTree.Branch( 'TOPPhi', TOPPhi, 'TOPPhi/F')
     
     outTree.Branch( 'GammaRecoil', GammaRecoil, 'GammaRecoil/F')
+    outTree.Branch( 'GammaPhi', GammaPhi, 'GammaPhi/F')
     
     if len(sys.argv)>2:
         NEntries=int(sys.argv[2])
