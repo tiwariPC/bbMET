@@ -334,7 +334,7 @@ def AnalyzeDataSet():
 #    CRCutFlow['zrecoil']=0
 #    CRCutFlow['ZdPhi']=0
     
-    CRcutnames=['trig','nlep','npho','lepconds','recoil','mass','dPhicond','nbjets','jetconds']
+    CRcutnames=['trig','nlep','nphot','lepconds','recoil','mass','dPhicond','nbjets','jetconds']
     regionnames=['2e1b','2mu1b','2e2b','2mu2b','1e1b','1mu1b','1e2b','1mu2b','1mu1e1b','1mu1e2b','1gamma1b','1gamma2b']
     for CRreg in regionnames:
         exec("CR"+CRreg+"CutFlow={'preselection':NEntries}")
