@@ -481,7 +481,10 @@ def AnalyzeDataSet():
         ZmumuPhi                   = skimmedTree.__getattr__('ZmumuPhi')
         TOPRecoil                  = skimmedTree.__getattr__('TOPRecoil')
         TOPPhi                     = skimmedTree.__getattr__('TOPPhi')
+        GammaRecoil                  = skimmedTree.__getattr__('GammaRecoil')
+        GammaPhi                     = skimmedTree.__getattr__('GammaPhi')
         
+                
         
         for trig in triglist:
             exec(trig+" = skimmedTree.__getattr__('st_"+trig+"')")
