@@ -78,7 +78,7 @@ def getRegionQuants():
     
     #Gamma CR       
     regions=['1gamma1b','1gamma2b']
-    varlist=['hadrecoil','MET','pho_pT','jet1_pT','jet2_pT','jet1_eta','jet2_eta','jet1_csv','jet2_csv','jet1_deepcsv','jet2_deepcsv','njet','ntau','npho''nele','nmu','nUncleanEle','nUncleanMu','nUncleanTau']
+    varlist=['hadrecoil','MET','pho_pT','jet1_pT','jet2_pT','jet1_eta','jet2_eta','jet1_csv','jet2_csv','jet1_deepcsv','jet2_deepcsv','njet','ntau','npho','nele','nmu','nUncleanEle','nUncleanMu','nUncleanTau']
     
     for reg in regions:
         for var in varlist:
