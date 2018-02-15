@@ -1969,8 +1969,8 @@ def AnalyzeDataSet():
                 if nTHINdeepCSVJets>=3:
                     if DeltaPhi(j3.Phi(),Phi_mpi_pi(math.pi+GammaPhi)) < 0.5: GammaPhicond=False
 #for now
-HLT_Photon165_HE10 = True
-HLT_Photon175 = True
+        HLT_Photon165_HE10 = True
+        HLT_Photon175 = True
  #Cutflow                  
         if ((HLT_Photon165_HE10 and HLT_Photon175) ):
             CR1gamma1bCutFlow['trig']+=1
