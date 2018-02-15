@@ -181,6 +181,9 @@ def AnalyzeDataSet():
     
     TOPRecoil = array( 'f', [ 0. ] )
     TOPPhi = array( 'f', [ 0. ] )
+    
+    GammaRecoil = array('f',[0.])
+    GammaPhi = array( 'f', [ 0. ] )
            
     outTree.Branch( 'st_runId', st_runId , 'st_runId/L')
     outTree.Branch( 'st_lumiSection', st_lumiSection , 'st_lumiSection/L')
