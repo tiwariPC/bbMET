@@ -430,11 +430,11 @@ def AnalyzeDataSet():
         thindeepCSVjetChadEF       = skimmedTree.__getattr__('st_AK4deepCSVjetCHadEF')
         thindeepCSVjetNPV          =skimmedTree.__getattr__('st_AK4deepCSVjetNPV')
         
-        nPho                       = skimmedTree.__getattr__('nPho')
-        phoP4                      = skimmedTree.__getattr__('phoP4')
-        phoIsPassLoose             = skimmedTree.__getattr__('phoIsPassLoose')
-        phoIsPassMedium            = skimmedTree.__getattr__('phoIsPassMedium')
-        phoIsPassTight             = skimmedTree.__getattr__('phoIsPassTight')
+        nPho                       = skimmedTree.__getattr__('st_nPho')
+        phoP4                      = skimmedTree.__getattr__('st_phoP4')
+        phoIsPassLoose             = skimmedTree.__getattr__('st_phoIsPassLoose')
+        phoIsPassMedium            = skimmedTree.__getattr__('st_phoIsPassMedium')
+        phoIsPassTight             = skimmedTree.__getattr__('st_phoIsPassTight')
         
         nEle                       = skimmedTree.__getattr__('st_nEle')
         eleP4                      = skimmedTree.__getattr__('st_eleP4')
