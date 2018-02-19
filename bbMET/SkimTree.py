@@ -181,6 +181,9 @@ def AnalyzeDataSet():
     
     TOPRecoil = array( 'f', [ 0. ] )
     TOPPhi = array( 'f', [ 0. ] )
+    
+    GammaRecoil = array('f',[0.])
+    GammaPhi = array( 'f', [ 0. ] )
            
     outTree.Branch( 'st_runId', st_runId , 'st_runId/L')
     outTree.Branch( 'st_lumiSection', st_lumiSection , 'st_lumiSection/L')
@@ -271,6 +274,9 @@ def AnalyzeDataSet():
     
     outTree.Branch( 'TOPRecoil', TOPRecoil, 'TOPRecoil/F')
     outTree.Branch( 'TOPPhi', TOPPhi, 'TOPPhi/F')
+    
+    outTree.Branch( 'GammaRecoil', GammaRecoil, 'GammaRecoil/F')
+    outTree.Branch( 'GammaPhi', GammaPhi, 'GammaPhi/F')
     
     if len(sys.argv)>2:
         NEntries=int(sys.argv[2])
@@ -510,7 +516,16 @@ def AnalyzeDataSet():
 #        print nBjets
 #        if nBjets < 1: continue
 
-           
+        # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+        # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+        ## Photon Veto
+        # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+        # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+        myPhos=[]
+        for ipho in range(nPho):
+            if (phoP4[ipho].Pt() > 15.) & (abs(phoP4[ipho].Eta()) <2.5) & (bool(phoIsPassLoose[ipho]) == True):
+                myPhos.append(ipho)
+        
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Electron Veto
@@ -666,6 +681,9 @@ def AnalyzeDataSet():
         TOPRecoil[0] = -1.0
         TOPPhi[0] = -10.
         
+        GammaRecoil[0] = -1.0
+        GammaPhi[0]  = -10.
+        
 # ------------------
 # Z CR
 # ------------------
@@ -774,9 +792,7 @@ def AnalyzeDataSet():
            
          
         TOPRecoilstatus = (TOPRecoil[0] > 200.)
-        
-        if pfmetstatus==False and ZRecoilstatus==False and WRecoilstatus==False and TOPRecoilstatus==False:
-            continue
+
          
         #if ZRecoilstatus:
             #print ('Z: ',nEle, nMu, ZeeMass[0], ZmumuMass[0])
@@ -784,9 +800,27 @@ def AnalyzeDataSet():
 #            print ('W: ', Wenumass[0], Wmunumass[0])
         #if TOPRecoilstatus:
             #print ('T: ',nEle, nMu, TOPenumunuRecoilPt)
-            
-            
-            
+# ------------------
+# Gamma CR
+# ------------------  
+        ## for Single photon  
+        if len(myPhos) == 1:
+           pho1 = myPhos[0]
+           p4_pho1 = phoP4[pho1]
+           
+           GammaRecoilPx = -( pfMet*math.cos(pfMetPhi) - p4_pho1.Px())
+           GammaRecoilPy = -( pfMet*math.sin(pfMetPhi) - p4_pho1.Py())
+           GammaRecoilPt = math.sqrt(GammaRecoilPx**2  +  GammaRecoilPy**2)
+           if GammaRecoilPt > 200.:
+               GammaRecoil[0] = GammaRecoilPt
+               GammaPhi[0] = arctan(-GammaRecoilPx,-GammaRecoilPy)
+
+        GammaRecoilStatus = (GammaRecoil[0] > 200)
+        
+
+        if pfmetstatus==False and ZRecoilstatus==False and WRecoilstatus==False and TOPRecoilstatus==False and GammaRecoilStatus==False:
+            continue
+        
         outTree.Fill()
 
     h_total_mcweight.Write()

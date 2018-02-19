@@ -336,6 +336,7 @@ def AnalyzeDataSet():
 #    CRCutFlow['zrecoil']=0
 #    CRCutFlow['ZdPhi']=0
     
+
     CRcutnames=['trig','recoil','mass','dPhicond','njets','nbjets','jetconds','nlep','lepconds']
     regionnames=['2e1b','2mu1b','2e2b','2mu2b','1e1b','1mu1b','1e2b','1mu2b','1mu1e1b','1mu1e2b']
     for CRreg in regionnames:
@@ -344,7 +345,7 @@ def AnalyzeDataSet():
             exec("CR"+CRreg+"CutFlow['"+cutname+"']=0")
     
     
-    CRs=['ZCRSR1','ZCRSR2','WCRSR1','WCRSR2','TopCRSR1','TopCRSR2']
+    CRs=['ZCRSR1','ZCRSR2','WCRSR1','WCRSR2','TopCRSR1','TopCRSR2', 'GammaCRSR1','GammaCRSR2']
     
     CRStatus={'total':NEntries}
     for CRname in CRs:
@@ -432,6 +433,12 @@ def AnalyzeDataSet():
         thindeepCSVjetChadEF       = skimmedTree.__getattr__('st_AK4deepCSVjetCHadEF')
         thindeepCSVjetNPV          =skimmedTree.__getattr__('st_AK4deepCSVjetNPV')
         
+        nPho                       = skimmedTree.__getattr__('st_nPho')
+        phoP4                      = skimmedTree.__getattr__('st_phoP4')
+        phoIsPassLoose             = skimmedTree.__getattr__('st_phoIsPassLoose')
+        phoIsPassMedium            = skimmedTree.__getattr__('st_phoIsPassMedium')
+        phoIsPassTight             = skimmedTree.__getattr__('st_phoIsPassTight')
+        
         nEle                       = skimmedTree.__getattr__('st_nEle')
         eleP4                      = skimmedTree.__getattr__('st_eleP4')
         eleIsPassLoose             = skimmedTree.__getattr__('st_eleIsPassLoose')
@@ -477,7 +484,10 @@ def AnalyzeDataSet():
         ZmumuPhi                   = skimmedTree.__getattr__('ZmumuPhi')
         TOPRecoil                  = skimmedTree.__getattr__('TOPRecoil')
         TOPPhi                     = skimmedTree.__getattr__('TOPPhi')
+        GammaRecoil                  = skimmedTree.__getattr__('GammaRecoil')
+        GammaPhi                     = skimmedTree.__getattr__('GammaPhi')
         
+                
         
         for trig in triglist:
             exec(trig+" = skimmedTree.__getattr__('st_"+trig+"')")
@@ -590,7 +600,15 @@ def AnalyzeDataSet():
          # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 #        print (HLT_IsoMu24,HLT_Ele27_WPLoose_Gsf)
         
-        
+        myPhos=[]
+        myPhoLooseID=[]
+        myPhoTightID=[]
+        for ipho in range(nPho):
+            if phoP4[ipho].Pt() < 170 : continue
+            myPhos.append(phoP4[ipho])
+            myPhoLooseID.append(phoIsPassLoose[ipho])
+            myPhoTightID.append(phoIsPassTight[ipho])
+            
         myEles=[]
         myEleLooseID=[]
         myEleTightID=[]
@@ -650,23 +668,12 @@ def AnalyzeDataSet():
         nUncleanMu=nMu
         nUncleanTau=nTau
         
+        nPho=len(myPhos)
         nEle=len(myEles)
         nMu=len(myMuos)
         nTau=len(myTaus)
-        
-#        if nEle>0 and nMu<2 :
-#            print ievent
-#            print nEle
-#            print "e:"
-#            for iele in myEles:
-#                print (iele.Eta(),iele.Phi())
-#            print "mu:"
-##            for imu in myMuos:
-##                print (imu.Eta(),imu.Phi())
-#            print
-            
-        
-# --------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        #--------------------------------------------------------------------------------------------------------------------------------------------------------
         #----------------------------------------------------------------------------------------------------------------------------------------------------------------         ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Sort jets 
         if options.CSV:
@@ -2055,11 +2062,142 @@ def AnalyzeDataSet():
                     allquantities.reg_1mu1e2b_nUncleanTau = nUncleanTau
                     allquantities.reg_1mu1e2b_nUncleanEle = nUncleanEle
                     allquantities.reg_1mu1e2b_nUncleanMu = nUncleanMu
+# -------------------------------------------
+# Gamma CR
+# -------------------------------------------
 
+        #Gamma CR specific bools
+        
+        GammaPhicond=True
+        
+        if GammaPhi>-10.:
+            if DeltaPhi(j1.Phi(),Phi_mpi_pi(math.pi+GammaPhi)) < 0.5: GammaPhicond = False      #Added +pi to ZPhi to reverse an error in SkimTree which will be fixed in next iteration.
+            if options.CSV:
+                if nTHINJets>=2:
+                    if DeltaPhi(j2.Phi(),Phi_mpi_pi(math.pi+GammaPhi)) < 0.5: GammaPhicond=False
+                if nTHINJets>=3:
+                    if DeltaPhi(j3.Phi(),Phi_mpi_pi(math.pi+GammaPhi)) < 0.5: GammaPhicond=False
+            if options.DeepCSV:
+                if nTHINdeepCSVJets>=2:
+                    if DeltaPhi(j2.Phi(),Phi_mpi_pi(math.pi+GammaPhi)) < 0.5: GammaPhicond=False
+                if nTHINdeepCSVJets>=3:
+                    if DeltaPhi(j3.Phi(),Phi_mpi_pi(math.pi+GammaPhi)) < 0.5: GammaPhicond=False
+#for now
+        HLT_Photon165_HE10 = True
+        HLT_Photon175 = True
+ #Cutflow                  
+        if ((HLT_Photon165_HE10 and HLT_Photon175) ):
+            CR1gamma1bCutFlow['trig']+=1
+            CR1gamma2bCutFlow['trig']+=1
+            if nPho==1:
+                CR1gamma1bCutFlow['nphot']+=1
+                CR1gamma2bCutFlow['nphot']+=1
+                if myPhos[0].Pt() > 170. and myPhoTightID[0] and myPhoLooseID[0]:
+                    CR1gamma1bCutFlow['lepconds']+=1
+                    CR1gamma2bCutFlow['lepconds']+=1
+                    if TOPRecoil>200.:
+                        CR1gamma1bCutFlow['recoil']+=1
+                        CR1gamma2bCutFlow['recoil']+=1 
+                        if GammaPhicond:
+                            CR1gamma1bCutFlow['dPhicond']+=1 
+                            CR1gamma2bCutFlow['dPhicond']+=1                                
+                            if nBjets==1:
+                                CR1gamma1bCutFlow['nbjets']+=1
+                                if jetcond:
+                                    CR1gamma1bCutFlow['jetconds']+=1
+                            if nBjets==2:
+                                CR1gamma2bCutFlow['nbjets']+=1
+                                if jetcond and SR2jet2:
+                                    CR1gamma2bCutFlow['jetconds']+=1
+        
+        #1 pho , 1 b-tagged
+        if nPho==1 and nEle==0 and nMu==1 and (HLT_Photon165_HE10 or HLT_Photon175 ) and GammaRecoil>200. and jetcond and GammaPhicond:
+        
+            if myPhos[0].Pt() > 170. and myPhoTightID[0] and myPhoLooseID[0]:
+            
+                if nBjets==1:
+                    
+                    allquantities.reg_1gamma1b_hadrecoil = GammaRecoil
+                    allquantities.reg_1gamma1b_MET = pfMet
+                    
+                    allquantities.reg_1gamma1b_pho1_pT=myPhos[0].Pt()
+                    #allquantities.reg_1mu1e1b_lep2_pT=myPhos[0].Pt()
+                    #allquantities.reg_1mu1e1b_lep2_iso=myMuIso[0]
+                    
+                    allquantities.reg_1gamma1b_jet1_pT=j1.Pt()
+                    if options.CSV:
+                        if nTHINJets>1: allquantities.reg_1gamma1b_jet2_pT=j2.Pt()
+                        
+                        allquantities.reg_1gamma1b_jet1_eta=j1.Eta()
+                        if nTHINJets>1: allquantities.reg_1gamma1b_jet2_eta=j2.Eta()
+                    
+                        allquantities.reg_1gamma1b_jet1_csv = thinJetCSV[ifirstjet]
+                        if nTHINJets>1: allquantities.reg_1gamma1b_jet2_csv = thinJetCSV[isecondjet]
+                        
+                        allquantities.reg_1gamma1b_njet = nTHINJets
+                    if options.DeepCSV:
+                        if nTHINdeepCSVJets>1: allquantities.reg_1gamma1b_jet2_pT=j2.Pt()
+                        
+                        allquantities.reg_1gamma1b_jet1_eta=j1.Eta()
+                        if nTHINdeepCSVJets>1: allquantities.reg_1gamma1b_jet2_eta=j2.Eta()
+                    
+                        allquantities.reg_1gamma1b_jet1_deepcsv = thinJetdeepCSV[ifirstjet]
+                        if nTHINJets>1: allquantities.reg_1gamma1b_jet2_deepcsv = thinJetdeepCSV[isecondjet]
+                        
+                        allquantities.reg_1gamma1b_njet = nTHINdeepCSVJets
+                    
+                    allquantities.reg_1gamma1b_ntau = nTau
+                    allquantities.reg_1gamma1b_nele = nEle
+                    allquantities.reg_1gamma1b_nmu = nMu
+                    allquantities.reg_1gamma1b_nPho = nPho
+                    allquantities.reg_1gamma1b_nUncleanTau = nUncleanTau
+                    allquantities.reg_1gamma1b_nUncleanEle = nUncleanEle
+                    allquantities.reg_1gamma1b_nUncleanMu = nUncleanMu
+                    
+                    
+            #1 photon, 2 b-tagged   
+                if nBjets==2 and SR2jet2:         
+                    
+                    allquantities.reg_1gamma2b_hadrecoil = GammaRecoil
+                    allquantities.reg_1gamma2b_MET = pfMet
+                    
+                    allquantities.reg_1gamma2b_pho1_pT=myPhos[0].Pt()
+                    #allquantities.reg_1gamma2b_lep2_pT=myMuos[0].Pt()
+                    #allquantities.reg_1gamma2b_lep2_iso=myMuIso[0]
+                    
+                    allquantities.reg_1gamma2b_jet1_pT=j1.Pt()
+                    if options.CSV:
+                        if nTHINJets>1: allquantities.reg_1gamma2b_jet2_pT=j2.Pt()
+                        
+                        allquantities.reg_1gamma2b_jet1_eta=j1.Eta()
+                        if nTHINJets>1: allquantities.reg_1gamma2b_jet2_eta=j2.Eta()
+                    
+                        allquantities.reg_1gamma2b_jet1_csv = thinJetCSV[ifirstjet]
+                        if nTHINJets>1: allquantities.reg_1gamma2b_jet2_csv = thinJetCSV[isecondjet]
+                        
+                        allquantities.reg_1gamma2b_njet = nTHINJets
+                    if options.DeepCSV:
+                        if nTHINdeepCSVJets>1: allquantities.reg_1gamma2b_jet2_pT=j2.Pt()
+                        
+                        allquantities.reg_1gamma2b_jet1_eta=j1.Eta()
+                        if nTHINdeepCSVJets>1: allquantities.reg_1gamma2b_jet2_eta=j2.Eta()
+                    
+                        allquantities.reg_1gamma2b_jet1_deepcsv = thinJetdeepCSV[ifirstjet]
+                        if nTHINJets>1: allquantities.reg_1gamma2b_jet2_deepcsv = thinJetdeepCSV[isecondjet]
+                        
+                        allquantities.reg_1gamma2b_njet = nTHINdeepCSVJets
+                    allquantities.reg_1gamma2b_ntau = nTau
+                    allquantities.reg_1gamma2b_nele = nEle
+                    allquantities.reg_1gamma2b_nmu = nMu
+                    allquantities.reg_1gamma2b_nPho = nPho
+                    allquantities.reg_1gamma2b_nUncleanTau = nUncleanTau
+                    allquantities.reg_1gamma2b_nUncleanEle = nUncleanEle
+                    allquantities.reg_1gamma2b_nUncleanMu = nUncleanMu
         
         zCR=False
         wCR=False
         TopCR=False
+        GammaCR=False
         
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -2146,6 +2284,13 @@ def AnalyzeDataSet():
             metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
             metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
 #            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
+        elif GammaRecoil > 200:
+            xbin1 = metTrig_firstmethod.GetXaxis().FindBin(GammaRecoil)
+            xbin2 = metTrig_secondmethod.GetXaxis().FindBin(GammaRecoil)
+            metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
+            metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
+            metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+#            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
 
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Muon reweight
@@ -2164,11 +2309,11 @@ def AnalyzeDataSet():
             mupt = muP4[leadmu].Pt()
             abeta = abs(muP4[leadmu].Eta())
         if nMu==1 or nMu==2:
-            if uni < 0.75:
+            if uni < 0.54:
                 xbin = muonTrigSFs_EfficienciesAndSF_RunBtoF.GetXaxis().FindBin(abeta)
                 ybin = muonTrigSFs_EfficienciesAndSF_RunBtoF.GetYaxis().FindBin(mupt)
                 muonTrig_SF *= muonTrigSFs_EfficienciesAndSF_RunBtoF.GetBinContent(xbin,ybin)
-            elif uni > 0.75:
+            elif uni > 0.54:
                 xbin = muonTrigSFs_EfficienciesAndSF_Period4.GetXaxis().FindBin(abeta)
                 ybin = muonTrigSFs_EfficienciesAndSF_Period4.GetYaxis().FindBin(mupt)
                 muonTrig_SF *= muonTrigSFs_EfficienciesAndSF_Period4.GetBinContent(xbin,ybin)
@@ -2177,7 +2322,7 @@ def AnalyzeDataSet():
         for imu in range(nMu):
             mupt = muP4[imu].Pt()
             abeta = abs(muP4[imu].Eta())
-            if uni < 0.75:
+            if uni < 0.54:
                 if mupt > 30:
                     xbin = muonTightIDSFs_EfficienciesAndSF_BCDEF.GetXaxis().FindBin(abeta)
                     ybin = muonTightIDSFs_EfficienciesAndSF_BCDEF.GetYaxis().FindBin(mupt)
@@ -2186,7 +2331,7 @@ def AnalyzeDataSet():
                     xbin = muonLooseIDSFs_EfficienciesAndSF_BCDEF.GetXaxis().FindBin(abeta)
                     ybin = muonLooseIDSFs_EfficienciesAndSF_BCDEF.GetYaxis().FindBin(mupt)
                     muIDSF_loose *= muonLooseIDSFs_EfficienciesAndSF_BCDEF.GetBinContent(xbin,ybin)
-            if uni > 0.75:
+            if uni > 0.54:
                 if mupt > 30:
                     xbin = muonTightIDSFs_EfficienciesAndSF_GH.GetXaxis().FindBin(abeta)
                     ybin = muonTightIDSFs_EfficienciesAndSF_GH.GetYaxis().FindBin(mupt)
@@ -2202,16 +2347,16 @@ def AnalyzeDataSet():
             mupt = muP4[imu].Pt()
             abeta = abs(muP4[imu].Eta())
             muiso = MuIso[imu]
-            if uni < 0.75:
-                if muiso < 0.15:
+            if uni < 0.54:
+                if muiso < 0.54:
                     xbin = muonTightIsoSFs_EfficienciesAndSF_BCDEF.GetXaxis().FindBin(abeta)
                     ybin = muonTightIsoSFs_EfficienciesAndSF_BCDEF.GetYaxis().FindBin(mupt)
                     muIsoSF_tight *= muonTightIsoSFs_EfficienciesAndSF_BCDEF.GetBinContent(xbin,ybin)
-                elif muiso < 0.25:
+                elif muiso < 0.54:
                     xbin = muonLooseIsoSFs_EfficienciesAndSF_BCDEF.GetXaxis().FindBin(abeta)
                     ybin = muonLooseIsoSFs_EfficienciesAndSF_BCDEF.GetYaxis().FindBin(mupt)
                     muIsoSF_loose *= muonLooseIsoSFs_EfficienciesAndSF_BCDEF.GetBinContent(xbin,ybin)
-            if uni > 0.75:
+            if uni > 0.54:
                 if muiso < 0.15:
                     xbin = muonTightIsoSFs_EfficienciesAndSF_GH.GetXaxis().FindBin(abeta)
                     ybin = muonTightIsoSFs_EfficienciesAndSF_GH.GetYaxis().FindBin(mupt)
