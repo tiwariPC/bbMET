@@ -301,7 +301,7 @@ def AnalyzeDataSet():
     print 'NEntries = '+str(NEntries)
     npass = 0
     
-    triglist=['HLT_PFMET170_','HLT_PFMET170_NoiseCleaned','HLT_PFMET170_JetIdCleaned_v','HLT_PFMET170_HBHECleaned_v','HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v','HLT_PFMETNoMu100_PFMHTNoMu100_IDTight_v','HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_v','HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v','HLT_PFMET110_PFMHT110_','HLT_IsoMu24_v','HLT_IsoTkMu24_v','HLT_Ele27_WPTight_Gsf','HLT_IsoMu20','HLT_Ele27_WPLoose_Gsf']    
+    triglist=['HLT_PFMET170_','HLT_PFMET170_NoiseCleaned','HLT_PFMET170_JetIdCleaned_v','HLT_PFMET170_HBHECleaned_v','HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v','HLT_PFMETNoMu100_PFMHTNoMu100_IDTight_v','HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_v','HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v','HLT_PFMET110_PFMHT110_','HLT_IsoMu24_v','HLT_IsoTkMu24_v','HLT_Ele27_WPTight_Gsf','HLT_IsoMu20','HLT_Ele27_WPLoose_Gsf','HLT_Photon165_HE10','HLT_Photon175']    
         
     #print [rootfilename, NEntries]
     cutStatus={'preselection':NEntries}
@@ -337,8 +337,8 @@ def AnalyzeDataSet():
 #    CRCutFlow['ZdPhi']=0
     
 
-    CRcutnames=['trig','recoil','mass','dPhicond','njets','nbjets','jetconds','nlep','lepconds']
-    regionnames=['2e1b','2mu1b','2e2b','2mu2b','1e1b','1mu1b','1e2b','1mu2b','1mu1e1b','1mu1e2b']
+    CRcutnames=['datatrig','trig','recoil','mass','dPhicond','njets','nbjets','jetconds','nlep/npho','lepconds']
+    regionnames=['2e1b','2mu1b','2e2b','2mu2b','1e1b','1mu1b','1e2b','1mu2b','1mu1e1b','1mu1e2b','1gamma1b','1gamma2b']
     for CRreg in regionnames:
         exec("CR"+CRreg+"CutFlow={'preselection':NEntries}")
         for cutname in CRcutnames:
@@ -538,6 +538,7 @@ def AnalyzeDataSet():
             whichDataset = SE_trig  # For electron regions with SE dataset
         
         if not whichDataset: continue
+    
         
         #============================ CAUTION =====================================
         #**************************************************************************
@@ -765,6 +766,9 @@ def AnalyzeDataSet():
                 allquantities.presel_jet1_nhf_sr1=thinjetNhadEF[ifirstjet]		
                 allquantities.FillPreSel()		
                 #===
+                
+            if (nTHINJets == 1 or nTHINJets == 2) and nBjets==1: 
+                SR1njetcond=True
              
             if (nTHINJets == 1 or nTHINJets == 2) and nBjets==1 and SRtrigstatus: 
                 SR1njetcond=True
@@ -835,6 +839,9 @@ def AnalyzeDataSet():
                 allquantities.presel_jet1_nhf_sr2=thinjetNhadEF[ifirstjet]
                 allquantities.FillPreSel()		
                 #===
+            
+            if (nTHINJets == 2 or nTHINJets == 3) and nBjets==2:
+                SR2njetcond=True
             
             if (nTHINJets == 2 or nTHINJets == 3) and nBjets==2 and SRtrigstatus:
                 SR2njetcond=True
@@ -937,9 +944,11 @@ def AnalyzeDataSet():
                 allquantities.presel_jet1_nhf_sr1=thindeepCSVjetNhadEF[ifirstjet]		
                 allquantities.FillPreSel()		
                 #===
-             
-            if (nTHINdeepCSVJets == 1 or nTHINdeepCSVJets == 2) and nBjets==1 and SRtrigstatus: 
+            
+            if (nTHINdeepCSVJets == 1 or nTHINdeepCSVJets == 2) and nBjets==1:
                 SR1njetcond=True
+            
+            if (nTHINdeepCSVJets == 1 or nTHINdeepCSVJets == 2) and nBjets==1 and SRtrigstatus:                 
                 if pfmetstatus: cutStatusSR1['njet+nBjet'] +=1    
                 if pfmetstatus: cutStatus['njet+nBjet'] += 1
                              
@@ -1006,6 +1015,9 @@ def AnalyzeDataSet():
                 allquantities.presel_jet1_nhf_sr2=thindeepCSVjetNhadEF[ifirstjet]
                 allquantities.FillPreSel()		
                 #===
+            
+            if (nTHINdeepCSVJets == 2 or nTHINdeepCSVJets == 3) and nBjets==2:
+                SR2njetcond=True
             
             if (nTHINdeepCSVJets == 2 or nTHINdeepCSVJets == 3) and nBjets==2 and SRtrigstatus:
                 SR2njetcond=True
@@ -1210,63 +1222,7 @@ def AnalyzeDataSet():
 
 #        if ZdPhicond: CRCutFlow['ZdPhi']+=1
 
-        if (HLT_Ele27_WPLoose_Gsf or HLT_Ele27_WPTight_Gsf):
-            CR2e1bCutFlow['trig']+=1
-            CR2e2bCutFlow['trig']+=1
 
-            if ZeeRecoil>200.:
-                CR2e1bCutFlow['recoil']+=1
-                CR2e2bCutFlow['recoil']+=1
-                
-                if ZeeMass>70. and ZeeMass<110.:
-                    CR2e1bCutFlow['mass']+=1  
-                    CR2e2bCutFlow['mass']+=1   
-                    
-                    if ZdPhicond:
-                        CR2e1bCutFlow['dPhicond']+=1 
-                        CR2e2bCutFlow['dPhicond']+=1     
-                        
-                        if nJets==1 or nJets==2:
-                            CR2e1bCutFlow['njets']+=1
-                            
-                            if nBjets==1:
-                                CR2e1bCutFlow['nbjets']+=1
-                                
-                                if jetcond:
-                                    CR2e1bCutFlow['jetconds']+=1
-                                    
-                                    if nEle==2 and nMu==0:
-                                        CR2e1bCutFlow['nlep']+=1
-                                        if myEles[0].Pt()>myEles[1].Pt():
-                                            iLeadLep=0
-                                            iSecondLep=1
-                                        else:
-                                            iLeadLep=1
-                                            iSecondLep=0
-                                            
-                                        if myEles[iLeadLep].Pt() > 30. and myEleTightID[iLeadLep] and myEles[iSecondLep].Pt() > 10. and myEleLooseID[iSecondLep]:
-                                            CR2e1bCutFlow['lepconds']+=1
-                                    
-                        if nJets==2 or nJets==3:
-                            CR2e2bCutFlow['njets']+=1
-                            
-                            if nBjets==2:
-                                CR2e2bCutFlow['nbjets']+=1
-                                
-                                if jetcond and SR2jet2:
-                                    CR2e2bCutFlow['jetconds']+=1
-                                    
-                                    if nEle==2 and nMu==0:
-                                        CR2e2bCutFlow['nlep']+=1
-                                        if myEles[0].Pt()>myEles[1].Pt():
-                                            iLeadLep=0
-                                            iSecondLep=1
-                                        else:
-                                            iLeadLep=1
-                                            iSecondLep=0
-                                            
-                                        if myEles[iLeadLep].Pt() > 30. and myEleTightID[iLeadLep] and myEles[iSecondLep].Pt() > 10. and myEleLooseID[iSecondLep]:
-                                            CR2e2bCutFlow['lepconds']+=1
         
          #2e, 1 b-tagged
         
@@ -1401,63 +1357,7 @@ def AnalyzeDataSet():
 #                    allquantities.reg_2e2b_ntaucleaned = ncleanTau
 
 
-        if ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v):
-            CR2mu1bCutFlow['trig']+=1
-            CR2mu2bCutFlow['trig']+=1
 
-            if ZmumuRecoil>200.:
-                CR2mu1bCutFlow['recoil']+=1
-                CR2mu2bCutFlow['recoil']+=1
-                
-                if ZmumuMass>70. and ZmumuMass<110.:
-                    CR2mu1bCutFlow['mass']+=1  
-                    CR2mu2bCutFlow['mass']+=1  
-                    
-                    if ZdPhicond:
-                        CR2mu1bCutFlow['dPhicond']+=1 
-                        CR2mu2bCutFlow['dPhicond']+=1      
-                            
-                        if nJets==1 or nJets==2:
-                            CR2mu1bCutFlow['njets']+=1
-                            
-                            if nBjets==1:
-                                CR2mu1bCutFlow['nbjets']+=1
-                                
-                                if jetcond:
-                                    CR2mu1bCutFlow['jetconds']+=1
-                                    
-                                    if nMu==2 and nEle==0:
-                                        CR2mu1bCutFlow['nlep']+=1
-                                        if myMuos[0].Pt()>myMuos[1].Pt():
-                                            iLeadLep=0
-                                            iSecondLep=1
-                                        else:
-                                            iLeadLep=1
-                                            iSecondLep=0
-                                            
-                                        if myMuos[iLeadLep].Pt() > 30. and myMuTightID[iLeadLep] and myMuIso[iLeadLep]<0.15 and myMuos[iSecondLep].Pt() > 10. and myMuLooseID[iSecondLep] and myMuIso[iSecondLep]<0.25:
-                                            CR2mu1bCutFlow['lepconds']+=1
-                                            
-                        if nJets==2 or nJets==3:
-                            CR2mu2bCutFlow['njets']+=1
-                            
-                            if nBjets==2:
-                                CR2mu2bCutFlow['nbjets']+=1
-                                
-                                if jetcond and SR2jet2:
-                                    CR2mu2bCutFlow['jetconds']+=1
-                                    
-                                    if nMu==2 and nEle==0:
-                                        CR2mu2bCutFlow['nlep']+=1
-                                        if myMuos[0].Pt()>myMuos[1].Pt():
-                                            iLeadLep=0
-                                            iSecondLep=1
-                                        else:
-                                            iLeadLep=1
-                                            iSecondLep=0
-                                            
-                                        if myMuos[iLeadLep].Pt() > 30. and myMuTightID[iLeadLep] and myMuIso[iLeadLep]<0.15 and myMuos[iSecondLep].Pt() > 10. and myMuLooseID[iSecondLep] and myMuIso[iSecondLep]<0.25:
-                                            CR2mu2bCutFlow['lepconds']+=1
 
 
         #2mu, 1 b-tagged  
@@ -1626,52 +1526,7 @@ def AnalyzeDataSet():
                     
   
   #Cutflow                  
-        if (HLT_Ele27_WPLoose_Gsf or HLT_Ele27_WPTight_Gsf):
-            CR1e1bCutFlow['trig']+=1
-            CR1e2bCutFlow['trig']+=1
-                    
-            if WenuRecoil>200.:
-                CR1e1bCutFlow['recoil']+=1
-                CR1e2bCutFlow['recoil']+=1
-                #if Wenumass>50. and  Wenumass<160.:
-                
-                if True:
-                    CR1e1bCutFlow['mass']+=1  
-                    CR1e2bCutFlow['mass']+=1   
-                    
-                    if WdPhicond:
-                        CR1e1bCutFlow['dPhicond']+=1 
-                        CR1e2bCutFlow['dPhicond']+=1   
-                        
-                        if nJets==1 or nJets==2:
-                            CR1e1bCutFlow['njets']+=1
-                            
-                            if nBjets==1:
-                                CR1e1bCutFlow['nbjets']+=1
-                                
-                                if jetcond:
-                                    CR1e1bCutFlow['jetconds']+=1
-                                    
-                                    if nEle==1 and nMu==0:
-                                        CR1e1bCutFlow['nlep']+=1
-                                        
-                                        if myEles[0].Pt() > 30. and myEleTightID[0]:
-                                            CR1e1bCutFlow['lepconds']+=1
-                                            
-                        if nJets==2 or nJets==3:
-                            CR1e2bCutFlow['njets']+=1
-                            
-                            if nBjets==2:
-                                CR1e2bCutFlow['nbjets']+=1
-                                
-                                if jetcond and SR2jet2:
-                                    CR1e2bCutFlow['jetconds']+=1       
-                                    
-                                    if nEle==1 and nMu==0:
-                                        CR1e2bCutFlow['nlep']+=1
-                                        
-                                        if myEles[0].Pt() > 30. and myEleTightID[0]:
-                                            CR1e2bCutFlow['lepconds']+=1
+ 
         
         #1e, 1 b-tagged
         if nEle==1 and nMu==0 and (HLT_Ele27_WPLoose_Gsf or HLT_Ele27_WPTight_Gsf) and WenuRecoil>200. and jetcond and WdPhicond: # and Wenumass>50. and Wenumass<160.:
@@ -1759,53 +1614,7 @@ def AnalyzeDataSet():
                     allquantities.reg_1e2b_nUncleanEle = nUncleanEle
                     allquantities.reg_1e2b_nUncleanMu = nUncleanMu
                     
-  #Cutflow                  
-        if ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v):
-            CR1mu1bCutFlow['trig']+=1
-            CR1mu2bCutFlow['trig']+=1
-                    
-            if WmunuRecoil>200.:
-                CR1mu1bCutFlow['recoil']+=1
-                CR1mu2bCutFlow['recoil']+=1
-                
-                #if Wmunumass>50. and Wmunumass<160.:
-                if True:
-                    CR1mu1bCutFlow['mass']+=1  
-                    CR1mu2bCutFlow['mass']+=1   
-                    
-                    if WdPhicond:
-                        CR1mu1bCutFlow['dPhicond']+=1 
-                        CR1mu2bCutFlow['dPhicond']+=1       
-                        
-                        if nJets==1 or nJets==2:
-                            CR1mu1bCutFlow['njets']+=1
-                            
-                            if nBjets==1:
-                                CR1mu1bCutFlow['nbjets']+=1
-                                
-                                if jetcond:
-                                    CR1mu1bCutFlow['jetconds']+=1
-                                    
-                                    if nEle==0 and nMu==1:
-                                        CR1mu1bCutFlow['nlep']+=1
-                                        
-                                        if myMuos[0].Pt() > 30. and myMuTightID[0]:
-                                            CR1mu1bCutFlow['lepconds']+=1
-                        
-                        if nJets==2 or nJets==3:
-                            CR1mu2bCutFlow['njets']+=1
-                            
-                            if nBjets==2:
-                                CR1mu2bCutFlow['nbjets']+=1
-                                
-                                if jetcond and SR2jet2:
-                                    CR1mu2bCutFlow['jetconds']+=1  
-                                    
-                                    if nEle==0 and nMu==1:
-                                        CR1mu2bCutFlow['nlep']+=1
-                                        
-                                        if myMuos[0].Pt() > 30. and myMuTightID[0]:
-                                            CR1mu2bCutFlow['lepconds']+=1
+ 
 
         #1mu, 1 b-tagged  
         if nMu==1 and nEle==0 and ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v) and WmunuRecoil>200. and jetcond and WdPhicond: # and Wmunumass>50. and Wmunumass<160.:
@@ -1914,50 +1723,7 @@ def AnalyzeDataSet():
                     if nTHINdeepCSVJets>=3:
                         if DeltaPhi(j3.Phi(),Phi_mpi_pi(math.pi+TOPPhi)) < 0.5: TopdPhicond=False
                     
- #Cutflow                  
-        if ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v):
-            CR1mu1e1bCutFlow['trig']+=1
-            CR1mu1e2bCutFlow['trig']+=1
-            
-            if TOPRecoil>200.:
-                CR1mu1e1bCutFlow['recoil']+=1
-                CR1mu1e2bCutFlow['recoil']+=1
-                CR1mu1e1bCutFlow['mass']+=1  
-                CR1mu1e2bCutFlow['mass']+=1   
-                
-                if TopdPhicond:
-                    CR1mu1e1bCutFlow['dPhicond']+=1 
-                    CR1mu1e2bCutFlow['dPhicond']+=1      
-                    
-                    if nJets==1 or nJets==2:
-                        CR1mu1e1bCutFlow['njets']+=1
-                        
-                        if nBjets==1:
-                            CR1mu1e1bCutFlow['nbjets']+=1
-                            
-                            if jetcond:
-                                CR1mu1e1bCutFlow['jetconds']+=1
-                                
-                                if nEle==1 and nMu==1:
-                                    CR1mu1e1bCutFlow['nlep']+=1
-                                    
-                                    if myEles[0].Pt() > 30. and myEleTightID[0] and myMuos[0].Pt() > 30. and myMuTightID[0] and myMuIso[0]<0.15:
-                                        CR1mu1e1bCutFlow['lepconds']+=1
-                    
-                    if nJets==2 or nJets==3:
-                        CR1mu1e2bCutFlow['njets']+=1
-                        
-                        if nBjets==2:
-                            CR1mu1e2bCutFlow['nbjets']+=1
-                            
-                            if jetcond and SR2jet2:
-                                CR1mu1e2bCutFlow['jetconds']+=1       
-                                
-                                if nEle==1 and nMu==1:
-                                    CR1mu1e2bCutFlow['nlep']+=1
-                                    
-                                    if myEles[0].Pt() > 30. and myEleTightID[0] and myMuos[0].Pt() > 30. and myMuTightID[0] and myMuIso[0]<0.15:
-                                        CR1mu1e2bCutFlow['lepconds']+=1
+
                 
                  
         #1mu, 1e, 1 b-tagged
@@ -2070,45 +1836,19 @@ def AnalyzeDataSet():
         
         GammaPhicond=True
         
-        if GammaPhi>-10.:
-            if DeltaPhi(j1.Phi(),Phi_mpi_pi(math.pi+GammaPhi)) < 0.5: GammaPhicond = False      #Added +pi to ZPhi to reverse an error in SkimTree which will be fixed in next iteration.
-            if options.CSV:
-                if nTHINJets>=2:
-                    if DeltaPhi(j2.Phi(),Phi_mpi_pi(math.pi+GammaPhi)) < 0.5: GammaPhicond=False
-                if nTHINJets>=3:
-                    if DeltaPhi(j3.Phi(),Phi_mpi_pi(math.pi+GammaPhi)) < 0.5: GammaPhicond=False
-            if options.DeepCSV:
-                if nTHINdeepCSVJets>=2:
-                    if DeltaPhi(j2.Phi(),Phi_mpi_pi(math.pi+GammaPhi)) < 0.5: GammaPhicond=False
-                if nTHINdeepCSVJets>=3:
-                    if DeltaPhi(j3.Phi(),Phi_mpi_pi(math.pi+GammaPhi)) < 0.5: GammaPhicond=False
-#for now
-        HLT_Photon165_HE10 = True
-        HLT_Photon175 = True
- #Cutflow                  
-        if ((HLT_Photon165_HE10 and HLT_Photon175) ):
-            CR1gamma1bCutFlow['trig']+=1
-            CR1gamma2bCutFlow['trig']+=1
-            if nPho==1:
-                CR1gamma1bCutFlow['nphot']+=1
-                CR1gamma2bCutFlow['nphot']+=1
-                if myPhos[0].Pt() > 170. and myPhoTightID[0] and myPhoLooseID[0]:
-                    CR1gamma1bCutFlow['lepconds']+=1
-                    CR1gamma2bCutFlow['lepconds']+=1
-                    if TOPRecoil>200.:
-                        CR1gamma1bCutFlow['recoil']+=1
-                        CR1gamma2bCutFlow['recoil']+=1 
-                        if GammaPhicond:
-                            CR1gamma1bCutFlow['dPhicond']+=1 
-                            CR1gamma2bCutFlow['dPhicond']+=1                                
-                            if nBjets==1:
-                                CR1gamma1bCutFlow['nbjets']+=1
-                                if jetcond:
-                                    CR1gamma1bCutFlow['jetconds']+=1
-                            if nBjets==2:
-                                CR1gamma2bCutFlow['nbjets']+=1
-                                if jetcond and SR2jet2:
-                                    CR1gamma2bCutFlow['jetconds']+=1
+        if applydPhicut:
+            if GammaPhi>-10.:
+                if DeltaPhi(j1.Phi(),Phi_mpi_pi(math.pi+GammaPhi)) < 0.5: GammaPhicond = False      #Added +pi to ZPhi to reverse an error in SkimTree which will be fixed in next iteration.
+                if options.CSV:
+                    if nTHINJets>=2:
+                        if DeltaPhi(j2.Phi(),Phi_mpi_pi(math.pi+GammaPhi)) < 0.5: GammaPhicond=False
+                    if nTHINJets>=3:
+                        if DeltaPhi(j3.Phi(),Phi_mpi_pi(math.pi+GammaPhi)) < 0.5: GammaPhicond=False
+                if options.DeepCSV:
+                    if nTHINdeepCSVJets>=2:
+                        if DeltaPhi(j2.Phi(),Phi_mpi_pi(math.pi+GammaPhi)) < 0.5: GammaPhicond=False
+                    if nTHINdeepCSVJets>=3:
+                        if DeltaPhi(j3.Phi(),Phi_mpi_pi(math.pi+GammaPhi)) < 0.5: GammaPhicond=False
         
         #1 pho , 1 b-tagged
         if nPho==1 and nEle==0 and nMu==1 and (HLT_Photon165_HE10 or HLT_Photon175 ) and GammaRecoil>200. and jetcond and GammaPhicond:
@@ -2552,8 +2292,325 @@ def AnalyzeDataSet():
         if isData: allweights = 1.0 
         allweights_noPU = allweights/puweight
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------        
+       
+       
+       
+        for CRreg in regionnames:
+            exec("CR"+CRreg+"CutFlow['datatrig']+=allweights")
+            
+            
+        if (HLT_Ele27_WPLoose_Gsf or HLT_Ele27_WPTight_Gsf):
+            CR2e1bCutFlow['trig']+=allweights
+            CR2e2bCutFlow['trig']+=allweights
+
+            if ZeeRecoil>200.:
+                CR2e1bCutFlow['recoil']+=allweights
+                CR2e2bCutFlow['recoil']+=allweights
+                
+                if ZeeMass>70. and ZeeMass<110.:
+                    CR2e1bCutFlow['mass']+=allweights  
+                    CR2e2bCutFlow['mass']+=allweights   
+                    
+                    if ZdPhicond:
+                        CR2e1bCutFlow['dPhicond']+=allweights 
+                        CR2e2bCutFlow['dPhicond']+=allweights     
+                        
+                        if nJets==1 or nJets==2:
+                            CR2e1bCutFlow['njets']+=allweights
+                            
+                            if nBjets==1:
+                                CR2e1bCutFlow['nbjets']+=allweights
+                                
+                                if jetcond:
+                                    CR2e1bCutFlow['jetconds']+=allweights
+                                    
+                                    if nEle==2 and nMu==0:
+                                        CR2e1bCutFlow['nlep/npho']+=allweights
+                                        if myEles[0].Pt()>myEles[1].Pt():
+                                            iLeadLep=0
+                                            iSecondLep=1
+                                        else:
+                                            iLeadLep=1
+                                            iSecondLep=0
+                                            
+                                        if myEles[iLeadLep].Pt() > 30. and myEleTightID[iLeadLep] and myEles[iSecondLep].Pt() > 10. and myEleLooseID[iSecondLep]:
+                                            CR2e1bCutFlow['lepconds']+=allweights
+                                    
+                        if nJets==2 or nJets==3:
+                            CR2e2bCutFlow['njets']+=allweights
+                            
+                            if nBjets==2:
+                                CR2e2bCutFlow['nbjets']+=allweights
+                                
+                                if jetcond and SR2jet2:
+                                    CR2e2bCutFlow['jetconds']+=allweights
+                                    
+                                    if nEle==2 and nMu==0:
+                                        CR2e2bCutFlow['nlep/npho']+=allweights
+                                        if myEles[0].Pt()>myEles[1].Pt():
+                                            iLeadLep=0
+                                            iSecondLep=1
+                                        else:
+                                            iLeadLep=1
+                                            iSecondLep=0
+                                            
+                                        if myEles[iLeadLep].Pt() > 30. and myEleTightID[iLeadLep] and myEles[iSecondLep].Pt() > 10. and myEleLooseID[iSecondLep]:
+                                            CR2e2bCutFlow['lepconds']+=allweights
         
         
+        
+        if ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v):
+            CR2mu1bCutFlow['trig']+=allweights
+            CR2mu2bCutFlow['trig']+=allweights
+
+            if ZmumuRecoil>200.:
+                CR2mu1bCutFlow['recoil']+=allweights
+                CR2mu2bCutFlow['recoil']+=allweights
+                
+                if ZmumuMass>70. and ZmumuMass<110.:
+                    CR2mu1bCutFlow['mass']+=allweights  
+                    CR2mu2bCutFlow['mass']+=allweights  
+                    
+                    if ZdPhicond:
+                        CR2mu1bCutFlow['dPhicond']+=allweights 
+                        CR2mu2bCutFlow['dPhicond']+=allweights      
+                            
+                        if nJets==1 or nJets==2:
+                            CR2mu1bCutFlow['njets']+=allweights
+                            
+                            if nBjets==1:
+                                CR2mu1bCutFlow['nbjets']+=allweights
+                                
+                                if jetcond:
+                                    CR2mu1bCutFlow['jetconds']+=allweights
+                                    
+                                    if nMu==2 and nEle==0:
+                                        CR2mu1bCutFlow['nlep/npho']+=allweights
+                                        if myMuos[0].Pt()>myMuos[1].Pt():
+                                            iLeadLep=0
+                                            iSecondLep=1
+                                        else:
+                                            iLeadLep=1
+                                            iSecondLep=0
+                                            
+                                        if myMuos[iLeadLep].Pt() > 30. and myMuTightID[iLeadLep] and myMuIso[iLeadLep]<0.15 and myMuos[iSecondLep].Pt() > 10. and myMuLooseID[iSecondLep] and myMuIso[iSecondLep]<0.25:
+                                            CR2mu1bCutFlow['lepconds']+=allweights
+                                            
+                        if nJets==2 or nJets==3:
+                            CR2mu2bCutFlow['njets']+=allweights
+                            
+                            if nBjets==2:
+                                CR2mu2bCutFlow['nbjets']+=allweights
+                                
+                                if jetcond and SR2jet2:
+                                    CR2mu2bCutFlow['jetconds']+=allweights
+                                    
+                                    if nMu==2 and nEle==0:
+                                        CR2mu2bCutFlow['nlep/npho']+=allweights
+                                        if myMuos[0].Pt()>myMuos[1].Pt():
+                                            iLeadLep=0
+                                            iSecondLep=1
+                                        else:
+                                            iLeadLep=1
+                                            iSecondLep=0
+                                            
+                                        if myMuos[iLeadLep].Pt() > 30. and myMuTightID[iLeadLep] and myMuIso[iLeadLep]<0.15 and myMuos[iSecondLep].Pt() > 10. and myMuLooseID[iSecondLep] and myMuIso[iSecondLep]<0.25:
+                                            CR2mu2bCutFlow['lepconds']+=allweights       
+        
+        
+        if (HLT_Ele27_WPLoose_Gsf or HLT_Ele27_WPTight_Gsf):
+            CR1e1bCutFlow['trig']+=allweights
+            CR1e2bCutFlow['trig']+=allweights
+                    
+            if WenuRecoil>200.:
+                CR1e1bCutFlow['recoil']+=allweights
+                CR1e2bCutFlow['recoil']+=allweights
+                #if Wenumass>50. and  Wenumass<160.:
+                
+                if True:
+                    CR1e1bCutFlow['mass']+=allweights  
+                    CR1e2bCutFlow['mass']+=allweights   
+                    
+                    if WdPhicond:
+                        CR1e1bCutFlow['dPhicond']+=allweights 
+                        CR1e2bCutFlow['dPhicond']+=allweights   
+                        
+                        if nJets==1 or nJets==2:
+                            CR1e1bCutFlow['njets']+=allweights
+                            
+                            if nBjets==1:
+                                CR1e1bCutFlow['nbjets']+=allweights
+                                
+                                if jetcond:
+                                    CR1e1bCutFlow['jetconds']+=allweights
+                                    
+                                    if nEle==1 and nMu==0:
+                                        CR1e1bCutFlow['nlep/npho']+=allweights
+                                        
+                                        if myEles[0].Pt() > 30. and myEleTightID[0]:
+                                            CR1e1bCutFlow['lepconds']+=allweights
+                                            
+                        if nJets==2 or nJets==3:
+                            CR1e2bCutFlow['njets']+=allweights
+                            
+                            if nBjets==2:
+                                CR1e2bCutFlow['nbjets']+=allweights
+                                
+                                if jetcond and SR2jet2:
+                                    CR1e2bCutFlow['jetconds']+=allweights       
+                                    
+                                    if nEle==1 and nMu==0:
+                                        CR1e2bCutFlow['nlep/npho']+=allweights
+                                        
+                                        if myEles[0].Pt() > 30. and myEleTightID[0]:
+                                            CR1e2bCutFlow['lepconds']+=allweights
+                                            
+                                            
+        
+  #Cutflow                  
+        if ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v):
+            CR1mu1bCutFlow['trig']+=allweights
+            CR1mu2bCutFlow['trig']+=allweights
+                    
+            if WmunuRecoil>200.:
+                CR1mu1bCutFlow['recoil']+=allweights
+                CR1mu2bCutFlow['recoil']+=allweights
+                
+                #if Wmunumass>50. and Wmunumass<160.:
+                if True:
+                    CR1mu1bCutFlow['mass']+=allweights  
+                    CR1mu2bCutFlow['mass']+=allweights   
+                    
+                    if WdPhicond:
+                        CR1mu1bCutFlow['dPhicond']+=allweights 
+                        CR1mu2bCutFlow['dPhicond']+=allweights       
+                        
+                        if nJets==1 or nJets==2:
+                            CR1mu1bCutFlow['njets']+=allweights
+                            
+                            if nBjets==1:
+                                CR1mu1bCutFlow['nbjets']+=allweights
+                                
+                                if jetcond:
+                                    CR1mu1bCutFlow['jetconds']+=allweights
+                                    
+                                    if nEle==0 and nMu==1:
+                                        CR1mu1bCutFlow['nlep/npho']+=allweights
+                                        
+                                        if myMuos[0].Pt() > 30. and myMuTightID[0]:
+                                            CR1mu1bCutFlow['lepconds']+=allweights
+                        
+                        if nJets==2 or nJets==3:
+                            CR1mu2bCutFlow['njets']+=allweights
+                            
+                            if nBjets==2:
+                                CR1mu2bCutFlow['nbjets']+=allweights
+                                
+                                if jetcond and SR2jet2:
+                                    CR1mu2bCutFlow['jetconds']+=allweights  
+                                    
+                                    if nEle==0 and nMu==1:
+                                        CR1mu2bCutFlow['nlep/npho']+=allweights
+                                        
+                                        if myMuos[0].Pt() > 30. and myMuTightID[0]:
+                                            CR1mu2bCutFlow['lepconds']+=allweights       
+        
+        
+        
+ #Cutflow                  
+        if ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v):
+            CR1mu1e1bCutFlow['trig']+=allweights
+            CR1mu1e2bCutFlow['trig']+=allweights
+            
+            if TOPRecoil>200.:
+                CR1mu1e1bCutFlow['recoil']+=allweights
+                CR1mu1e2bCutFlow['recoil']+=allweights
+                CR1mu1e1bCutFlow['mass']+=allweights  
+                CR1mu1e2bCutFlow['mass']+=allweights   
+                
+                if TopdPhicond:
+                    CR1mu1e1bCutFlow['dPhicond']+=allweights 
+                    CR1mu1e2bCutFlow['dPhicond']+=allweights      
+                    
+                    if nJets==1 or nJets==2:
+                        CR1mu1e1bCutFlow['njets']+=allweights
+                        
+                        if nBjets==1:
+                            CR1mu1e1bCutFlow['nbjets']+=allweights
+                            
+                            if jetcond:
+                                CR1mu1e1bCutFlow['jetconds']+=allweights
+                                
+                                if nEle==1 and nMu==1:
+                                    CR1mu1e1bCutFlow['nlep/npho']+=allweights
+                                    
+                                    if myEles[0].Pt() > 30. and myEleTightID[0] and myMuos[0].Pt() > 30. and myMuTightID[0] and myMuIso[0]<0.15:
+                                        CR1mu1e1bCutFlow['lepconds']+=allweights
+                    
+                    if nJets==2 or nJets==3:
+                        CR1mu1e2bCutFlow['njets']+=allweights
+                        
+                        if nBjets==2:
+                            CR1mu1e2bCutFlow['nbjets']+=allweights
+                            
+                            if jetcond and SR2jet2:
+                                CR1mu1e2bCutFlow['jetconds']+=allweights       
+                                
+                                if nEle==1 and nMu==1:
+                                    CR1mu1e2bCutFlow['nlep/npho']+=allweights
+                                    
+                                    if myEles[0].Pt() > 30. and myEleTightID[0] and myMuos[0].Pt() > 30. and myMuTightID[0] and myMuIso[0]<0.15:
+                                        CR1mu1e2bCutFlow['lepconds']+=allweights
+                                        
+                                        
+ #Cutflow                  
+        if ((HLT_Photon165_HE10 and HLT_Photon175) ):
+            CR1gamma1bCutFlow['trig']+=allweights
+            CR1gamma2bCutFlow['trig']+=allweights
+            
+            
+            if GammaRecoil>200.:
+                CR1gamma1bCutFlow['recoil']+=allweights
+                CR1gamma2bCutFlow['recoil']+=allweights 
+                CR1gamma1bCutFlow['mass']+=allweights
+                CR1gamma2bCutFlow['mass']+=allweights
+                
+                if GammaPhicond:
+                    CR1gamma1bCutFlow['dPhicond']+=allweights 
+                    CR1gamma2bCutFlow['dPhicond']+=allweights     
+                    
+                    if nJets==1 or nJets==2:
+                        CR1gamma1bCutFlow['njets']+=allweights
+                        
+                        if nBjets==1:
+                            CR1gamma1bCutFlow['nbjets']+=allweights
+                            
+                            if jetcond:
+                                CR1gamma1bCutFlow['jetconds']+=allweights
+                                
+                                if nPho==1:
+                                    CR1gamma1bCutFlow['nlep/npho']+=allweights
+                                    
+                                    if myPhos[0].Pt() > 170. and myPhoTightID[0] and myPhoLooseID[0]:
+                                        CR1gamma1bCutFlow['lepconds']+=allweights
+                                            
+                    if nJets==2 or nJets==3:
+                        CR1gamma2bCutFlow['njets']+=allweights    
+                        
+                        if nBjets==2:
+                            CR1gamma2bCutFlow['nbjets']+=allweights
+                            
+                            if jetcond and SR2jet2:
+                                CR1gamma2bCutFlow['jetconds']+=allweights      
+                                
+                                if nPho==1:
+                                    CR1gamma2bCutFlow['nlep/npho']+=allweights
+                                    
+                                    if myPhos[0].Pt() > 170. and myPhoTightID[0] and myPhoLooseID[0]:
+                                        CR1gamma2bCutFlow['lepconds']+=allweights
+        
+        
+ #--------------------------------------------------------------------------------------------------------------------------------------------------------------------       
         allquantities.met        = pfMet
 
         allquantities.N_e             = len(myEles)
@@ -2621,13 +2678,14 @@ def AnalyzeDataSet():
            allquantities.met_sr2         = jetSR2Info[4]   
            allquantities.jet1_nhf_sr2    = jetSR2Info[5]
            allquantities.jet1_chf_sr2    = jetSR2Info[6]
-           
-        if options.CSV:
-            allquantities.PuReweightPV    = thinjetNPV
-            allquantities.noPuReweightPV  = thinjetNPV
-        if options.DeepCSV:
-            allquantities.PuReweightPV    = thindeepCSVjetNPV
-            allquantities.noPuReweightPV  = thindeepCSVjetNPV
+        
+        if pfmetstatus:
+            if options.CSV:
+                allquantities.PuReweightPV    = thinjetNPV
+                allquantities.noPuReweightPV  = thinjetNPV
+            if options.DeepCSV:
+                allquantities.PuReweightPV    = thindeepCSVjetNPV
+                allquantities.noPuReweightPV  = thindeepCSVjetNPV
                        
 
             
