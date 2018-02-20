@@ -68,7 +68,7 @@ def AnalyzeDataSet():
     triglist=['HLT_PFMET170_','HLT_PFMET170_NoiseCleaned','HLT_PFMET170_JetIdCleaned_v','HLT_PFMET170_HBHECleaned_v',
         'HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v','HLT_PFMETNoMu100_PFMHTNoMu100_IDTight_v','HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_v',
         'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v','HLT_PFMET110_PFMHT110_','HLT_IsoMu24_v','HLT_IsoTkMu24_v','HLT_Ele27_WPTight_Gsf',
-        'HLT_IsoMu20','HLT_Ele27_WPLoose_Gsf']    
+        'HLT_IsoMu20','HLT_Ele27_WPLoose_Gsf','HLT_Photon165_HE10','HLT_Photon175']    
     
     METtrigs=['HLT_CaloMHTNoPU90_PFMET90_PFMHT90_IDTight_BTagCSV_p067_v7','HLT_CaloMHTNoPU90_PFMET90_PFMHT90_IDTight_v','HLT_DoubleMu3_PFMET50_v',
         'HLT_MET200_v','HLT_MET250_v','HLT_MET300_v','HLT_MET600_v','HLT_MET700_v','HLT_MET75_IsoTrk50_v','HLT_MET90_IsoTrk50_v',
