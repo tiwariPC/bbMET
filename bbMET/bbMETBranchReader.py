@@ -541,12 +541,13 @@ def AnalyzeDataSet():
 
         if options.MET:
             whichDataset = MET_trig   # For signal and mu regions with MET dataset
+            if not whichDataset: continue
         if options.SE:
             whichDataset = SE_trig  # For electron regions with SE dataset
         if options.SP:
             whichDataset = SP_trig  # For photon regions with SP dataset
 
-        if not whichDataset: continue
+        #if not whichDataset: continue
 
 
         #============================ CAUTION =====================================
@@ -2572,7 +2573,7 @@ def AnalyzeDataSet():
 
 
  #Cutflow
-        if ((HLT_Photon165_HE10 and HLT_Photon175) ):
+        if ((HLT_Photon165_HE10 or HLT_Photon175) ):
             CR1gamma1bCutFlow['trig']+=allweights
             CR1gamma2bCutFlow['trig']+=allweights
 
@@ -2692,6 +2693,8 @@ def AnalyzeDataSet():
             fillPU = ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v) and nMu==2 and nEle==0
         if options.SE:
             fillPU = nEle==2 and nMu==0 and (HLT_Ele27_WPLoose_Gsf or HLT_Ele27_WPTight_Gsf)
+        if options.SP:
+            fillPU = nPho==1 and (HLT_Photon165_HE10 or HLT_Photon175)
         if fillPU:
             if options.CSV:
                 allquantities.PuReweightPV    = thinjetNPV
