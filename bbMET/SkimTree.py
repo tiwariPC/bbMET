@@ -464,7 +464,7 @@ def AnalyzeDataSet():
                 SEtrigstatus=True
                 break
         SPtrigstatus=False
-        for itig in SinglePhotontrigs:
+        for itrig in SinglePhotontrigs:
             if CheckFilter(trigName, trigResult, itrig):
                 SPtrigstatus=True
                 break
