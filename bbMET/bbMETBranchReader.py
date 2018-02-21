@@ -544,7 +544,7 @@ def AnalyzeDataSet():
         if options.SE:
             whichDataset = SE_trig  # For electron regions with SE dataset
         if options.SP:
-            whichDataset = SP_trig  # For photon regions with SE dataset
+            whichDataset = SP_trig  # For photon regions with SP dataset
 
         if not whichDataset: continue
 
@@ -1245,13 +1245,13 @@ def AnalyzeDataSet():
 
             iLeadLep=sortedindex[0]
             iSecondLep=sortedindex[1]
-
-            if myEles[iLeadLep].Pt() > 30. and myEleTightID[iLeadLep] and myEles[iSecondLep].Pt() > 10. and myEleLooseID[iSecondLep]:
-
-                ZpT = math.sqrt( (myEles[iLeadLep].Px()+myEles[iSecondLep].Px())*(myEles[iLeadLep].Px()+myEles[iSecondLep].Px()) + (myEles[iLeadLep].Py()+myEles[iSecondLep].Py())*(myEles[iLeadLep].Py()+myEles[iSecondLep].Py()) )
-
-                if nBjets==1:
-                    allquantities.reg_2e1b_Zmass = ZeeMass
+            
+            if myEles[iLeadLep].Pt() > 30. and myEleTightID[iLeadLep] and myEles[iSecondLep].Pt() > 10. and myEleLooseID[iSecondLep]:            
+            
+                ZpT = math.sqrt( (myEles[iLeadLep].Px()+myEles[iSecondLep].Px())*(myEles[iLeadLep].Px()+myEles[iSecondLep].Px()) + (myEles[iLeadLep].Py()+myEles[iSecondLep].Py())*(myEles[iLeadLep].Py()+myEles[iSecondLep].Py()) )                       
+                            
+                if nBjets==1 and SR1njetcond:
+                    allquantities.reg_2e1b_Zmass = ZeeMass    
                     allquantities.reg_2e1b_ZpT=ZpT
 
                     allquantities.reg_2e1b_hadrecoil = ZeeRecoil
@@ -1311,9 +1311,9 @@ def AnalyzeDataSet():
 #                    #---
 #                    allquantities.reg_2e1b_ntaucleaned = ncleanTau
 
-            #2e, 2 b-tagged
-                if nBjets==2 and SR2jet2:
-                    allquantities.reg_2e2b_Zmass = ZeeMass
+            #2e, 2 b-tagged   
+                if nBjets==2 and SR2jet2 and SR2njetcond:         
+                    allquantities.reg_2e2b_Zmass = ZeeMass   
                     allquantities.reg_2e2b_ZpT=ZpT
 
                     allquantities.reg_2e2b_hadrecoil = ZeeRecoil
@@ -1381,13 +1381,13 @@ def AnalyzeDataSet():
 
             iLeadLep=sortedindex[0]
             iSecondLep=sortedindex[1]
-
-            if myMuos[iLeadLep].Pt() > 30. and myMuTightID[iLeadLep] and myMuIso[iLeadLep]<0.15 and myMuos[iSecondLep].Pt() > 10. and myMuLooseID[iSecondLep] and myMuIso[iSecondLep]<0.25:
-
-                ZpT = math.sqrt( (myMuos[iLeadLep].Px()+myMuos[iSecondLep].Px())*(myMuos[iLeadLep].Px()+myMuos[iSecondLep].Px()) + (myMuos[iLeadLep].Py()+myMuos[iSecondLep].Py())*(myMuos[iLeadLep].Py()+myMuos[iSecondLep].Py()) )
-
-                if  nBjets==1:
-                    allquantities.reg_2mu1b_Zmass = ZmumuMass
+                
+            if myMuos[iLeadLep].Pt() > 30. and myMuTightID[iLeadLep] and myMuIso[iLeadLep]<0.15 and myMuos[iSecondLep].Pt() > 10. and myMuLooseID[iSecondLep] and myMuIso[iSecondLep]<0.25:  
+                        
+                ZpT = math.sqrt( (myMuos[iLeadLep].Px()+myMuos[iSecondLep].Px())*(myMuos[iLeadLep].Px()+myMuos[iSecondLep].Px()) + (myMuos[iLeadLep].Py()+myMuos[iSecondLep].Py())*(myMuos[iLeadLep].Py()+myMuos[iSecondLep].Py()) )                
+                            
+                if  nBjets==1 and SR1njetcond:         
+                    allquantities.reg_2mu1b_Zmass = ZmumuMass    
                     allquantities.reg_2mu1b_ZpT=ZpT
 
                     allquantities.reg_2mu1b_hadrecoil = ZmumuRecoil
@@ -1441,10 +1441,10 @@ def AnalyzeDataSet():
 #                        if lep1_tau_dR > 0.4 and lep2_tau_dR > 0.4: ncleanTau += 1
 #                    #---
 #                    allquantities.reg_2mu1b_ntaucleaned = ncleanTau
-
-            #2mu, 2 b-tagged
-                if  nBjets==2 and SR2jet2:
-                    allquantities.reg_2mu2b_Zmass = ZmumuMass
+                    
+            #2mu, 2 b-tagged        
+                if  nBjets==2 and SR2jet2 and SR2njetcond:
+                    allquantities.reg_2mu2b_Zmass = ZmumuMass   
                     allquantities.reg_2mu2b_ZpT=ZpT
 
                     allquantities.reg_2mu2b_hadrecoil = ZmumuRecoil
@@ -1539,15 +1539,15 @@ def AnalyzeDataSet():
 
         #1e, 1 b-tagged
         if nEle==1 and nMu==0 and (HLT_Ele27_WPLoose_Gsf or HLT_Ele27_WPTight_Gsf) and WenuRecoil>200. and jetcond and WdPhicond: # and Wenumass>50. and Wenumass<160.:
-#
-            iLeadLep=0
 
-            if myEles[iLeadLep].Pt() > 30. and myEleTightID[iLeadLep]:
-
+            iLeadLep=0          
+            
+            if myEles[iLeadLep].Pt() > 30. and myEleTightID[iLeadLep]:             
+                
                 WpT = math.sqrt( ( pfMet*math.cos(pfMetPhi) + myEles[iLeadLep].Px())**2 + ( pfMet*math.sin(pfMetPhi) + myEles[iLeadLep].Py())**2)
-
-                if nBjets==1:
-                    allquantities.reg_1e1b_Wmass = Wenumass
+                            
+                if nBjets==1 and SR1njetcond:
+                    allquantities.reg_1e1b_Wmass = Wenumass    
                     allquantities.reg_1e1b_WpT=WpT
 
                     allquantities.reg_1e1b_hadrecoil = WenuRecoil
@@ -1584,10 +1584,10 @@ def AnalyzeDataSet():
                     allquantities.reg_1e1b_nUncleanTau = nUncleanTau
                     allquantities.reg_1e1b_nUncleanEle = nUncleanEle
                     allquantities.reg_1e1b_nUncleanMu = nUncleanMu
-
-            #1e, 2 b-tagged
-                if nBjets==2 and SR2jet2:
-                    allquantities.reg_1e2b_Wmass = Wenumass
+    
+            #1e, 2 b-tagged   
+                if nBjets==2 and SR2jet2 and SR2njetcond:         
+                    allquantities.reg_1e2b_Wmass = Wenumass   
                     allquantities.reg_1e2b_WpT=WpT
 
                     allquantities.reg_1e2b_hadrecoil = WenuRecoil
@@ -1630,11 +1630,11 @@ def AnalyzeDataSet():
             iLeadLep=0
 
             if myMuos[iLeadLep].Pt() > 30. and myMuTightID[iLeadLep]:       # and myMuIso[iLeadLep]<0.15
-
-                WpT = math.sqrt( ( pfMet*math.cos(pfMetPhi) + myMuos[iLeadLep].Px())**2 + ( pfMet*math.sin(pfMetPhi) + myMuos[iLeadLep].Py())**2)
-
-                if  nBjets==1:
-                    allquantities.reg_1mu1b_Wmass = Wmunumass
+     
+                WpT = math.sqrt( ( pfMet*math.cos(pfMetPhi) + myMuos[iLeadLep].Px())**2 + ( pfMet*math.sin(pfMetPhi) + myMuos[iLeadLep].Py())**2)                
+                            
+                if  nBjets==1 and SR1njetcond:         
+                    allquantities.reg_1mu1b_Wmass = Wmunumass    
                     allquantities.reg_1mu1b_WpT=WpT
 
                     allquantities.reg_1mu1b_hadrecoil = WmunuRecoil
@@ -1670,10 +1670,10 @@ def AnalyzeDataSet():
                     allquantities.reg_1mu1b_nUncleanTau = nUncleanTau
                     allquantities.reg_1mu1b_nUncleanEle = nUncleanEle
                     allquantities.reg_1mu1b_nUncleanMu = nUncleanMu
-
-            #1mu, 2 b-tagged
-                if  nBjets==2 and SR2jet2:
-                    allquantities.reg_1mu2b_Wmass = Wmunumass
+  
+            #1mu, 2 b-tagged        
+                if  nBjets==2 and SR2jet2 and SR2njetcond:
+                    allquantities.reg_1mu2b_Wmass = Wmunumass   
                     allquantities.reg_1mu2b_WpT=WpT
 
                     allquantities.reg_1mu2b_hadrecoil = WmunuRecoil
@@ -1744,8 +1744,8 @@ def AnalyzeDataSet():
                     EleLead=True
                 else:
                     EleLead=False
-
-                if nBjets==1:
+           
+                if nBjets==1 and SR1njetcond:
 
                     allquantities.reg_1mu1e1b_hadrecoil = TOPRecoil
                     allquantities.reg_1mu1e1b_MET = pfMet
@@ -1790,9 +1790,9 @@ def AnalyzeDataSet():
                     allquantities.reg_1mu1e1b_nUncleanTau = nUncleanTau
                     allquantities.reg_1mu1e1b_nUncleanEle = nUncleanEle
                     allquantities.reg_1mu1e1b_nUncleanMu = nUncleanMu
-
-            #1mu, 1e, 2 b-tagged
-                if nBjets==2 and SR2jet2:
+  
+            #1mu, 1e, 2 b-tagged   
+                if nBjets==2 and SR2jet2 and SR2njetcond:         
 
                     allquantities.reg_1mu1e2b_hadrecoil = TOPRecoil
                     allquantities.reg_1mu1e2b_MET = pfMet
@@ -1863,8 +1863,8 @@ def AnalyzeDataSet():
         if nPho==1 and nEle==0 and nMu==1 and (HLT_Photon165_HE10 or HLT_Photon175 ) and GammaRecoil>200. and jetcond and GammaPhicond:
 
             if myPhos[0].Pt() > 170. and myPhoTightID[0] and myPhoLooseID[0]:
-
-                if nBjets==1:
+ 
+                if nBjets==1 and SR1njetcond:
 
                     allquantities.reg_1gamma1b_hadrecoil = GammaRecoil
                     allquantities.reg_1gamma1b_MET = pfMet
@@ -1902,10 +1902,9 @@ def AnalyzeDataSet():
                     allquantities.reg_1gamma1b_nUncleanTau = nUncleanTau
                     allquantities.reg_1gamma1b_nUncleanEle = nUncleanEle
                     allquantities.reg_1gamma1b_nUncleanMu = nUncleanMu
-
-
-            #1 photon, 2 b-tagged
-                if nBjets==2 and SR2jet2:
+                    
+   #1 photon, 2 b-tagged   
+                if nBjets==2 and SR2jet2 and SR2njetcond:         
 
                     allquantities.reg_1gamma2b_hadrecoil = GammaRecoil
                     allquantities.reg_1gamma2b_MET = pfMet
@@ -2688,7 +2687,12 @@ def AnalyzeDataSet():
            allquantities.jet1_nhf_sr2    = jetSR2Info[5]
            allquantities.jet1_chf_sr2    = jetSR2Info[6]
 
-        if pfmetstatus:
+        fillPU=False
+        if options.MET:
+            fillPU = ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v) and nMu==2 and nEle==0
+        if options.SE:
+            fillPU = nEle==2 and nMu==0 and (HLT_Ele27_WPLoose_Gsf or HLT_Ele27_WPTight_Gsf)
+        if fillPU:
             if options.CSV:
                 allquantities.PuReweightPV    = thinjetNPV
                 allquantities.noPuReweightPV  = thinjetNPV
