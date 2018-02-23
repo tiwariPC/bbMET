@@ -11,8 +11,10 @@ def getAll():
     allquantlist.append('dr_jet_sr1')
     allquantlist.append('dr_jet_sr2')
     allquantlist.append('metTrigSysUnc')
-    allquantlist.append('noPuReweightPV')
-    allquantlist.append('PuReweightPV')
+    
+    for dt in ['','mu_','ele_','pho_']:
+        allquantlist.append(dt+'noPuReweightPV')
+        allquantlist.append(dt+'PuReweightPV')
 
     for nSR in ['1','2']:                                                   # Leptons: Makes all combinations of region, lepton number, etc.
 #        for lep in ['mu','el']:
@@ -86,5 +88,6 @@ def getRegionQuants():
     
     return regquants   
     
-    
+def getHistos2D():
+    return ['ZpT_Recoil_MET0','ZpT_Recoil_MET50','ZpT_Recoil_MET100','ZpT_Recoil_MET150','ZpT_Recoil_MET200','ZpT_MET','MET_Recoil']    
     

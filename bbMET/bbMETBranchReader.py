@@ -142,9 +142,9 @@ if options.SE: print "Using SingleElectron dataset."
 if options.SP: print "Using SinglePhoton dataset."
 if options.MET: print "Using MET dataset."
 
-if not options.SE and not options.MET and not options.SP:
-    print "Please run using --se or --met or --sp. Exiting."
-    sys.exit()
+#if not options.SE and not options.MET and not options.SP:
+    #print "Please run using --se or --met or --sp. Exiting."
+    #sys.exit()
 
 if options.CSV: print "Using CSVv2 as b-tag discriminator."
 if options.DeepCSV: print "Using DeepCSV as b-tag discriminator."
@@ -541,7 +541,6 @@ def AnalyzeDataSet():
 
         if options.MET:
             whichDataset = MET_trig   # For signal and mu regions with MET dataset
-            if not whichDataset: continue
         if options.SE:
             whichDataset = SE_trig  # For electron regions with SE dataset
         if options.SP:
@@ -1122,6 +1121,10 @@ def AnalyzeDataSet():
 
         for quant in regquants:
             exec("allquantities."+quant+" = None")
+        
+        Histos2D=AllQuantList.getHistos2D()
+        for quant in Histos2D:
+            exec("allquantities."+quant+" = None")
 
 
 
@@ -1430,6 +1433,14 @@ def AnalyzeDataSet():
                     allquantities.reg_2mu1b_nUncleanTau = nUncleanTau
                     allquantities.reg_2mu1b_nUncleanEle = nUncleanEle
                     allquantities.reg_2mu1b_nUncleanMu = nUncleanMu
+                    
+                    allquantities.ZpT_MET = [ZpT,pfMet]
+                    allquantities.MET_Recoil = [pfMet,ZmumuRecoil]
+                    allquantities.ZpT_Recoil_MET0 = [ZpT,ZmumuRecoil]
+                    if pfMet > 50.  : allquantities.ZpT_Recoil_MET50  = [ZpT,ZmumuRecoil]
+                    if pfMet > 100. : allquantities.ZpT_Recoil_MET100 = [ZpT,ZmumuRecoil]
+                    if pfMet > 150. : allquantities.ZpT_Recoil_MET150 = [ZpT,ZmumuRecoil]
+                    if pfMet > 200. : allquantities.ZpT_Recoil_MET200 = [ZpT,ZmumuRecoil]
 
 #                    #--- Tau cleaning---
 #                    ncleanTau=0
@@ -2687,21 +2698,28 @@ def AnalyzeDataSet():
            allquantities.met_sr2         = jetSR2Info[4]
            allquantities.jet1_nhf_sr2    = jetSR2Info[5]
            allquantities.jet1_chf_sr2    = jetSR2Info[6]
-
-        fillPU=False
-        if options.MET:
-            fillPU = ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v) and nMu==2 and nEle==0
-        if options.SE:
-            fillPU = nEle==2 and nMu==0 and (HLT_Ele27_WPLoose_Gsf or HLT_Ele27_WPTight_Gsf)
-        if options.SP:
-            fillPU = nPho==1 and (HLT_Photon165_HE10 or HLT_Photon175)
-        if fillPU:
-            if options.CSV:
-                allquantities.PuReweightPV    = thinjetNPV
-                allquantities.noPuReweightPV  = thinjetNPV
-            if options.DeepCSV:
-                allquantities.PuReweightPV    = thindeepCSVjetNPV
-                allquantities.noPuReweightPV  = thindeepCSVjetNPV
+        
+        
+        if options.CSV:
+            nPV    = thinjetNPV
+        if options.DeepCSV:
+            nPV    = thindeepCSVjetNPV
+        
+        allquantities.PuReweightPV = nPV
+        allquantities.noPuReweightPV = nPV
+        
+        if nMu==2 and nEle==0 and ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v):
+            allquantities.mu_PuReweightPV = nPV
+            allquantities.mu_noPuReweightPV = nPV
+        
+        if nEle==2 and nMu==0 and (HLT_Ele27_WPLoose_Gsf or HLT_Ele27_WPTight_Gsf):
+            allquantities.ele_PuReweightPV = nPV
+            allquantities.ele_noPuReweightPV = nPV
+            
+        if nPho==1 and nEle==0 and nMu==0 and (HLT_Photon165_HE10 or HLT_Photon175):
+            allquantities.pho_PuReweightPV = nPV
+            allquantities.pho_noPuReweightPV = nPV
+            
 
 
 

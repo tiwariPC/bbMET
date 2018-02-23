@@ -21,7 +21,14 @@ class MonoHbbQuantities:
         for quant in regquants:
             exec("self."+quant+" = None")  
             exec("self.h_"+quant+" = []")
-                   
+            
+        Histos2D=AllQuantList.getHistos2D()
+            #Convention: First item in name will be x-axis, second will be y-axis
+        
+        for quant in Histos2D:
+            exec("self."+quant+" = None")       #Convention: Will use this as a list of two numbers, first being x-value and second being y-value.
+            exec("self.h_"+quant+" = []")
+            
         self.rootfilename = rootfilename
         #self.allquantities = allquantities
         #self.regime   =  True
@@ -182,6 +189,7 @@ class MonoHbbQuantities:
                 high='1000.'
             
             return bins,low,high
+            
         for quant in allquantlist:
             bins,low,high=getBins(quant)         
             exec("self.h_"+quant+".append(TH1F('h_"+quant+"_','h_"+quant+"_',"+bins+","+low+","+high+"))")
@@ -193,6 +201,30 @@ class MonoHbbQuantities:
         for quant in regquants:
             bins,low,high=getBins(quant)         
             exec("self.h_"+quant+".append(TH1F('h_"+quant+"_','h_"+quant+"_',"+bins+","+low+","+high+"))")
+        
+        
+        def getBins2D(quant):
+            ZpTbins='50'
+            ZpTlow='0.'
+            ZpThigh='500.'
+            Rbins='15'
+            Rlow='200.'
+            Rhigh='500.'
+            Mbins='20'
+            Mlow='0.'
+            Mhigh='500.'
+            
+            if 'ZpT_Recoil' in quant:
+                return ZpTbins,ZpTlow,ZpThigh,Rbins,Rlow,Rhigh
+            elif 'ZpT_MET' in quant:
+                return ZpTbins,ZpTlow,ZpThigh,Mbins,Mlow,Mhigh
+            elif 'MET_Recoil' in quant:
+                return Mbins,Mlow,Mhigh,Rbins,Rlow,Rhigh
+        
+        Histos2D=AllQuantList.getHistos2D()
+        for quant in Histos2D:
+            xbins,xlow,xhigh,ybins,ylow,yhigh=getBins2D(quant)
+            exec("self.h_"+quant+".append(TH2F('h_"+quant+"_','h_"+quant+"_',"+xbins+","+xlow+","+xhigh+","+ybins+","+ylow+","+yhigh+"))")
         
         h_met_pdf_tmp = []
         for ipdf in range(2):
@@ -228,7 +260,11 @@ class MonoHbbQuantities:
         regquants=AllQuantList.getRegionQuants()
         for quant in regquants:
             exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF)")
-        
+            
+        Histos2D=AllQuantList.getHistos2D()
+        for quant in Histos2D:
+            exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+"[0], self."+quant+"[1], WF)")
+            
     def FillHisto(self):
         WF = self.weight
         WF1 = self.weight_NoPU
@@ -264,10 +300,10 @@ class MonoHbbQuantities:
 
         allquantlist=AllQuantList.getAll()
         for quant in allquantlist:
-            if quant != 'noPuReweightPV':
+            if not 'noPuReweightPV' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF)")
             else:
-                if self.noPuReweightPV is not None: self.h_noPuReweightPV[0].Fill(self.noPuReweightPV, WF1)
+                exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF1)")
         
        
     def WriteHisto(self, (nevts,nevts_weight,npass,cutflowvalues,cutflownames,cutflowvaluesSR1,cutflownamesSR1,cutflowvaluesSR2,cutflownamesSR2,CRvalues,CRnames,regionnames,CRcutnames,CRcutflowvaluesSet)):
@@ -346,6 +382,8 @@ class MonoHbbQuantities:
         allquantlist=AllQuantList.getAll()
         preselquantlist=AllQuantList.getPresel()
         regquants=AllQuantList.getRegionQuants()
+        Histos2D=AllQuantList.getHistos2D()
+        
         
         for quant in allquantlist:
             exec("self.h_"+quant+"[0].Write()")
@@ -354,5 +392,8 @@ class MonoHbbQuantities:
             exec("self.h_"+quant+"[0].Write()")
             
         for quant in regquants:
+            exec("self.h_"+quant+"[0].Write()")
+            
+        for quant in Histos2D:
             exec("self.h_"+quant+"[0].Write()")
             
