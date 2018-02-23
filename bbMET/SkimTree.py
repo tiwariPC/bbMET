@@ -449,7 +449,7 @@ def AnalyzeDataSet():
 #        if not isData:
 #           if trigstatus == True : continue
 
-        trigstatus =  trig1 | trig2 | trig3 | trig4 | trig5 | trig6 | trig7 | trig8 | trig9 | trig10 | trig11 | trig12 | trig13 | trig14
+        trigstatus =  trig1 | trig2 | trig3 | trig4 | trig5 | trig6 | trig7 | trig8 | trig9 | trig10 | trig11 | trig12 | trig13 | trig14        # To-do: Deprecate this and make it automatic in the above loop
 
         if not trigstatus: continue    #Currently doing this for both MC and data
 
