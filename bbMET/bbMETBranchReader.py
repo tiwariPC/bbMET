@@ -436,7 +436,7 @@ def AnalyzeDataSet():
         THINdeepCSVjetHadronFlavor = skimmedTree.__getattr__('st_AK4deepCSVjetHadronFlavor')
         thindeepCSVjetNhadEF       = skimmedTree.__getattr__('st_AK4deepCSVjetNHadEF')
         thindeepCSVjetChadEF       = skimmedTree.__getattr__('st_AK4deepCSVjetCHadEF')
-        thindeepCSVjetNPV          =skimmedTree.__getattr__('st_AK4deepCSVjetNPV')
+        thindeepCSVjetNPV          = skimmedTree.__getattr__('st_AK4deepCSVjetNPV')
 
         nPho                       = skimmedTree.__getattr__('st_nPho')
         phoP4                      = skimmedTree.__getattr__('st_phoP4')
@@ -468,6 +468,7 @@ def AnalyzeDataSet():
         isData                     = skimmedTree.__getattr__('st_isData')
         mcWeight                   = skimmedTree.__getattr__('mcweight')
         pu_nTrueInt                = int(skimmedTree.__getattr__('st_pu_nTrueInt'))
+        pu_nPUVert                 = int(skimmedTree.__getattr__('st_pu_nPUVert'))
 
         nGenPar                    = skimmedTree.__getattr__('st_nGenPar')
         genParId                   = skimmedTree.__getattr__('st_genParId')
@@ -496,19 +497,34 @@ def AnalyzeDataSet():
 
         for trig in triglist:
             exec(trig+" = skimmedTree.__getattr__('st_"+trig+"')")
+            
+        
+        ##Define region wise triggers
+        
+        if isData:
+            SRtrigstatus = HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v or HLT_PFMETNoMu100_PFMHTNoMu100_IDTight_v or HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_v or HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v
+            MuCRtrigstatus = ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v)
+            EleCRtrigstatus = (HLT_Ele27_WPLoose_Gsf or HLT_Ele27_WPTight_Gsf)
+            PhotonCRtrigstatus = (HLT_Photon165_HE10 or HLT_Photon175)
+            
+        else:
+            SRtrigstatus = True
+            MuCRtrigstatus = True
+            EleCRtrigstatus = True
+            PhotonCRtrigstatus = True
 
-        try:
-            MET_trig=skimmedTree.__getattr__('st_MET_trig')
-            SE_trig=skimmedTree.__getattr__('st_SE_trig')
-        except:
-            MET_trig=True
-            SE_trig=True
-            if ievent==0: print "No MET_trig, SW_trig info available, the SkimmedTree seems to be from an old version. Proceeding with True for both."
-        try:
-            SP_trig=skimmedTree.__getattr__('st_SP_trig')
-        except:
-            SP_trig=True
-            if ievent==0: print "No SP_trig info available, the SkimmedTree seems to be from an old version. Proceeding with True."
+#        try:
+#            MET_trig=skimmedTree.__getattr__('st_MET_trig')
+#            SE_trig=skimmedTree.__getattr__('st_SE_trig')
+#        except:
+#            MET_trig=True
+#            SE_trig=True
+#            if ievent==0: print "No MET_trig, SW_trig info available, the SkimmedTree seems to be from an old version. Proceeding with True for both."
+#        try:
+#            SP_trig=skimmedTree.__getattr__('st_SP_trig')
+#        except:
+#            SP_trig=True
+#            if ievent==0: print "No SP_trig info available, the SkimmedTree seems to be from an old version. Proceeding with True."
             
 
 #        HLT_IsoMu24                = skimmedTree.__getattr__('st_HLT_IsoMu20')     #Depreciated
@@ -538,23 +554,23 @@ def AnalyzeDataSet():
 #        print MET_trig, SE_trig
 
 
-        #**************************** REMEMBER TO CHANGE DEPENDING ON THE DATASET YOU ARE USING ********************************
-        #==========================================================================
-        #
-        whichDataset = False
+#        #**************************** REMEMBER TO CHANGE DEPENDING ON THE DATASET YOU ARE USING ********************************
+#        #==========================================================================
+#        #
+#        whichDataset = False
 
-        if options.MET:
-            whichDataset = MET_trig   # For signal and mu regions with MET dataset
-        if options.SE:
-            whichDataset = SE_trig  # For electron regions with SE dataset
-        if options.SP:
-            whichDataset = SP_trig  # For photon regions with SP dataset
+#        if options.MET:
+#            whichDataset = MET_trig   # For signal and mu regions with MET dataset
+#        if options.SE:
+#            whichDataset = SE_trig  # For electron regions with SE dataset
+#        if options.SP:
+#            whichDataset = SP_trig  # For photon regions with SP dataset
 
-        #if not whichDataset: continue
+#        #if not whichDataset: continue
 
 
-        #============================ CAUTION =====================================
-        #**************************************************************************
+#        #============================ CAUTION =====================================
+#        #**************************************************************************
 
 
         jetSR1Info           = []
@@ -782,7 +798,7 @@ def AnalyzeDataSet():
         ## for SR1
          # 1 or 2 jets and 1 btagged
 
-        SRtrigstatus = HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v or HLT_PFMETNoMu100_PFMHTNoMu100_IDTight_v or HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_v or HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v
+        
 
         if (nJets == 1 or nJets == 2) and pfmetstatus and SRlepcond and SRtrigstatus:
             #===CSVs before any selection===
@@ -1058,7 +1074,7 @@ def AnalyzeDataSet():
 
          #2e, 1 b-tagged
 
-        if nEle==2 and nMu==0 and (HLT_Ele27_WPLoose_Gsf or HLT_Ele27_WPTight_Gsf) and ZeeMass>70. and ZeeMass<110. and ZeeRecoil>200. and jetcond and ZdPhicond:
+        if nEle==2 and nMu==0 and EleCRtrigstatus and ZeeMass>70. and ZeeMass<110. and ZeeRecoil>200. and jetcond and ZdPhicond:
 #            CRCutFlow['nlepcond']+=1
             alllepPT=[lep.Pt() for lep in myEles]
             lepindex=[i for i in range(len(myEles))]
@@ -1141,7 +1157,7 @@ def AnalyzeDataSet():
                     
                     
         #2mu, 1 b-tagged
-        if nMu==2 and nEle==0 and ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v) and ZmumuMass>70. and ZmumuMass<110. and ZmumuRecoil>200. and jetcond and ZdPhicond:
+        if nMu==2 and nEle==0 and MuCRtrigstatus and ZmumuMass>70. and ZmumuMass<110. and ZmumuRecoil>200. and jetcond and ZdPhicond:
 
 #            CRCutFlow['nlepcond']+=1
             alllepPT=[lep.Pt() for lep in myMuos]
@@ -1264,7 +1280,7 @@ def AnalyzeDataSet():
 
 
         #1e, 1 b-tagged
-        if nEle==1 and nMu==0 and (HLT_Ele27_WPLoose_Gsf or HLT_Ele27_WPTight_Gsf) and WenuRecoil>200. and jetcond and WdPhicond: # and Wenumass>50. and Wenumass<160.:
+        if nEle==1 and nMu==0 and EleCRtrigstatus and WenuRecoil>200. and jetcond and WdPhicond: # and Wenumass>50. and Wenumass<160.:
 
             iLeadLep=0
 
@@ -1351,7 +1367,7 @@ def AnalyzeDataSet():
 
 
         #1mu, 1 b-tagged
-        if nMu==1 and nEle==0 and ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v) and WmunuRecoil>200. and jetcond and WdPhicond: # and Wmunumass>50. and Wmunumass<160.:
+        if nMu==1 and nEle==0 and MuCRtrigstatus and WmunuRecoil>200. and jetcond and WdPhicond: # and Wmunumass>50. and Wmunumass<160.:
             iLeadLep=0
 
             if myMuos[iLeadLep].Pt() > 30. and myMuTightID[iLeadLep]:       # and myMuIso[iLeadLep]<0.15
@@ -1448,7 +1464,7 @@ def AnalyzeDataSet():
                     if DeltaPhi(j3.Phi(),Phi_mpi_pi(math.pi+TOPPhi)) < 0.5: TopdPhicond=False
                         
         #1mu, 1e, 1 b-tagged
-        if nEle==1 and nMu==1 and ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v) and TOPRecoil>200. and jetcond and TopdPhicond:
+        if nEle==1 and nMu==1 and MuCRtrigstatus and TOPRecoil>200. and jetcond and TopdPhicond:
 
             if myEles[0].Pt() > 30. and myEleTightID[0] and myMuos[0].Pt() > 30. and myMuTightID[0] and myMuIso[0]<0.15:
 
@@ -1558,7 +1574,7 @@ def AnalyzeDataSet():
                     if DeltaPhi(j3.Phi(),Phi_mpi_pi(math.pi+GammaPhi)) < 0.5: GammaPhicond=False
                 
         #1 pho , 1 b-tagged
-        if nPho==1 and nEle==0 and nMu==0 and (HLT_Photon165_HE10 or HLT_Photon175 ) and GammaRecoil>200. and jetcond and GammaPhicond:
+        if nPho==1 and nEle==0 and nMu==0 and PhotonCRtrigstatus and GammaRecoil>200. and jetcond and GammaPhicond:
 
             if myPhos[0].Pt() > 175. and myPhoTightID[0] and myPhoLooseID[0]:
 
@@ -1950,7 +1966,7 @@ def AnalyzeDataSet():
             exec("CR"+CRreg+"CutFlow['datatrig']+=allweights")
 
 
-        if (HLT_Ele27_WPLoose_Gsf or HLT_Ele27_WPTight_Gsf):
+        if EleCRtrigstatus:
             CR2e1bCutFlow['trig']+=allweights
             CR2e2bCutFlow['trig']+=allweights
 
@@ -2010,7 +2026,7 @@ def AnalyzeDataSet():
 
 
 
-        if ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v):
+        if MuCRtrigstatus:
             CR2mu1bCutFlow['trig']+=allweights
             CR2mu2bCutFlow['trig']+=allweights
 
@@ -2069,7 +2085,7 @@ def AnalyzeDataSet():
                                             CR2mu2bCutFlow['lepconds']+=allweights
 
 
-        if (HLT_Ele27_WPLoose_Gsf or HLT_Ele27_WPTight_Gsf):
+        if EleCRtrigstatus:
             CR1e1bCutFlow['trig']+=allweights
             CR1e2bCutFlow['trig']+=allweights
 
@@ -2119,7 +2135,7 @@ def AnalyzeDataSet():
 
 
   #Cutflow
-        if ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v):
+        if MuCRtrigstatus:
             CR1mu1bCutFlow['trig']+=allweights
             CR1mu2bCutFlow['trig']+=allweights
 
@@ -2169,7 +2185,7 @@ def AnalyzeDataSet():
 
 
  #Cutflow
-        if ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v):
+        if MuCRtrigstatus:
             CR1mu1e1bCutFlow['trig']+=allweights
             CR1mu1e2bCutFlow['trig']+=allweights
 
@@ -2215,7 +2231,7 @@ def AnalyzeDataSet():
 
 
  #Cutflow
-        if ((HLT_Photon165_HE10 or HLT_Photon175) ):
+        if PhotonCRtrigstatus:
             CR1gamma1bCutFlow['trig']+=allweights
             CR1gamma2bCutFlow['trig']+=allweights
 
@@ -2334,18 +2350,26 @@ def AnalyzeDataSet():
            
         allquantities.PuReweightPV = nPV
         allquantities.noPuReweightPV = nPV
+        allquantities.PuReweightnPVer= pu_nPUVert
+        allquantities.noPuReweightnPVer= pu_nPUVert
         
-        if nMu==2 and nEle==0 and ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v):
+        if nMu==2 and nEle==0 and MuCRtrigstatus:
             allquantities.mu_PuReweightPV = nPV
             allquantities.mu_noPuReweightPV = nPV
+            allquantities.mu_PuReweightnPVer= pu_nPUVert
+            allquantities.mu_noPuReweightnPVer= pu_nPUVert
         
-        if nEle==2 and nMu==0 and (HLT_Ele27_WPLoose_Gsf or HLT_Ele27_WPTight_Gsf):
+        if nEle==2 and nMu==0 and EleCRtrigstatus:
             allquantities.ele_PuReweightPV = nPV
             allquantities.ele_noPuReweightPV = nPV
+            allquantities.ele_PuReweightnPVer= pu_nPUVert
+            allquantities.ele_noPuReweightnPVer= pu_nPUVert
             
-        if nPho==1 and nEle==0 and nMu==0 and (HLT_Photon165_HE10 or HLT_Photon175):
+        if nPho==1 and nEle==0 and nMu==0 and PhotonCRtrigstatus:
             allquantities.pho_PuReweightPV = nPV
             allquantities.pho_noPuReweightPV = nPV
+            allquantities.pho_PuReweightnPVer= pu_nPUVert
+            allquantities.pho_noPuReweightnPVer= pu_nPUVert
             
 
 

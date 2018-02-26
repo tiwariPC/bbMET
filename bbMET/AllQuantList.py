@@ -15,6 +15,8 @@ def getAll():
     for dt in ['','mu_','ele_','pho_']:
         allquantlist.append(dt+'noPuReweightPV')
         allquantlist.append(dt+'PuReweightPV')
+        allquantlist.append(dt+'noPuReweightnPVert')
+        allquantlist.append(dt+'PuReweightnPVert')
 
     for nSR in ['1','2']:                                                   # Leptons: Makes all combinations of region, lepton number, etc.
 #        for lep in ['mu','el']:
