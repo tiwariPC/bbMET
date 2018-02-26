@@ -1121,7 +1121,7 @@ def AnalyzeDataSet():
 
         for quant in regquants:
             exec("allquantities."+quant+" = None")
-        
+
         Histos2D=AllQuantList.getHistos2D()
         for quant in Histos2D:
             exec("allquantities."+quant+" = None")
@@ -1433,7 +1433,7 @@ def AnalyzeDataSet():
                     allquantities.reg_2mu1b_nUncleanTau = nUncleanTau
                     allquantities.reg_2mu1b_nUncleanEle = nUncleanEle
                     allquantities.reg_2mu1b_nUncleanMu = nUncleanMu
-                    
+
                     allquantities.ZpT_MET = [ZpT,pfMet]
                     allquantities.MET_Recoil = [pfMet,ZmumuRecoil]
                     allquantities.ZpT_Recoil_MET0 = [ZpT,ZmumuRecoil]
@@ -2014,42 +2014,48 @@ def AnalyzeDataSet():
             xbin2 = metTrig_secondmethod.GetXaxis().FindBin(ZmumuRecoil)
             metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
             metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
-            metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+            #metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+            metTrig_Reweight = metTrig_firstmethodReweight
 #            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
         elif ZeeRecoil > 200:
             xbin1 = metTrig_firstmethod.GetXaxis().FindBin(ZeeRecoil)
             xbin2 = metTrig_secondmethod.GetXaxis().FindBin(ZeeRecoil)
             metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
             metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
-            metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+            #metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+            metTrig_Reweight = metTrig_firstmethodReweight
 #            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
         elif WmunuRecoil > 200:
             xbin1 = metTrig_firstmethod.GetXaxis().FindBin(WmunuRecoil)
             xbin2 = metTrig_secondmethod.GetXaxis().FindBin(WmunuRecoil)
             metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
             metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
-            metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+            #metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+            metTrig_Reweight = metTrig_firstmethodReweight
 #            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
         elif WenuRecoil > 200:
             xbin1 = metTrig_firstmethod.GetXaxis().FindBin(WenuRecoil)
             xbin2 = metTrig_secondmethod.GetXaxis().FindBin(WenuRecoil)
             metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
             metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
-            metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+            #metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+            metTrig_Reweight = metTrig_firstmethodReweight
 #            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
         elif TOPRecoil > 200:
             xbin1 = metTrig_firstmethod.GetXaxis().FindBin(TOPRecoil)
             xbin2 = metTrig_secondmethod.GetXaxis().FindBin(TOPRecoil)
             metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
             metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
-            metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+            #metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+            metTrig_Reweight = metTrig_firstmethodReweight
 #            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
         elif GammaRecoil > 200:
             xbin1 = metTrig_firstmethod.GetXaxis().FindBin(GammaRecoil)
             xbin2 = metTrig_secondmethod.GetXaxis().FindBin(GammaRecoil)
             metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
             metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
-            metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+            #metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+            metTrig_Reweight = metTrig_firstmethodReweight
 #            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
 
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -2698,28 +2704,28 @@ def AnalyzeDataSet():
            allquantities.met_sr2         = jetSR2Info[4]
            allquantities.jet1_nhf_sr2    = jetSR2Info[5]
            allquantities.jet1_chf_sr2    = jetSR2Info[6]
-        
-        
+
+
         if options.CSV:
             nPV    = thinjetNPV
         if options.DeepCSV:
             nPV    = thindeepCSVjetNPV
-        
+
         allquantities.PuReweightPV = nPV
         allquantities.noPuReweightPV = nPV
-        
+
         if nMu==2 and nEle==0 and ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v):
             allquantities.mu_PuReweightPV = nPV
             allquantities.mu_noPuReweightPV = nPV
-        
+
         if nEle==2 and nMu==0 and (HLT_Ele27_WPLoose_Gsf or HLT_Ele27_WPTight_Gsf):
             allquantities.ele_PuReweightPV = nPV
             allquantities.ele_noPuReweightPV = nPV
-            
+
         if nPho==1 and nEle==0 and nMu==0 and (HLT_Photon165_HE10 or HLT_Photon175):
             allquantities.pho_PuReweightPV = nPV
             allquantities.pho_noPuReweightPV = nPV
-            
+
 
 
 
