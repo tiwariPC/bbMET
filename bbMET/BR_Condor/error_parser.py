@@ -6,6 +6,7 @@ nerr=0
 ntot=0
 
 for ifile in filelist:
+    if ntot%1000==0: print "Parsed "+str(ntot)+" files."
     line = subprocess.check_output(['tail', '-2', os.path.join(folder,ifile)])
     ntot+=1
     if not line.strip().endswith("Replacing existing TH1: h_total (Potential memory leak)."):
