@@ -334,7 +334,7 @@ def AnalyzeDataSet():
         nTHINJets                  = skimmedTree.__getattr__('THINnJet')
         thinjetP4                  = skimmedTree.__getattr__('THINjetP4')
         thinJetCSV                 = skimmedTree.__getattr__('THINjetCISVV2')
-        passThinJetLooseID         = skimmedTree.__getattr__('THINjetPassIDLoose')
+        passThinJetLooseID         = skimmedTree.__getattr__('THINjetPassIDLoose')        
         THINjetHadronFlavor        = skimmedTree.__getattr__('THINjetHadronFlavor')
         thinjetNhadEF              = skimmedTree.__getattr__('THINjetNHadEF')
         thinjetChadEF              = skimmedTree.__getattr__('THINjetCHadEF')
@@ -348,8 +348,10 @@ def AnalyzeDataSet():
             thindeepCSVjetNhadEF       = skimmedTree.__getattr__('AK4deepCSVjetNHadEF')
             thindeepCSVjetChadEF       = skimmedTree.__getattr__('AK4deepCSVjetCHadEF')
             THINdeepCSVjetNPV          = skimmedTree.__getattr__('AK4deepCSVjetNPV')
+            thindeepCSVJetLooseID      = skimmedTree.__getattr__('AK4deepCSVjetPassIDLoose')
         except:
             if ievent==0: print "\n**********WARNING: Looks like the ntuple is from an older version, as DeepCSV jet collection is missing. DeepCSV information will NOT be stored.**********\n"
+            thindeepCSVJetLooseID = None
 
         nEle                       = skimmedTree.__getattr__('nEle')
         eleP4                      = skimmedTree.__getattr__('eleP4')
@@ -526,20 +528,25 @@ def AnalyzeDataSet():
 
         thindCSVjetpassindex=[]
         ndBjets=0
+   
+                
+        for jthinjet in range(nTHINdeepCSVJets):
+            j1 = thindeepCSVjetP4[jthinjet]
+            
+            if thindeepCSVJetLooseID==None:
+                deepCSVJetLooseID=True
+            else:
+                deepCSVJetLooseID=bool(passThinJetLooseID[jthinjet])
+            
+            if (j1.Pt() > 30.0)&(abs(j1.Eta())<4.5) and deepCSVJetLooseID: #  &(bool(passThinJetLooseID[jthinjet])==True):
+                thindCSVjetpassindex.append(jthinjet)
+            if thinJetdeepCSV[jthinjet] > DCSVMWP and abs(j1.Eta())<2.4 : ndBjets += 1
+            
+            
+        if len(thinjetpassindex) < 1 and len(thindCSVjetpassindex) < 1 : continue
 
-        try:
-            for jthinjet in range(nTHINdeepCSVJets):
-                j1 = thindeepCSVjetP4[jthinjet]
-                
-                if (j1.Pt() > 30.0)&(abs(j1.Eta())<4.5): #  &(bool(passThinJetLooseID[jthinjet])==True):
-                    thindCSVjetpassindex.append(jthinjet)
-                if thinJetdeepCSV[jthinjet] > DCSVMWP and abs(j1.Eta())<2.4 : ndBjets += 1
-                
-                
-            if len(thinjetpassindex) < 1 and len(thindCSVjetpassindex) < 1 : continue
-
-        except:
-            if len(thinjetpassindex) < 1: continue
+#        except:
+#            if len(thinjetpassindex) < 1: continue
             
 #        print ('njet: ',len(thinjetpassindex))
 #        if len(thindCSVjetpassindex) < 1 : continue

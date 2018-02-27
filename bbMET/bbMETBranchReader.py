@@ -2350,26 +2350,26 @@ def AnalyzeDataSet():
            
         allquantities.PuReweightPV = nPV
         allquantities.noPuReweightPV = nPV
-        allquantities.PuReweightnPVer= pu_nPUVert
-        allquantities.noPuReweightnPVer= pu_nPUVert
+        allquantities.PuReweightnPVert= pu_nPUVert
+        allquantities.noPuReweightnPVert= pu_nPUVert
         
         if nMu==2 and nEle==0 and MuCRtrigstatus:
             allquantities.mu_PuReweightPV = nPV
             allquantities.mu_noPuReweightPV = nPV
-            allquantities.mu_PuReweightnPVer= pu_nPUVert
-            allquantities.mu_noPuReweightnPVer= pu_nPUVert
+            allquantities.mu_PuReweightnPVert= pu_nPUVert
+            allquantities.mu_noPuReweightnPVert= pu_nPUVert
         
         if nEle==2 and nMu==0 and EleCRtrigstatus:
             allquantities.ele_PuReweightPV = nPV
             allquantities.ele_noPuReweightPV = nPV
-            allquantities.ele_PuReweightnPVer= pu_nPUVert
-            allquantities.ele_noPuReweightnPVer= pu_nPUVert
+            allquantities.ele_PuReweightnPVert= pu_nPUVert
+            allquantities.ele_noPuReweightnPVert= pu_nPUVert
             
         if nPho==1 and nEle==0 and nMu==0 and PhotonCRtrigstatus:
             allquantities.pho_PuReweightPV = nPV
             allquantities.pho_noPuReweightPV = nPV
-            allquantities.pho_PuReweightnPVer= pu_nPUVert
-            allquantities.pho_noPuReweightnPVer= pu_nPUVert
+            allquantities.pho_PuReweightnPVert= pu_nPUVert
+            allquantities.pho_noPuReweightnPVert= pu_nPUVert
             
 
 
