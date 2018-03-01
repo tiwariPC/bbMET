@@ -153,7 +153,7 @@ if not options.CSV and not options.DeepCSV:
     print "Please run using --csv or --deepcsv. Exiting."
     sys.exit()
 
-applydPhicut=False
+applydPhicut=True
 
 #print 'options = ',[options.inputfile]
 inputfilename = options.inputfile
@@ -171,9 +171,12 @@ textfile = rootfile+".txt"
 if outputdir!='.': os.system('mkdir -p '+outputdir)
 
 if options.outputfile is None or options.outputfile==rootfile:
-   outputfilename = "/Output_"+rootfile
+    if not isfarmout:
+        outputfilename = "/Output_"+rootfile
+    else:
+        outputfilename = "/Output_"+rootfile.split('.')[0]+".root"
 else:
-   outputfilename = "/"+options.outputfile
+    outputfilename = "/"+options.outputfile
 
 #if isfarmout:
 outfilename = outputdir + outputfilename
@@ -249,24 +252,46 @@ def TheaCorrection(puppipt=200.0,  puppieta=0.0):
     totalWeight = genCorr * recoCorr
     return totalWeight
 
+triglist=['HLT_PFMET170_','HLT_PFMET170_NoiseCleaned','HLT_PFMET170_JetIdCleaned_v','HLT_PFMET170_HBHECleaned_v','HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v','HLT_PFMETNoMu100_PFMHTNoMu100_IDTight_v','HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_v','HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v','HLT_PFMET110_PFMHT110_','HLT_IsoMu24_v','HLT_IsoTkMu24_v','HLT_Ele27_WPTight_Gsf','HLT_IsoMu20','HLT_Ele27_WPLoose_Gsf','HLT_Photon165_HE10','HLT_Photon175']
 
+#st_quantlist = triglist + ['st_lumiSection', 'st_eventId', 'st_pfMetCorrPt', 'st_pfMetCorrPhi', 'st_THINnJet', 'st_THINjetP4', 'st_THINjetCISVV2', 'st_THINjetHadronFlavor', 'st_THINjetNHadEF', 'st_THINjetCHadEF', 'st_THINjetNPV', 'st_AK4deepCSVnJet', 'st_AK4deepCSVjetP4', 'st_AK4deepCSVjetDeepCSV_b', 'st_AK4deepCSVjetHadronFlavor', 'st_AK4deepCSVjetNHadEF', 'st_AK4deepCSVjetCHadEF', 'st_AK4deepCSVjetNPV', 'st_nPho', 'st_phoP4', 'st_phoIsPassLoose', 'st_phoIsPassMedium', 'st_phoIsPassTight', 'st_nEle', 'st_eleP4', 'st_eleIsPassLoose', 'st_eleIsPassMedium', 'st_eleIsPassTight', 'st_nMu', 'st_muP4', 'st_isLooseMuon', 'st_isMediumMuon', 'st_isTightMuon', 'st_muChHadIso', 'st_muNeHadIso', 'st_muGamIso', 'st_muPUPt', 'st_HPSTau_n', 'st_HPSTau_4Momentum', 'st_isData', 'mcweight', 'st_pu_nTrueInt', 'st_pu_nPUVert', 'st_nGenPar', 'st_genParId', 'st_genMomParId', 'st_genParSt', 'st_genParP4', 'WenuRecoil', 'Wenumass', 'WenuPhi', 'WmunuRecoil', 'Wmunumass', 'WmunuPhi', 'ZeeRecoil', 'ZeeMass', 'ZeePhi', 'ZmumuRecoil', 'ZmumuMass', 'ZmumuPhi', 'TOPRecoil', 'TOPPhi', 'GammaRecoil', 'GammaPhi']
 
-
+#def fileIsCorr(rootfile):
+    #try:
+        #tempTree = TChain("outTree")
+        #tempTree.Add(rootfile)
+        #N = tempTree.GetEntries()
+        #for i in range(N):
+            #tempTree.GetEntry(i)
+            #for quant in st_quantlist:
+                #print quant
+                #tempTree.__getattr__(quant)
+        #return False
+    #except:
+        #print rootfile+" is corrupt. Skipping."
+        #return True
+        
 h_t = TH1F('h_t','h_t',2,0,2)
 h_t_weight = TH1F('h_t_weight','h_t_weight',2,0,2)
 
 samplename = 'all'
 if isfarmout:
     infile = open(inputfilename)
+    failcount=0
     for ifile in infile:
-        skimmedTree.Add(ifile.rstrip())
-#        samplename = WhichSample(ifile.rstrip())
-        ## for histograms
-        f_tmp = TFile.Open(ifile.rstrip(),'READ')
-        h_tmp = f_tmp.Get('h_total')
-        h_tmp_weight = f_tmp.Get('h_total_mcweight')
-        h_t.Add(h_tmp)
-        h_t_weight.Add(h_tmp_weight)
+        try:
+            f_tmp = TFile.Open(ifile.rstrip(),'READ')
+            if f_tmp.IsZombie():            # or fileIsCorr(ifile.rstrip()):
+                failcount += 1
+                continue
+            skimmedTree.Add(ifile.rstrip())
+            h_tmp = f_tmp.Get('h_total')
+            h_tmp_weight = f_tmp.Get('h_total_mcweight')
+            h_t.Add(h_tmp)
+            h_t_weight.Add(h_tmp_weight)
+        except:
+            failcount += 1
+    if failcount>0: print "Could not read %d files. Skipping them." %failcount
 
 if not isfarmout:
     skimmedTree.Add(inputfilename)
@@ -282,7 +307,7 @@ debug = False
 
 try:
     samplepath = str(f_tmp.Get('samplepath').GetTitle())
-    print "Original source file: " + samplepath
+    if not isfarmout: print "Original source file: " + samplepath
 except:
 #    samplepath=inputfilename
     samplepath='TT'
@@ -306,8 +331,7 @@ def AnalyzeDataSet():
     print 'NEntries = '+str(NEntries)
     npass = 0
 
-    triglist=['HLT_PFMET170_','HLT_PFMET170_NoiseCleaned','HLT_PFMET170_JetIdCleaned_v','HLT_PFMET170_HBHECleaned_v','HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v','HLT_PFMETNoMu100_PFMHTNoMu100_IDTight_v','HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_v','HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v','HLT_PFMET110_PFMHT110_','HLT_IsoMu24_v','HLT_IsoTkMu24_v','HLT_Ele27_WPTight_Gsf','HLT_IsoMu20','HLT_Ele27_WPLoose_Gsf','HLT_Photon165_HE10','HLT_Photon175']
-
+    
     #print [rootfilename, NEntries]
     cutStatus={'preselection':NEntries}
     cutStatusSR1={'preselection':NEntries}
@@ -377,7 +401,7 @@ def AnalyzeDataSet():
     if options.CSV:
         calib1 = ROOT.BTagCalibrationStandalone('csvv2', 'CSVv2_Moriond17_B_H.csv')
     if options.DeepCSV:
-        calib1 = ROOT.BTagCalibrationStandalone('csvv2', 'DeepCSV_Moriond17_B_H.csv')
+        calib1 = ROOT.BTagCalibrationStandalone('deepCSV', 'DeepCSV_Moriond17_B_H.csv')
     reader1 = ROOT.BTagCalibrationStandaloneReader( 0, "central", othersys)
     reader1.load(calib1, 0,  "comb" )
     reader1.load(calib1, 1,  "comb" )
@@ -399,105 +423,108 @@ def AnalyzeDataSet():
         skimmedTree.GetEntry(ievent)
 
         ## Get all relevant branches
-
+        try:
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Extract branches
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-        run                        = skimmedTree.__getattr__('st_runId')
-        lumi                       = skimmedTree.__getattr__('st_lumiSection')
-        event                      = skimmedTree.__getattr__('st_eventId')
+            run                        = skimmedTree.__getattr__('st_runId')
+            lumi                       = skimmedTree.__getattr__('st_lumiSection')
+            event                      = skimmedTree.__getattr__('st_eventId')
 
-        #if event != 4126: continue
-        #if lumi  != 42: continue
-        if ievent%100==0: print (ievent)
-        #trigName                   = skimmedTree.__getattr__('st_hlt_trigName')
-        #trigResult                 = skimmedTree.__getattr__('st_hlt_trigResult')
-        #filterName                 = skimmedTree.__getattr__('st_hlt_filterName')
-        #filterResult               = skimmedTree.__getattr__('st_hlt_filterResult')
+            #if event != 4126: continue
+            #if lumi  != 42: continue
+            if ievent%100==0: print (ievent)
+            #trigName                   = skimmedTree.__getattr__('st_hlt_trigName')
+            #trigResult                 = skimmedTree.__getattr__('st_hlt_trigResult')
+            #filterName                 = skimmedTree.__getattr__('st_hlt_filterName')
+            #filterResult               = skimmedTree.__getattr__('st_hlt_filterResult')
 
-        pfMet                      = skimmedTree.__getattr__('st_pfMetCorrPt')
-        pfMetPhi                   = skimmedTree.__getattr__('st_pfMetCorrPhi')
+            pfMet                      = skimmedTree.__getattr__('st_pfMetCorrPt')
+            pfMetPhi                   = skimmedTree.__getattr__('st_pfMetCorrPhi')
 
-        nTHINJets                  = skimmedTree.__getattr__('st_THINnJet')
-        thinjetP4                  = skimmedTree.__getattr__('st_THINjetP4')
-        thinJetCSV                 = skimmedTree.__getattr__('st_THINjetCISVV2')
-        #passThinJetLooseID         = skimmedTree.__getattr__('st_THINjetPassIDLoose')
-        #passThinJetPUID            = skimmedTree.__getattr__('st_THINisPUJetID')
-        THINjetHadronFlavor        = skimmedTree.__getattr__('st_THINjetHadronFlavor')
-        thinjetNhadEF              = skimmedTree.__getattr__('st_THINjetNHadEF')
-        thinjetChadEF              = skimmedTree.__getattr__('st_THINjetCHadEF')
-        thinjetNPV                 = skimmedTree.__getattr__('st_THINjetNPV')
+            nTHINJets                  = skimmedTree.__getattr__('st_THINnJet')
+            thinjetP4                  = skimmedTree.__getattr__('st_THINjetP4')
+            thinJetCSV                 = skimmedTree.__getattr__('st_THINjetCISVV2')
+            #passThinJetLooseID         = skimmedTree.__getattr__('st_THINjetPassIDLoose')
+            #passThinJetPUID            = skimmedTree.__getattr__('st_THINisPUJetID')
+            THINjetHadronFlavor        = skimmedTree.__getattr__('st_THINjetHadronFlavor')
+            thinjetNhadEF              = skimmedTree.__getattr__('st_THINjetNHadEF')
+            thinjetChadEF              = skimmedTree.__getattr__('st_THINjetCHadEF')
+            thinjetNPV                 = skimmedTree.__getattr__('st_THINjetNPV')
 
-        nTHINdeepCSVJets           = skimmedTree.__getattr__('st_AK4deepCSVnJet')
-        thindeepCSVjetP4           = skimmedTree.__getattr__('st_AK4deepCSVjetP4')
-        thinJetdeepCSV             = skimmedTree.__getattr__('st_AK4deepCSVjetDeepCSV_b')
-        THINdeepCSVjetHadronFlavor = skimmedTree.__getattr__('st_AK4deepCSVjetHadronFlavor')
-        thindeepCSVjetNhadEF       = skimmedTree.__getattr__('st_AK4deepCSVjetNHadEF')
-        thindeepCSVjetChadEF       = skimmedTree.__getattr__('st_AK4deepCSVjetCHadEF')
-        thindeepCSVjetNPV          = skimmedTree.__getattr__('st_AK4deepCSVjetNPV')
+            nTHINdeepCSVJets           = skimmedTree.__getattr__('st_AK4deepCSVnJet')
+            thindeepCSVjetP4           = skimmedTree.__getattr__('st_AK4deepCSVjetP4')
+            thinJetdeepCSV             = skimmedTree.__getattr__('st_AK4deepCSVjetDeepCSV_b')
+            THINdeepCSVjetHadronFlavor = skimmedTree.__getattr__('st_AK4deepCSVjetHadronFlavor')
+            thindeepCSVjetNhadEF       = skimmedTree.__getattr__('st_AK4deepCSVjetNHadEF')
+            thindeepCSVjetChadEF       = skimmedTree.__getattr__('st_AK4deepCSVjetCHadEF')
+            thindeepCSVjetNPV          = skimmedTree.__getattr__('st_AK4deepCSVjetNPV')
 
-        nPho                       = skimmedTree.__getattr__('st_nPho')
-        phoP4                      = skimmedTree.__getattr__('st_phoP4')
-        phoIsPassLoose             = skimmedTree.__getattr__('st_phoIsPassLoose')
-        phoIsPassMedium            = skimmedTree.__getattr__('st_phoIsPassMedium')
-        phoIsPassTight             = skimmedTree.__getattr__('st_phoIsPassTight')
+            nPho                       = skimmedTree.__getattr__('st_nPho')
+            phoP4                      = skimmedTree.__getattr__('st_phoP4')
+            phoIsPassLoose             = skimmedTree.__getattr__('st_phoIsPassLoose')
+            phoIsPassMedium            = skimmedTree.__getattr__('st_phoIsPassMedium')
+            phoIsPassTight             = skimmedTree.__getattr__('st_phoIsPassTight')
 
-        nEle                       = skimmedTree.__getattr__('st_nEle')
-        eleP4                      = skimmedTree.__getattr__('st_eleP4')
-        eleIsPassLoose             = skimmedTree.__getattr__('st_eleIsPassLoose')
-        eleIsPassMedium            = skimmedTree.__getattr__('st_eleIsPassMedium')
-        eleIsPassTight             = skimmedTree.__getattr__('st_eleIsPassTight')
+            nEle                       = skimmedTree.__getattr__('st_nEle')
+            eleP4                      = skimmedTree.__getattr__('st_eleP4')
+            eleIsPassLoose             = skimmedTree.__getattr__('st_eleIsPassLoose')
+            eleIsPassMedium            = skimmedTree.__getattr__('st_eleIsPassMedium')
+            eleIsPassTight             = skimmedTree.__getattr__('st_eleIsPassTight')
 
-        nMu                        = skimmedTree.__getattr__('st_nMu')
-        muP4                       = skimmedTree.__getattr__('st_muP4')
-        isLooseMuon                = skimmedTree.__getattr__('st_isLooseMuon')
-        isMediumMuon               = skimmedTree.__getattr__('st_isMediumMuon')
-        isTightMuon                = skimmedTree.__getattr__('st_isTightMuon')
-        muChHadIso                 = skimmedTree.__getattr__('st_muChHadIso')
-        muNeHadIso                 = skimmedTree.__getattr__('st_muNeHadIso')
-        muGamIso                   = skimmedTree.__getattr__('st_muGamIso')
-        muPUPt                     = skimmedTree.__getattr__('st_muPUPt')
+            nMu                        = skimmedTree.__getattr__('st_nMu')
+            muP4                       = skimmedTree.__getattr__('st_muP4')
+            isLooseMuon                = skimmedTree.__getattr__('st_isLooseMuon')
+            isMediumMuon               = skimmedTree.__getattr__('st_isMediumMuon')
+            isTightMuon                = skimmedTree.__getattr__('st_isTightMuon')
+            muChHadIso                 = skimmedTree.__getattr__('st_muChHadIso')
+            muNeHadIso                 = skimmedTree.__getattr__('st_muNeHadIso')
+            muGamIso                   = skimmedTree.__getattr__('st_muGamIso')
+            muPUPt                     = skimmedTree.__getattr__('st_muPUPt')
 
-        nTau                       = skimmedTree.__getattr__('st_HPSTau_n')
-        tauP4                      = skimmedTree.__getattr__('st_HPSTau_4Momentum')
-        #isDecayModeFinding         = skimmedTree.__getattr__('st_disc_decayModeFinding')
-        #passLooseTauIso            = skimmedTree.__getattr__('st_disc_byLooseIsolationMVA3oldDMwLT')
+            nTau                       = skimmedTree.__getattr__('st_HPSTau_n')
+            tauP4                      = skimmedTree.__getattr__('st_HPSTau_4Momentum')
+            #isDecayModeFinding         = skimmedTree.__getattr__('st_disc_decayModeFinding')
+            #passLooseTauIso            = skimmedTree.__getattr__('st_disc_byLooseIsolationMVA3oldDMwLT')
 
-        isData                     = skimmedTree.__getattr__('st_isData')
-        mcWeight                   = skimmedTree.__getattr__('mcweight')
-        pu_nTrueInt                = int(skimmedTree.__getattr__('st_pu_nTrueInt'))
-        pu_nPUVert                 = int(skimmedTree.__getattr__('st_pu_nPUVert'))
+            isData                     = skimmedTree.__getattr__('st_isData')
+            mcWeight                   = skimmedTree.__getattr__('mcweight')
+            pu_nTrueInt                = int(skimmedTree.__getattr__('st_pu_nTrueInt'))
+            pu_nPUVert                 = int(skimmedTree.__getattr__('st_pu_nPUVert'))
 
-        nGenPar                    = skimmedTree.__getattr__('st_nGenPar')
-        genParId                   = skimmedTree.__getattr__('st_genParId')
-        genMomParId                = skimmedTree.__getattr__('st_genMomParId')
-        genParSt                   = skimmedTree.__getattr__('st_genParSt')
-        genParP4                   = skimmedTree.__getattr__('st_genParP4')
+            nGenPar                    = skimmedTree.__getattr__('st_nGenPar')
+            genParId                   = skimmedTree.__getattr__('st_genParId')
+            genMomParId                = skimmedTree.__getattr__('st_genMomParId')
+            genParSt                   = skimmedTree.__getattr__('st_genParSt')
+            genParP4                   = skimmedTree.__getattr__('st_genParP4')
 
-        WenuRecoil                 = skimmedTree.__getattr__('WenuRecoil')
-        Wenumass                   = skimmedTree.__getattr__('Wenumass')
-        WenuPhi                    = skimmedTree.__getattr__('WenuPhi')
-        WmunuRecoil                = skimmedTree.__getattr__('WmunuRecoil')
-        Wmunumass                  = skimmedTree.__getattr__('Wmunumass')
-        WmunuPhi                   = skimmedTree.__getattr__('WmunuPhi')
-        ZeeRecoil                  = skimmedTree.__getattr__('ZeeRecoil')
-        ZeeMass                    = skimmedTree.__getattr__('ZeeMass')
-        ZeePhi                     = skimmedTree.__getattr__('ZeePhi')
-        ZmumuRecoil                = skimmedTree.__getattr__('ZmumuRecoil')
-        ZmumuMass                  = skimmedTree.__getattr__('ZmumuMass')
-        ZmumuPhi                   = skimmedTree.__getattr__('ZmumuPhi')
-        TOPRecoil                  = skimmedTree.__getattr__('TOPRecoil')
-        TOPPhi                     = skimmedTree.__getattr__('TOPPhi')
-        GammaRecoil                = skimmedTree.__getattr__('GammaRecoil')
-        GammaPhi                   = skimmedTree.__getattr__('GammaPhi')
+            WenuRecoil                 = skimmedTree.__getattr__('WenuRecoil')
+            Wenumass                   = skimmedTree.__getattr__('Wenumass')
+            WenuPhi                    = skimmedTree.__getattr__('WenuPhi')
+            WmunuRecoil                = skimmedTree.__getattr__('WmunuRecoil')
+            Wmunumass                  = skimmedTree.__getattr__('Wmunumass')
+            WmunuPhi                   = skimmedTree.__getattr__('WmunuPhi')
+            ZeeRecoil                  = skimmedTree.__getattr__('ZeeRecoil')
+            ZeeMass                    = skimmedTree.__getattr__('ZeeMass')
+            ZeePhi                     = skimmedTree.__getattr__('ZeePhi')
+            ZmumuRecoil                = skimmedTree.__getattr__('ZmumuRecoil')
+            ZmumuMass                  = skimmedTree.__getattr__('ZmumuMass')
+            ZmumuPhi                   = skimmedTree.__getattr__('ZmumuPhi')
+            TOPRecoil                  = skimmedTree.__getattr__('TOPRecoil')
+            TOPPhi                     = skimmedTree.__getattr__('TOPPhi')
+            GammaRecoil                = skimmedTree.__getattr__('GammaRecoil')
+            GammaPhi                   = skimmedTree.__getattr__('GammaPhi')
 
 
 
-        for trig in triglist:
-            exec(trig+" = skimmedTree.__getattr__('st_"+trig+"')")
-            
+            for trig in triglist:
+                exec(trig+" = skimmedTree.__getattr__('st_"+trig+"')")
+                
+        except:
+            print "Corrupt file detected! Skipping 1 event."
+            continue
         
         ##Define region wise triggers
         
@@ -1057,24 +1084,28 @@ def AnalyzeDataSet():
 
         if applydPhicut:
             if ZeePhi>-10.:
-                if DeltaPhi(j1.Phi(),Phi_mpi_pi(math.pi+ZeePhi)) < 0.5: ZdPhicond = False      #Added +pi to ZPhi to reverse an error in SkimTree which will be fixed in next iteration.
-                if nJets>=2:
-                    if DeltaPhi(j2.Phi(),Phi_mpi_pi(math.pi+ZeePhi)) < 0.5: ZdPhicond=False
-                if nJets>=3:
-                    if DeltaPhi(j3.Phi(),Phi_mpi_pi(math.pi+ZeePhi)) < 0.5: ZdPhicond=False
-                
+                if min( [DeltaPhi(ZeePhi,myJetP4[nb].Phi()) for nb in range(nJets)] ) < 0.5: ZdPhicond=False
             if ZmumuPhi>-10.:
-                if DeltaPhi(j1.Phi(),Phi_mpi_pi(math.pi+ZmumuPhi)) < 0.5: ZdPhicond = False               
-                if nJets>=2:
-                    if DeltaPhi(j2.Phi(),Phi_mpi_pi(math.pi+ZmumuPhi)) < 0.5: ZdPhicond=False
-                if nJets>=3:
-                    if DeltaPhi(j3.Phi(),Phi_mpi_pi(math.pi+ZmumuPhi)) < 0.5: ZdPhicond=False
-               
+                if min( [DeltaPhi(ZmumuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] ) < 0.5: ZdPhicond=False
 
-
+            #if ZeePhi>-10.:
+                #if DeltaPhi(j1.Phi(),Phi_mpi_pi(math.pi+ZeePhi)) < 0.5: ZdPhicond = False      #Added +pi to ZPhi to reverse an error in SkimTree which will be fixed in next iteration.
+                #if nJets>=2:
+                    #if DeltaPhi(j2.Phi(),Phi_mpi_pi(math.pi+ZeePhi)) < 0.5: ZdPhicond=False
+                #if nJets>=3:
+                    #if DeltaPhi(j3.Phi(),Phi_mpi_pi(math.pi+ZeePhi)) < 0.5: ZdPhicond=False
+                
+            #if ZmumuPhi>-10.:
+                #if DeltaPhi(j1.Phi(),Phi_mpi_pi(math.pi+ZmumuPhi)) < 0.5: ZdPhicond = False               
+                #if nJets>=2:
+                    #if DeltaPhi(j2.Phi(),Phi_mpi_pi(math.pi+ZmumuPhi)) < 0.5: ZdPhicond=False
+                #if nJets>=3:
+                    #if DeltaPhi(j3.Phi(),Phi_mpi_pi(math.pi+ZmumuPhi)) < 0.5: ZdPhicond=False
+            
+            
          #2e, 1 b-tagged
 
-        if nEle==2 and nMu==0 and EleCRtrigstatus and ZeeMass>70. and ZeeMass<110. and ZeeRecoil>200. and jetcond and ZdPhicond:
+        if nEle==2 and nMu==0 and EleCRtrigstatus and ZeeMass>70. and ZeeMass<110. and ZeeRecoil>200. and jetcond:
 #            CRCutFlow['nlepcond']+=1
             alllepPT=[lep.Pt() for lep in myEles]
             lepindex=[i for i in range(len(myEles))]
@@ -1088,8 +1119,10 @@ def AnalyzeDataSet():
             if myEles[iLeadLep].Pt() > 30. and myEleTightID[iLeadLep] and myEles[iSecondLep].Pt() > 10. and myEleLooseID[iSecondLep]:
 
                 ZpT = math.sqrt( (myEles[iLeadLep].Px()+myEles[iSecondLep].Px())*(myEles[iLeadLep].Px()+myEles[iSecondLep].Px()) + (myEles[iLeadLep].Py()+myEles[iSecondLep].Py())*(myEles[iLeadLep].Py()+myEles[iSecondLep].Py()) )
-
                 if nBjets==1 and SR1njetcond:
+                    allquantities.reg_2e1b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(ZeePhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    
+                if nBjets==1 and SR1njetcond and ZdPhicond:
                     allquantities.reg_2e1b_Zmass = ZeeMass
                     allquantities.reg_2e1b_ZpT=ZpT
 
@@ -1113,6 +1146,9 @@ def AnalyzeDataSet():
                     if options.DeepCSV:                        
                         allquantities.reg_2e1b_jet1_deepcsv = myJetCSV[ifirstjet]
                         if nJets>1: allquantities.reg_2e1b_jet2_deepcsv = myJetCSV[isecondjet]
+                        
+                    allquantities.reg_2e1b_min_dPhi_jet_Recoil = min( [DeltaPhi(ZeePhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    allquantities.reg_2e1b_min_dPhi_jet_MET = min( [DeltaPhi(pfMetPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
                     allquantities.reg_2e1b_ntau = nTau
                     allquantities.reg_2e1b_nele = nEle
@@ -1123,6 +1159,9 @@ def AnalyzeDataSet():
 
             #2e, 2 b-tagged
                 if nBjets==2 and SR2jet2 and SR2njetcond:
+                    allquantities.reg_2e2b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(ZeePhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    
+                if nBjets==2 and SR2jet2 and SR2njetcond and ZdPhicond:
                     allquantities.reg_2e2b_Zmass = ZeeMass
                     allquantities.reg_2e2b_ZpT=ZpT
 
@@ -1148,6 +1187,9 @@ def AnalyzeDataSet():
                         allquantities.reg_2e2b_jet1_deepcsv = myJetCSV[ifirstjet]
                         if nJets>1: allquantities.reg_2e2b_jet2_deepcsv = myJetCSV[isecondjet]
 
+                    allquantities.reg_2e2b_min_dPhi_jet_Recoil = min( [DeltaPhi(ZeePhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    allquantities.reg_2e2b_min_dPhi_jet_MET = min( [DeltaPhi(pfMetPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    
                     allquantities.reg_2e2b_ntau = nTau
                     allquantities.reg_2e2b_nele = nEle
                     allquantities.reg_2e2b_nmu = nMu
@@ -1157,7 +1199,7 @@ def AnalyzeDataSet():
                     
                     
         #2mu, 1 b-tagged
-        if nMu==2 and nEle==0 and MuCRtrigstatus and ZmumuMass>70. and ZmumuMass<110. and ZmumuRecoil>200. and jetcond and ZdPhicond:
+        if nMu==2 and nEle==0 and MuCRtrigstatus and ZmumuMass>70. and ZmumuMass<110. and ZmumuRecoil>200. and jetcond:
 
 #            CRCutFlow['nlepcond']+=1
             alllepPT=[lep.Pt() for lep in myMuos]
@@ -1172,8 +1214,10 @@ def AnalyzeDataSet():
             if myMuos[iLeadLep].Pt() > 30. and myMuTightID[iLeadLep] and myMuIso[iLeadLep]<0.15 and myMuos[iSecondLep].Pt() > 10. and myMuLooseID[iSecondLep] and myMuIso[iSecondLep]<0.25:
 
                 ZpT = math.sqrt( (myMuos[iLeadLep].Px()+myMuos[iSecondLep].Px())*(myMuos[iLeadLep].Px()+myMuos[iSecondLep].Px()) + (myMuos[iLeadLep].Py()+myMuos[iSecondLep].Py())*(myMuos[iLeadLep].Py()+myMuos[iSecondLep].Py()) )
-
                 if  nBjets==1 and SR1njetcond:
+                    allquantities.reg_2mu1b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(ZmumuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    
+                if  nBjets==1 and SR1njetcond and ZdPhicond:
                     allquantities.reg_2mu1b_Zmass = ZmumuMass
                     allquantities.reg_2mu1b_ZpT=ZpT
 
@@ -1201,6 +1245,9 @@ def AnalyzeDataSet():
                         allquantities.reg_2mu1b_jet1_deepcsv = myJetCSV[ifirstjet]
                         if nJets>1: allquantities.reg_2mu1b_jet2_deepcsv = myJetCSV[isecondjet]
 
+                    allquantities.reg_2mu1b_min_dPhi_jet_Recoil = min( [DeltaPhi(ZmumuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    allquantities.reg_2mu1b_min_dPhi_jet_MET = min( [DeltaPhi(pfMetPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    
                     allquantities.reg_2mu1b_ntau = nTau
                     allquantities.reg_2mu1b_nele = nEle
                     allquantities.reg_2mu1b_nmu = nMu
@@ -1219,6 +1266,9 @@ def AnalyzeDataSet():
 
             #2mu, 2 b-tagged
                 if  nBjets==2 and SR2jet2 and SR2njetcond:
+                    allquantities.reg_2mu2b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(ZmumuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    
+                if  nBjets==2 and SR2jet2 and SR2njetcond and ZdPhicond:
                     allquantities.reg_2mu2b_Zmass = ZmumuMass
                     allquantities.reg_2mu2b_ZpT=ZpT
 
@@ -1248,6 +1298,9 @@ def AnalyzeDataSet():
                         allquantities.reg_2mu2b_jet1_deepcsv = myJetCSV[ifirstjet]
                         if nJets>1: allquantities.reg_2mu2b_jet2_deepcsv = myJetCSV[isecondjet]
                         
+                    allquantities.reg_2mu2b_min_dPhi_jet_Recoil = min( [DeltaPhi(ZmumuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    allquantities.reg_2mu2b_min_dPhi_jet_MET = min( [DeltaPhi(pfMetPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    
                     allquantities.reg_2mu2b_ntau = nTau
                     allquantities.reg_2mu2b_nele = nEle
                     allquantities.reg_2mu2b_nmu = nMu
@@ -1265,22 +1318,26 @@ def AnalyzeDataSet():
 
         if applydPhicut:
             if WenuPhi>-10.:
-                if DeltaPhi(j1.Phi(),Phi_mpi_pi(math.pi+WenuPhi)) < 0.5: WdPhicond = False      #Added +pi to ZPhi to reverse an error in SkimTree which will be fixed in next iteration.                
-                if nJets>=2:
-                    if DeltaPhi(j2.Phi(),Phi_mpi_pi(math.pi+WenuPhi)) < 0.5: WdPhicond=False
-                if nJets>=3:
-                    if DeltaPhi(j3.Phi(),Phi_mpi_pi(math.pi+WenuPhi)) < 0.5: WdPhicond=False
-                    
+                if min( [DeltaPhi(WenuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] ) < 0.5: WdPhicond=False
             if WmunuPhi>-10.:
-                if DeltaPhi(j1.Phi(),Phi_mpi_pi(math.pi+WmunuPhi)) < 0.5: WdPhicond = False                
-                if nJets>=2:
-                    if DeltaPhi(j2.Phi(),Phi_mpi_pi(math.pi+WmunuPhi)) < 0.5: WdPhicond=False
-                if nJets>=3:
-                    if DeltaPhi(j3.Phi(),Phi_mpi_pi(math.pi+WmunuPhi)) < 0.5: WdPhicond=False
+                if min( [DeltaPhi(WmunuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] ) < 0.5: WdPhicond=False
+            #if WenuPhi>-10.:
+                #if DeltaPhi(j1.Phi(),Phi_mpi_pi(math.pi+WenuPhi)) < 0.5: WdPhicond = False      #Added +pi to ZPhi to reverse an error in SkimTree which will be fixed in next iteration.                
+                #if nJets>=2:
+                    #if DeltaPhi(j2.Phi(),Phi_mpi_pi(math.pi+WenuPhi)) < 0.5: WdPhicond=False
+                #if nJets>=3:
+                    #if DeltaPhi(j3.Phi(),Phi_mpi_pi(math.pi+WenuPhi)) < 0.5: WdPhicond=False
+                    
+            #if WmunuPhi>-10.:
+                #if DeltaPhi(j1.Phi(),Phi_mpi_pi(math.pi+WmunuPhi)) < 0.5: WdPhicond = False                
+                #if nJets>=2:
+                    #if DeltaPhi(j2.Phi(),Phi_mpi_pi(math.pi+WmunuPhi)) < 0.5: WdPhicond=False
+                #if nJets>=3:
+                    #if DeltaPhi(j3.Phi(),Phi_mpi_pi(math.pi+WmunuPhi)) < 0.5: WdPhicond=False
 
 
         #1e, 1 b-tagged
-        if nEle==1 and nMu==0 and EleCRtrigstatus and WenuRecoil>200. and jetcond and WdPhicond: # and Wenumass>50. and Wenumass<160.:
+        if nEle==1 and nMu==0 and EleCRtrigstatus and WenuRecoil>200. and jetcond: # and Wenumass>50. and Wenumass<160.:
 
             iLeadLep=0
 
@@ -1288,11 +1345,14 @@ def AnalyzeDataSet():
 
                 WpT = math.sqrt( ( pfMet*math.cos(pfMetPhi) + myEles[iLeadLep].Px())**2 + ( pfMet*math.sin(pfMetPhi) + myEles[iLeadLep].Py())**2)
                 
-                if nBjets==1:
+                if nBjets==1 and WdPhicond:
                     allquantities.reg_1e1b_njet_n_minus_1=nJets
                     allquantities.reg_1e1b_unclean_njet_n_minus_1=nUncleanJets
                     
                 if nBjets==1 and SR1njetcond:
+                    allquantities.reg_1e1b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(WenuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    
+                if nBjets==1 and SR1njetcond and WdPhicond:
                     allquantities.reg_1e1b_Wmass = Wenumass
                     allquantities.reg_1e1b_WpT=WpT
 
@@ -1315,12 +1375,17 @@ def AnalyzeDataSet():
                         allquantities.reg_1e1b_jet1_csv = myJetCSV[ifirstjet]
                         if nJets>1: allquantities.reg_1e1b_jet2_csv = myJetCSV[isecondjet]
                         
-                        allquantities.reg_1e1b_min_dR_jet_ele = min( [DeltaR(myEles[iLeadLep],thinjetP4[nb]) for nb in range(nTHINJets)] )          #For diagnosis
+                        allquantities.reg_1e1b_min_dR_jet_ele_preclean = min( [DeltaR(myEles[iLeadLep],thinjetP4[nb]) for nb in range(nTHINJets)] )          #For diagnosis                        
                         
                     if options.DeepCSV:
                         allquantities.reg_1e1b_jet1_deepcsv = myJetCSV[ifirstjet]
                         if nJets>1: allquantities.reg_1e1b_jet2_deepcsv = myJetCSV[isecondjet]
                         
+                    allquantities.reg_1e1b_min_dR_jet_ele_postclean = min( [DeltaR(myEles[iLeadLep],myJetP4[nb]) for nb in range(nJets)] )
+                    
+                    allquantities.reg_1e1b_min_dPhi_jet_Recoil = min( [DeltaPhi(WenuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    allquantities.reg_1e1b_min_dPhi_jet_MET = min( [DeltaPhi(pfMetPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    
                     allquantities.reg_1e1b_ntau = nTau
                     allquantities.reg_1e1b_nele = nEle
                     allquantities.reg_1e1b_nmu = nMu
@@ -1330,6 +1395,9 @@ def AnalyzeDataSet():
 
             #1e, 2 b-tagged
                 if nBjets==2 and SR2jet2 and SR2njetcond:
+                    allquantities.reg_1e2b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(WenuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    
+                if nBjets==2 and SR2jet2 and SR2njetcond and WdPhicond:
                     allquantities.reg_1e2b_Wmass = Wenumass
                     allquantities.reg_1e2b_WpT=WpT
 
@@ -1351,12 +1419,17 @@ def AnalyzeDataSet():
                         allquantities.reg_1e2b_jet1_csv = myJetCSV[ifirstjet]
                         if nJets>1: allquantities.reg_1e2b_jet2_csv = myJetCSV[isecondjet]
                         
-                        allquantities.reg_1e2b_min_dR_jet_ele = min( [DeltaR(myEles[iLeadLep],thinjetP4[nb]) for nb in range(nTHINJets)] )
+                        allquantities.reg_1e2b_min_dR_jet_ele_preclean = min( [DeltaR(myEles[iLeadLep],thinjetP4[nb]) for nb in range(nTHINJets)] )          #For diagnosis
                         
                     if options.DeepCSV:
                         allquantities.reg_1e2b_jet1_deepcsv = myJetCSV[ifirstjet]
                         if nJets>1: allquantities.reg_1e2b_jet2_deepcsv = myJetCSV[isecondjet]
-                        
+                    
+                    allquantities.reg_1e2b_min_dR_jet_ele_postclean = min( [DeltaR(myEles[iLeadLep],myJetP4[nb]) for nb in range(nJets)] )
+                    
+                    allquantities.reg_1e2b_min_dPhi_jet_Recoil = min( [DeltaPhi(WenuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    allquantities.reg_1e2b_min_dPhi_jet_MET = min( [DeltaPhi(pfMetPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    
                     allquantities.reg_1e2b_ntau = nTau
                     allquantities.reg_1e2b_nele = nEle
                     allquantities.reg_1e2b_nmu = nMu
@@ -1367,18 +1440,21 @@ def AnalyzeDataSet():
 
 
         #1mu, 1 b-tagged
-        if nMu==1 and nEle==0 and MuCRtrigstatus and WmunuRecoil>200. and jetcond and WdPhicond: # and Wmunumass>50. and Wmunumass<160.:
+        if nMu==1 and nEle==0 and MuCRtrigstatus and WmunuRecoil>200. and jetcond: # and Wmunumass>50. and Wmunumass<160.:
             iLeadLep=0
 
             if myMuos[iLeadLep].Pt() > 30. and myMuTightID[iLeadLep]:       # and myMuIso[iLeadLep]<0.15
 
                 WpT = math.sqrt( ( pfMet*math.cos(pfMetPhi) + myMuos[iLeadLep].Px())**2 + ( pfMet*math.sin(pfMetPhi) + myMuos[iLeadLep].Py())**2)
                 
-                if nBjets==1:
+                if nBjets==1 and WdPhicond:
                     allquantities.reg_1mu1b_njet_n_minus_1=nJets
                     allquantities.reg_1mu1b_unclean_njet_n_minus_1=nUncleanJets
-                    
+                
                 if  nBjets==1 and SR1njetcond:
+                    allquantities.reg_1mu1b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(WmunuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    
+                if  nBjets==1 and SR1njetcond and WdPhicond:
                     allquantities.reg_1mu1b_Wmass = Wmunumass
                     allquantities.reg_1mu1b_WpT=WpT
 
@@ -1405,6 +1481,9 @@ def AnalyzeDataSet():
                         allquantities.reg_1mu1b_jet1_deepcsv = myJetCSV[ifirstjet]
                         if nJets>1: allquantities.reg_1mu1b_jet2_deepcsv = myJetCSV[isecondjet]
                         
+                    allquantities.reg_1mu1b_min_dPhi_jet_Recoil = min( [DeltaPhi(WmunuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    allquantities.reg_1mu1b_min_dPhi_jet_MET = min( [DeltaPhi(pfMetPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    
                     allquantities.reg_1mu1b_ntau = nTau
                     allquantities.reg_1mu1b_nele = nEle
                     allquantities.reg_1mu1b_nmu = nMu
@@ -1414,6 +1493,9 @@ def AnalyzeDataSet():
 
             #1mu, 2 b-tagged
                 if  nBjets==2 and SR2jet2 and SR2njetcond:
+                    allquantities.reg_1mu2b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(WmunuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    
+                if  nBjets==2 and SR2jet2 and SR2njetcond and WdPhicond:
                     allquantities.reg_1mu2b_Wmass = Wmunumass
                     allquantities.reg_1mu2b_WpT=WpT
 
@@ -1440,6 +1522,9 @@ def AnalyzeDataSet():
                         allquantities.reg_1mu2b_jet1_deepcsv = myJetCSV[ifirstjet]
                         if nJets>1: allquantities.reg_1mu2b_jet2_deepcsv = myJetCSV[isecondjet]
                         
+                    allquantities.reg_1mu2b_min_dPhi_jet_Recoil = min( [DeltaPhi(WmunuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    allquantities.reg_1mu2b_min_dPhi_jet_MET = min( [DeltaPhi(pfMetPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    
                     allquantities.reg_1mu2b_ntau = nTau
                     allquantities.reg_1mu2b_nele = nEle
                     allquantities.reg_1mu2b_nmu = nMu
@@ -1457,14 +1542,16 @@ def AnalyzeDataSet():
 
         if applydPhicut:
             if TOPPhi>-10.:
-                if DeltaPhi(j1.Phi(),Phi_mpi_pi(math.pi+TOPPhi)) < 0.5: TopdPhicond = False      #Added +pi to ZPhi to reverse an error in SkimTree which will be fixed in next iteration.
-                if nJets>=2:
-                    if DeltaPhi(j2.Phi(),Phi_mpi_pi(math.pi+TOPPhi)) < 0.5: TopdPhicond=False
-                if nJets>=3:
-                    if DeltaPhi(j3.Phi(),Phi_mpi_pi(math.pi+TOPPhi)) < 0.5: TopdPhicond=False
+                if min( [DeltaPhi(TOPPhi,myJetP4[nb].Phi()) for nb in range(nJets)] ) < 0.5: TopdPhicond=False
+            #if TOPPhi>-10.:
+                #if DeltaPhi(j1.Phi(),Phi_mpi_pi(math.pi+TOPPhi)) < 0.5: TopdPhicond = False      #Added +pi to ZPhi to reverse an error in SkimTree which will be fixed in next iteration.
+                #if nJets>=2:
+                    #if DeltaPhi(j2.Phi(),Phi_mpi_pi(math.pi+TOPPhi)) < 0.5: TopdPhicond=False
+                #if nJets>=3:
+                    #if DeltaPhi(j3.Phi(),Phi_mpi_pi(math.pi+TOPPhi)) < 0.5: TopdPhicond=False
                         
         #1mu, 1e, 1 b-tagged
-        if nEle==1 and nMu==1 and MuCRtrigstatus and TOPRecoil>200. and jetcond and TopdPhicond:
+        if nEle==1 and nMu==1 and MuCRtrigstatus and TOPRecoil>200. and jetcond:
 
             if myEles[0].Pt() > 30. and myEleTightID[0] and myMuos[0].Pt() > 30. and myMuTightID[0] and myMuIso[0]<0.15:
 
@@ -1472,8 +1559,11 @@ def AnalyzeDataSet():
                     EleLead=True
                 else:
                     EleLead=False
-
+                    
                 if nBjets==1 and SR1njetcond:
+                    allquantities.reg_1mu1e1b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(TOPPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                
+                if nBjets==1 and SR1njetcond and TopdPhicond:
 
                     allquantities.reg_1mu1e1b_hadrecoil = TOPRecoil
                     allquantities.reg_1mu1e1b_MET = pfMet
@@ -1508,6 +1598,9 @@ def AnalyzeDataSet():
                         allquantities.reg_1mu1e1b_jet1_deepcsv = myJetCSV[ifirstjet]
                         if nJets>1: allquantities.reg_1mu1e1b_jet2_deepcsv = myJetCSV[isecondjet]
                         
+                    allquantities.reg_1mu1e1b_min_dPhi_jet_Recoil = min( [DeltaPhi(TOPPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    allquantities.reg_1mu1e1b_min_dPhi_jet_MET = min( [DeltaPhi(pfMetPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    
                     allquantities.reg_1mu1e1b_ntau = nTau
                     allquantities.reg_1mu1e1b_nele = nEle
                     allquantities.reg_1mu1e1b_nmu = nMu
@@ -1517,6 +1610,9 @@ def AnalyzeDataSet():
 
             #1mu, 1e, 2 b-tagged
                 if nBjets==2 and SR2jet2 and SR2njetcond:
+                    allquantities.reg_1mu1e2b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(TOPPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    
+                if nBjets==2 and SR2jet2 and SR2njetcond and TopdPhicond:
 
                     allquantities.reg_1mu1e2b_hadrecoil = TOPRecoil
                     allquantities.reg_1mu1e2b_MET = pfMet
@@ -1551,6 +1647,9 @@ def AnalyzeDataSet():
                         allquantities.reg_1mu1e2b_jet1_deepcsv = myJetCSV[ifirstjet]
                         if nJets>1: allquantities.reg_1mu1e2b_jet2_deepcsv = myJetCSV[isecondjet]
                         
+                    allquantities.reg_1mu1e2b_min_dPhi_jet_Recoil = min( [DeltaPhi(TOPPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    allquantities.reg_1mu1e2b_min_dPhi_jet_MET = min( [DeltaPhi(pfMetPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    
                     allquantities.reg_1mu1e2b_ntau = nTau
                     allquantities.reg_1mu1e2b_nele = nEle
                     allquantities.reg_1mu1e2b_nmu = nMu
@@ -1567,18 +1666,24 @@ def AnalyzeDataSet():
 
         if applydPhicut:
             if GammaPhi>-10.:
-                if DeltaPhi(j1.Phi(),Phi_mpi_pi(math.pi+GammaPhi)) < 0.5: GammaPhicond = False      #Added +pi to ZPhi to reverse an error in SkimTree which will be fixed in next iteration.
-                if nJets>=2:
-                    if DeltaPhi(j2.Phi(),Phi_mpi_pi(math.pi+GammaPhi)) < 0.5: GammaPhicond=False
-                if nJets>=3:
-                    if DeltaPhi(j3.Phi(),Phi_mpi_pi(math.pi+GammaPhi)) < 0.5: GammaPhicond=False
+                if min( [DeltaPhi(GammaPhi,myJetP4[nb].Phi()) for nb in range(nJets)] ) < 0.5: GammaPhicond=False
+                
+            #if GammaPhi>-10.:
+                #if DeltaPhi(j1.Phi(),Phi_mpi_pi(math.pi+GammaPhi)) < 0.5: GammaPhicond = False      #Added +pi to ZPhi to reverse an error in SkimTree which will be fixed in next iteration.
+                #if nJets>=2:
+                    #if DeltaPhi(j2.Phi(),Phi_mpi_pi(math.pi+GammaPhi)) < 0.5: GammaPhicond=False
+                #if nJets>=3:
+                    #if DeltaPhi(j3.Phi(),Phi_mpi_pi(math.pi+GammaPhi)) < 0.5: GammaPhicond=False
                 
         #1 pho , 1 b-tagged
-        if nPho==1 and nEle==0 and nMu==0 and PhotonCRtrigstatus and GammaRecoil>200. and jetcond and GammaPhicond:
+        if nPho==1 and nEle==0 and nMu==0 and PhotonCRtrigstatus and GammaRecoil>200. and jetcond:
 
             if myPhos[0].Pt() > 175. and myPhoTightID[0] and myPhoLooseID[0]:
-
+                
                 if nBjets==1 and SR1njetcond:
+                    allquantities.reg_1gamma1b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(GammaPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    
+                if nBjets==1 and SR1njetcond and GammaPhicond:
 
                     allquantities.reg_1gamma1b_hadrecoil = GammaRecoil
                     allquantities.reg_1gamma1b_MET = pfMet
@@ -1604,6 +1709,9 @@ def AnalyzeDataSet():
                         allquantities.reg_1gamma1b_jet1_deepcsv = myJetCSV[ifirstjet]
                         if nJets>1: allquantities.reg_1gamma1b_jet2_deepcsv = myJetCSV[isecondjet]
 
+                    allquantities.reg_1gamma1b_min_dPhi_jet_Recoil = min( [DeltaPhi(GammaPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    allquantities.reg_1gamma1b_min_dPhi_jet_MET = min( [DeltaPhi(pfMetPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    
                     allquantities.reg_1gamma1b_ntau = nTau
                     allquantities.reg_1gamma1b_nele = nEle
                     allquantities.reg_1gamma1b_nmu = nMu
@@ -1614,6 +1722,9 @@ def AnalyzeDataSet():
 
    #1 photon, 2 b-tagged
                 if nBjets==2 and SR2jet2 and SR2njetcond:
+                    allquantities.reg_1gamma2b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(GammaPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    
+                if nBjets==2 and SR2jet2 and SR2njetcond and GammaPhicond:
 
                     allquantities.reg_1gamma2b_hadrecoil = GammaRecoil
                     allquantities.reg_1gamma2b_MET = pfMet
@@ -1639,6 +1750,9 @@ def AnalyzeDataSet():
                         allquantities.reg_1gamma2b_jet1_deepcsv = myJetCSV[ifirstjet]
                         if nJets>1: allquantities.reg_1gamma2b_jet2_deepcsv = myJetCSV[isecondjet]
                         
+                    allquantities.reg_1gamma2b_min_dPhi_jet_Recoil = min( [DeltaPhi(GammaPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    allquantities.reg_1gamma2b_min_dPhi_jet_MET = min( [DeltaPhi(pfMetPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
+                    
                     allquantities.reg_1gamma2b_ntau = nTau
                     allquantities.reg_1gamma2b_nele = nEle
                     allquantities.reg_1gamma2b_nmu = nMu
@@ -2350,26 +2464,26 @@ def AnalyzeDataSet():
            
         allquantities.PuReweightPV = nPV
         allquantities.noPuReweightPV = nPV
-        allquantities.PuReweightnPVert= pu_nPUVert
-        allquantities.noPuReweightnPVert= pu_nPUVert
+        #allquantities.PuReweightnPVert= pu_nPUVert
+        #allquantities.noPuReweightnPVert= pu_nPUVert
         
         if nMu==2 and nEle==0 and MuCRtrigstatus:
             allquantities.mu_PuReweightPV = nPV
             allquantities.mu_noPuReweightPV = nPV
-            allquantities.mu_PuReweightnPVert= pu_nPUVert
-            allquantities.mu_noPuReweightnPVert= pu_nPUVert
+            #allquantities.mu_PuReweightnPVert= pu_nPUVert
+            #allquantities.mu_noPuReweightnPVert= pu_nPUVert
         
         if nEle==2 and nMu==0 and EleCRtrigstatus:
             allquantities.ele_PuReweightPV = nPV
             allquantities.ele_noPuReweightPV = nPV
-            allquantities.ele_PuReweightnPVert= pu_nPUVert
-            allquantities.ele_noPuReweightnPVert= pu_nPUVert
+            #allquantities.ele_PuReweightnPVert= pu_nPUVert
+            #allquantities.ele_noPuReweightnPVert= pu_nPUVert
             
         if nPho==1 and nEle==0 and nMu==0 and PhotonCRtrigstatus:
             allquantities.pho_PuReweightPV = nPV
             allquantities.pho_noPuReweightPV = nPV
-            allquantities.pho_PuReweightnPVert= pu_nPUVert
-            allquantities.pho_noPuReweightnPVert= pu_nPUVert
+            #allquantities.pho_PuReweightnPVert= pu_nPUVert
+            #allquantities.pho_noPuReweightnPVert= pu_nPUVert
             
 
 
