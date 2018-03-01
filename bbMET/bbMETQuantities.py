@@ -164,7 +164,7 @@ class MonoHbbQuantities:
                 low='0.'
                 high='1000.'
             elif '_dR_' in quant:
-                bins='120'
+                bins='60'
                 low='0.'
                 high='6.'
             elif 'lep1_pT' in quant or 'jet2_pT' in quant:                   
