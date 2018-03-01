@@ -734,13 +734,13 @@ def AnalyzeDataSet():
             p4_ele2 = eleP4[iele2]
             if eleCharge[iele1]*eleCharge[iele2]<0:
                 ee_mass = ( p4_ele1 + p4_ele2 ).M()
-                zeeRecoilPx = -( pfMet*math.cos(pfMetPhi) - p4_ele1.Px() - p4_ele2.Px())
-                zeeRecoilPy = -( pfMet*math.sin(pfMetPhi) - p4_ele1.Py() - p4_ele2.Py())
+                zeeRecoilPx = -( pfMet*math.cos(pfMetPhi) + p4_ele1.Px() + p4_ele2.Px())
+                zeeRecoilPy = -( pfMet*math.sin(pfMetPhi) + p4_ele1.Py() + p4_ele2.Py())
                 ZeeRecoilPt =  math.sqrt(zeeRecoilPx**2  +  zeeRecoilPy**2)
                 if ee_mass > 70.0 and ee_mass < 110.0 and ZeeRecoilPt > 200.:
                     ZeeRecoil[0] = ZeeRecoilPt
                     ZeeMass[0] = ee_mass
-                    ZeePhi[0] = arctan(-zeeRecoilPx,-zeeRecoilPy)
+                    ZeePhi[0] = arctan(zeeRecoilPx,zeeRecoilPy)
 
         ## for dimu
         if len(myMuos) ==2:
@@ -750,13 +750,13 @@ def AnalyzeDataSet():
             p4_mu2 = muP4[imu2]
             if muCharge[imu1]*muCharge[imu2]<0:
                 mumu_mass = ( p4_mu1 + p4_mu2 ).M()
-                zmumuRecoilPx = -( pfMet*math.cos(pfMetPhi) - p4_mu1.Px() - p4_mu2.Px())
-                zmumuRecoilPy = -( pfMet*math.sin(pfMetPhi) - p4_mu1.Py() - p4_mu2.Py())
+                zmumuRecoilPx = -( pfMet*math.cos(pfMetPhi) + p4_mu1.Px() + p4_mu2.Px())
+                zmumuRecoilPy = -( pfMet*math.sin(pfMetPhi) + p4_mu1.Py() + p4_mu2.Py())
                 ZmumuRecoilPt =  math.sqrt(zmumuRecoilPx**2  +  zmumuRecoilPy**2)
                 if mumu_mass > 70.0 and mumu_mass < 110.0 and ZmumuRecoilPt > 200.:
                     ZmumuRecoil[0] = ZmumuRecoilPt
                     ZmumuMass[0] = mumu_mass
-                    ZmumuPhi[0] = arctan(-zmumuRecoilPx,-zmumuRecoilPy)
+                    ZmumuPhi[0] = arctan(zmumuRecoilPx,zmumuRecoilPy)
 
         if len(myEles) == 2:
             ZRecoilstatus =(ZeeRecoil[0] > 200)
@@ -777,13 +777,13 @@ def AnalyzeDataSet():
 
            e_mass = MT(p4_ele1.Pt(),pfMet, DeltaPhi(p4_ele1.Phi(),pfMetPhi)) #transverse mass defined as sqrt{2pT*MET*(1-cos(dphi)}
 
-           WenuRecoilPx = -( pfMet*math.cos(pfMetPhi) - p4_ele1.Px())
-           WenuRecoilPy = -( pfMet*math.sin(pfMetPhi) - p4_ele1.Py())
+           WenuRecoilPx = -( pfMet*math.cos(pfMetPhi) + p4_ele1.Px())
+           WenuRecoilPy = -( pfMet*math.sin(pfMetPhi) + p4_ele1.Py())
            WenuRecoilPt = math.sqrt(WenuRecoilPx**2  +  WenuRecoilPy**2)
            if WenuRecoilPt > 200.:
                WenuRecoil[0] = WenuRecoilPt
                Wenumass[0] = e_mass
-               WenuPhi[0] = arctan(-WenuRecoilPx,-WenuRecoilPy)
+               WenuPhi[0] = arctan(WenuRecoilPx,WenuRecoilPy)
 
         ## for Single muon
         if len(myMuos) == 1:
@@ -792,13 +792,13 @@ def AnalyzeDataSet():
 
            mu_mass = MT(p4_mu1.Pt(),pfMet, DeltaPhi(p4_mu1.Phi(),pfMetPhi)) #transverse mass defined as sqrt{2pT*MET*(1-cos(dphi)}
 
-           WmunuRecoilPx = -( pfMet*math.cos(pfMetPhi) - p4_mu1.Px())
-           WmunuRecoilPy = -( pfMet*math.sin(pfMetPhi) - p4_mu1.Py())
-           WmunuRecoilPt = math.sqrt(WmunuRecoilPx * WmunuRecoilPx  +  WmunuRecoilPy*WmunuRecoilPy)
+           WmunuRecoilPx = -( pfMet*math.cos(pfMetPhi) + p4_mu1.Px())
+           WmunuRecoilPy = -( pfMet*math.sin(pfMetPhi) + p4_mu1.Py())
+           WmunuRecoilPt = math.sqrt(WmunuRecoilPx**2  +  WmunuRecoilPy**2)
            if WmunuRecoilPt > 200.:
                WmunuRecoil[0] = WmunuRecoilPt
                Wmunumass[0] = mu_mass
-               WmunuPhi[0] = arctan(-WmunuRecoilPx,-WmunuRecoilPy)
+               WmunuPhi[0] = arctan(WmunuRecoilPx,WmunuRecoilPy)
 
 
         if len(myEles) == 1:
@@ -820,12 +820,12 @@ def AnalyzeDataSet():
             p4_mu1 = muP4[mu1]
 
             if muCharge[mu1]*eleCharge[ele1]<0:
-                TOPenumunuRecoilPx = -( pfMet*math.cos(pfMetPhi) - p4_mu1.Px() -p4_ele1.Px())
-                TOPenumunuRecoilPy = -( pfMet*math.sin(pfMetPhi) - p4_mu1.Py() -p4_ele1.Py())
+                TOPenumunuRecoilPx = -( pfMet*math.cos(pfMetPhi) + p4_mu1.Px() + p4_ele1.Px())
+                TOPenumunuRecoilPy = -( pfMet*math.sin(pfMetPhi) + p4_mu1.Py() + p4_ele1.Py())
                 TOPenumunuRecoilPt =  math.sqrt(TOPenumunuRecoilPx**2 + TOPenumunuRecoilPy**2)
                 if TOPenumunuRecoilPt > 200:
                     TOPRecoil[0] = TOPenumunuRecoilPt
-                    TOPPhi[0] = arctan(-TOPenumunuRecoilPx,-TOPenumunuRecoilPy)
+                    TOPPhi[0] = arctan(TOPenumunuRecoilPx,TOPenumunuRecoilPy)
 
 
         TOPRecoilstatus = (TOPRecoil[0] > 200.)
@@ -845,12 +845,12 @@ def AnalyzeDataSet():
            pho1 = myPhos[0]
            p4_pho1 = phoP4[pho1]
 
-           GammaRecoilPx = -( pfMet*math.cos(pfMetPhi) - p4_pho1.Px())
-           GammaRecoilPy = -( pfMet*math.sin(pfMetPhi) - p4_pho1.Py())
+           GammaRecoilPx = -( pfMet*math.cos(pfMetPhi) + p4_pho1.Px())
+           GammaRecoilPy = -( pfMet*math.sin(pfMetPhi) + p4_pho1.Py())
            GammaRecoilPt = math.sqrt(GammaRecoilPx**2  +  GammaRecoilPy**2)
            if GammaRecoilPt > 200.:
                GammaRecoil[0] = GammaRecoilPt
-               GammaPhi[0] = arctan(-GammaRecoilPx,-GammaRecoilPy)
+               GammaPhi[0] = arctan(GammaRecoilPx,GammaRecoilPy)
 
         GammaRecoilStatus = (GammaRecoil[0] > 200)
 
