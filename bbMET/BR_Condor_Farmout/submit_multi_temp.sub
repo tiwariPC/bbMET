@@ -1,0 +1,17 @@
+universe = vanilla
+use_x509userproxy = true
+executable = runAnalysis.sh
+should_transfer_files = YES
+output = output/condor.$(ClusterId).$(ProcId).out
+error = error/condor.$(ClusterId).$(ProcId).err
+log = log/condor.$(ClusterId).$(Process).log
+transfer_input_files = /etc/ciconnect/templates/cmssw_setup.sh, ../bbMETBranchReader.py, ../bbMETQuantities.py, ../AllQuantList.py, ../BTagCalibrationStandalone.cpp, ../BTagCalibrationStandalone.h, ../CSVv2_Moriond17_B_H.csv, ../DeepCSV_Moriond17_B_H.csv, ../pileUPinfo2016.root, ../Loader.h, ../scalefactors, Filelist_temp.txt, tempFilelists_2018-03-01-15-17-31/crab_SingleMuon-Run2016H-03Feb2017_ver3-v1_0000_0.txt
+
+on_exit_remove = (ExitBySignal == False) && (ExitCode == 0)
+on_exit_hold = ( (ExitBySignal == True) || (ExitCode != 0) )
+on_exit_hold_reason = strcat("Job held by ON_EXIT_HOLD due to ",ifThenElse((ExitBySignal == True), "exit by signal",strcat("exit code ",ExitCode)), ".")
+periodic_release =  (NumJobStarts < 5) && ((CurrentTime - EnteredCurrentStatus) > (60*60))
+
+arguments = crab_SingleMuon-Run2016H-03Feb2017_ver3-v1_0000_0.txt
+transfer_output_remaps = "BROutput.root = BR_Outputs/Output_crab_SingleMuon-Run2016H-03Feb2017_ver3-v1_0000_0.root"
+queue
