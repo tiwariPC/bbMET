@@ -401,7 +401,8 @@ def AnalyzeDataSet():
     if options.CSV:
         calib1 = ROOT.BTagCalibrationStandalone('csvv2', 'CSVv2_Moriond17_B_H.csv')
     if options.DeepCSV:
-        calib1 = ROOT.BTagCalibrationStandalone('deepCSV', 'DeepCSV_Moriond17_B_H.csv')
+        calib1 = ROOT.BTagCalibrationStandalone('deepcsv', 'DeepCSV_Moriond17_B_H.csv')
+
     reader1 = ROOT.BTagCalibrationStandaloneReader( 0, "central", othersys)
     reader1.load(calib1, 0,  "comb" )
     reader1.load(calib1, 1,  "comb" )
@@ -1021,7 +1022,7 @@ def AnalyzeDataSet():
 
         for quant in regquants:
             exec("allquantities."+quant+" = None")
-        
+
         Histos2D=AllQuantList.getHistos2D()
         for quant in Histos2D:
             exec("allquantities."+quant+" = None")
@@ -1254,7 +1255,7 @@ def AnalyzeDataSet():
                     allquantities.reg_2mu1b_nUncleanTau = nUncleanTau
                     allquantities.reg_2mu1b_nUncleanEle = nUncleanEle
                     allquantities.reg_2mu1b_nUncleanMu = nUncleanMu
-                    
+
                     allquantities.ZpT_MET = [ZpT,pfMet]
                     allquantities.MET_Recoil = [pfMet,ZmumuRecoil]
                     allquantities.ZpT_Recoil_MET0 = [ZpT,ZmumuRecoil]
@@ -1816,42 +1817,48 @@ def AnalyzeDataSet():
             xbin2 = metTrig_secondmethod.GetXaxis().FindBin(ZmumuRecoil)
             metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
             metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
-            metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+            #metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+            metTrig_Reweight = metTrig_firstmethodReweight
 #            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
         elif ZeeRecoil > 200:
             xbin1 = metTrig_firstmethod.GetXaxis().FindBin(ZeeRecoil)
             xbin2 = metTrig_secondmethod.GetXaxis().FindBin(ZeeRecoil)
             metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
             metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
-            metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+            #metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+            metTrig_Reweight = metTrig_firstmethodReweight
 #            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
         elif WmunuRecoil > 200:
             xbin1 = metTrig_firstmethod.GetXaxis().FindBin(WmunuRecoil)
             xbin2 = metTrig_secondmethod.GetXaxis().FindBin(WmunuRecoil)
             metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
             metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
-            metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+            #metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+            metTrig_Reweight = metTrig_firstmethodReweight
 #            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
         elif WenuRecoil > 200:
             xbin1 = metTrig_firstmethod.GetXaxis().FindBin(WenuRecoil)
             xbin2 = metTrig_secondmethod.GetXaxis().FindBin(WenuRecoil)
             metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
             metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
-            metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+            #metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+            metTrig_Reweight = metTrig_firstmethodReweight
 #            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
         elif TOPRecoil > 200:
             xbin1 = metTrig_firstmethod.GetXaxis().FindBin(TOPRecoil)
             xbin2 = metTrig_secondmethod.GetXaxis().FindBin(TOPRecoil)
             metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
             metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
-            metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+            #metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+            metTrig_Reweight = metTrig_firstmethodReweight
 #            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
         elif GammaRecoil > 200:
             xbin1 = metTrig_firstmethod.GetXaxis().FindBin(GammaRecoil)
             xbin2 = metTrig_secondmethod.GetXaxis().FindBin(GammaRecoil)
             metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
             metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
-            metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+            #metTrig_Reweight = (metTrig_firstmethodReweight + metTrig_secondmethodReweight)*0.5
+            metTrig_Reweight = metTrig_firstmethodReweight
 #            metTrigSysUnc = (metTrig_firstmethod.GetBinContent(ZmumuRecoil)-metTrig_secondmethod.GetBinContent(ZmumuRecoil))
 
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -2484,9 +2491,6 @@ def AnalyzeDataSet():
             allquantities.pho_noPuReweightPV = nPV
             #allquantities.pho_PuReweightnPVert= pu_nPUVert
             #allquantities.pho_noPuReweightnPVert= pu_nPUVert
-            
-
-
 
         #print (allquantities.regime, allquantities.met,allquantities.mass )
         allquantities.FillRegionHisto()
