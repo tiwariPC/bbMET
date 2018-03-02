@@ -164,7 +164,7 @@ class MonoHbbQuantities:
                 low='0.'
                 high='1000.'
             elif '_dR_' in quant:
-                bins='120'
+                bins='60'
                 low='0.'
                 high='6.'
             elif 'lep1_pT' in quant or 'jet2_pT' in quant:                   
@@ -300,10 +300,10 @@ class MonoHbbQuantities:
 
         allquantlist=AllQuantList.getAll()
         for quant in allquantlist:
-            if not 'noPuReweightPV' in quant:
-                exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF)")
-            else:
+            if 'noPuReweightPV' in quant or 'noPuReweightnPVert' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF1)")
+            else:
+                exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF)")
         
        
     def WriteHisto(self, (nevts,nevts_weight,npass,cutflowvalues,cutflownames,cutflowvaluesSR1,cutflownamesSR1,cutflowvaluesSR2,cutflownamesSR2,CRvalues,CRnames,regionnames,CRcutnames,CRcutflowvaluesSet)):
