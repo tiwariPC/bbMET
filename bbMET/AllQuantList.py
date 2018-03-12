@@ -88,6 +88,14 @@ def getRegionQuants():
         for var in varlist:
             regquants.append("reg_"+reg+"_"+var)
     
+    #QCD CR       
+    regions=['QCD1b','QCD2b']
+    varlist=['MET','jet1_pT','jet2_pT','jet1_eta','jet2_eta','jet1_csv','jet2_csv','jet1_deepcsv','jet2_deepcsv','njet','ntau','nele','nmu','nUncleanEle','nUncleanMu','nUncleanTau','min_dPhi_jet_MET']
+    
+    for reg in regions:
+        for var in varlist:
+            regquants.append("reg_"+reg+"_"+var)
+    
     return regquants   
     
 def getHistos2D():
