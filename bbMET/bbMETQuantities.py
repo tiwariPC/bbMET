@@ -183,14 +183,14 @@ class MonoHbbQuantities:
                 bins='100'
                 low='0.'
                 high='100.'
-            else:                   # for pT, mass, etc.
-                bins='50'
-                low='0.'
-                high='1000.'
             elif 'syst' in quant:
                 bins='40'
                 low='0.'
                 high='2000.'
+            else:                   # for pT, mass, etc.
+                bins='50'
+                low='0.'
+                high='1000.'
 
             return bins,low,high
 
