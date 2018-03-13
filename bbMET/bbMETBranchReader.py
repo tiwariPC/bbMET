@@ -2018,6 +2018,8 @@ def AnalyzeDataSet():
         ## MET reweights
         #----------------------------------------------------------------------------------------------------------------------------------------------------------------
         metTrig_Reweight=1.0
+        metTrig_Reweight_systUP=1.0
+        metTrig_Reweight_systDOWN=1.0
         if ZmumuRecoil > 200:
             xbin1 = metTrig_firstmethod.GetXaxis().FindBin(ZmumuRecoil)
             xbin2 = metTrig_secondmethod.GetXaxis().FindBin(ZmumuRecoil)
@@ -2073,6 +2075,8 @@ def AnalyzeDataSet():
         #
         uni = random.uniform(0., 1.)
         muonTrig_SF = 1.0
+        muonTrig_SF_systUP=1.0
+        muonTrig_SF_systDOWN=1.0
         if nMu == 1:
             mupt = muP4[0].Pt()
             abeta = abs(muP4[0].Eta())
@@ -2093,7 +2097,11 @@ def AnalyzeDataSet():
                 ybin = muonTrigSFs_EfficienciesAndSF_Period4.GetYaxis().FindBin(mupt)
                 muonTrig_SF *= muonTrigSFs_EfficienciesAndSF_Period4.GetBinContent(xbin,ybin)
         muIDSF_loose = 1.0
+        muIDSF_loose_systUP=1.0
+        muIDSF_loose_systDOWN=1.0
         muIDSF_tight = 1.0
+        muIDSF_tight_systUP=1.0
+        muIDSF_tight_systDOWN=1.0
         for imu in range(nMu):
             mupt = muP4[imu].Pt()
             abeta = abs(muP4[imu].Eta())
@@ -2117,7 +2125,11 @@ def AnalyzeDataSet():
                     muIDSF_loose *= muonLooseIDSFs_EfficienciesAndSF_GH.GetBinContent(xbin,ybin)
 
         muIsoSF_loose = 1.0
+        muIsoSF_loose_systUP=1.0
+        muIsoSF_loose_systDOWN=1.0
         muIsoSF_tight = 1.0
+        muIsoSF_tight_systUP=1.0
+        muIsoSF_tight_systDOWN=1.0
         for imu in range(nMu):
             mupt = muP4[imu].Pt()
             abeta = abs(muP4[imu].Eta())
@@ -2142,6 +2154,8 @@ def AnalyzeDataSet():
                     muIsoSF_loose *= muonLooseIsoSFs_EfficienciesAndSF_GH.GetBinContent(xbin,ybin)
 
         muTracking_SF = 1.0
+        muTracking_SF_systUP=1.0
+        muTracking_SF_systDown=1.0
         for imu in range(nMu):
             abeta = abs(muP4[imu].Eta())
             muTracking_SF *= muonTrackingSFs_EfficienciesAndSF_BCDEFGH.Eval(abeta)
@@ -2151,8 +2165,8 @@ def AnalyzeDataSet():
         ## Electron reweight
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         eleTrig_reweight = 1.0
-        eleTrig_reweight_up = 1.0
-        eleTrig_reweight_down = 1.0
+        eleTrig_reweight_systUP = 1.0
+        eleTrig_reweight_systdown = 1.0
         if nEle == 1:
             elept = eleP4[0].Pt()
             eleeta = eleP4[0].Eta()
@@ -2173,8 +2187,8 @@ def AnalyzeDataSet():
 
 
         eleRecoSF = 1.0
-        eleRecoSF_up = 1.0
-        eleRecoSF_down = 1.0
+        eleRecoSF_systUP = 1.0
+        eleRecoSF_systDOWN = 1.0
         for iele in range(nEle):
             elept = eleP4[iele].Pt()
             eleeta = eleP4[iele].Eta()
@@ -2186,7 +2200,11 @@ def AnalyzeDataSet():
             #eleRecoSF_down *= eleRecoSF_EGamma_SF2D.GetBinContent(xbin,ybin) - std
 
         eleIDSF_loose = 1.0
+        eleIDSF_loose_systUP = 1.0
+        eleIDSF_loose_systDOWN = 1.0
         eleIDSF_tight = 1.0
+        eleIDSF_tight_systUP = 1.0
+        eleIDSF_tight_systDOWN = 1.0
         for iele in range(nEle):
             elept = eleP4[iele].Pt()
             eleeta = eleP4[iele].Eta()
@@ -2199,13 +2217,13 @@ def AnalyzeDataSet():
                 ybin = eleLooseIDSF_EGamma_SF2D.GetYaxis().FindBin(elept)
                 eleIDSF_loose *= eleLooseIDSF_EGamma_SF2D.GetBinContent(xbin,ybin)
 
-        eleVetoCutBasedIDSF = 1.0
-        for iele in range(nEle):
-            elept = eleP4[iele].Pt()
-            eleeta = eleP4[iele].Eta()
-            xbin = eleVetoCutBasedIDSF_egammaEffi_txt_EGM2D.GetXaxis().FindBin(eleeta)
-            ybin = eleVetoCutBasedIDSF_egammaEffi_txt_EGM2D.GetYaxis().FindBin(elept)
-            eleVetoCutBasedIDSF *= eleVetoCutBasedIDSF_egammaEffi_txt_EGM2D.GetBinContent(xbin,ybin)
+        #eleVetoCutBasedIDSF = 1.0
+        #for iele in range(nEle):
+        #    elept = eleP4[iele].Pt()
+        #    eleeta = eleP4[iele].Eta()
+        #    xbin = eleVetoCutBasedIDSF_egammaEffi_txt_EGM2D.GetXaxis().FindBin(eleeta)
+        #    ybin = eleVetoCutBasedIDSF_egammaEffi_txt_EGM2D.GetYaxis().FindBin(elept)
+        #    eleVetoCutBasedIDSF *= eleVetoCutBasedIDSF_egammaEffi_txt_EGM2D.GetBinContent(xbin,ybin)
 
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Pileup weight
@@ -2246,7 +2264,8 @@ def AnalyzeDataSet():
 #            print 'Warning:: muon weight is 0, setting it to 1'
             muweights = 1.0
 
-        eleweights = eleTrig_reweight * eleRecoSF * eleIDSF_loose * eleIDSF_tight * eleVetoCutBasedIDSF
+        #eleweights = eleTrig_reweight * eleRecoSF * eleIDSF_loose * eleIDSF_tight * eleVetoCutBasedIDSF
+        eleweights = eleTrig_reweight * eleRecoSF * eleIDSF_loose * eleIDSF_tight
         if eleweights == 0.0:
 #            print 'Warning:: electron weight is 0, setting it to 1'
             eleweights = 1.0
