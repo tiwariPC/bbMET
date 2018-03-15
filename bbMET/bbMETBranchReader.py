@@ -108,8 +108,7 @@ parser.add_option("--se", action="store_true",  dest="SE")
 parser.add_option("--met", action="store_true",  dest="MET")
 parser.add_option("--sp", action="store_true",  dest="SP")
 
-parser.add_option("--systup", action="store_true",  dest="SystUp")
-parser.add_option("--systdown", action="store_true",  dest="SystDown")
+parser.add_option("--syst", action="store_true",  dest="Systematics")
 ########################################################################################################################
 ########################## cut values########################################################################
 ########################################################################################################################
@@ -141,11 +140,8 @@ if options.MET==None:
 if options.SP==None:
     options.SP==False
 
-if options.SystUp==None:
-    options.SystUp==False
-
-if options.SystDown==None:
-    options.SystDown==False
+if options.Systematics==None:
+    options.Systematics==False
 
 if options.SE: print "Using SingleElectron dataset."
 if options.SP: print "Using SinglePhoton dataset."
@@ -645,6 +641,22 @@ def AnalyzeDataSet():
         myPhoTightID=[]
         for ipho in range(nPho):
             if phoP4[ipho].Pt() < 175 : continue
+            #---Fake Pho cleaner----
+            isClean=True
+            if options.CSV:
+                for ijet in range(nTHINJets):
+                    pho_jet_dR=DeltaR(ijet,phoP4[ipho])    # math.sqrt(  (  ijet.Eta()-phoP4[ipho].Eta() )**2  + (  DeltaPhi(ijet.Phi(),phoP4[ipho].Phi()) )**2 )
+                    if pho_jet_dR < 0.4:
+                        isClean=False
+                        break
+                if not isClean: continue
+            if options.DeepCSV:
+                for ijet in range(nTHINdeepCSVJets):
+                    pho_jet_dR=DeltaR(ijet,phoP4[ipho])    # math.sqrt(  (  ijet.Eta()-phoP4[ipho].Eta() )**2  + (  DeltaPhi(ijet.Phi(),phoP4[ipho].Phi()) )**2 )
+                    if pho_jet_dR < 0.4:
+                        isClean=False
+                        break
+                if not isClean: continue
             myPhos.append(phoP4[ipho])
             myPhoLooseID.append(phoIsPassLoose[ipho])
             myPhoTightID.append(phoIsPassTight[ipho])
@@ -849,6 +861,18 @@ def AnalyzeDataSet():
 
         writeSR1=False
         writeSR2=False
+        isZeeCR1=False
+        isZeeCR2=False
+        isZmumuCR1=False
+        isZmunuCR2=False
+        isWenuCR1=False
+        isWenuCR2=False
+        isWmunuCR1=False
+        isWmunuCR2=False
+        isTopCR1=False
+        isTopCR2=False
+        isGammaCR1=False
+        isGammaCR2=False
 
 
 
@@ -1286,6 +1310,7 @@ def AnalyzeDataSet():
                     allquantities.reg_2e1b_nUncleanTau = nUncleanTau
                     allquantities.reg_2e1b_nUncleanEle = nUncleanEle
                     allquantities.reg_2e1b_nUncleanMu = nUncleanMu
+                    isZeeCR1 = True
 
             #2e, 2 b-tagged
                 if nBjets==2 and SR2jet2 and SR2njetcond:
@@ -1326,6 +1351,7 @@ def AnalyzeDataSet():
                     allquantities.reg_2e2b_nUncleanTau = nUncleanTau
                     allquantities.reg_2e2b_nUncleanEle = nUncleanEle
                     allquantities.reg_2e2b_nUncleanMu = nUncleanMu
+                    isZeeCR2 = True
 
 
         #2mu, 1 b-tagged
@@ -1392,6 +1418,7 @@ def AnalyzeDataSet():
                     if pfMet > 100. : allquantities.ZpT_Recoil_MET100 = [ZpT,ZmumuRecoil]
                     if pfMet > 150. : allquantities.ZpT_Recoil_MET150 = [ZpT,ZmumuRecoil]
                     if pfMet > 200. : allquantities.ZpT_Recoil_MET200 = [ZpT,ZmumuRecoil]
+                    isZmumuCR1 = True
 
 
             #2mu, 2 b-tagged
@@ -1437,6 +1464,7 @@ def AnalyzeDataSet():
                     allquantities.reg_2mu2b_nUncleanTau = nUncleanTau
                     allquantities.reg_2mu2b_nUncleanEle = nUncleanEle
                     allquantities.reg_2mu2b_nUncleanMu = nUncleanMu
+                    isZmunuCR2 = True
 
 # -------------------------------------------
 # W CR
@@ -1522,6 +1550,7 @@ def AnalyzeDataSet():
                     allquantities.reg_1e1b_nUncleanTau = nUncleanTau
                     allquantities.reg_1e1b_nUncleanEle = nUncleanEle
                     allquantities.reg_1e1b_nUncleanMu = nUncleanMu
+                    isWenuCR1 = True
 
             #1e, 2 b-tagged
                 if nBjets==2 and SR2jet2 and SR2njetcond:
@@ -1566,6 +1595,7 @@ def AnalyzeDataSet():
                     allquantities.reg_1e2b_nUncleanTau = nUncleanTau
                     allquantities.reg_1e2b_nUncleanEle = nUncleanEle
                     allquantities.reg_1e2b_nUncleanMu = nUncleanMu
+                    isWenuCR2 = True
 
 
 
@@ -1620,6 +1650,7 @@ def AnalyzeDataSet():
                     allquantities.reg_1mu1b_nUncleanTau = nUncleanTau
                     allquantities.reg_1mu1b_nUncleanEle = nUncleanEle
                     allquantities.reg_1mu1b_nUncleanMu = nUncleanMu
+                    isWmunuCR1 = True
 
             #1mu, 2 b-tagged
                 if  nBjets==2 and SR2jet2 and SR2njetcond:
@@ -1661,6 +1692,7 @@ def AnalyzeDataSet():
                     allquantities.reg_1mu2b_nUncleanTau = nUncleanTau
                     allquantities.reg_1mu2b_nUncleanEle = nUncleanEle
                     allquantities.reg_1mu2b_nUncleanMu = nUncleanMu
+                    isWmunuCR2 = True
 
 # -------------------------------------------
 # Top CR
@@ -1737,6 +1769,7 @@ def AnalyzeDataSet():
                     allquantities.reg_1mu1e1b_nUncleanTau = nUncleanTau
                     allquantities.reg_1mu1e1b_nUncleanEle = nUncleanEle
                     allquantities.reg_1mu1e1b_nUncleanMu = nUncleanMu
+                    isTopCR1 = True
 
             #1mu, 1e, 2 b-tagged
                 if nBjets==2 and SR2jet2 and SR2njetcond:
@@ -1786,6 +1819,7 @@ def AnalyzeDataSet():
                     allquantities.reg_1mu1e2b_nUncleanTau = nUncleanTau
                     allquantities.reg_1mu1e2b_nUncleanEle = nUncleanEle
                     allquantities.reg_1mu1e2b_nUncleanMu = nUncleanMu
+                    isTopCR2 = True
 # -------------------------------------------
 # Gamma CR
 # -------------------------------------------
@@ -1849,6 +1883,7 @@ def AnalyzeDataSet():
                     allquantities.reg_1gamma1b_nUncleanTau = nUncleanTau
                     allquantities.reg_1gamma1b_nUncleanEle = nUncleanEle
                     allquantities.reg_1gamma1b_nUncleanMu = nUncleanMu
+                    isGammaCR1 = True
 
    #1 photon, 2 b-tagged
                 if nBjets==2 and SR2jet2 and SR2njetcond:
@@ -1890,6 +1925,7 @@ def AnalyzeDataSet():
                     allquantities.reg_1gamma2b_nUncleanTau = nUncleanTau
                     allquantities.reg_1gamma2b_nUncleanEle = nUncleanEle
                     allquantities.reg_1gamma2b_nUncleanMu = nUncleanMu
+                    isGammaCR2 = True
 
 
         # QCD CR
@@ -2092,10 +2128,14 @@ def AnalyzeDataSet():
                 xbin = muonTrigSFs_EfficienciesAndSF_RunBtoF.GetXaxis().FindBin(abeta)
                 ybin = muonTrigSFs_EfficienciesAndSF_RunBtoF.GetYaxis().FindBin(mupt)
                 muonTrig_SF *= muonTrigSFs_EfficienciesAndSF_RunBtoF.GetBinContent(xbin,ybin)
+                muonTrig_SF_systUP *= muonTrigSFs_EfficienciesAndSF_RunBtoF.GetBinContent(xbin,ybin) + muonTrigSFs_EfficienciesAndSF_RunBtoF.GetStdDev()
+                muonTrig_SF_systDOWN *= muonTrigSFs_EfficienciesAndSF_RunBtoF.GetBinContent(xbin,ybin) - muonTrigSFs_EfficienciesAndSF_RunBtoF.GetStdDev()
             elif uni > 0.54:
                 xbin = muonTrigSFs_EfficienciesAndSF_Period4.GetXaxis().FindBin(abeta)
                 ybin = muonTrigSFs_EfficienciesAndSF_Period4.GetYaxis().FindBin(mupt)
                 muonTrig_SF *= muonTrigSFs_EfficienciesAndSF_Period4.GetBinContent(xbin,ybin)
+                muonTrig_SF_systUP *= muonTrigSFs_EfficienciesAndSF_Period4.GetBinContent(xbin,ybin) + muonTrigSFs_EfficienciesAndSF_Period4.GetStdDev()
+                muonTrig_SF_systDOWN *= muonTrigSFs_EfficienciesAndSF_Period4.GetBinContent(xbin,ybin) - muonTrigSFs_EfficienciesAndSF_Period4.GetStdDev()
         muIDSF_loose = 1.0
         muIDSF_loose_systUP=1.0
         muIDSF_loose_systDOWN=1.0
@@ -2110,19 +2150,27 @@ def AnalyzeDataSet():
                     xbin = muonTightIDSFs_EfficienciesAndSF_BCDEF.GetXaxis().FindBin(abeta)
                     ybin = muonTightIDSFs_EfficienciesAndSF_BCDEF.GetYaxis().FindBin(mupt)
                     muIDSF_tight *= muonTightIDSFs_EfficienciesAndSF_BCDEF.GetBinContent(xbin,ybin)
+                    muIDSF_tight_systUP *= (muonTightIDSFs_EfficienciesAndSF_BCDEF.GetBinContent(xbin,ybin) + muonTightIDSFs_EfficienciesAndSF_BCDEF.GetStdDev())
+                    muIDSF_tight_systDOWN *= (muonTightIDSFs_EfficienciesAndSF_BCDEF.GetBinContent(xbin,ybin) - muonTightIDSFs_EfficienciesAndSF_BCDEF.GetStdDev())
                 else:
                     xbin = muonLooseIDSFs_EfficienciesAndSF_BCDEF.GetXaxis().FindBin(abeta)
                     ybin = muonLooseIDSFs_EfficienciesAndSF_BCDEF.GetYaxis().FindBin(mupt)
                     muIDSF_loose *= muonLooseIDSFs_EfficienciesAndSF_BCDEF.GetBinContent(xbin,ybin)
+                    muIDSF_loose_systUP *= (muonLooseIDSFs_EfficienciesAndSF_BCDEF.GetBinContent(xbin,ybin) + muonLooseIDSFs_EfficienciesAndSF_BCDEF.GetStdDev())
+                    muIDSF_loose_systDOWN *= (muonLooseIDSFs_EfficienciesAndSF_BCDEF.GetBinContent(xbin,ybin) - muonLooseIDSFs_EfficienciesAndSF_BCDEF.GetStdDev())
             if uni > 0.54:
                 if mupt > 30:
                     xbin = muonTightIDSFs_EfficienciesAndSF_GH.GetXaxis().FindBin(abeta)
                     ybin = muonTightIDSFs_EfficienciesAndSF_GH.GetYaxis().FindBin(mupt)
                     muIDSF_tight *= muonTightIDSFs_EfficienciesAndSF_GH.GetBinContent(xbin,ybin)
+                    muIDSF_tight_systUP *= (muonTightIDSFs_EfficienciesAndSF_GH.GetBinContent(xbin,ybin) - muonTightIDSFs_EfficienciesAndSF_GH.GetStdDev())
+                    muIDSF_tight_systDOWN *= (muonTightIDSFs_EfficienciesAndSF_GH.GetBinContent(xbin,ybin) + muonTightIDSFs_EfficienciesAndSF_GH.GetStdDev())
                 else:
                     xbin = muonLooseIDSFs_EfficienciesAndSF_GH.GetXaxis().FindBin(abeta)
                     ybin = muonLooseIDSFs_EfficienciesAndSF_GH.GetYaxis().FindBin(mupt)
                     muIDSF_loose *= muonLooseIDSFs_EfficienciesAndSF_GH.GetBinContent(xbin,ybin)
+                    muIDSF_loose_systUP *= (muonLooseIDSFs_EfficienciesAndSF_GH.GetBinContent(xbin,ybin) + muonLooseIDSFs_EfficienciesAndSF_GH.GetStdDev())
+                    muIDSF_loose_systDOWN *= (muonLooseIDSFs_EfficienciesAndSF_GH.GetBinContent(xbin,ybin) - muonLooseIDSFs_EfficienciesAndSF_GH.GetStdDev())
 
         muIsoSF_loose = 1.0
         muIsoSF_loose_systUP=1.0
@@ -2135,30 +2183,40 @@ def AnalyzeDataSet():
             abeta = abs(muP4[imu].Eta())
             muiso = MuIso[imu]
             if uni < 0.54:
-                if muiso < 0.54:
+                if muiso < 0.15:
                     xbin = muonTightIsoSFs_EfficienciesAndSF_BCDEF.GetXaxis().FindBin(abeta)
                     ybin = muonTightIsoSFs_EfficienciesAndSF_BCDEF.GetYaxis().FindBin(mupt)
                     muIsoSF_tight *= muonTightIsoSFs_EfficienciesAndSF_BCDEF.GetBinContent(xbin,ybin)
-                elif muiso < 0.54:
+                    muIsoSF_tight_systUP *= (muonTightIsoSFs_EfficienciesAndSF_BCDEF.GetBinContent(xbin,ybin) + muonTightIsoSFs_EfficienciesAndSF_BCDEF.GetStdDev())
+                    muIsoSF_tight_systDOWN *= (muonTightIsoSFs_EfficienciesAndSF_BCDEF.GetBinContent(xbin,ybin) - muonTightIsoSFs_EfficienciesAndSF_BCDEF.GetStdDev())
+                elif muiso < 0.25:
                     xbin = muonLooseIsoSFs_EfficienciesAndSF_BCDEF.GetXaxis().FindBin(abeta)
                     ybin = muonLooseIsoSFs_EfficienciesAndSF_BCDEF.GetYaxis().FindBin(mupt)
                     muIsoSF_loose *= muonLooseIsoSFs_EfficienciesAndSF_BCDEF.GetBinContent(xbin,ybin)
+                    muIsoSF_loose_systUP *= (muonLooseIsoSFs_EfficienciesAndSF_BCDEF.GetBinContent(xbin,ybin) + muonLooseIsoSFs_EfficienciesAndSF_BCDEF.GetStdDev())
+                    muIsoSF_loose_systDOWN *= (muonLooseIsoSFs_EfficienciesAndSF_BCDEF.GetBinContent(xbin,ybin) - muonLooseIsoSFs_EfficienciesAndSF_BCDEF.GetStdDev())
             if uni > 0.54:
                 if muiso < 0.15:
                     xbin = muonTightIsoSFs_EfficienciesAndSF_GH.GetXaxis().FindBin(abeta)
                     ybin = muonTightIsoSFs_EfficienciesAndSF_GH.GetYaxis().FindBin(mupt)
                     muIsoSF_tight *= muonTightIsoSFs_EfficienciesAndSF_GH.GetBinContent(xbin,ybin)
+                    muIsoSF_tight_systUP *= (muonTightIsoSFs_EfficienciesAndSF_GH.GetBinContent(xbin,ybin) + muonTightIsoSFs_EfficienciesAndSF_GH.GetStdDev())
+                    muIsoSF_tight_systDOWN *= (muonTightIsoSFs_EfficienciesAndSF_GH.GetBinContent(xbin,ybin) - muonTightIsoSFs_EfficienciesAndSF_GH.GetStdDev())
                 elif muiso < 0.25:
                     xbin = muonLooseIsoSFs_EfficienciesAndSF_GH.GetXaxis().FindBin(abeta)
                     ybin = muonLooseIsoSFs_EfficienciesAndSF_GH.GetYaxis().FindBin(mupt)
                     muIsoSF_loose *= muonLooseIsoSFs_EfficienciesAndSF_GH.GetBinContent(xbin,ybin)
+                    muIsoSF_loose_systUP *= (muonLooseIsoSFs_EfficienciesAndSF_GH.GetBinContent(xbin,ybin) + muonLooseIsoSFs_EfficienciesAndSF_GH.GetStdDev())
+                    muIsoSF_loose_systDOWN *= (muonLooseIsoSFs_EfficienciesAndSF_GH.GetBinContent(xbin,ybin) - muonLooseIsoSFs_EfficienciesAndSF_GH.GetStdDev())
 
         muTracking_SF = 1.0
         muTracking_SF_systUP=1.0
-        muTracking_SF_systDown=1.0
+        muTracking_SF_systDOWN=1.0
         for imu in range(nMu):
             abeta = abs(muP4[imu].Eta())
             muTracking_SF *= muonTrackingSFs_EfficienciesAndSF_BCDEFGH.Eval(abeta)
+            muTracking_SF_systUP *= (muonTrackingSFs_EfficienciesAndSF_BCDEFGH.Eval(abeta) + muonTrackingSFs_EfficienciesAndSF_BCDEFGH.GetStdDev())
+            muTracking_SF_systDOWN *= (muonTrackingSFs_EfficienciesAndSF_BCDEFGH.Eval(abeta) - muonTrackingSFs_EfficienciesAndSF_BCDEFGH.GetStdDev())
 
 
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -2166,7 +2224,7 @@ def AnalyzeDataSet():
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         eleTrig_reweight = 1.0
         eleTrig_reweight_systUP = 1.0
-        eleTrig_reweight_systdown = 1.0
+        eleTrig_reweight_systDOWN = 1.0
         if nEle == 1:
             elept = eleP4[0].Pt()
             eleeta = eleP4[0].Eta()
@@ -2180,10 +2238,9 @@ def AnalyzeDataSet():
         if nEle==1 or nEle==2:
             xbin = eleTrig_hEffEtaPt.GetXaxis().FindBin(eleeta)
             ybin = eleTrig_hEffEtaPt.GetYaxis().FindBin(elept)
-            std  = eleTrig_hEffEtaPt.GetStdDev()
             eleTrig_reweight *= eleTrig_hEffEtaPt.GetBinContent(xbin,ybin)
-            #eleTrig_reweight_up *= eleTrig_hEffEtaPt.GetBinContent(xbin,ybin) + std
-            #eleTrig_reweight_down *= eleTrig_hEffEtaPt.GetBinContent(xbin,ybin) - std
+            eleTrig_reweight_systUP *= (eleTrig_hEffEtaPt.GetBinContent(xbin,ybin) + eleTrig_hEffEtaPt.GetStdDev())
+            eleTrig_reweight_systDOWN *= (eleTrig_hEffEtaPt.GetBinContent(xbin,ybin) - eleTrig_hEffEtaPt.GetStdDev())
 
 
         eleRecoSF = 1.0
@@ -2194,10 +2251,9 @@ def AnalyzeDataSet():
             eleeta = eleP4[iele].Eta()
             xbin = eleRecoSF_EGamma_SF2D.GetXaxis().FindBin(eleeta)
             ybin = eleRecoSF_EGamma_SF2D.GetYaxis().FindBin(elept)
-            std  = eleRecoSF_EGamma_SF2D.GetStdDev()
             eleRecoSF *= eleRecoSF_EGamma_SF2D.GetBinContent(xbin,ybin)
-            #eleRecoSF_up *= eleRecoSF_EGamma_SF2D.GetBinContent(xbin,ybin) + std
-            #eleRecoSF_down *= eleRecoSF_EGamma_SF2D.GetBinContent(xbin,ybin) - std
+            eleRecoSF_systUP *= (eleRecoSF_EGamma_SF2D.GetBinContent(xbin,ybin) + eleRecoSF_EGamma_SF2D.GetStdDev())
+            eleRecoSF_systDOWN *= (eleRecoSF_EGamma_SF2D.GetBinContent(xbin,ybin) - eleRecoSF_EGamma_SF2D.GetStdDev())
 
         eleIDSF_loose = 1.0
         eleIDSF_loose_systUP = 1.0
@@ -2212,10 +2268,14 @@ def AnalyzeDataSet():
                 xbin = eleTightIDSF_EGamma_SF2D.GetXaxis().FindBin(eleeta)
                 ybin = eleTightIDSF_EGamma_SF2D.GetYaxis().FindBin(elept)
                 eleIDSF_tight *= eleTightIDSF_EGamma_SF2D.GetBinContent(xbin,ybin)
+                eleIDSF_tight_systUP *= (eleTightIDSF_EGamma_SF2D.GetBinContent(xbin,ybin) + eleTightIDSF_EGamma_SF2D.GetStdDev())
+                eleIDSF_tight_systDOWN *= (eleTightIDSF_EGamma_SF2D.GetBinContent(xbin,ybin) - eleTightIDSF_EGamma_SF2D.GetStdDev())
             else:
                 xbin = eleLooseIDSF_EGamma_SF2D.GetXaxis().FindBin(eleeta)
                 ybin = eleLooseIDSF_EGamma_SF2D.GetYaxis().FindBin(elept)
                 eleIDSF_loose *= eleLooseIDSF_EGamma_SF2D.GetBinContent(xbin,ybin)
+                eleIDSF_loose_systUP *= (eleLooseIDSF_EGamma_SF2D.GetBinContent(xbin,ybin) + eleLooseIDSF_EGamma_SF2D.GetStdDev())
+                eleIDSF_loose_systDOWN *= (eleLooseIDSF_EGamma_SF2D.GetBinContent(xbin,ybin) - eleLooseIDSF_EGamma_SF2D.GetStdDev())
 
         #eleVetoCutBasedIDSF = 1.0
         #for iele in range(nEle):
@@ -2303,19 +2363,14 @@ def AnalyzeDataSet():
             if nJets>2: sf_resolved3 = weightbtag(reader1, flav3, myJetP4[jk].Pt(), myJetP4[jk].Eta())
 
 #            print (sf_resolved1, sf_resolved2, sf_resolved3)
-        btag_sysnum=0
-        if options.SystUp:
-            btag_sysnum=1
-        if options.SystDown:
-            btag_sysnum=2
         if SR1njetcond:
-            allweights = allweights * sf_resolved1[btag_sysnum]
+            allweights = allweights * sf_resolved1[0]
             if nJets>1:
-                allweights = allweights * sf_resolved2[btag_sysnum]
+                allweights = allweights * sf_resolved2[0]
         if SR2njetcond:
-            allweights = allweights * sf_resolved1[btag_sysnum] * sf_resolved2[btag_sysnum]
+            allweights = allweights * sf_resolved1[0] * sf_resolved2[0]
             if nJets>2:
-                allweights = allweights * sf_resolved3[btag_sysnum]
+                allweights = allweights * sf_resolved3[0]
 
         if isData: allweights = 1.0
         allweights_noPU = allweights/puweight
@@ -2771,83 +2826,130 @@ def AnalyzeDataSet():
         allquantities.weight_NoPU     = allweights_noPU
         allquantities.totalevents     = 1
 
-        if options.SystUp:
-            if writeSR1 or writeSR2:
-                allquantities.btag_syst_sr_up = pfMet
-            else:
-                recoil_temp_list=[ZmumuRecoil,ZeeRecoil,WenuRecoil,WmunuRecoil,TOPRecoil,GammaRecoil]
-                for i in recoil_temp_list:
-                    if i>200:
-                        recoil_temp=i
-                allquantities.btag_syst_cr_up = recoil_temp
-        elif options.SystDown:
-            if writeSR1 or writeSR2:
-                allquantities.btag_syst_sr_down = pfMet
-            else:
-                recoil_temp_list=[ZmumuRecoil,ZeeRecoil,WenuRecoil,WmunuRecoil,TOPRecoil,GammaRecoil]
-                for i in recoil_temp_list:
-                    if i>200:
-                        recoil_temp=i
-                allquantities.btag_syst_cr_down = recoil_temp
+        temp_or_weight = allweights
+        if options.Systematics:
+            btag_sysnum=0
+            for reg in ['SR1','SR2','ZeeCR1','ZeeCR2','WeCR1','WeCR2','ZmumuCR1','ZmumuCR2','TopCR1','TopCR2']:
+                for btag_sysnum in[1,2]:
+                    allweights = (allweights/sf_resolved1[0])*sf_resolved1[btag_sysnum]
+                    if nJets>1:
+                        allweights = (allweights / sf_resolved2[0])*sf_resolved2[btag_sysnum]
+                    if SR2njetcond:
+                        allweights = (allweights / (sf_resolved1[0] * sf_resolved2[0]))*sf_resolved1[btag_sysnum] * sf_resolved2[btag_sysnum]
+                        if nJets>2:
+                            allweights = (allweights / sf_resolved3[0])*sf_resolved3[btag_sysnum]
+                    if writeSR1 and 'SR1' :
+                        if btag_sysnum=1: allquantities.btag_syst_sr1_up = pfMet
+                        if btag_sysnum=2: allquantities.btag_syst_sr1_down = pfMet
+                    if writeSR2 and 'SR2':
+                        if btag_sysnum=1: allquantities.btag_syst_sr2_up = pfMet
+                        if btag_sysnum=2: allquantities.btag_syst_sr2_down = pfMet
+                    if isZeeCR1 and 'ZeeCR1':
+                        if btag_sysnum=1: allquantities.btag_syst_2e1b_up = ZeeRecoil
+                        if btag_sysnum=2: allquantities.btag_syst_2e1b_down = ZeeRecoil
+                    if isZeeCR2 and 'ZeeCR2':
+                        if btag_sysnum=1: allquantities.btag_syst_2e2b_up = ZeeRecoil
+                        if btag_sysnum=2: allquantities.btag_syst_2e2b_down = ZeeRecoil
+                    if isZmumuCR1 and 'ZmumuCR1':
+                        if btag_sysnum=1: allquantities.btag_syst_2mu1b_up = ZmumuRecoil
+                        if btag_sysnum=2: allquantities.btag_syst_2mu1b_down = ZmumuRecoil
+                    if isZmunuCR2 and 'ZmumuCR2':
+                        if btag_sysnum=1: allquantities.btag_syst_2mu2b_up = ZmumuRecoil
+                        if btag_sysnum=2: allquantities.btag_syst_2mu2b_down = ZmumuRecoil
+                    if isWenuCR1 and 'WenuCR1':
+                        if btag_sysnum=1: allquantities.btag_syst_1e1b_up = WenuRecoil
+                        if btag_sysnum=2: allquantities.btag_syst_1e1b_down = WenuRecoil
+                    if isWenuCR2 and 'WenuCR2':
+                        if btag_sysnum=1: allquantities.btag_syst_1e2b_up = WenuRecoil
+                        if btag_sysnum=2: allquantities.btag_syst_1e2b_down = WenuRecoil
+                    if isWmunuCR1 and 'WmunuCR1':
+                        if btag_sysnum=1: allquantities.btag_syst_1mu1b_up = WmunuRecoil
+                        if btag_sysnum=2: allquantities.btag_syst_1mu1b_down = WmunuRecoil
+                    if isWmunuCR2 and 'WmunuCR2':
+                        if btag_sysnum=1: allquantities.btag_syst_1mu2b_up = WmunuRecoil
+                        if btag_sysnum=2: allquantities.btag_syst_1mu2b_down = WmunuRecoil
+                    if isTopCR1 and 'TopCR1':
+                        if btag_sysnum=1: allquantities.btag_syst_1e1mu1b_up = TOPRecoil
+                        if btag_sysnum=2: allquantities.btag_syst_1e1mu1b_down = TOPRecoil
+                    if isTopCR2 and 'TopCR2':
+                        if btag_sysnum=1: allquantities.btag_syst_1e1mu2b_up = TOPRecoil
+                        if btag_sysnum=2: allquantities.btag_syst_1e1mu2b_down = TOPRecoil
+                    if isGammaCR1 and 'GammaCR1':
+                        if btag_sysnum=1: allquantities.btag_syst_1gamma1b_up = GammaRecoil
+                        if btag_sysnum=2: allquantities.btag_syst_1gamma1b_down = GammaRecoil
+                    if isGammaCR2 and 'GammaCR2':
+                        if btag_sysnum=1: allquantities.btag_syst_1gamma2b_up = GammaRecoil
+                        if btag_sysnum=2: allquantities.btag_syst_1gamma2b_down = GammaRecoil
+                    allweights = temp_or_weight
+
+                muweights_systUP = muonTrig_SF_systUP * muIDSF_loose_systUP * muIDSF_tight_systUP * muIsoSF_loose_systUP * muIsoSF_tight_systUP * muTracking_SF_systUP
+                muweights_systDOWN = muonTrig_SF_systDOWN * muIDSF_loose_systDOWN * muIDSF_tight_systDOWN * muIsoSF_loose_systDOWN * muIsoSF_tight_systDOWN * muTracking_SF_systDOWN
+                eleweights_systUP = eleTrig_reweight_systUP * eleRecoSF_systUP * eleIDSF_loose_systUP * eleIDSF_tight_systUP
+                eleweights_systDOWN = eleTrig_reweight_systDOWN * eleRecoSF_systDOWN * eleIDSF_loose_systDOWN * eleIDSF_tight_systDOWN
+
+                allweights = (allweights/(muweights*eleweights))*muweights_systUP*eleweights_systUP
+                if writeSR1 and 'SR1' :
+                    allquantities.lep_syst_sr1_up = pfMet
+                if writeSR2 and 'SR2':
+                    allquantities.lep_syst_sr1_up = pfMet
+                if isZeeCR1 and 'ZeeCR1':
+                    allquantities.lep_syst_2e1b_up = ZeeRecoil
+                if isZeeCR2 and 'ZeeCR2':
+                    allquantities.lep_syst_2e2b_up = ZeeRecoil
+                if isZmumuCR1 and 'ZmumuCR1':
+                    allquantities.lep_syst_2mu1b_up = ZmumuRecoil
+                if isZmunuCR2 and 'ZmumuCR2':
+                    allquantities.lep_syst_2mu2b_up = ZmumuRecoil
+                if isWenuCR1 and 'WenuCR1':
+                    allquantities.lep_syst_1e1b_up = WenuRecoil
+                if isWenuCR2 and 'WenuCR2':
+                    allquantities.lep_syst_1e2b_up = WenuRecoil
+                if isWmunuCR1 and 'WmunuCR1':
+                    allquantities.lep_syst_1mu1b_up = WmunuRecoil
+                if isWmunuCR2 and 'WmunuCR2':
+                    allquantities.lep_syst_1mu2b_up = WmunuRecoil
+                if isTopCR1 and 'TopCR1':
+                    allquantities.lep_syst_1e1mu1b_up = TOPRecoil
+                if isTopCR2 and 'TopCR2':
+                    allquantities.lep_syst_1e1mu2b_up = TOPRecoil
+                if isGammaCR1 and 'GammaCR1':
+                    allquantities.lep_syst_1gamma1b_up = GammaRecoil
+                if isGammaCR2 and 'GammaCR2':
+                    allquantities.lep_syst_1gamma2b_up = GammaRecoil
+                allweights = temp_or_weight
+                allweights = (allweights/(muweights*eleweights))*muweights_systDOWN*eleweights_systDOWN
+                if writeSR1 and 'SR1' :
+                    allquantities.lep_syst_sr1_down = pfMet
+                if writeSR2 and 'SR2':
+                    allquantities.lep_syst_sr1_down = pfMet
+                if isZeeCR1 and 'ZeeCR1':
+                    allquantities.lep_syst_2e1b_down = ZeeRecoil
+                if isZeeCR2 and 'ZeeCR2':
+                    allquantities.lep_syst_2e2b_down = ZeeRecoil
+                if isZmumuCR1 and 'ZmumuCR1':
+                    allquantities.lep_syst_2mu1b_down = ZmumuRecoil
+                if isZmunuCR2 and 'ZmumuCR2':
+                    allquantities.lep_syst_2mu2b_down = ZmumuRecoil
+                if isWenuCR1 and 'WenuCR1':
+                    allquantities.lep_syst_1e1b_down = WenuRecoil
+                if isWenuCR2 and 'WenuCR2':
+                    allquantities.lep_syst_1e2b_down = WenuRecoil
+                if isWmunuCR1 and 'WmunuCR1':
+                    allquantities.lep_syst_1mu1b_down = WmunuRecoil
+                if isWmunuCR2 and 'WmunuCR2':
+                    allquantities.lep_syst_1mu2b_down = WmunuRecoil
+                if isTopCR1 and 'TopCR1':
+                    allquantities.lep_syst_1e1mu1b_down = TOPRecoil
+                if isTopCR2 and 'TopCR2':
+                    allquantities.lep_syst_1e1mu2b_down = TOPRecoil
+                if isGammaCR1 and 'GammaCR1':
+                    allquantities.lep_syst_1gamma1b_down = GammaRecoil
+                if isGammaCR2 and 'GammaCR2':
+                    allquantities.lep_syst_1gamma2b_down = GammaRecoil
+            allweights = temp_or_weight
 
 
 
-
-        #allquantlist=AllQuantList.getAll()
-
-        #for quant in allquantlist:
-            #exec("allquantities."+quant+" = None")                              # Presets all quantities to None
-
-        #if SR1jetcond and pfmetstatus and SRlepcond and keepevent and writeSR1:
-            #allquantities.jet1_pT_sr1     = jetSR1Info[0][0]
-            #allquantities.jet1_eta_sr1    = jetSR1Info[0][1]
-            #allquantities.jet1_phi_sr1    = jetSR1Info[0][2]
-            #if options.CSV:
-               #allquantities.jet1_csv_sr1    = jetSR1Info[0][3]
-            #if options.DeepCSV:
-               #allquantities.jet1_deepcsv_sr1    = jetSR1Info[0][3]
-            #allquantities.jet2_pT_sr1     = jetSR1Info[1][0]
-            #allquantities.jet2_eta_sr1    = jetSR1Info[1][1]
-            #allquantities.jet2_phi_sr1    = jetSR1Info[1][2]
-            #if options.CSV:
-               #allquantities.jet2_csv_sr1    = jetSR1Info[1][3]
-            #if options.DeepCSV:
-               #allquantities.jet2_deepcsv_sr1    = jetSR1Info[1][3]
-            #allquantities.min_dPhi_sr1    = jetSR1Info[2]
-            #allquantities.met_sr1         = jetSR1Info[3]
-            #allquantities.jet1_nhf_sr1    = jetSR1Info[4]
-            #allquantities.jet1_chf_sr1    = jetSR1Info[5]
-
-
-        #elif SR2jetcond and pfmetstatus and SRlepcond and keepevent and writeSR2:
-            #allquantities.jet1_pT_sr2     = jetSR2Info[0][0]
-            #allquantities.jet1_eta_sr2    = jetSR2Info[0][1]
-            #allquantities.jet1_phi_sr2    = jetSR2Info[0][2]
-            #if options.CSV:
-               #allquantities.jet1_csv_sr2    = jetSR2Info[0][3]
-            #if options.DeepCSV:
-               #allquantities.jet1_deepcsv_sr2    = jetSR2Info[0][3]
-
-            #allquantities.jet2_pT_sr2     = jetSR2Info[1][0]
-            #allquantities.jet2_eta_sr2    = jetSR2Info[1][1]
-            #allquantities.jet2_phi_sr2    = jetSR2Info[1][2]
-            #if options.CSV:
-               #allquantities.jet2_csv_sr2    = jetSR2Info[1][3]
-            #if options.DeepCSV:
-               #allquantities.jet2_deepcsv_sr2    = jetSR2Info[1][3]
-
-            #allquantities.jet3_pT_sr2     = jetSR2Info[2][0]
-            #allquantities.jet3_eta_sr2    = jetSR2Info[2][1]
-            #allquantities.jet3_phi_sr2    = jetSR2Info[2][2]
-            #if options.CSV:
-               #allquantities.jet3_csv_sr2    = jetSR2Info[2][3]
-            #if options.DeepCSV:
-               #allquantities.jet3_deepcsv_sr2    = jetSR2Info[2][3]
-
-            #allquantities.min_dPhi_sr2    = jetSR2Info[3]
-            #allquantities.met_sr2         = jetSR2Info[4]
-            #allquantities.jet1_nhf_sr2    = jetSR2Info[5]
-            #allquantities.jet1_chf_sr2    = jetSR2Info[6]
 
         nPV = myJetNPV
 
