@@ -2839,47 +2839,47 @@ def AnalyzeDataSet():
                         if nJets>2:
                             allweights = (allweights / sf_resolved3[0])*sf_resolved3[btag_sysnum]
                     if writeSR1 and 'SR1' :
-                        if btag_sysnum=1: allquantities.btag_syst_sr1_up = pfMet
-                        if btag_sysnum=2: allquantities.btag_syst_sr1_down = pfMet
+                        if btag_sysnum==1: allquantities.btag_syst_sr1_up = pfMet
+                        if btag_sysnum==2: allquantities.btag_syst_sr1_down = pfMet
                     if writeSR2 and 'SR2':
-                        if btag_sysnum=1: allquantities.btag_syst_sr2_up = pfMet
-                        if btag_sysnum=2: allquantities.btag_syst_sr2_down = pfMet
+                        if btag_sysnum==1: allquantities.btag_syst_sr2_up = pfMet
+                        if btag_sysnum==2: allquantities.btag_syst_sr2_down = pfMet
                     if isZeeCR1 and 'ZeeCR1':
-                        if btag_sysnum=1: allquantities.btag_syst_2e1b_up = ZeeRecoil
-                        if btag_sysnum=2: allquantities.btag_syst_2e1b_down = ZeeRecoil
+                        if btag_sysnum==1: allquantities.btag_syst_2e1b_up = ZeeRecoil
+                        if btag_sysnum==2: allquantities.btag_syst_2e1b_down = ZeeRecoil
                     if isZeeCR2 and 'ZeeCR2':
-                        if btag_sysnum=1: allquantities.btag_syst_2e2b_up = ZeeRecoil
-                        if btag_sysnum=2: allquantities.btag_syst_2e2b_down = ZeeRecoil
+                        if btag_sysnum==1: allquantities.btag_syst_2e2b_up = ZeeRecoil
+                        if btag_sysnum==2: allquantities.btag_syst_2e2b_down = ZeeRecoil
                     if isZmumuCR1 and 'ZmumuCR1':
-                        if btag_sysnum=1: allquantities.btag_syst_2mu1b_up = ZmumuRecoil
-                        if btag_sysnum=2: allquantities.btag_syst_2mu1b_down = ZmumuRecoil
+                        if btag_sysnum==1: allquantities.btag_syst_2mu1b_up = ZmumuRecoil
+                        if btag_sysnum==2: allquantities.btag_syst_2mu1b_down = ZmumuRecoil
                     if isZmunuCR2 and 'ZmumuCR2':
-                        if btag_sysnum=1: allquantities.btag_syst_2mu2b_up = ZmumuRecoil
-                        if btag_sysnum=2: allquantities.btag_syst_2mu2b_down = ZmumuRecoil
+                        if btag_sysnum==1: allquantities.btag_syst_2mu2b_up = ZmumuRecoil
+                        if btag_sysnum==2: allquantities.btag_syst_2mu2b_down = ZmumuRecoil
                     if isWenuCR1 and 'WenuCR1':
-                        if btag_sysnum=1: allquantities.btag_syst_1e1b_up = WenuRecoil
-                        if btag_sysnum=2: allquantities.btag_syst_1e1b_down = WenuRecoil
+                        if btag_sysnum==1: allquantities.btag_syst_1e1b_up = WenuRecoil
+                        if btag_sysnum==2: allquantities.btag_syst_1e1b_down = WenuRecoil
                     if isWenuCR2 and 'WenuCR2':
-                        if btag_sysnum=1: allquantities.btag_syst_1e2b_up = WenuRecoil
-                        if btag_sysnum=2: allquantities.btag_syst_1e2b_down = WenuRecoil
+                        if btag_sysnum==1: allquantities.btag_syst_1e2b_up = WenuRecoil
+                        if btag_sysnum==2: allquantities.btag_syst_1e2b_down = WenuRecoil
                     if isWmunuCR1 and 'WmunuCR1':
-                        if btag_sysnum=1: allquantities.btag_syst_1mu1b_up = WmunuRecoil
-                        if btag_sysnum=2: allquantities.btag_syst_1mu1b_down = WmunuRecoil
+                        if btag_sysnum==1: allquantities.btag_syst_1mu1b_up = WmunuRecoil
+                        if btag_sysnum==2: allquantities.btag_syst_1mu1b_down = WmunuRecoil
                     if isWmunuCR2 and 'WmunuCR2':
-                        if btag_sysnum=1: allquantities.btag_syst_1mu2b_up = WmunuRecoil
-                        if btag_sysnum=2: allquantities.btag_syst_1mu2b_down = WmunuRecoil
+                        if btag_sysnum==1: allquantities.btag_syst_1mu2b_up = WmunuRecoil
+                        if btag_sysnum==2: allquantities.btag_syst_1mu2b_down = WmunuRecoil
                     if isTopCR1 and 'TopCR1':
-                        if btag_sysnum=1: allquantities.btag_syst_1e1mu1b_up = TOPRecoil
-                        if btag_sysnum=2: allquantities.btag_syst_1e1mu1b_down = TOPRecoil
+                        if btag_sysnum==1: allquantities.btag_syst_1e1mu1b_up = TOPRecoil
+                        if btag_sysnum==2: allquantities.btag_syst_1e1mu1b_down = TOPRecoil
                     if isTopCR2 and 'TopCR2':
-                        if btag_sysnum=1: allquantities.btag_syst_1e1mu2b_up = TOPRecoil
-                        if btag_sysnum=2: allquantities.btag_syst_1e1mu2b_down = TOPRecoil
+                        if btag_sysnum==1: allquantities.btag_syst_1e1mu2b_up = TOPRecoil
+                        if btag_sysnum==2: allquantities.btag_syst_1e1mu2b_down = TOPRecoil
                     if isGammaCR1 and 'GammaCR1':
-                        if btag_sysnum=1: allquantities.btag_syst_1gamma1b_up = GammaRecoil
-                        if btag_sysnum=2: allquantities.btag_syst_1gamma1b_down = GammaRecoil
+                        if btag_sysnum==1: allquantities.btag_syst_1gamma1b_up = GammaRecoil
+                        if btag_sysnum==2: allquantities.btag_syst_1gamma1b_down = GammaRecoil
                     if isGammaCR2 and 'GammaCR2':
-                        if btag_sysnum=1: allquantities.btag_syst_1gamma2b_up = GammaRecoil
-                        if btag_sysnum=2: allquantities.btag_syst_1gamma2b_down = GammaRecoil
+                        if btag_sysnum==1: allquantities.btag_syst_1gamma2b_up = GammaRecoil
+                        if btag_sysnum==2: allquantities.btag_syst_1gamma2b_down = GammaRecoil
                     allweights = temp_or_weight
 
                 muweights_systUP = muonTrig_SF_systUP * muIDSF_loose_systUP * muIDSF_tight_systUP * muIsoSF_loose_systUP * muIsoSF_tight_systUP * muTracking_SF_systUP
