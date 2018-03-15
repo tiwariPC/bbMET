@@ -2827,7 +2827,7 @@ def AnalyzeDataSet():
         allquantities.totalevents     = 1
 
         temp_or_weight = allweights
-        if options.Systematic:
+        if options.Systematics:
             btag_sysnum=0
             for reg in ['SR1','SR2','ZeeCR1','ZeeCR2','WeCR1','WeCR2','ZmumuCR1','ZmumuCR2','TopCR1','TopCR2']:
                 for btag_sysnum in[1,2]:
@@ -2946,6 +2946,7 @@ def AnalyzeDataSet():
                     allquantities.lep_syst_1gamma1b_down = GammaRecoil
                 if isGammaCR2 and 'GammaCR2':
                     allquantities.lep_syst_1gamma2b_down = GammaRecoil
+            allweights = temp_or_weight
 
 
 
