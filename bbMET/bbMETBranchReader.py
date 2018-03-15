@@ -849,6 +849,18 @@ def AnalyzeDataSet():
 
         writeSR1=False
         writeSR2=False
+        isZeeCR1=False
+        isZeeCR2=False
+        isZmumuCR1=False
+        isZmunuCR2=False
+        isWenuCR1=False
+        isWenuCR2=False
+        isWmunuCR1=False
+        isWmunuCR2=False
+        isTopCR1=False
+        isTopCR2=False
+        isGammaCR1=False
+        isGammaCR2=False
 
 
 
@@ -2303,19 +2315,14 @@ def AnalyzeDataSet():
             if nJets>2: sf_resolved3 = weightbtag(reader1, flav3, myJetP4[jk].Pt(), myJetP4[jk].Eta())
 
 #            print (sf_resolved1, sf_resolved2, sf_resolved3)
-        btag_sysnum=0
-        if options.SystUp:
-            btag_sysnum=1
-        if options.SystDown:
-            btag_sysnum=2
         if SR1njetcond:
-            allweights = allweights * sf_resolved1[btag_sysnum]
+            allweights = allweights * sf_resolved1[0]
             if nJets>1:
-                allweights = allweights * sf_resolved2[btag_sysnum]
+                allweights = allweights * sf_resolved2[0]
         if SR2njetcond:
-            allweights = allweights * sf_resolved1[btag_sysnum] * sf_resolved2[btag_sysnum]
+            allweights = allweights * sf_resolved1[0] * sf_resolved2[0]
             if nJets>2:
-                allweights = allweights * sf_resolved3[btag_sysnum]
+                allweights = allweights * sf_resolved3[0]
 
         if isData: allweights = 1.0
         allweights_noPU = allweights/puweight
@@ -2771,24 +2778,46 @@ def AnalyzeDataSet():
         allquantities.weight_NoPU     = allweights_noPU
         allquantities.totalevents     = 1
 
-        if options.SystUp:
-            if writeSR1 or writeSR2:
-                allquantities.btag_syst_sr_up = pfMet
-            else:
-                recoil_temp_list=[ZmumuRecoil,ZeeRecoil,WenuRecoil,WmunuRecoil,TOPRecoil,GammaRecoil]
-                for i in recoil_temp_list:
-                    if i>200:
-                        recoil_temp=i
-                allquantities.btag_syst_cr_up = recoil_temp
-        elif options.SystDown:
-            if writeSR1 or writeSR2:
-                allquantities.btag_syst_sr_down = pfMet
-            else:
-                recoil_temp_list=[ZmumuRecoil,ZeeRecoil,WenuRecoil,WmunuRecoil,TOPRecoil,GammaRecoil]
-                for i in recoil_temp_list:
-                    if i>200:
-                        recoil_temp=i
-                allquantities.btag_syst_cr_down = recoil_temp
+        temp_or_weight = allweights
+        if options.Systematic:
+            btag_sysnum=0
+            for sys in ['btag', 'lep']
+            if sys == 'btag':
+                for reg in [writeSR1,writeSR2]:
+                    for btag_sysnum in[1,2]:
+                        if writeSR1:
+                            allweights = (allweights/sf_resolved1[0])*sf_resolved1[btag_sysnum]
+                            if nJets>1:
+                                allweights = (allweights / sf_resolved2[0])*sf_resolved2[btag_sysnum]
+                            if SR2njetcond:
+                                allweights = (allweights / (sf_resolved1[0] * sf_resolved2[0]))*sf_resolved1[btag_sysnum] * sf_resolved2[btag_sysnum]
+                                if nJets>2:
+                                    allweights = (allweights / sf_resolved3[0])*sf_resolved3[btag_sysnum]
+                            if writeSR1:
+                                if btag_sysnum=1: allquantities.btag_syst_sr1_up = pfMet
+                                if btag_sysnum=2: allquantities.btag_syst_sr1_down = pfMet
+                            if writeSR2:
+                                if btag_sysnum=1: allquantities.btag_syst_sr2_up = pfMet
+                                if btag_sysnum=2: allquantities.btag_syst_sr2_down = pfMet
+                            allweights = temp_or_weight
+                for reg in ['']
+
+                else:
+                    recoil_temp_list=[ZmumuRecoil,ZeeRecoil,WenuRecoil,WmunuRecoil,TOPRecoil,GammaRecoil]
+                    for i in recoil_temp_list:
+                        if i>200:
+                            recoil_temp=i
+                    allquantities.btag_syst_cr_up = recoil_temp
+            elif options.SystDown:
+                if writeSR1 or writeSR2:
+                    allquantities.btag_syst_sr_down = pfMet
+                else:
+                    recoil_temp_list=[ZmumuRecoil,ZeeRecoil,WenuRecoil,WmunuRecoil,TOPRecoil,GammaRecoil]
+                    for i in recoil_temp_list:
+                        if i>200:
+                            recoil_temp=i
+                    allquantities.btag_syst_cr_down = recoil_temp
+
 
 
 
