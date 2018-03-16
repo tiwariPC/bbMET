@@ -2832,9 +2832,10 @@ def AnalyzeDataSet():
             btag_sysnum=0
             for reg in ['SR1','SR2','ZeeCR1','ZeeCR2','WeCR1','WeCR2','ZmumuCR1','ZmumuCR2','TopCR1','TopCR2']:
                 for btag_sysnum in[1,2]:
-                    allweights = (allweights/sf_resolved1[0])*sf_resolved1[btag_sysnum]
-                    if nJets>1:
-                        allweights = (allweights / sf_resolved2[0])*sf_resolved2[btag_sysnum]
+                    if SR1njetcond:
+                        allweights = (allweights/sf_resolved1[0])*sf_resolved1[btag_sysnum]
+                        if nJets>1:
+                            allweights = (allweights / sf_resolved2[0])*sf_resolved2[btag_sysnum]
                     if SR2njetcond:
                         allweights = (allweights / (sf_resolved1[0] * sf_resolved2[0]))*sf_resolved1[btag_sysnum] * sf_resolved2[btag_sysnum]
                         if nJets>2:
