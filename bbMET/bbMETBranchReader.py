@@ -636,31 +636,6 @@ def AnalyzeDataSet():
          # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 #        print (HLT_IsoMu24,HLT_Ele27_WPLoose_Gsf)
 
-        myPhos=[]
-        myPhoLooseID=[]
-        myPhoTightID=[]
-        for ipho in range(nPho):
-            if phoP4[ipho].Pt() < 175 : continue
-            #---Fake Pho cleaner----
-            isClean=True
-            if options.CSV:
-                for ijet in range(nTHINJets):
-                    pho_jet_dR=DeltaR(ijet,phoP4[ipho])    # math.sqrt(  (  ijet.Eta()-phoP4[ipho].Eta() )**2  + (  DeltaPhi(ijet.Phi(),phoP4[ipho].Phi()) )**2 )
-                    if pho_jet_dR < 0.4:
-                        isClean=False
-                        break
-                if not isClean: continue
-            if options.DeepCSV:
-                for ijet in range(nTHINdeepCSVJets):
-                    pho_jet_dR=DeltaR(ijet,phoP4[ipho])    # math.sqrt(  (  ijet.Eta()-phoP4[ipho].Eta() )**2  + (  DeltaPhi(ijet.Phi(),phoP4[ipho].Phi()) )**2 )
-                    if pho_jet_dR < 0.4:
-                        isClean=False
-                        break
-                if not isClean: continue
-            myPhos.append(phoP4[ipho])
-            myPhoLooseID.append(phoIsPassLoose[ipho])
-            myPhoTightID.append(phoIsPassTight[ipho])
-
         myEles=[]
         myEleLooseID=[]
         myEleTightID=[]
@@ -792,6 +767,23 @@ def AnalyzeDataSet():
 
             myJetNPV=thindeepCSVjetNPV
             nUncleanJets=nTHINdeepCSVJets
+
+        myPhos=[]
+        myPhoLooseID=[]
+        myPhoTightID=[]
+        for ipho in range(nPho):
+            if phoP4[ipho].Pt() < 175 : continue
+            #---Fake Pho cleaner----
+            isClean=True
+            for ijet in myJetP4:
+                pho_jet_dR=DeltaR(ijet,phoP4[ipho])    # math.sqrt(  (  ijet.Eta()-phoP4[ipho].Eta() )**2  + (  DeltaPhi(ijet.Phi(),phoP4[ipho].Phi()) )**2 )
+                if pho_jet_dR < 0.4:
+                    isClean=False
+                    break
+            if not isClean: continue
+            myPhos.append(phoP4[ipho])
+            myPhoLooseID.append(phoIsPassLoose[ipho])
+            myPhoTightID.append(phoIsPassTight[ipho])
 
 
 
