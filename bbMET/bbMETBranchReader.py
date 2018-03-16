@@ -636,31 +636,6 @@ def AnalyzeDataSet():
          # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 #        print (HLT_IsoMu24,HLT_Ele27_WPLoose_Gsf)
 
-        myPhos=[]
-        myPhoLooseID=[]
-        myPhoTightID=[]
-        for ipho in range(nPho):
-            if phoP4[ipho].Pt() < 175 : continue
-            #---Fake Pho cleaner----
-            isClean=True
-            if options.CSV:
-                for ijet in range(nTHINJets):
-                    pho_jet_dR=DeltaR(ijet,phoP4[ipho])    # math.sqrt(  (  ijet.Eta()-phoP4[ipho].Eta() )**2  + (  DeltaPhi(ijet.Phi(),phoP4[ipho].Phi()) )**2 )
-                    if pho_jet_dR < 0.4:
-                        isClean=False
-                        break
-                if not isClean: continue
-            if options.DeepCSV:
-                for ijet in range(nTHINdeepCSVJets):
-                    pho_jet_dR=DeltaR(ijet,phoP4[ipho])    # math.sqrt(  (  ijet.Eta()-phoP4[ipho].Eta() )**2  + (  DeltaPhi(ijet.Phi(),phoP4[ipho].Phi()) )**2 )
-                    if pho_jet_dR < 0.4:
-                        isClean=False
-                        break
-                if not isClean: continue
-            myPhos.append(phoP4[ipho])
-            myPhoLooseID.append(phoIsPassLoose[ipho])
-            myPhoTightID.append(phoIsPassTight[ipho])
-
         myEles=[]
         myEleLooseID=[]
         myEleTightID=[]
@@ -792,6 +767,23 @@ def AnalyzeDataSet():
 
             myJetNPV=thindeepCSVjetNPV
             nUncleanJets=nTHINdeepCSVJets
+
+        myPhos=[]
+        myPhoLooseID=[]
+        myPhoTightID=[]
+        for ipho in range(nPho):
+            if phoP4[ipho].Pt() < 175 : continue
+            #---Fake Pho cleaner----
+            isClean=True
+            for ijet in myJetP4:
+                pho_jet_dR=DeltaR(ijet,phoP4[ipho])    # math.sqrt(  (  ijet.Eta()-phoP4[ipho].Eta() )**2  + (  DeltaPhi(ijet.Phi(),phoP4[ipho].Phi()) )**2 )
+                if pho_jet_dR < 0.4:
+                    isClean=False
+                    break
+            if not isClean: continue
+            myPhos.append(phoP4[ipho])
+            myPhoLooseID.append(phoIsPassLoose[ipho])
+            myPhoTightID.append(phoIsPassTight[ipho])
 
 
 
@@ -2215,8 +2207,9 @@ def AnalyzeDataSet():
         for imu in range(nMu):
             abeta = abs(muP4[imu].Eta())
             muTracking_SF *= muonTrackingSFs_EfficienciesAndSF_BCDEFGH.Eval(abeta)
-            muTracking_SF_systUP *= (muonTrackingSFs_EfficienciesAndSF_BCDEFGH.Eval(abeta) + muonTrackingSFs_EfficienciesAndSF_BCDEFGH.GetStdDev())
-            muTracking_SF_systDOWN *= (muonTrackingSFs_EfficienciesAndSF_BCDEFGH.Eval(abeta) - muonTrackingSFs_EfficienciesAndSF_BCDEFGH.GetStdDev())
+            ybin = muonTrackingSFs_EfficienciesAndSF_BCDEFGH.GetYaxis().FindBin(abeta)
+            muTracking_SF_systUP *= (muonTrackingSFs_EfficienciesAndSF_BCDEFGH.Eval(abeta) + muonTrackingSFs_EfficienciesAndSF_BCDEFGH.GetErrorYhigh(ybin))
+            muTracking_SF_systDOWN *= (muonTrackingSFs_EfficienciesAndSF_BCDEFGH.Eval(abeta) - muonTrackingSFs_EfficienciesAndSF_BCDEFGH.GetErrorYlow(ybin))
 
 
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -2831,9 +2824,10 @@ def AnalyzeDataSet():
             btag_sysnum=0
             for reg in ['SR1','SR2','ZeeCR1','ZeeCR2','WeCR1','WeCR2','ZmumuCR1','ZmumuCR2','TopCR1','TopCR2']:
                 for btag_sysnum in[1,2]:
-                    allweights = (allweights/sf_resolved1[0])*sf_resolved1[btag_sysnum]
-                    if nJets>1:
-                        allweights = (allweights / sf_resolved2[0])*sf_resolved2[btag_sysnum]
+                    if SR1njetcond:
+                        allweights = (allweights/sf_resolved1[0])*sf_resolved1[btag_sysnum]
+                        if nJets>1:
+                            allweights = (allweights / sf_resolved2[0])*sf_resolved2[btag_sysnum]
                     if SR2njetcond:
                         allweights = (allweights / (sf_resolved1[0] * sf_resolved2[0]))*sf_resolved1[btag_sysnum] * sf_resolved2[btag_sysnum]
                         if nJets>2:
