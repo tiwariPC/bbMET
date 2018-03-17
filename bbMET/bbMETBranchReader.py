@@ -1251,7 +1251,7 @@ def AnalyzeDataSet():
 
          #2e, 1 b-tagged
 
-        if nEle==2 and nMu==0 and EleCRtrigstatus and ZeeMass>70. and ZeeMass<110. and ZeeRecoil>200. and jetcond:
+        if nEle==2 and nMu==0 and and nPho==0 and EleCRtrigstatus and ZeeMass>70. and ZeeMass<110. and ZeeRecoil>200. and jetcond:
 #            CRCutFlow['nlepcond']+=1
             alllepPT=[lep.Pt() for lep in myEles]
             lepindex=[i for i in range(len(myEles))]
@@ -1347,7 +1347,7 @@ def AnalyzeDataSet():
 
 
         #2mu, 1 b-tagged
-        if nMu==2 and nEle==0 and MuCRtrigstatus and ZmumuMass>70. and ZmumuMass<110. and ZmumuRecoil>200. and jetcond:
+        if nMu==2 and nEle==0 and nPho==0 and MuCRtrigstatus and ZmumuMass>70. and ZmumuMass<110. and ZmumuRecoil>200. and jetcond:
 
 #            CRCutFlow['nlepcond']+=1
             alllepPT=[lep.Pt() for lep in myMuos]
@@ -1487,7 +1487,7 @@ def AnalyzeDataSet():
 
 
         #1e, 1 b-tagged
-        if nEle==1 and nMu==0 and EleCRtrigstatus and WenuRecoil>200. and jetcond and Wenumass>50. and Wenumass<160.:
+        if nEle==1 and nMu==0 and nPho==0 and EleCRtrigstatus and WenuRecoil>200. and jetcond and Wenumass>50. and Wenumass<160.:
 
             iLeadLep=0
 
@@ -1592,7 +1592,7 @@ def AnalyzeDataSet():
 
 
         #1mu, 1 b-tagged
-        if nMu==1 and nEle==0 and MuCRtrigstatus and WmunuRecoil>200. and jetcond and Wmunumass>50. and Wmunumass<160.:
+        if nMu==1 and nEle==0 and nPho==0 and MuCRtrigstatus and WmunuRecoil>200. and jetcond and Wmunumass>50. and Wmunumass<160.:
             iLeadLep=0
 
             if myMuos[iLeadLep].Pt() > 30. and myMuTightID[iLeadLep]:       # and myMuIso[iLeadLep]<0.15
@@ -1705,7 +1705,7 @@ def AnalyzeDataSet():
                     #if DeltaPhi(j3.Phi(),Phi_mpi_pi(math.pi+TOPPhi)) < 0.5: TopdPhicond=False
 
         #1mu, 1e, 1 b-tagged
-        if nEle==1 and nMu==1 and MuCRtrigstatus and TOPRecoil>200. and jetcond:
+        if nEle==1 and nMu==1 and nPho==0 and MuCRtrigstatus and TOPRecoil>200. and jetcond:
 
             if myEles[0].Pt() > 30. and myEleTightID[0] and myMuos[0].Pt() > 30. and myMuTightID[0] and myMuIso[0]<0.15:
 
