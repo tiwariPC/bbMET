@@ -2314,13 +2314,13 @@ def AnalyzeDataSet():
 
         muweights = muonTrig_SF * muIDSF_loose * muIDSF_tight * muIsoSF_loose * muIsoSF_tight * muTracking_SF
         if muweights == 0.0:
-#            print 'Warning:: muon weight is 0, setting it to 1'
+            print 'Warning:: muon weight is 0, setting it to 1'
             muweights = 1.0
 
         #eleweights = eleTrig_reweight * eleRecoSF * eleIDSF_loose * eleIDSF_tight * eleVetoCutBasedIDSF
         eleweights = eleTrig_reweight * eleRecoSF * eleIDSF_loose * eleIDSF_tight
         if eleweights == 0.0:
-#            print 'Warning:: electron weight is 0, setting it to 1'
+            print 'Warning:: electron weight is 0, setting it to 1'
             eleweights = 1.0
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         allweights = puweight * mcweight * genpTReweighting * eleweights * metTrig_Reweight * muweights
@@ -2356,6 +2356,15 @@ def AnalyzeDataSet():
             if nJets>2: sf_resolved3 = weightbtag(reader1, flav3, myJetP4[jk].Pt(), myJetP4[jk].Eta())
 
 #            print (sf_resolved1, sf_resolved2, sf_resolved3)
+        if sf_resolved1[0]==0: sf_resolved1[0]=1
+        if sf_resolved2[0]==0: sf_resolved2[0]=1
+        if sf_resolved3[0]==0: sf_resolved3[0]=1
+        if sf_resolved1[1]==0: sf_resolved1[0]=1
+        if sf_resolved2[1]==0: sf_resolved2[0]=1
+        if sf_resolved3[1]==0: sf_resolved3[0]=1
+        if sf_resolved1[2]==0: sf_resolved1[0]=1
+        if sf_resolved2[2]==0: sf_resolved2[0]=1
+        if sf_resolved3[2]==0: sf_resolved3[0]=1
         if SR1njetcond:
             allweights = allweights * sf_resolved1[0]
             if nJets>1:
