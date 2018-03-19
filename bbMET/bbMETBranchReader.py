@@ -2356,22 +2356,27 @@ def AnalyzeDataSet():
             if nJets>2: sf_resolved3 = weightbtag(reader1, flav3, myJetP4[jk].Pt(), myJetP4[jk].Eta())
 
 #            print (sf_resolved1, sf_resolved2, sf_resolved3)
-        if sf_resolved1[0]==0.0: sf_resolved1[0]=1.0
-        if sf_resolved2[0]==0.0: sf_resolved2[0]=1.0
-        if sf_resolved3[0]==0.0: sf_resolved3[0]=1.0
-        if sf_resolved1[1]==0.0: sf_resolved1[0]=1.0
-        if sf_resolved2[1]==0.0: sf_resolved2[0]=1.0
-        if sf_resolved3[1]==0.0: sf_resolved3[0]=1.0
-        if sf_resolved1[2]==0.0: sf_resolved1[0]=1.0
-        if sf_resolved2[2]==0.0: sf_resolved2[0]=1.0
-        if sf_resolved3[2]==0.0: sf_resolved3[0]=1.0
+
+
+
+
+
+
+
+
+
         if SR1njetcond:
+            if sf_resolved1[0]==0.0: sf_resolved1[0]=1.0
             allweights = allweights * sf_resolved1[0]
             if nJets>1:
+                if sf_resolved2[0]==0.0: sf_resolved2[0]=1.0
                 allweights = allweights * sf_resolved2[0]
         if SR2njetcond:
+            if sf_resolved1[0]==0.0: sf_resolved1[0]=1.0
+            if sf_resolved2[0]==0.0: sf_resolved2[0]=1.0
             allweights = allweights * sf_resolved1[0] * sf_resolved2[0]
             if nJets>2:
+                if sf_resolved3[0]==0.0: sf_resolved3[0]=1.0
                 allweights = allweights * sf_resolved3[0]
 
         if isData: allweights = 1.0
@@ -2834,12 +2839,22 @@ def AnalyzeDataSet():
             for reg in ['SR1','SR2','ZeeCR1','ZeeCR2','WeCR1','WeCR2','ZmumuCR1','ZmumuCR2','TopCR1','TopCR2']:
                 for btag_sysnum in[1,2]:
                     if SR1njetcond:
+                        if sf_resolved1[0]==0.0: sf_resolved1[0]=1.0
+                        if sf_resolved1[btag_sysnum]==0.0: sf_resolved1[btag_sysnum]=1.0
                         allweights = (allweights/sf_resolved1[0])*sf_resolved1[btag_sysnum]
                         if nJets>1:
+                            if sf_resolved2[0]==0.0: sf_resolved2[0]=1.0
+                            if sf_resolved2[btag_sysnum]==0.0: sf_resolved2[btag_sysnum]=1.0
                             allweights = (allweights / sf_resolved2[0])*sf_resolved2[btag_sysnum]
                     if SR2njetcond:
+                        if sf_resolved1[0]==0.0: sf_resolved1[0]=1.0
+                        if sf_resolved1[btag_sysnum]==0.0: sf_resolved1[btag_sysnum]=1.0
+                        if sf_resolved2[0]==0.0: sf_resolved2[0]=1.0
+                        if sf_resolved2[btag_sysnum]==0.0: sf_resolved2[btag_sysnum]=1.0
                         allweights = (allweights / (sf_resolved1[0] * sf_resolved2[0]))*sf_resolved1[btag_sysnum] * sf_resolved2[btag_sysnum]
                         if nJets>2:
+                            if sf_resolved3[0]==0.0: sf_resolved3[0]=1.0
+                            if sf_resolved3[btag_sysnum]==0.0: sf_resolved3[btag_sysnum]=1.0
                             allweights = (allweights / sf_resolved3[0])*sf_resolved3[btag_sysnum]
                     if writeSR1 and 'SR1' :
                         if btag_sysnum==1: allquantities.btag_syst_sr1_up = pfMet
