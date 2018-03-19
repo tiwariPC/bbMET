@@ -1251,7 +1251,7 @@ def AnalyzeDataSet():
 
          #2e, 1 b-tagged
 
-        if nEle==2 and nMu==0 and and nPho==0 and EleCRtrigstatus and ZeeMass>70. and ZeeMass<110. and ZeeRecoil>200. and jetcond:
+        if nEle==2 and nMu==0 and nPho==0 and EleCRtrigstatus and ZeeMass>70. and ZeeMass<110. and ZeeRecoil>200. and jetcond:
 #            CRCutFlow['nlepcond']+=1
             alllepPT=[lep.Pt() for lep in myEles]
             lepindex=[i for i in range(len(myEles))]
@@ -2897,7 +2897,7 @@ def AnalyzeDataSet():
                     eleweights_systUP = 1.0
                 if eleweights_systDOWN == 0.0:
                     eleweights_systDOWN = 1.0
-                
+
                 allweights = (allweights/(muweights*eleweights))*muweights_systUP*eleweights_systUP
                 if writeSR1 and 'SR1' :
                     allquantities.lep_syst_sr1_up = pfMet
