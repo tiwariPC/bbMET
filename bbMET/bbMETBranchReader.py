@@ -2356,15 +2356,15 @@ def AnalyzeDataSet():
             if nJets>2: sf_resolved3 = weightbtag(reader1, flav3, myJetP4[jk].Pt(), myJetP4[jk].Eta())
 
 #            print (sf_resolved1, sf_resolved2, sf_resolved3)
-        if sf_resolved1[0]==0: sf_resolved1[0]=1
-        if sf_resolved2[0]==0: sf_resolved2[0]=1
-        if sf_resolved3[0]==0: sf_resolved3[0]=1
-        if sf_resolved1[1]==0: sf_resolved1[0]=1
-        if sf_resolved2[1]==0: sf_resolved2[0]=1
-        if sf_resolved3[1]==0: sf_resolved3[0]=1
-        if sf_resolved1[2]==0: sf_resolved1[0]=1
-        if sf_resolved2[2]==0: sf_resolved2[0]=1
-        if sf_resolved3[2]==0: sf_resolved3[0]=1
+        if sf_resolved1[0]==0.0: sf_resolved1[0]=1.0
+        if sf_resolved2[0]==0.0: sf_resolved2[0]=1.0
+        if sf_resolved3[0]==0.0: sf_resolved3[0]=1.0
+        if sf_resolved1[1]==0.0: sf_resolved1[0]=1.0
+        if sf_resolved2[1]==0.0: sf_resolved2[0]=1.0
+        if sf_resolved3[1]==0.0: sf_resolved3[0]=1.0
+        if sf_resolved1[2]==0.0: sf_resolved1[0]=1.0
+        if sf_resolved2[2]==0.0: sf_resolved2[0]=1.0
+        if sf_resolved3[2]==0.0: sf_resolved3[0]=1.0
         if SR1njetcond:
             allweights = allweights * sf_resolved1[0]
             if nJets>1:
@@ -2889,7 +2889,15 @@ def AnalyzeDataSet():
                 muweights_systDOWN = muonTrig_SF_systDOWN * muIDSF_loose_systDOWN * muIDSF_tight_systDOWN * muIsoSF_loose_systDOWN * muIsoSF_tight_systDOWN * muTracking_SF_systDOWN
                 eleweights_systUP = eleTrig_reweight_systUP * eleRecoSF_systUP * eleIDSF_loose_systUP * eleIDSF_tight_systUP
                 eleweights_systDOWN = eleTrig_reweight_systDOWN * eleRecoSF_systDOWN * eleIDSF_loose_systDOWN * eleIDSF_tight_systDOWN
-
+                if muweights_systUP == 0.0:
+                    muweights_systUP = 1.0
+                if muweights_systDOWN == 0.0:
+                    muweights_systDOWN = 1.0
+                if eleweights_systUP == 0.0:
+                    eleweights_systUP = 1.0
+                if eleweights_systDOWN == 0.0:
+                    eleweights_systDOWN = 1.0
+                
                 allweights = (allweights/(muweights*eleweights))*muweights_systUP*eleweights_systUP
                 if writeSR1 and 'SR1' :
                     allquantities.lep_syst_sr1_up = pfMet
