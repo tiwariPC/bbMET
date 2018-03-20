@@ -2382,7 +2382,7 @@ def AnalyzeDataSet():
             print 'Warning:: electron weight is 0, setting it to 1'
             eleweights = 1.0
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-        print 'central eleweights, central muweights',eleweights,muweights
+
         allweights = puweight * mcweight * genpTReweighting * eleweights * metTrig_Reweight * muweights
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -2438,7 +2438,9 @@ def AnalyzeDataSet():
                     sf_resolved3[0]=1.0
                 allweights = allweights * sf_resolved3[0]
         temp_original_weight  = allweights
+        print 'central weight',temp_original_weight
         temp_weight_withBtag = allweights/(eleweights*muweights)
+        print 'total weight without e and mu weight',temp_weight_withBtag
 
         if isData: allweights = 1.0
         allweights_noPU = allweights/puweight
@@ -2926,15 +2928,15 @@ def AnalyzeDataSet():
                 eleweights_systUP = 1.0
             if eleweights_systDOWN == 0.0:
                 eleweights_systDOWN = 1.0
-                print 'muweights_systUP, eleweights_systUP',muweights_systUP ,eleweights_systUP
-                print 'muweights_systDOWN, eleweights_systDOWN',muweights_systDOWN,eleweights_systDOWN
+#                print 'muweights_systUP, eleweights_systUP',muweights_systUP ,eleweights_systUP
+#                print 'muweights_systDOWN, eleweights_systDOWN',muweights_systDOWN,eleweights_systDOWN
             allweights = allweights * muweights_systUP * eleweights_systUP
             allquantities.weight_lep_up = allweights
-#            print 'up value', allweights
+            print 'up value', allweights
             allweights = temp_weight_withBtag
             allweights = allweights * muweights_systDOWN*eleweights_systDOWN
             allquantities.weight_lep_down = allweights
-#            print 'down value', allweights
+            print 'down value', allweights
 
         nPV = myJetNPV
 
