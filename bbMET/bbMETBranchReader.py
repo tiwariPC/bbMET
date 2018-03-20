@@ -2290,6 +2290,7 @@ def AnalyzeDataSet():
             eleTrig_reweight *= eleTrig_hEffEtaPt.GetBinContent(xbin,ybin)
             eleTrig_reweight_systUP *= (eleTrig_hEffEtaPt.GetBinContent(xbin,ybin) + eleTrig_hEffEtaPt.GetStdDev())
             eleTrig_reweight_systDOWN *= (eleTrig_hEffEtaPt.GetBinContent(xbin,ybin) - eleTrig_hEffEtaPt.GetStdDev())
+            print 'eleTrig_reweight_systUP, eleTrig_reweight, eleTrig_reweight_systDOWN', eleTrig_reweight_systUP, eleTrig_reweight, eleTrig_reweight_systDOWN
 
 
         eleRecoSF = 1.0
@@ -2303,6 +2304,7 @@ def AnalyzeDataSet():
             eleRecoSF *= eleRecoSF_EGamma_SF2D.GetBinContent(xbin,ybin)
             eleRecoSF_systUP *= (eleRecoSF_EGamma_SF2D.GetBinContent(xbin,ybin) + eleRecoSF_EGamma_SF2D.GetStdDev())
             eleRecoSF_systDOWN *= (eleRecoSF_EGamma_SF2D.GetBinContent(xbin,ybin) - eleRecoSF_EGamma_SF2D.GetStdDev())
+            print 'eleRecoSF_systUP, eleRecoSF, eleRecoSF_systDOWN', eleRecoSF_systUP, eleRecoSF, eleRecoSF_systDOWN
 
 
         eleIDSF_loose = 1.0
