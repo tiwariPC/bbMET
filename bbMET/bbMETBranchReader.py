@@ -939,6 +939,10 @@ def AnalyzeDataSet():
             allquantities.met_sr1         = pfMet
             allquantities.jet1_nhf_sr1    = myJetNhadEF[ifirstjet]
             allquantities.jet1_chf_sr1    = myJetChadEF[ifirstjet]
+            allquantities.lep_syst_sr1_up = pfMet
+            allquantities.lep_syst_sr1_down = pfMet
+            allquantities.btag_syst_sr1_up = pfMet
+            allquantities.btag_syst_sr1_down = pfMet
             writeSR1=True
 
 
@@ -1071,6 +1075,10 @@ def AnalyzeDataSet():
             allquantities.met_sr2         = pfMet
             allquantities.jet1_nhf_sr2    = myJetNhadEF[ifirstjet]
             allquantities.jet1_chf_sr2    = myJetChadEF[ifirstjet]
+            allquantities.lep_syst_sr2_up = pfMet
+            allquantities.lep_syst_sr2_down = pfMet
+            allquantities.btag_syst_sr2_up = pfMet
+            allquantities.btag_syst_sr2_down = pfMet
             writeSR2=True
 
 
@@ -1302,6 +1310,10 @@ def AnalyzeDataSet():
                     allquantities.reg_2e1b_nUncleanTau = nUncleanTau
                     allquantities.reg_2e1b_nUncleanEle = nUncleanEle
                     allquantities.reg_2e1b_nUncleanMu = nUncleanMu
+                    allquantities.lep_syst_2e1b_up = ZeeRecoil
+                    allquantities.lep_syst_2e1b_down = ZeeRecoil
+                    allquantities.btag_syst_2e1b_up = ZeeRecoil
+                    allquantities.btag_syst_2e1b_down = ZeeRecoil
                     isZeeCR1 = True
 
             #2e, 2 b-tagged
@@ -1343,6 +1355,10 @@ def AnalyzeDataSet():
                     allquantities.reg_2e2b_nUncleanTau = nUncleanTau
                     allquantities.reg_2e2b_nUncleanEle = nUncleanEle
                     allquantities.reg_2e2b_nUncleanMu = nUncleanMu
+                    allquantities.lep_syst_2e2b_up = ZeeRecoil
+                    allquantities.lep_syst_2e2b_down = ZeeRecoil
+                    allquantities.btag_syst_2e2b_up = ZeeRecoil
+                    allquantities.btag_syst_2e2b_down = ZeeRecoil
                     isZeeCR2 = True
 
 
@@ -1402,6 +1418,10 @@ def AnalyzeDataSet():
                     allquantities.reg_2mu1b_nUncleanTau = nUncleanTau
                     allquantities.reg_2mu1b_nUncleanEle = nUncleanEle
                     allquantities.reg_2mu1b_nUncleanMu = nUncleanMu
+                    allquantities.lep_syst_2mu1b_up = ZmumuRecoil
+                    allquantities.lep_syst_2mu1b_down = ZmumuRecoil
+                    allquantities.btag_syst_2mu1b_up = ZmumuRecoil
+                    allquantities.btag_syst_2mu1b_down = ZmumuRecoil
 
                     allquantities.ZpT_MET = [ZpT,pfMet]
                     allquantities.MET_Recoil = [pfMet,ZmumuRecoil]
@@ -1456,6 +1476,10 @@ def AnalyzeDataSet():
                     allquantities.reg_2mu2b_nUncleanTau = nUncleanTau
                     allquantities.reg_2mu2b_nUncleanEle = nUncleanEle
                     allquantities.reg_2mu2b_nUncleanMu = nUncleanMu
+                    allquantities.lep_syst_2mu2b_up = ZmumuRecoil
+                    allquantities.lep_syst_2mu2b_down = ZmumuRecoil
+                    allquantities.btag_syst_2mu2b_up = ZmumuRecoil
+                    allquantities.btag_syst_2mu2b_down = ZmumuRecoil
                     isZmunuCR2 = True
 
 # -------------------------------------------
@@ -1542,6 +1566,10 @@ def AnalyzeDataSet():
                     allquantities.reg_1e1b_nUncleanTau = nUncleanTau
                     allquantities.reg_1e1b_nUncleanEle = nUncleanEle
                     allquantities.reg_1e1b_nUncleanMu = nUncleanMu
+                    allquantities.lep_syst_1e1b_up = WenuRecoil
+                    allquantities.lep_syst_1e1b_down = WenuRecoil
+                    allquantities.btag_syst_1e1b_up = WenuRecoil
+                    allquantities.btag_syst_1e1b_down = WenuRecoil
                     isWenuCR1 = True
 
             #1e, 2 b-tagged
@@ -1587,6 +1615,10 @@ def AnalyzeDataSet():
                     allquantities.reg_1e2b_nUncleanTau = nUncleanTau
                     allquantities.reg_1e2b_nUncleanEle = nUncleanEle
                     allquantities.reg_1e2b_nUncleanMu = nUncleanMu
+                    allquantities.lep_syst_1e2b_up = WenuRecoil
+                    allquantities.lep_syst_1e2b_down = WenuRecoil
+                    allquantities.btag_syst_1e2b_up = WenuRecoil
+                    allquantities.btag_syst_1e2b_down = WenuRecoil
                     isWenuCR2 = True
 
 
@@ -1642,6 +1674,10 @@ def AnalyzeDataSet():
                     allquantities.reg_1mu1b_nUncleanTau = nUncleanTau
                     allquantities.reg_1mu1b_nUncleanEle = nUncleanEle
                     allquantities.reg_1mu1b_nUncleanMu = nUncleanMu
+                    allquantities.lep_syst_1mu1b_up = WmunuRecoil
+                    allquantities.lep_syst_1mu1b_down = WmunuRecoil
+                    allquantities.btag_syst_1mu1b_up = WmunuRecoil
+                    allquantities.btag_syst_1mu1b_down = WmunuRecoil
                     isWmunuCR1 = True
 
             #1mu, 2 b-tagged
@@ -1684,6 +1720,10 @@ def AnalyzeDataSet():
                     allquantities.reg_1mu2b_nUncleanTau = nUncleanTau
                     allquantities.reg_1mu2b_nUncleanEle = nUncleanEle
                     allquantities.reg_1mu2b_nUncleanMu = nUncleanMu
+                    allquantities.lep_syst_1mu2b_up = WmunuRecoil
+                    allquantities.lep_syst_1mu2b_down = WmunuRecoil
+                    allquantities.btag_syst_1mu2b_up = WmunuRecoil
+                    allquantities.btag_syst_1mu2b_down = WmunuRecoil
                     isWmunuCR2 = True
 
 # -------------------------------------------
@@ -1761,6 +1801,10 @@ def AnalyzeDataSet():
                     allquantities.reg_1mu1e1b_nUncleanTau = nUncleanTau
                     allquantities.reg_1mu1e1b_nUncleanEle = nUncleanEle
                     allquantities.reg_1mu1e1b_nUncleanMu = nUncleanMu
+                    allquantities.lep_syst_1e1mu1b_up = TOPRecoil
+                    allquantities.lep_syst_1e1mu1b_down = TOPRecoil
+                    allquantities.btag_syst_1e1mu1b_up = TOPRecoil
+                    allquantities.btag_syst_1e1mu1b_down = TOPRecoil
                     isTopCR1 = True
 
             #1mu, 1e, 2 b-tagged
@@ -1811,6 +1855,10 @@ def AnalyzeDataSet():
                     allquantities.reg_1mu1e2b_nUncleanTau = nUncleanTau
                     allquantities.reg_1mu1e2b_nUncleanEle = nUncleanEle
                     allquantities.reg_1mu1e2b_nUncleanMu = nUncleanMu
+                    allquantities.lep_syst_1e1mu2b_up = TOPRecoil
+                    allquantities.lep_syst_1e1mu2b_down = TOPRecoil
+                    allquantities.btag_syst_1e1mu2b_up = TOPRecoil
+                    allquantities.btag_syst_1e1mu2b_down = TOPRecoil
                     isTopCR2 = True
 # -------------------------------------------
 # Gamma CR
@@ -1836,10 +1884,10 @@ def AnalyzeDataSet():
 
             if myPhos[0].Pt() > 175. and myPhoTightID[0] and myPhoLooseID[0]:
 
-                if nBjets==1 and SR1njetcond:
+                if SR1njetcond:
                     allquantities.reg_1gamma1b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(GammaPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                if nBjets==1 and SR1njetcond and GammaPhicond:
+                if SR1njetcond and GammaPhicond:
 
                     allquantities.reg_1gamma1b_hadrecoil = GammaRecoil
                     allquantities.reg_1gamma1b_MET = pfMet
@@ -1875,13 +1923,17 @@ def AnalyzeDataSet():
                     allquantities.reg_1gamma1b_nUncleanTau = nUncleanTau
                     allquantities.reg_1gamma1b_nUncleanEle = nUncleanEle
                     allquantities.reg_1gamma1b_nUncleanMu = nUncleanMu
+                    allquantities.lep_syst_1gamma1b_up = GammaRecoil
+                    allquantities.lep_syst_1gamma1b_down = GammaRecoil
+                    allquantities.btag_syst_1gamma1b_up = GammaRecoil
+                    allquantities.btag_syst_1gamma1b_down = GammaRecoil
                     isGammaCR1 = True
 
    #1 photon, 2 b-tagged
-                if nBjets==2 and SR2jet2 and SR2njetcond:
+                if SR2jet2 and SR2njetcond:
                     allquantities.reg_1gamma2b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(GammaPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                if nBjets==2 and SR2jet2 and SR2njetcond and GammaPhicond:
+                if SR2jet2 and SR2njetcond and GammaPhicond:
 
                     allquantities.reg_1gamma2b_hadrecoil = GammaRecoil
                     allquantities.reg_1gamma2b_MET = pfMet
@@ -1917,6 +1969,10 @@ def AnalyzeDataSet():
                     allquantities.reg_1gamma2b_nUncleanTau = nUncleanTau
                     allquantities.reg_1gamma2b_nUncleanEle = nUncleanEle
                     allquantities.reg_1gamma2b_nUncleanMu = nUncleanMu
+                    allquantities.lep_syst_1gamma2b_up = GammaRecoil
+                    allquantities.lep_syst_1gamma2b_down = GammaRecoil
+                    allquantities.btag_syst_1gamma2b_up = GammaRecoil
+                    allquantities.btag_syst_1gamma2b_down = GammaRecoil
                     isGammaCR2 = True
 
 
@@ -2234,6 +2290,7 @@ def AnalyzeDataSet():
             eleTrig_reweight *= eleTrig_hEffEtaPt.GetBinContent(xbin,ybin)
             eleTrig_reweight_systUP *= (eleTrig_hEffEtaPt.GetBinContent(xbin,ybin) + eleTrig_hEffEtaPt.GetStdDev())
             eleTrig_reweight_systDOWN *= (eleTrig_hEffEtaPt.GetBinContent(xbin,ybin) - eleTrig_hEffEtaPt.GetStdDev())
+#            print 'eleTrig_reweight_systUP, eleTrig_reweight, eleTrig_reweight_systDOWN', eleTrig_reweight_systUP, eleTrig_reweight, eleTrig_reweight_systDOWN
 
 
         eleRecoSF = 1.0
@@ -2247,6 +2304,8 @@ def AnalyzeDataSet():
             eleRecoSF *= eleRecoSF_EGamma_SF2D.GetBinContent(xbin,ybin)
             eleRecoSF_systUP *= (eleRecoSF_EGamma_SF2D.GetBinContent(xbin,ybin) + eleRecoSF_EGamma_SF2D.GetStdDev())
             eleRecoSF_systDOWN *= (eleRecoSF_EGamma_SF2D.GetBinContent(xbin,ybin) - eleRecoSF_EGamma_SF2D.GetStdDev())
+#            print 'eleRecoSF_systUP, eleRecoSF, eleRecoSF_systDOWN', eleRecoSF_systUP, eleRecoSF, eleRecoSF_systDOWN
+
 
         eleIDSF_loose = 1.0
         eleIDSF_loose_systUP = 1.0
@@ -2301,31 +2360,33 @@ def AnalyzeDataSet():
         ## Total weight
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         if puweight == 0.0:
-            print 'Warning:: puweight is 0, setting it to 1'
+#            print 'Warning:: puweight is 0, setting it to 1'
             puweight = 1.0
 
         if genpTReweighting == 0.0:
-            print 'Warning:: genpTReweighting is 0, setting it to 1'
+#            print 'Warning:: genpTReweighting is 0, setting it to 1'
             genpTReweighting = 1.0
 
         if metTrig_Reweight == 0.0:
-            print 'Warning:: metTrig_Reweight is 0, setting it to 1'
+#            print 'Warning:: metTrig_Reweight is 0, setting it to 1'
             metTrig_Reweight = 1.0
 
         muweights = muonTrig_SF * muIDSF_loose * muIDSF_tight * muIsoSF_loose * muIsoSF_tight * muTracking_SF
         if muweights == 0.0:
-            print 'Warning:: muon weight is 0, setting it to 1'
+#            print 'Warning:: muon weight is 0, setting it to 1'
             muweights = 1.0
 
         #eleweights = eleTrig_reweight * eleRecoSF * eleIDSF_loose * eleIDSF_tight * eleVetoCutBasedIDSF
         eleweights = eleTrig_reweight * eleRecoSF * eleIDSF_loose * eleIDSF_tight
         if eleweights == 0.0:
-            print 'Warning:: electron weight is 0, setting it to 1'
+#            print 'Warning:: electron weight is 0, setting it to 1'
             eleweights = 1.0
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
         allweights = puweight * mcweight * genpTReweighting * eleweights * metTrig_Reweight * muweights
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+        temp_weight_withOutBtag = allweights
         ## BTag Scale Factor
         if SR1njetcond:
             ij = ifirstjet
@@ -2355,29 +2416,32 @@ def AnalyzeDataSet():
             sf_resolved2 = weightbtag(reader1, flav2, myJetP4[jj].Pt(), myJetP4[jj].Eta())
             if nJets>2: sf_resolved3 = weightbtag(reader1, flav3, myJetP4[jk].Pt(), myJetP4[jk].Eta())
 
-#            print (sf_resolved1, sf_resolved2, sf_resolved3)
-
-
-
-
-
-
-
-
 
         if SR1njetcond:
-            if sf_resolved1[0]==0.0: sf_resolved1[0]=1.0
+            if sf_resolved1[0]==0.0:
+                sf_resolved1[0]=1.0
             allweights = allweights * sf_resolved1[0]
+
             if nJets>1:
-                if sf_resolved2[0]==0.0: sf_resolved2[0]=1.0
+                if sf_resolved2[0]==0.0:
+                    sf_resolved2[0]=1.0
                 allweights = allweights * sf_resolved2[0]
+
         if SR2njetcond:
-            if sf_resolved1[0]==0.0: sf_resolved1[0]=1.0
-            if sf_resolved2[0]==0.0: sf_resolved2[0]=1.0
+            if sf_resolved1[0]==0.0:
+                sf_resolved1[0]=1.0
+            if sf_resolved2[0]==0.0:
+                sf_resolved2[0]=1.0
             allweights = allweights * sf_resolved1[0] * sf_resolved2[0]
             if nJets>2:
-                if sf_resolved3[0]==0.0: sf_resolved3[0]=1.0
+                if sf_resolved3[0]==0.0:
+                    sf_resolved3[0]=1.0
                 allweights = allweights * sf_resolved3[0]
+        temp_original_weight  = allweights
+#        print 'central weight',temp_original_weight
+        temp_weight_withBtag = allweights/(eleweights*muweights)
+#        print 'eleweights, muweights', eleweights,muweights
+#        print 'total weight without e and mu weight',temp_weight_withBtag
 
         if isData: allweights = 1.0
         allweights_noPU = allweights/puweight
@@ -2833,149 +2897,47 @@ def AnalyzeDataSet():
         allquantities.weight_NoPU     = allweights_noPU
         allquantities.totalevents     = 1
 
-        temp_or_weight = allweights
         if options.Systematics:
             btag_sysnum=0
-            for reg in ['SR1','SR2','ZeeCR1','ZeeCR2','WeCR1','WeCR2','ZmumuCR1','ZmumuCR2','TopCR1','TopCR2']:
-                for btag_sysnum in[1,2]:
-                    if SR1njetcond:
-                        if sf_resolved1[0]==0.0: sf_resolved1[0]=1.0
-                        if sf_resolved1[btag_sysnum]==0.0: sf_resolved1[btag_sysnum]=1.0
-                        allweights = (allweights/sf_resolved1[0])*sf_resolved1[btag_sysnum]
-                        if nJets>1:
-                            if sf_resolved2[0]==0.0: sf_resolved2[0]=1.0
-                            if sf_resolved2[btag_sysnum]==0.0: sf_resolved2[btag_sysnum]=1.0
-                            allweights = (allweights / sf_resolved2[0])*sf_resolved2[btag_sysnum]
-                    if SR2njetcond:
-                        if sf_resolved1[0]==0.0: sf_resolved1[0]=1.0
-                        if sf_resolved1[btag_sysnum]==0.0: sf_resolved1[btag_sysnum]=1.0
-                        if sf_resolved2[0]==0.0: sf_resolved2[0]=1.0
+            for btag_sysnum in[1,2]:
+                allweights = temp_weight_withOutBtag
+                if SR1njetcond:
+                    if sf_resolved1[btag_sysnum]==0.0: sf_resolved1[btag_sysnum]=1.0
+                    allweights = allweights*sf_resolved1[btag_sysnum]
+                    if nJets>1:
                         if sf_resolved2[btag_sysnum]==0.0: sf_resolved2[btag_sysnum]=1.0
-                        allweights = (allweights / (sf_resolved1[0] * sf_resolved2[0]))*sf_resolved1[btag_sysnum] * sf_resolved2[btag_sysnum]
-                        if nJets>2:
-                            if sf_resolved3[0]==0.0: sf_resolved3[0]=1.0
-                            if sf_resolved3[btag_sysnum]==0.0: sf_resolved3[btag_sysnum]=1.0
-                            allweights = (allweights / sf_resolved3[0])*sf_resolved3[btag_sysnum]
-                    if writeSR1 and 'SR1' :
-                        if btag_sysnum==1: allquantities.btag_syst_sr1_up = pfMet
-                        if btag_sysnum==2: allquantities.btag_syst_sr1_down = pfMet
-                    if writeSR2 and 'SR2':
-                        if btag_sysnum==1: allquantities.btag_syst_sr2_up = pfMet
-                        if btag_sysnum==2: allquantities.btag_syst_sr2_down = pfMet
-                    if isZeeCR1 and 'ZeeCR1':
-                        if btag_sysnum==1: allquantities.btag_syst_2e1b_up = ZeeRecoil
-                        if btag_sysnum==2: allquantities.btag_syst_2e1b_down = ZeeRecoil
-                    if isZeeCR2 and 'ZeeCR2':
-                        if btag_sysnum==1: allquantities.btag_syst_2e2b_up = ZeeRecoil
-                        if btag_sysnum==2: allquantities.btag_syst_2e2b_down = ZeeRecoil
-                    if isZmumuCR1 and 'ZmumuCR1':
-                        if btag_sysnum==1: allquantities.btag_syst_2mu1b_up = ZmumuRecoil
-                        if btag_sysnum==2: allquantities.btag_syst_2mu1b_down = ZmumuRecoil
-                    if isZmunuCR2 and 'ZmumuCR2':
-                        if btag_sysnum==1: allquantities.btag_syst_2mu2b_up = ZmumuRecoil
-                        if btag_sysnum==2: allquantities.btag_syst_2mu2b_down = ZmumuRecoil
-                    if isWenuCR1 and 'WenuCR1':
-                        if btag_sysnum==1: allquantities.btag_syst_1e1b_up = WenuRecoil
-                        if btag_sysnum==2: allquantities.btag_syst_1e1b_down = WenuRecoil
-                    if isWenuCR2 and 'WenuCR2':
-                        if btag_sysnum==1: allquantities.btag_syst_1e2b_up = WenuRecoil
-                        if btag_sysnum==2: allquantities.btag_syst_1e2b_down = WenuRecoil
-                    if isWmunuCR1 and 'WmunuCR1':
-                        if btag_sysnum==1: allquantities.btag_syst_1mu1b_up = WmunuRecoil
-                        if btag_sysnum==2: allquantities.btag_syst_1mu1b_down = WmunuRecoil
-                    if isWmunuCR2 and 'WmunuCR2':
-                        if btag_sysnum==1: allquantities.btag_syst_1mu2b_up = WmunuRecoil
-                        if btag_sysnum==2: allquantities.btag_syst_1mu2b_down = WmunuRecoil
-                    if isTopCR1 and 'TopCR1':
-                        if btag_sysnum==1: allquantities.btag_syst_1e1mu1b_up = TOPRecoil
-                        if btag_sysnum==2: allquantities.btag_syst_1e1mu1b_down = TOPRecoil
-                    if isTopCR2 and 'TopCR2':
-                        if btag_sysnum==1: allquantities.btag_syst_1e1mu2b_up = TOPRecoil
-                        if btag_sysnum==2: allquantities.btag_syst_1e1mu2b_down = TOPRecoil
-                    if isGammaCR1 and 'GammaCR1':
-                        if btag_sysnum==1: allquantities.btag_syst_1gamma1b_up = GammaRecoil
-                        if btag_sysnum==2: allquantities.btag_syst_1gamma1b_down = GammaRecoil
-                    if isGammaCR2 and 'GammaCR2':
-                        if btag_sysnum==1: allquantities.btag_syst_1gamma2b_up = GammaRecoil
-                        if btag_sysnum==2: allquantities.btag_syst_1gamma2b_down = GammaRecoil
-                    allweights = temp_or_weight
-
-                muweights_systUP = muonTrig_SF_systUP * muIDSF_loose_systUP * muIDSF_tight_systUP * muIsoSF_loose_systUP * muIsoSF_tight_systUP * muTracking_SF_systUP
-                muweights_systDOWN = muonTrig_SF_systDOWN * muIDSF_loose_systDOWN * muIDSF_tight_systDOWN * muIsoSF_loose_systDOWN * muIsoSF_tight_systDOWN * muTracking_SF_systDOWN
-                eleweights_systUP = eleTrig_reweight_systUP * eleRecoSF_systUP * eleIDSF_loose_systUP * eleIDSF_tight_systUP
-                eleweights_systDOWN = eleTrig_reweight_systDOWN * eleRecoSF_systDOWN * eleIDSF_loose_systDOWN * eleIDSF_tight_systDOWN
-                if muweights_systUP == 0.0:
-                    muweights_systUP = 1.0
-                if muweights_systDOWN == 0.0:
-                    muweights_systDOWN = 1.0
-                if eleweights_systUP == 0.0:
-                    eleweights_systUP = 1.0
-                if eleweights_systDOWN == 0.0:
-                    eleweights_systDOWN = 1.0
-
-                allweights = (allweights/(muweights*eleweights))*muweights_systUP*eleweights_systUP
-                if writeSR1 and 'SR1' :
-                    allquantities.lep_syst_sr1_up = pfMet
-                if writeSR2 and 'SR2':
-                    allquantities.lep_syst_sr1_up = pfMet
-                if isZeeCR1 and 'ZeeCR1':
-                    allquantities.lep_syst_2e1b_up = ZeeRecoil
-                if isZeeCR2 and 'ZeeCR2':
-                    allquantities.lep_syst_2e2b_up = ZeeRecoil
-                if isZmumuCR1 and 'ZmumuCR1':
-                    allquantities.lep_syst_2mu1b_up = ZmumuRecoil
-                if isZmunuCR2 and 'ZmumuCR2':
-                    allquantities.lep_syst_2mu2b_up = ZmumuRecoil
-                if isWenuCR1 and 'WenuCR1':
-                    allquantities.lep_syst_1e1b_up = WenuRecoil
-                if isWenuCR2 and 'WenuCR2':
-                    allquantities.lep_syst_1e2b_up = WenuRecoil
-                if isWmunuCR1 and 'WmunuCR1':
-                    allquantities.lep_syst_1mu1b_up = WmunuRecoil
-                if isWmunuCR2 and 'WmunuCR2':
-                    allquantities.lep_syst_1mu2b_up = WmunuRecoil
-                if isTopCR1 and 'TopCR1':
-                    allquantities.lep_syst_1e1mu1b_up = TOPRecoil
-                if isTopCR2 and 'TopCR2':
-                    allquantities.lep_syst_1e1mu2b_up = TOPRecoil
-                if isGammaCR1 and 'GammaCR1':
-                    allquantities.lep_syst_1gamma1b_up = GammaRecoil
-                if isGammaCR2 and 'GammaCR2':
-                    allquantities.lep_syst_1gamma2b_up = GammaRecoil
-                allweights = temp_or_weight
-                allweights = (allweights/(muweights*eleweights))*muweights_systDOWN*eleweights_systDOWN
-                if writeSR1 and 'SR1' :
-                    allquantities.lep_syst_sr1_down = pfMet
-                if writeSR2 and 'SR2':
-                    allquantities.lep_syst_sr1_down = pfMet
-                if isZeeCR1 and 'ZeeCR1':
-                    allquantities.lep_syst_2e1b_down = ZeeRecoil
-                if isZeeCR2 and 'ZeeCR2':
-                    allquantities.lep_syst_2e2b_down = ZeeRecoil
-                if isZmumuCR1 and 'ZmumuCR1':
-                    allquantities.lep_syst_2mu1b_down = ZmumuRecoil
-                if isZmunuCR2 and 'ZmumuCR2':
-                    allquantities.lep_syst_2mu2b_down = ZmumuRecoil
-                if isWenuCR1 and 'WenuCR1':
-                    allquantities.lep_syst_1e1b_down = WenuRecoil
-                if isWenuCR2 and 'WenuCR2':
-                    allquantities.lep_syst_1e2b_down = WenuRecoil
-                if isWmunuCR1 and 'WmunuCR1':
-                    allquantities.lep_syst_1mu1b_down = WmunuRecoil
-                if isWmunuCR2 and 'WmunuCR2':
-                    allquantities.lep_syst_1mu2b_down = WmunuRecoil
-                if isTopCR1 and 'TopCR1':
-                    allquantities.lep_syst_1e1mu1b_down = TOPRecoil
-                if isTopCR2 and 'TopCR2':
-                    allquantities.lep_syst_1e1mu2b_down = TOPRecoil
-                if isGammaCR1 and 'GammaCR1':
-                    allquantities.lep_syst_1gamma1b_down = GammaRecoil
-                if isGammaCR2 and 'GammaCR2':
-                    allquantities.lep_syst_1gamma2b_down = GammaRecoil
-            allweights = temp_or_weight
-
-
-
+                        allweights = allweights *sf_resolved2[btag_sysnum]
+                if SR2njetcond:
+                    if sf_resolved1[btag_sysnum]==0.0: sf_resolved1[btag_sysnum]=1.0
+                    if sf_resolved2[btag_sysnum]==0.0: sf_resolved2[btag_sysnum]=1.0
+                    allweights = allweights * sf_resolved1[btag_sysnum] * sf_resolved2[btag_sysnum]
+                    if nJets>2:
+                        if sf_resolved3[btag_sysnum]==0.0: sf_resolved3[btag_sysnum]=1.0
+                        allweights = allweights * sf_resolved3[btag_sysnum]
+                    if btag_sysnum==2: allquantities.weight_btag_up = allweights
+                    if btag_sysnum==1: allquantities.weight_btag_down = allweights
+            allweights = temp_weight_withBtag
+            muweights_systUP = muonTrig_SF_systUP * muIDSF_loose_systUP * muIDSF_tight_systUP * muIsoSF_loose_systUP * muIsoSF_tight_systUP * muTracking_SF_systUP
+            muweights_systDOWN = muonTrig_SF_systDOWN * muIDSF_loose_systDOWN * muIDSF_tight_systDOWN * muIsoSF_loose_systDOWN * muIsoSF_tight_systDOWN * muTracking_SF_systDOWN
+            eleweights_systUP = eleTrig_reweight_systUP * eleRecoSF_systUP * eleIDSF_loose_systUP * eleIDSF_tight_systUP
+            eleweights_systDOWN = eleTrig_reweight_systDOWN * eleRecoSF_systDOWN * eleIDSF_loose_systDOWN * eleIDSF_tight_systDOWN
+            if muweights_systUP == 0.0:
+                muweights_systUP = 1.0
+            if muweights_systDOWN == 0.0:
+                muweights_systDOWN = 1.0
+            if eleweights_systUP == 0.0:
+                eleweights_systUP = 1.0
+            if eleweights_systDOWN == 0.0:
+                eleweights_systDOWN = 1.0
+#                print 'muweights_systUP, eleweights_systUP',muweights_systUP ,eleweights_systUP
+#                print 'muweights_systDOWN, eleweights_systDOWN',muweights_systDOWN,eleweights_systDOWN
+            allweights = allweights * muweights_systUP * eleweights_systUP
+            allquantities.weight_lep_up = allweights
+#            print 'up value', allweights
+            allweights = temp_weight_withBtag
+            allweights = allweights * muweights_systDOWN * eleweights_systDOWN
+            allquantities.weight_lep_down = allweights
+#            print 'down value', allweights
 
         nPV = myJetNPV
 
