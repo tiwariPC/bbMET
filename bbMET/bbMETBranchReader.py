@@ -2418,11 +2418,11 @@ def AnalyzeDataSet():
             if sf_resolved1[0]==0.0:
                 sf_resolved1[0]=1.0
             allweights = allweights * sf_resolved1[0]
-            print 'central value = ', allweights
-            allweights = (allweights/sf_resolved1[0]) * sf_resolved1[1]
-            print 'up value = ', allweights
-            allweights = (allweights/sf_resolved1[1]) * sf_resolved1[2]
-            print 'down value = ', allweights
+#            print 'central value = ', allweights
+#            allweights = (allweights/sf_resolved1[0]) * sf_resolved1[1]
+#            print 'up value = ', allweights
+#            allweights = (allweights/sf_resolved1[1]) * sf_resolved1[2]
+#            print 'down value = ', allweights
             if nJets>1:
                 if sf_resolved2[0]==0.0:
                     sf_resolved2[0]=1.0
@@ -2929,9 +2929,11 @@ def AnalyzeDataSet():
                 eleweights_systDOWN = 1.0
             allweights = allweights * muweights_systUP * eleweights_systUP
             allquantities.weight_lep_up = allweights
+            print 'up value', allweights
             allweights = temp_weight_withBtag
             allweights = allweights * muweights_systDOWN*eleweights_systDOWN
             allquantities.weight_lep_down = allweights
+            print 'down value', allweights
 
         nPV = myJetNPV
 
