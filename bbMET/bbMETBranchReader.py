@@ -2290,7 +2290,7 @@ def AnalyzeDataSet():
             eleTrig_reweight *= eleTrig_hEffEtaPt.GetBinContent(xbin,ybin)
             eleTrig_reweight_systUP *= (eleTrig_hEffEtaPt.GetBinContent(xbin,ybin) + eleTrig_hEffEtaPt.GetStdDev())
             eleTrig_reweight_systDOWN *= (eleTrig_hEffEtaPt.GetBinContent(xbin,ybin) - eleTrig_hEffEtaPt.GetStdDev())
-            print 'eleTrig_reweight_systUP, eleTrig_reweight, eleTrig_reweight_systDOWN', eleTrig_reweight_systUP, eleTrig_reweight, eleTrig_reweight_systDOWN
+#            print 'eleTrig_reweight_systUP, eleTrig_reweight, eleTrig_reweight_systDOWN', eleTrig_reweight_systUP, eleTrig_reweight, eleTrig_reweight_systDOWN
 
 
         eleRecoSF = 1.0
@@ -2304,7 +2304,7 @@ def AnalyzeDataSet():
             eleRecoSF *= eleRecoSF_EGamma_SF2D.GetBinContent(xbin,ybin)
             eleRecoSF_systUP *= (eleRecoSF_EGamma_SF2D.GetBinContent(xbin,ybin) + eleRecoSF_EGamma_SF2D.GetStdDev())
             eleRecoSF_systDOWN *= (eleRecoSF_EGamma_SF2D.GetBinContent(xbin,ybin) - eleRecoSF_EGamma_SF2D.GetStdDev())
-            print 'eleRecoSF_systUP, eleRecoSF, eleRecoSF_systDOWN', eleRecoSF_systUP, eleRecoSF, eleRecoSF_systDOWN
+#            print 'eleRecoSF_systUP, eleRecoSF, eleRecoSF_systDOWN', eleRecoSF_systUP, eleRecoSF, eleRecoSF_systDOWN
 
 
         eleIDSF_loose = 1.0
@@ -2360,26 +2360,26 @@ def AnalyzeDataSet():
         ## Total weight
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         if puweight == 0.0:
-            print 'Warning:: puweight is 0, setting it to 1'
+#            print 'Warning:: puweight is 0, setting it to 1'
             puweight = 1.0
 
         if genpTReweighting == 0.0:
-            print 'Warning:: genpTReweighting is 0, setting it to 1'
+#            print 'Warning:: genpTReweighting is 0, setting it to 1'
             genpTReweighting = 1.0
 
         if metTrig_Reweight == 0.0:
-            print 'Warning:: metTrig_Reweight is 0, setting it to 1'
+#            print 'Warning:: metTrig_Reweight is 0, setting it to 1'
             metTrig_Reweight = 1.0
 
         muweights = muonTrig_SF * muIDSF_loose * muIDSF_tight * muIsoSF_loose * muIsoSF_tight * muTracking_SF
         if muweights == 0.0:
-            print 'Warning:: muon weight is 0, setting it to 1'
+#            print 'Warning:: muon weight is 0, setting it to 1'
             muweights = 1.0
 
         #eleweights = eleTrig_reweight * eleRecoSF * eleIDSF_loose * eleIDSF_tight * eleVetoCutBasedIDSF
         eleweights = eleTrig_reweight * eleRecoSF * eleIDSF_loose * eleIDSF_tight
         if eleweights == 0.0:
-            print 'Warning:: electron weight is 0, setting it to 1'
+#            print 'Warning:: electron weight is 0, setting it to 1'
             eleweights = 1.0
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -2438,9 +2438,10 @@ def AnalyzeDataSet():
                     sf_resolved3[0]=1.0
                 allweights = allweights * sf_resolved3[0]
         temp_original_weight  = allweights
-        print 'central weight',temp_original_weight
+#        print 'central weight',temp_original_weight
         temp_weight_withBtag = allweights/(eleweights*muweights)
-        print 'total weight without e and mu weight',temp_weight_withBtag
+#        print 'eleweights, muweights', eleweights,muweights
+#        print 'total weight without e and mu weight',temp_weight_withBtag
 
         if isData: allweights = 1.0
         allweights_noPU = allweights/puweight
@@ -2932,11 +2933,11 @@ def AnalyzeDataSet():
 #                print 'muweights_systDOWN, eleweights_systDOWN',muweights_systDOWN,eleweights_systDOWN
             allweights = allweights * muweights_systUP * eleweights_systUP
             allquantities.weight_lep_up = allweights
-            print 'up value', allweights
+#            print 'up value', allweights
             allweights = temp_weight_withBtag
-            allweights = allweights * muweights_systDOWN*eleweights_systDOWN
+            allweights = allweights * muweights_systDOWN * eleweights_systDOWN
             allquantities.weight_lep_down = allweights
-            print 'down value', allweights
+#            print 'down value', allweights
 
         nPV = myJetNPV
 
