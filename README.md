@@ -1,4 +1,8 @@
 # bbMET
+### Workflow:
+
+![alt text](http://spmondal.web.cern.ch/spmondal/bbMETFlow.png)
+
 
 # I. Run DMAnalyzer
 First step is to generate ntuples.
