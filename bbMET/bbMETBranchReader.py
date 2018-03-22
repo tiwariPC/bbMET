@@ -2919,7 +2919,8 @@ def AnalyzeDataSet():
 #                print 'muweights_systDOWN, eleweights_systDOWN',muweights_systDOWN,eleweights_systDOWN
         allweights = allweights * muweights_systUP * eleweights_systUP
         allquantities.weight_lep_up = allweights
-        print 'lep up value', allweights
+        if abs(allweights-temp_weight_withBtag) > 0.001:
+            print 'lep up value', allweights
         allweights = temp_weight_withBtag
         print 'lep central weight', allweights
         allweights = allweights * muweights_systDOWN * eleweights_systDOWN
