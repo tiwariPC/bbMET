@@ -2421,7 +2421,6 @@ def AnalyzeDataSet():
             if sf_resolved1[0]==0.0:
                 sf_resolved1[0]=1.0
             allweights = allweights * sf_resolved1[0]
-
             if nJets>1:
                 if sf_resolved2[0]==0.0:
                     sf_resolved2[0]=1.0
@@ -2438,6 +2437,7 @@ def AnalyzeDataSet():
                     sf_resolved3[0]=1.0
                 allweights = allweights * sf_resolved3[0]
         temp_original_weight  = allweights
+        print 'btag central weight', temp_original_weight
 #        print 'central weight',temp_original_weight
         temp_weight_withBtag = allweights/(eleweights*muweights)
 #        print 'eleweights, muweights', eleweights,muweights
@@ -2914,8 +2914,12 @@ def AnalyzeDataSet():
                     if nJets>2:
                         if sf_resolved3[btag_sysnum]==0.0: sf_resolved3[btag_sysnum]=1.0
                         allweights = allweights * sf_resolved3[btag_sysnum]
-                    if btag_sysnum==2: allquantities.weight_btag_up = allweights
-                    if btag_sysnum==1: allquantities.weight_btag_down = allweights
+                    if btag_sysnum==2:
+                        allquantities.weight_btag_up = allweights
+                        print 'btag up weight', allweights
+                    if btag_sysnum==1:
+                        allquantities.weight_btag_down = allweights
+                        print 'btag down weight', allweights
             allweights = temp_weight_withBtag
             muweights_systUP = muonTrig_SF_systUP * muIDSF_loose_systUP * muIDSF_tight_systUP * muIsoSF_loose_systUP * muIsoSF_tight_systUP * muTracking_SF_systUP
             muweights_systDOWN = muonTrig_SF_systDOWN * muIDSF_loose_systDOWN * muIDSF_tight_systDOWN * muIsoSF_loose_systDOWN * muIsoSF_tight_systDOWN * muTracking_SF_systDOWN
