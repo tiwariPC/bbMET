@@ -2895,13 +2895,13 @@ def AnalyzeDataSet():
                 if nJets>2:
                     if sf_resolved3[btag_sysnum]==0.0: sf_resolved3[btag_sysnum]=1.0
                     allweights = allweights * sf_resolved3[btag_sysnum]
-                print 'btag central weight', temp_original_weight
+#                print 'btag central weight', temp_original_weight
                 if btag_sysnum==2:
                     allquantities.weight_btag_up = allweights
-                    print 'btag up weight', allweights
+#                    print 'btag up weight', allweights
                 if btag_sysnum==1:
                     allquantities.weight_btag_down = allweights
-                    print 'btag down weight', allweights
+#                    print 'btag down weight', allweights
         allweights = temp_weight_withBtag
         muweights_systUP = muonTrig_SF_systUP * muIDSF_loose_systUP * muIDSF_tight_systUP * muIsoSF_loose_systUP * muIsoSF_tight_systUP * muTracking_SF_systUP
         muweights_systDOWN = muonTrig_SF_systDOWN * muIDSF_loose_systDOWN * muIDSF_tight_systDOWN * muIsoSF_loose_systDOWN * muIsoSF_tight_systDOWN * muTracking_SF_systDOWN
@@ -2919,15 +2919,15 @@ def AnalyzeDataSet():
 #                print 'muweights_systDOWN, eleweights_systDOWN',muweights_systDOWN,eleweights_systDOWN
         allweights = allweights * muweights_systUP * eleweights_systUP
         allquantities.weight_lep_up = allweights
-        if abs(allweights-temp_weight_withBtag) > 0.001:
-            print 'lep up value', allweights
+#        if abs(allweights-temp_weight_withBtag) > 0.001:
+#            print 'lep up value', allweights
         allweights = temp_weight_withBtag
-        if abs(allweights-temp_weight_withBtag) > 0.001:
-            print 'lep central weight', allweights
+#        if abs(allweights-temp_weight_withBtag) > 0.001:
+#            print 'lep central weight', allweights
         allweights = allweights * muweights_systDOWN * eleweights_systDOWN
         allquantities.weight_lep_down = allweights
-        if abs(allweights-temp_weight_withBtag) > 0.001:
-            print 'lep down value', allweights
+#        if abs(allweights-temp_weight_withBtag) > 0.001:
+#            print 'lep down value', allweights
 
         nPV = myJetNPV
 
