@@ -2437,7 +2437,6 @@ def AnalyzeDataSet():
                     sf_resolved3[0]=1.0
                 allweights = allweights * sf_resolved3[0]
         temp_original_weight  = allweights
-        print 'btag central weight', temp_original_weight
 #        print 'central weight',temp_original_weight
         temp_weight_withBtag = allweights/(eleweights*muweights)
 #        print 'eleweights, muweights', eleweights,muweights
@@ -2914,6 +2913,7 @@ def AnalyzeDataSet():
                     if nJets>2:
                         if sf_resolved3[btag_sysnum]==0.0: sf_resolved3[btag_sysnum]=1.0
                         allweights = allweights * sf_resolved3[btag_sysnum]
+                    print 'btag central weight', temp_original_weight
                     if btag_sysnum==2:
                         allquantities.weight_btag_up = allweights
                         print 'btag up weight', allweights
