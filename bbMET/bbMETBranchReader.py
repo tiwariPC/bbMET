@@ -108,7 +108,6 @@ parser.add_option("--se", action="store_true",  dest="SE")
 parser.add_option("--met", action="store_true",  dest="MET")
 parser.add_option("--sp", action="store_true",  dest="SP")
 
-parser.add_option("--syst", action="store_true",  dest="Systematics")
 ########################################################################################################################
 ########################## cut values########################################################################
 ########################################################################################################################
@@ -140,8 +139,6 @@ if options.MET==None:
 if options.SP==None:
     options.SP==False
 
-if options.Systematics==None:
-    options.Systematics==False
 
 if options.SE: print "Using SingleElectron dataset."
 if options.SP: print "Using SinglePhoton dataset."
@@ -395,10 +392,7 @@ def AnalyzeDataSet():
     allquantities = MonoHbbQuantities(outfilename)
     allquantities.defineHisto()
 
-#    for attr, value in allquantities.__dict__.iteritems():
-#       print attr, value
-#       if isinstance(value, float):
-#          bbMET_tree.Branch('bbMETvariables',AddressOf(allquantities,'histo'),'histo/D')
+
     # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
     # BTag Scale Factor Initialisation
     # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -551,17 +545,6 @@ def AnalyzeDataSet():
             PhotonCRtrigstatus = True
 
 #        try:
-#            MET_trig=skimmedTree.__getattr__('st_MET_trig')
-#            SE_trig=skimmedTree.__getattr__('st_SE_trig')
-#        except:
-#            MET_trig=True
-#            SE_trig=True
-#            if ievent==0: print "No MET_trig, SW_trig info available, the SkimmedTree seems to be from an old version. Proceeding with True for both."
-#        try:
-#            SP_trig=skimmedTree.__getattr__('st_SP_trig')
-#        except:
-#            SP_trig=True
-#            if ievent==0: print "No SP_trig info available, the SkimmedTree seems to be from an old version. Proceeding with True."
 
 
 #        HLT_IsoMu24                = skimmedTree.__getattr__('st_HLT_IsoMu20')     #Depreciated
@@ -1884,10 +1867,10 @@ def AnalyzeDataSet():
 
             if myPhos[0].Pt() > 175. and myPhoTightID[0] and myPhoLooseID[0]:
 
-                if SR1njetcond:
+                if nBjets==1 and SR1njetcond:
                     allquantities.reg_1gamma1b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(GammaPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                if SR1njetcond and GammaPhicond:
+                if nBjets==1 and SR1njetcond and GammaPhicond:
 
                     allquantities.reg_1gamma1b_hadrecoil = GammaRecoil
                     allquantities.reg_1gamma1b_MET = pfMet
@@ -1930,10 +1913,10 @@ def AnalyzeDataSet():
                     isGammaCR1 = True
 
    #1 photon, 2 b-tagged
-                if SR2jet2 and SR2njetcond:
+                if nBjets==2 and SR2jet2 and SR2njetcond:
                     allquantities.reg_1gamma2b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(GammaPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                if SR2jet2 and SR2njetcond and GammaPhicond:
+                if nBjets==2 and SR2jet2 and SR2njetcond and GammaPhicond:
 
                     allquantities.reg_1gamma2b_hadrecoil = GammaRecoil
                     allquantities.reg_1gamma2b_MET = pfMet
@@ -2896,52 +2879,52 @@ def AnalyzeDataSet():
         allquantities.weight_NoPU     = allweights_noPU
         allquantities.totalevents     = 1
 
-        if options.Systematics:
-            btag_sysnum=0
-            for btag_sysnum in[1,2]:
-                allweights = temp_weight_withOutBtag
-                if SR1njetcond:
-                    if sf_resolved1[btag_sysnum]==0.0: sf_resolved1[btag_sysnum]=1.0
-                    allweights = allweights*sf_resolved1[btag_sysnum]
-                    if nJets>1:
-                        if sf_resolved2[btag_sysnum]==0.0: sf_resolved2[btag_sysnum]=1.0
-                        allweights = allweights *sf_resolved2[btag_sysnum]
-                if SR2njetcond:
-                    if sf_resolved1[btag_sysnum]==0.0: sf_resolved1[btag_sysnum]=1.0
+        btag_sysnum=0
+        for btag_sysnum in[1,2]:
+            allweights = temp_weight_withOutBtag
+            if SR1njetcond:
+                if sf_resolved1[btag_sysnum]==0.0: sf_resolved1[btag_sysnum]=1.0
+                allweights = allweights*sf_resolved1[btag_sysnum]
+                if nJets>1:
                     if sf_resolved2[btag_sysnum]==0.0: sf_resolved2[btag_sysnum]=1.0
-                    allweights = allweights * sf_resolved1[btag_sysnum] * sf_resolved2[btag_sysnum]
-                    if nJets>2:
-                        if sf_resolved3[btag_sysnum]==0.0: sf_resolved3[btag_sysnum]=1.0
-                        allweights = allweights * sf_resolved3[btag_sysnum]
-                    print 'btag central weight', temp_original_weight
-                    if btag_sysnum==2:
-                        allquantities.weight_btag_up = allweights
-                        print 'btag up weight', allweights
-                    if btag_sysnum==1:
-                        allquantities.weight_btag_down = allweights
-                        print 'btag down weight', allweights
-            allweights = temp_weight_withBtag
-            muweights_systUP = muonTrig_SF_systUP * muIDSF_loose_systUP * muIDSF_tight_systUP * muIsoSF_loose_systUP * muIsoSF_tight_systUP * muTracking_SF_systUP
-            muweights_systDOWN = muonTrig_SF_systDOWN * muIDSF_loose_systDOWN * muIDSF_tight_systDOWN * muIsoSF_loose_systDOWN * muIsoSF_tight_systDOWN * muTracking_SF_systDOWN
-            eleweights_systUP = eleTrig_reweight_systUP * eleRecoSF_systUP * eleIDSF_loose_systUP * eleIDSF_tight_systUP
-            eleweights_systDOWN = eleTrig_reweight_systDOWN * eleRecoSF_systDOWN * eleIDSF_loose_systDOWN * eleIDSF_tight_systDOWN
-            if muweights_systUP == 0.0:
-                muweights_systUP = 1.0
-            if muweights_systDOWN == 0.0:
-                muweights_systDOWN = 1.0
-            if eleweights_systUP == 0.0:
-                eleweights_systUP = 1.0
-            if eleweights_systDOWN == 0.0:
-                eleweights_systDOWN = 1.0
+                    allweights = allweights *sf_resolved2[btag_sysnum]
+            if SR2njetcond:
+                if sf_resolved1[btag_sysnum]==0.0: sf_resolved1[btag_sysnum]=1.0
+                if sf_resolved2[btag_sysnum]==0.0: sf_resolved2[btag_sysnum]=1.0
+                allweights = allweights * sf_resolved1[btag_sysnum] * sf_resolved2[btag_sysnum]
+                if nJets>2:
+                    if sf_resolved3[btag_sysnum]==0.0: sf_resolved3[btag_sysnum]=1.0
+                    allweights = allweights * sf_resolved3[btag_sysnum]
+                print 'btag central weight', temp_original_weight
+                if btag_sysnum==2:
+                    allquantities.weight_btag_up = allweights
+                    print 'btag up weight', allweights
+                if btag_sysnum==1:
+                    allquantities.weight_btag_down = allweights
+                    print 'btag down weight', allweights
+        allweights = temp_weight_withBtag
+        muweights_systUP = muonTrig_SF_systUP * muIDSF_loose_systUP * muIDSF_tight_systUP * muIsoSF_loose_systUP * muIsoSF_tight_systUP * muTracking_SF_systUP
+        muweights_systDOWN = muonTrig_SF_systDOWN * muIDSF_loose_systDOWN * muIDSF_tight_systDOWN * muIsoSF_loose_systDOWN * muIsoSF_tight_systDOWN * muTracking_SF_systDOWN
+        eleweights_systUP = eleTrig_reweight_systUP * eleRecoSF_systUP * eleIDSF_loose_systUP * eleIDSF_tight_systUP
+        eleweights_systDOWN = eleTrig_reweight_systDOWN * eleRecoSF_systDOWN * eleIDSF_loose_systDOWN * eleIDSF_tight_systDOWN
+        if muweights_systUP == 0.0:
+            muweights_systUP = 1.0
+        if muweights_systDOWN == 0.0:
+            muweights_systDOWN = 1.0
+        if eleweights_systUP == 0.0:
+            eleweights_systUP = 1.0
+        if eleweights_systDOWN == 0.0:
+            eleweights_systDOWN = 1.0
 #                print 'muweights_systUP, eleweights_systUP',muweights_systUP ,eleweights_systUP
 #                print 'muweights_systDOWN, eleweights_systDOWN',muweights_systDOWN,eleweights_systDOWN
-            allweights = allweights * muweights_systUP * eleweights_systUP
-            allquantities.weight_lep_up = allweights
-#            print 'up value', allweights
-            allweights = temp_weight_withBtag
-            allweights = allweights * muweights_systDOWN * eleweights_systDOWN
-            allquantities.weight_lep_down = allweights
-#            print 'down value', allweights
+        allweights = allweights * muweights_systUP * eleweights_systUP
+        allquantities.weight_lep_up = allweights
+        print 'lep up value', allweights
+        allweights = temp_weight_withBtag
+        print 'lep central weight', allweights
+        allweights = allweights * muweights_systDOWN * eleweights_systDOWN
+        allquantities.weight_lep_down = allweights
+        print 'lep down value', allweights
 
         nPV = myJetNPV
 
