@@ -2922,10 +2922,12 @@ def AnalyzeDataSet():
         if abs(allweights-temp_weight_withBtag) > 0.001:
             print 'lep up value', allweights
         allweights = temp_weight_withBtag
-        print 'lep central weight', allweights
+        if abs(allweights-temp_weight_withBtag) > 0.001:
+            print 'lep central weight', allweights
         allweights = allweights * muweights_systDOWN * eleweights_systDOWN
         allquantities.weight_lep_down = allweights
-        print 'lep down value', allweights
+        if abs(allweights-temp_weight_withBtag) > 0.001:
+            print 'lep down value', allweights
 
         nPV = myJetNPV
 
