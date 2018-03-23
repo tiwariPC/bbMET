@@ -1867,11 +1867,12 @@ def AnalyzeDataSet():
 
             if myPhos[0].Pt() > 175. and myPhoTightID[0] and myPhoLooseID[0]:
 
-                if nBjets==1 and SR1njetcond:
+#                if nBjets==1 and SR1njetcond:
+                if SR1njetcond:
                     allquantities.reg_1gamma1b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(GammaPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                if nBjets==1 and SR1njetcond and GammaPhicond:
-
+#                if nBjets==1 and SR1njetcond and GammaPhicond:
+                if SR1njetcond and GammaPhicond:
                     allquantities.reg_1gamma1b_hadrecoil = GammaRecoil
                     allquantities.reg_1gamma1b_MET = pfMet
 
@@ -1913,11 +1914,12 @@ def AnalyzeDataSet():
                     isGammaCR1 = True
 
    #1 photon, 2 b-tagged
-                if nBjets==2 and SR2jet2 and SR2njetcond:
+#                if nBjets==2 and SR2jet2 and SR2njetcond:
+                if SR2jet2 and SR2njetcond:
                     allquantities.reg_1gamma2b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(GammaPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                if nBjets==2 and SR2jet2 and SR2njetcond and GammaPhicond:
-
+#                if nBjets==2 and SR2jet2 and SR2njetcond and GammaPhicond:
+                if SR2jet2 and SR2njetcond and GammaPhicond:
                     allquantities.reg_1gamma2b_hadrecoil = GammaRecoil
                     allquantities.reg_1gamma2b_MET = pfMet
 
@@ -2790,7 +2792,7 @@ def AnalyzeDataSet():
                     if nJets==1 or nJets==2:
                         CR1gamma1bCutFlow['njets']+=allweights
 
-                        if nBjets==1:
+                        if True: #nBjets==1:
                             CR1gamma1bCutFlow['nbjets']+=allweights
 
                             if jetcond:
@@ -2805,7 +2807,7 @@ def AnalyzeDataSet():
                     if nJets==2 or nJets==3:
                         CR1gamma2bCutFlow['njets']+=allweights
 
-                        if nBjets==2:
+                        if True: #nBjets==2:
                             CR1gamma2bCutFlow['nbjets']+=allweights
 
                             if jetcond and SR2jet2:
