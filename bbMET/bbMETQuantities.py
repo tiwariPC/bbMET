@@ -77,6 +77,7 @@ class MonoHbbQuantities:
         self.weight_btag_down = 1.0
         self.weight_lep_up = 1.0
         self.weight_lep_down = 1.0
+        self.weight_met_second = 1.0
 
         self.weight_pdf   = []
         self.weight_muR   = []
@@ -280,6 +281,7 @@ class MonoHbbQuantities:
         WF_btag_down = self.weight_btag_down
         WF_lep_up = self.weight_lep_up
         WF_lep_down = self.weight_lep_down
+        WF_met_second = self.weight_met_second
         #print "WF = ", WF
         self.h_met[0]        .Fill(self.met,       WF)
 
@@ -322,6 +324,8 @@ class MonoHbbQuantities:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_lep_up)")
             elif 'syst' in quant and 'down' in quant and 'lep' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_lep_down)")
+            elif 'syst' in quant and 'second' in quant and 'met' in quant:
+                exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_met_second)")
             else:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF)")
 
