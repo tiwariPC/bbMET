@@ -927,6 +927,8 @@ def AnalyzeDataSet():
             allquantities.btag_syst_sr1_up = pfMet
             allquantities.btag_syst_sr1_down = pfMet
             allquantities.metTrig_syst_sr1_second = pfMet
+            allquantities.ewk_syst_sr1_up = pfMet
+            allquantities.ewk_syst_sr1_down = pfMet
             writeSR1=True
 
 
@@ -1064,6 +1066,8 @@ def AnalyzeDataSet():
             allquantities.btag_syst_sr2_up = pfMet
             allquantities.btag_syst_sr2_down = pfMet
             allquantities.metTrig_syst_sr2_second = pfMet
+            allquantities.ewk_syst_sr2_up = pfMet
+            allquantities.ewk_syst_sr2_down = pfMet
             writeSR2=True
 
 
@@ -1300,6 +1304,8 @@ def AnalyzeDataSet():
                     allquantities.btag_syst_2e1b_up = ZeeRecoil
                     allquantities.btag_syst_2e1b_down = ZeeRecoil
                     allquantities.metTrig_syst_2e1b_second = ZeeRecoil
+                    allquantities.ewk_syst_2e1b_up = ZeeRecoil
+                    allquantities.ewk_syst_2e1b_down = ZeeRecoil
                     isZeeCR1 = True
 
             #2e, 2 b-tagged
@@ -1346,6 +1352,8 @@ def AnalyzeDataSet():
                     allquantities.btag_syst_2e2b_up = ZeeRecoil
                     allquantities.btag_syst_2e2b_down = ZeeRecoil
                     allquantities.metTrig_syst_2e2b_second = ZeeRecoil
+                    allquantities.ewk_syst_2e2b_up = ZeeRecoil
+                    allquantities.ewk_syst_2e2b_down = ZeeRecoil
                     isZeeCR2 = True
 
 
@@ -1410,6 +1418,8 @@ def AnalyzeDataSet():
                     allquantities.btag_syst_2mu1b_up = ZmumuRecoil
                     allquantities.btag_syst_2mu1b_down = ZmumuRecoil
                     allquantities.metTrig_syst_2mu1b_second = ZmumuRecoil
+                    allquantities.ewk_syst_2mu1b_up = ZmumuRecoil
+                    allquantities.ewk_syst_2mu1b_down = ZmumuRecoil
 
                     allquantities.ZpT_MET = [ZpT,pfMet]
                     allquantities.MET_Recoil = [pfMet,ZmumuRecoil]
@@ -1469,6 +1479,8 @@ def AnalyzeDataSet():
                     allquantities.btag_syst_2mu2b_up = ZmumuRecoil
                     allquantities.btag_syst_2mu2b_down = ZmumuRecoil
                     allquantities.metTrig_syst_2mu2b_second = ZmumuRecoil
+                    allquantities.ewk_syst_2mu2b_up = ZmumuRecoil
+                    allquantities.ewk_syst_2mu2b_down = ZmumuRecoil
                     isZmunuCR2 = True
 
 # -------------------------------------------
@@ -1559,7 +1571,9 @@ def AnalyzeDataSet():
                     allquantities.lep_syst_1e1b_down = WenuRecoil
                     allquantities.btag_syst_1e1b_up = WenuRecoil
                     allquantities.btag_syst_1e1b_down = WenuRecoil
-                    allquantities.metTrig_syst_1e1b_second = WenuRecoil
+                    allquantities.metTrig_syst_1e1b_second =
+                    allquantities.ewk_syst_1e1b_up = WenuRecoil
+                    allquantities.ewk_syst_1e1b_down = WenuRecoil
                     isWenuCR1 = True
 
             #1e, 2 b-tagged
@@ -1610,6 +1624,8 @@ def AnalyzeDataSet():
                     allquantities.btag_syst_1e2b_up = WenuRecoil
                     allquantities.btag_syst_1e2b_down = WenuRecoil
                     allquantities.metTrig_syst_1e2b_second = WenuRecoil
+                    allquantities.ewk_syst_1e2b_up = WenuRecoil
+                    allquantities.ewk_syst_1e2b_down = WenuRecoil
                     isWenuCR2 = True
 
 
@@ -1670,6 +1686,8 @@ def AnalyzeDataSet():
                     allquantities.btag_syst_1mu1b_up = WmunuRecoil
                     allquantities.btag_syst_1mu1b_down = WmunuRecoil
                     allquantities.metTrig_syst_1mu1b_second = WmunuRecoil
+                    allquantities.ewk_syst_1mu1b_up = WmunuRecoil
+                    allquantities.ewk_syst_1mu1b_down = WmunuRecoil
                     isWmunuCR1 = True
 
             #1mu, 2 b-tagged
@@ -1717,6 +1735,8 @@ def AnalyzeDataSet():
                     allquantities.btag_syst_1mu2b_up = WmunuRecoil
                     allquantities.btag_syst_1mu2b_down = WmunuRecoil
                     allquantities.metTrig_syst_1mu2b_second = WmunuRecoil
+                    allquantities.ewk_syst_1mu2b_up = WmunuRecoil
+                    allquantities.ewk_syst_1mu2b_down = WmunuRecoil
                     isWmunuCR2 = True
 
 # -------------------------------------------
@@ -1799,6 +1819,8 @@ def AnalyzeDataSet():
                     allquantities.btag_syst_1e1mu1b_up = TOPRecoil
                     allquantities.btag_syst_1e1mu1b_down = TOPRecoil
                     allquantities.metTrig_syst_1e1mu1b_second = TOPRecoil
+                    allquantities.ewk_syst_1e1mu1b_up = TOPRecoil
+                    allquantities.ewk_syst_1e1mu1b_down = TOPRecoil
                     isTopCR1 = True
 
             #1mu, 1e, 2 b-tagged
@@ -1854,6 +1876,8 @@ def AnalyzeDataSet():
                     allquantities.btag_syst_1e1mu2b_up = TOPRecoil
                     allquantities.btag_syst_1e1mu2b_down = TOPRecoil
                     allquantities.metTrig_syst_1e1mu2b_second = TOPRecoil
+                    allquantities.ewk_syst_1e1mu2b_up = TOPRecoil
+                    allquantities.ewk_syst_1e1mu2b_down = TOPRecoil
                     isTopCR2 = True
 # -------------------------------------------
 # Gamma CR
@@ -1923,6 +1947,8 @@ def AnalyzeDataSet():
                     allquantities.btag_syst_1gamma1b_up = GammaRecoil
                     allquantities.btag_syst_1gamma1b_down = GammaRecoil
                     allquantities.metTrig_syst_1gamma1b_second = GammaRecoil
+                    allquantities.ewk_syst_1gamma1b_up = GammaRecoil
+                    allquantities.ewk_syst_1gamma1b_down = GammaRecoil
                     isGammaCR1 = True
 
    #1 photon, 2 b-tagged
@@ -1970,6 +1996,8 @@ def AnalyzeDataSet():
                     allquantities.btag_syst_1gamma2b_up = GammaRecoil
                     allquantities.btag_syst_1gamma2b_down = GammaRecoil
                     allquantities.metTrig_syst_1gamma2b_second = GammaRecoil
+                    allquantities.ewk_syst_1gamma2b_up = GammaRecoil
+                    allquantities.ewk_syst_1gamma2b_down = GammaRecoil
                     isGammaCR2 = True
 
 
@@ -2373,8 +2401,11 @@ def AnalyzeDataSet():
 #            print 'Warning:: electron weight is 0, setting it to 1'
             eleweights = 1.0
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+        allweights_ewk_down = puweight * mcweight * eleweights * metTrig_firstmethodReweight * muweights
 
         allweights = puweight * mcweight * genpTReweighting * eleweights * metTrig_firstmethodReweight * muweights
+
+        allweights_ewk_up = puweight * mcweight *2*genpTReweighting * eleweights * metTrig_firstmethodReweight * muweights
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         temp_weight_withOutBtag = allweights
@@ -2887,6 +2918,8 @@ def AnalyzeDataSet():
         allquantities.weight          = allweights
         allquantities.weight_NoPU     = allweights_noPU
         allquantities.weight_met_second = allweights_metTrigsecond
+        allquantities.weight_ewk_up  = allweights_ewk_up
+        allquantities.weight_ewk_down  =  allweights_ewk_down
         allquantities.totalevents     = 1
 
         btag_sysnum=0
