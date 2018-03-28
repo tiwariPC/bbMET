@@ -2100,6 +2100,16 @@ def AnalyzeDataSet():
         #----------------------------------------------------------------------------------------------------------------------------------------------------------------
         metTrig_firstmethodReweight=1.0
         metTrig_secondmethodReweight=1.0
+        if writeSR1:
+            xbin1 = metTrig_firstmethod.GetXaxis().FindBin(pfMet)
+            xbin2 = metTrig_secondmethod.GetXaxis().FindBin(pfMet)
+            metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
+            metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
+        if writeSR2:
+            xbin1 = metTrig_firstmethod.GetXaxis().FindBin(pfMet)
+            xbin2 = metTrig_secondmethod.GetXaxis().FindBin(pfMet)
+            metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
+            metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
         if ZmumuRecoil > 200:
             xbin1 = metTrig_firstmethod.GetXaxis().FindBin(ZmumuRecoil)
             xbin2 = metTrig_secondmethod.GetXaxis().FindBin(ZmumuRecoil)
@@ -2345,9 +2355,12 @@ def AnalyzeDataSet():
 #            print 'Warning:: genpTReweighting is 0, setting it to 1'
             genpTReweighting = 1.0
 
-        if metTrig_Reweight == 0.0:
+        if metTrig_firstmethodReweight == 0.0:
 #            print 'Warning:: metTrig_Reweight is 0, setting it to 1'
-            metTrig_Reweight = 1.0
+            metTrig_firstmethodReweight = 1.0
+
+        if metTrig_secondmethodReweight == 0.0:
+            metTrig_secondmethodReweight = 1.0
 
         muweights = muonTrig_SF * muIDSF_loose * muIDSF_tight * muIsoSF_loose * muIsoSF_tight * muTracking_SF
         if muweights == 0.0:
