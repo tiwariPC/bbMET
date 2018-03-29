@@ -2461,15 +2461,20 @@ def AnalyzeDataSet():
         if samplename=="WJETS":
             allweights_ewkW_down = puweight * mcweight * eleweights * metTrig_firstmethodReweight * muweights
             allweights_ewkW_up = puweight * mcweight *2*genpTReweighting * eleweights * metTrig_firstmethodReweight * muweights
+            allquantities.weight_ewkW_up  = allweights_ewkW_up
+            allquantities.weight_ewkW_down  =  allweights_ewkW_down
         if samplename == "ZJETS":
             allweights_ewkZ_down = puweight * mcweight * eleweights * metTrig_firstmethodReweight * muweights
             allweights_ewkZ_up = puweight * mcweight *2*genpTReweighting * eleweights * metTrig_firstmethodReweight * muweights
+            allquantities.weight_ewkZ_up  = allweights_ewkZ_up
+            allquantities.weight_ewkZ_down  =  allweights_ewkZ_down
         if samplename == "TT":
             allweights_ewkTop_down = puweight * mcweight * eleweights * metTrig_firstmethodReweight * muweights
             allweights_ewkTop_up = puweight * mcweight *2*genpTReweighting * eleweights * metTrig_firstmethodReweight * muweights
+            allquantities.weight_ewkTop_up  = allweights_ewkTop_up
+            allquantities.weight_ewkTop_down  =  allweights_ewkTop_down
 
         allweights = puweight * mcweight * genpTReweighting * eleweights * metTrig_firstmethodReweight * muweights
-
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         temp_weight_withOutBtag = allweights
@@ -2982,12 +2987,6 @@ def AnalyzeDataSet():
         allquantities.weight          = allweights
         allquantities.weight_NoPU     = allweights_noPU
         allquantities.weight_met_second = allweights_metTrigsecond
-        allquantities.weight_ewkZ_up  = allweights_ewkZ_up
-        allquantities.weight_ewkZ_down  =  allweights_ewkZ_down
-        allquantities.weight_ewkW_up  = allweights_ewkW_up
-        allquantities.weight_ewkW_down  =  allweights_ewkW_down
-        allquantities.weight_ewkTop_up  = allweights_ewkTop_up
-        allquantities.weight_ewkTop_down  =  allweights_ewkTop_down
         allquantities.totalevents     = 1
 
         btag_sysnum=0
