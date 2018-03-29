@@ -78,8 +78,12 @@ class MonoHbbQuantities:
         self.weight_lep_up = 1.0
         self.weight_lep_down = 1.0
         self.weight_met_second = 1.0
-        self.weight_ewk_up = 1.0
-        self.weight_ewk_down = 1.0
+        self.weight_ewkZ_up = 1.0
+        self.weight_ewkZ_down = 1.0
+        self.weight_ewkW_up = 1.0
+        self.weight_ewkW_down = 1.0
+        self.weight_ewkTop_up = 1.0
+        self.weight_ewkTop_down = 1.0
 
         self.weight_pdf   = []
         self.weight_muR   = []
@@ -330,9 +334,17 @@ class MonoHbbQuantities:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_lep_down)")
             elif 'syst' in quant and 'second' in quant and 'met' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_met_second)")
-            elif 'syst' in quant and 'up' in quant and 'ewk' in quant:
+            elif 'syst' in quant and 'up' in quant and 'ewkZ' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_ewk_up)")
-            elif 'syst' in quant and 'down' in quant and 'ewk' in quant:
+            elif 'syst' in quant and 'down' in quant and 'ewkZ' in quant:
+                exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_ewk_down)")
+            elif 'syst' in quant and 'up' in quant and 'ewkW' in quant:
+                exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_ewk_up)")
+            elif 'syst' in quant and 'down' in quant and 'ewkW' in quant:
+                exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_ewk_down)")
+            elif 'syst' in quant and 'up' in quant and 'ewkTop' in quant:
+                exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_ewk_up)")
+            elif 'syst' in quant and 'down' in quant and 'ewkTop' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_ewk_down)")
             else:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF)")
