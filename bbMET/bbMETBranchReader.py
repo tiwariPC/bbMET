@@ -2458,13 +2458,13 @@ def AnalyzeDataSet():
 #            print 'Warning:: electron weight is 0, setting it to 1'
             eleweights = 1.0
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-        if sample=="WJETS":
+        if samplename=="WJETS":
             allweights_ewkW_down = puweight * mcweight * eleweights * metTrig_firstmethodReweight * muweights
             allweights_ewkW_up = puweight * mcweight *2*genpTReweighting * eleweights * metTrig_firstmethodReweight * muweights
-        if sample == "ZJETS":
+        if samplename == "ZJETS":
             allweights_ewkZ_down = puweight * mcweight * eleweights * metTrig_firstmethodReweight * muweights
             allweights_ewkZ_up = puweight * mcweight *2*genpTReweighting * eleweights * metTrig_firstmethodReweight * muweights
-        if sample == "TT":
+        if samplename == "TT":
             allweights_ewkTop_down = puweight * mcweight * eleweights * metTrig_firstmethodReweight * muweights
             allweights_ewkTop_up = puweight * mcweight *2*genpTReweighting * eleweights * metTrig_firstmethodReweight * muweights
 
