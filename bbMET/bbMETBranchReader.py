@@ -926,7 +926,8 @@ def AnalyzeDataSet():
             allquantities.lep_syst_sr1_down = pfMet
             allquantities.btag_syst_sr1_up = pfMet
             allquantities.btag_syst_sr1_down = pfMet
-            allquantities.metTrig_syst_sr1_second = pfMet
+            allquantities.metTrig_syst_sr1_up = pfMet
+            allquantities.metTrig_syst_sr1_down = pfMet
             allquantities.ewkZ_syst_sr1_up = pfMet
             allquantities.ewkZ_syst_sr1_down = pfMet
             allquantities.ewkW_syst_sr1_up = pfMet
@@ -1069,7 +1070,8 @@ def AnalyzeDataSet():
             allquantities.lep_syst_sr2_down = pfMet
             allquantities.btag_syst_sr2_up = pfMet
             allquantities.btag_syst_sr2_down = pfMet
-            allquantities.metTrig_syst_sr2_second = pfMet
+            allquantities.metTrig_syst_sr2_up = pfMet
+            allquantities.metTrig_syst_sr2_down = pfMet
             allquantities.ewkZ_syst_sr2_up = pfMet
             allquantities.ewkZ_syst_sr2_down = pfMet
             allquantities.ewkW_syst_sr2_up = pfMet
@@ -1311,7 +1313,8 @@ def AnalyzeDataSet():
                     allquantities.lep_syst_2e1b_down = ZeeRecoil
                     allquantities.btag_syst_2e1b_up = ZeeRecoil
                     allquantities.btag_syst_2e1b_down = ZeeRecoil
-                    allquantities.metTrig_syst_2e1b_second = ZeeRecoil
+                    allquantities.metTrig_syst_2e1b_up = ZeeRecoil
+                    allquantities.metTrig_syst_2e1b_down = ZeeRecoil
                     allquantities.ewkZ_syst_2e1b_up = ZeeRecoil
                     allquantities.ewkZ_syst_2e1b_down = ZeeRecoil
                     allquantities.ewkW_syst_2e1b_up = ZeeRecoil
@@ -1363,7 +1366,8 @@ def AnalyzeDataSet():
                     allquantities.lep_syst_2e2b_down = ZeeRecoil
                     allquantities.btag_syst_2e2b_up = ZeeRecoil
                     allquantities.btag_syst_2e2b_down = ZeeRecoil
-                    allquantities.metTrig_syst_2e2b_second = ZeeRecoil
+                    allquantities.metTrig_syst_2e2b_up = ZeeRecoil
+                    allquantities.metTrig_syst_2e2b_down = ZeeRecoil
                     allquantities.ewkZ_syst_2e2b_up = ZeeRecoil
                     allquantities.ewkZ_syst_2e2b_down = ZeeRecoil
                     allquantities.ewkW_syst_2e2b_up = ZeeRecoil
@@ -1434,7 +1438,8 @@ def AnalyzeDataSet():
                     allquantities.lep_syst_2mu1b_down = ZmumuRecoil
                     allquantities.btag_syst_2mu1b_up = ZmumuRecoil
                     allquantities.btag_syst_2mu1b_down = ZmumuRecoil
-                    allquantities.metTrig_syst_2mu1b_second = ZmumuRecoil
+                    allquantities.metTrig_syst_2mu1b_up = ZmumuRecoil
+                    allquantities.metTrig_syst_2mu1b_down = ZmumuRecoil
                     allquantities.ewkZ_syst_2mu1b_up = ZmumuRecoil
                     allquantities.ewkZ_syst_2mu1b_down = ZmumuRecoil
                     allquantities.ewkW_syst_2mu1b_up = ZmumuRecoil
@@ -1499,7 +1504,8 @@ def AnalyzeDataSet():
                     allquantities.lep_syst_2mu2b_down = ZmumuRecoil
                     allquantities.btag_syst_2mu2b_up = ZmumuRecoil
                     allquantities.btag_syst_2mu2b_down = ZmumuRecoil
-                    allquantities.metTrig_syst_2mu2b_second = ZmumuRecoil
+                    allquantities.metTrig_syst_2mu2b_up = ZmumuRecoil
+                    allquantities.metTrig_syst_2mu2b_down = ZmumuRecoil
                     allquantities.ewkZ_syst_2mu2b_up = ZmumuRecoil
                     allquantities.ewkZ_syst_2mu2b_down = ZmumuRecoil
                     allquantities.ewkW_syst_2mu2b_up = ZmumuRecoil
@@ -1596,7 +1602,8 @@ def AnalyzeDataSet():
                     allquantities.lep_syst_1e1b_down = WenuRecoil
                     allquantities.btag_syst_1e1b_up = WenuRecoil
                     allquantities.btag_syst_1e1b_down = WenuRecoil
-                    allquantities.metTrig_syst_1e1b_second =WenuRecoil
+                    allquantities.metTrig_syst_1e1b_up =WenuRecoil
+                    allquantities.metTrig_syst_1e1b_down =WenuRecoil
                     allquantities.ewkZ_syst_1e1b_up = WenuRecoil
                     allquantities.ewkZ_syst_1e1b_down = WenuRecoil
                     allquantities.ewkW_syst_1e1b_up = WenuRecoil
@@ -1652,7 +1659,8 @@ def AnalyzeDataSet():
                     allquantities.lep_syst_1e2b_down = WenuRecoil
                     allquantities.btag_syst_1e2b_up = WenuRecoil
                     allquantities.btag_syst_1e2b_down = WenuRecoil
-                    allquantities.metTrig_syst_1e2b_second = WenuRecoil
+                    allquantities.metTrig_syst_1e2b_up = WenuRecoil
+                    allquantities.metTrig_syst_1e2b_down = WenuRecoil
                     allquantities.ewkZ_syst_1e2b_up = WenuRecoil
                     allquantities.ewkZ_syst_1e2b_down = WenuRecoil
                     allquantities.ewkW_syst_1e2b_up = WenuRecoil
@@ -1718,7 +1726,8 @@ def AnalyzeDataSet():
                     allquantities.lep_syst_1mu1b_down = WmunuRecoil
                     allquantities.btag_syst_1mu1b_up = WmunuRecoil
                     allquantities.btag_syst_1mu1b_down = WmunuRecoil
-                    allquantities.metTrig_syst_1mu1b_second = WmunuRecoil
+                    allquantities.metTrig_syst_1mu1b_up = WmunuRecoil
+                    allquantities.metTrig_syst_1mu1b_down = WmunuRecoil
                     allquantities.ewkZ_syst_1mu1b_up = WmunuRecoil
                     allquantities.ewkZ_syst_1mu1b_down = WmunuRecoil
                     allquantities.ewkW_syst_1mu1b_up = WmunuRecoil
@@ -1771,7 +1780,8 @@ def AnalyzeDataSet():
                     allquantities.lep_syst_1mu2b_down = WmunuRecoil
                     allquantities.btag_syst_1mu2b_up = WmunuRecoil
                     allquantities.btag_syst_1mu2b_down = WmunuRecoil
-                    allquantities.metTrig_syst_1mu2b_second = WmunuRecoil
+                    allquantities.metTrig_syst_1mu2b_up = WmunuRecoil
+                    allquantities.metTrig_syst_1mu2b_down = WmunuRecoil
                     allquantities.ewkZ_syst_1mu2b_up = WmunuRecoil
                     allquantities.ewkZ_syst_1mu2b_down = WmunuRecoil
                     allquantities.ewkW_syst_1mu2b_up = WmunuRecoil
@@ -1859,7 +1869,8 @@ def AnalyzeDataSet():
                     allquantities.lep_syst_1e1mu1b_down = TOPRecoil
                     allquantities.btag_syst_1e1mu1b_up = TOPRecoil
                     allquantities.btag_syst_1e1mu1b_down = TOPRecoil
-                    allquantities.metTrig_syst_1e1mu1b_second = TOPRecoil
+                    allquantities.metTrig_syst_1e1mu1b_up = TOPRecoil
+                    allquantities.metTrig_syst_1e1mu1b_down = TOPRecoil
                     allquantities.ewkZ_syst_1e1mu1b_up = TOPRecoil
                     allquantities.ewkZ_syst_1e1mu1b_down = TOPRecoil
                     allquantities.ewkW_syst_1e1mu1b_up = TOPRecoil
@@ -1920,7 +1931,8 @@ def AnalyzeDataSet():
                     allquantities.lep_syst_1e1mu2b_down = TOPRecoil
                     allquantities.btag_syst_1e1mu2b_up = TOPRecoil
                     allquantities.btag_syst_1e1mu2b_down = TOPRecoil
-                    allquantities.metTrig_syst_1e1mu2b_second = TOPRecoil
+                    allquantities.metTrig_syst_1e1mu2b_up = TOPRecoil
+                    allquantities.metTrig_syst_1e1mu2b_down = TOPRecoil
                     allquantities.ewkZ_syst_1e1mu2b_up = TOPRecoil
                     allquantities.ewkZ_syst_1e1mu2b_down = TOPRecoil
                     allquantities.ewkW_syst_1e1mu2b_up = TOPRecoil
@@ -1995,7 +2007,8 @@ def AnalyzeDataSet():
                     allquantities.lep_syst_1gamma1b_down = GammaRecoil
                     allquantities.btag_syst_1gamma1b_up = GammaRecoil
                     allquantities.btag_syst_1gamma1b_down = GammaRecoil
-                    allquantities.metTrig_syst_1gamma1b_second = GammaRecoil
+                    allquantities.metTrig_syst_1gamma1b_up = GammaRecoil
+                    allquantities.metTrig_syst_1gamma1b_down = GammaRecoil
                     allquantities.ewkZ_syst_1gamma1b_up = GammaRecoil
                     allquantities.ewkZ_syst_1gamma1b_down = GammaRecoil
                     allquantities.ewkW_syst_1gamma1b_up = GammaRecoil
@@ -2048,7 +2061,8 @@ def AnalyzeDataSet():
                     allquantities.lep_syst_1gamma2b_down = GammaRecoil
                     allquantities.btag_syst_1gamma2b_up = GammaRecoil
                     allquantities.btag_syst_1gamma2b_down = GammaRecoil
-                    allquantities.metTrig_syst_1gamma2b_second = GammaRecoil
+                    allquantities.metTrig_syst_1gamma2b_up = GammaRecoil
+                    allquantities.metTrig_syst_1gamma2b_down = GammaRecoil
                     allquantities.ewkZ_syst_1gamma2b_up = GammaRecoil
                     allquantities.ewkZ_syst_1gamma2b_down = GammaRecoil
                     allquantities.ewkW_syst_1gamma2b_up = GammaRecoil
@@ -2185,46 +2199,64 @@ def AnalyzeDataSet():
         #----------------------------------------------------------------------------------------------------------------------------------------------------------------
         metTrig_firstmethodReweight=1.0
         metTrig_secondmethodReweight=1.0
+        metTrig_firstmethodReweight_up=1.0
+        metTrig_firstmethodReweight_down=1.0
         if writeSR1:
             xbin1 = metTrig_firstmethod.GetXaxis().FindBin(pfMet)
             xbin2 = metTrig_secondmethod.GetXaxis().FindBin(pfMet)
             metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
             metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
+            metTrig_firstmethodReweight_up = metTrig_firstmethodReweight + (metTrig_firstmethodReweight-metTrig_secondmethodReweight)
+            metTrig_firstmethodReweight_down = metTrig_firstmethodReweight - (metTrig_firstmethodReweight-metTrig_secondmethodReweight)
         if writeSR2:
             xbin1 = metTrig_firstmethod.GetXaxis().FindBin(pfMet)
             xbin2 = metTrig_secondmethod.GetXaxis().FindBin(pfMet)
             metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
             metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
+            metTrig_firstmethodReweight_up = metTrig_firstmethodReweight + (metTrig_firstmethodReweight-metTrig_secondmethodReweight)
+            metTrig_firstmethodReweight_down = metTrig_firstmethodReweight - (metTrig_firstmethodReweight-metTrig_secondmethodReweight)
         if ZmumuRecoil > 200:
             xbin1 = metTrig_firstmethod.GetXaxis().FindBin(ZmumuRecoil)
             xbin2 = metTrig_secondmethod.GetXaxis().FindBin(ZmumuRecoil)
             metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
             metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
+            metTrig_firstmethodReweight_up = metTrig_firstmethodReweight + (metTrig_firstmethodReweight-metTrig_secondmethodReweight)
+            metTrig_firstmethodReweight_down = metTrig_firstmethodReweight - (metTrig_firstmethodReweight-metTrig_secondmethodReweight)
         elif ZeeRecoil > 200:
             xbin1 = metTrig_firstmethod.GetXaxis().FindBin(ZeeRecoil)
             xbin2 = metTrig_secondmethod.GetXaxis().FindBin(ZeeRecoil)
             metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
             metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
+            metTrig_firstmethodReweight_up = metTrig_firstmethodReweight + (metTrig_firstmethodReweight-metTrig_secondmethodReweight)
+            metTrig_firstmethodReweight_down = metTrig_firstmethodReweight - (metTrig_firstmethodReweight-metTrig_secondmethodReweight)
         elif WmunuRecoil > 200:
             xbin1 = metTrig_firstmethod.GetXaxis().FindBin(WmunuRecoil)
             xbin2 = metTrig_secondmethod.GetXaxis().FindBin(WmunuRecoil)
             metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
             metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
+            metTrig_firstmethodReweight_up = metTrig_firstmethodReweight + (metTrig_firstmethodReweight-metTrig_secondmethodReweight)
+            metTrig_firstmethodReweight_down = metTrig_firstmethodReweight - (metTrig_firstmethodReweight-metTrig_secondmethodReweight)
         elif WenuRecoil > 200:
             xbin1 = metTrig_firstmethod.GetXaxis().FindBin(WenuRecoil)
             xbin2 = metTrig_secondmethod.GetXaxis().FindBin(WenuRecoil)
             metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
             metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
+            metTrig_firstmethodReweight_up = metTrig_firstmethodReweight + (metTrig_firstmethodReweight-metTrig_secondmethodReweight)
+            metTrig_firstmethodReweight_down = metTrig_firstmethodReweight - (metTrig_firstmethodReweight-metTrig_secondmethodReweight)
         elif TOPRecoil > 200:
             xbin1 = metTrig_firstmethod.GetXaxis().FindBin(TOPRecoil)
             xbin2 = metTrig_secondmethod.GetXaxis().FindBin(TOPRecoil)
             metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
             metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
+            metTrig_firstmethodReweight_up = metTrig_firstmethodReweight + (metTrig_firstmethodReweight-metTrig_secondmethodReweight)
+            metTrig_firstmethodReweight_down = metTrig_firstmethodReweight - (metTrig_firstmethodReweight-metTrig_secondmethodReweight)
         elif GammaRecoil > 200:
             xbin1 = metTrig_firstmethod.GetXaxis().FindBin(GammaRecoil)
             xbin2 = metTrig_secondmethod.GetXaxis().FindBin(GammaRecoil)
             metTrig_firstmethodReweight = metTrig_firstmethod.GetBinContent(xbin1)
             metTrig_secondmethodReweight = metTrig_secondmethod.GetBinContent(xbin2)
+            metTrig_firstmethodReweight_up = metTrig_firstmethodReweight + (metTrig_firstmethodReweight-metTrig_secondmethodReweight)
+            metTrig_firstmethodReweight_down = metTrig_firstmethodReweight - (metTrig_firstmethodReweight-metTrig_secondmethodReweight)
 
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Muon reweight
@@ -2444,8 +2476,13 @@ def AnalyzeDataSet():
 #            print 'Warning:: metTrig_Reweight is 0, setting it to 1'
             metTrig_firstmethodReweight = 1.0
 
-        if metTrig_secondmethodReweight == 0.0:
-            metTrig_secondmethodReweight = 1.0
+        if metTrig_firstmethodReweight_up == 0.0:
+#            print 'Warning:: metTrig_Reweight is 0, setting it to 1'
+            metTrig_firstmethodReweight_up = 1.0
+
+        if metTrig_firstmethodReweight_down == 0.0:
+#            print 'Warning:: metTrig_Reweight is 0, setting it to 1'
+            metTrig_firstmethodReweight_down = 1.0
 
         muweights = muonTrig_SF * muIDSF_loose * muIDSF_tight * muIsoSF_loose * muIsoSF_tight * muTracking_SF
         if muweights == 0.0:
@@ -2528,11 +2565,9 @@ def AnalyzeDataSet():
                     sf_resolved3[0]=1.0
                 allweights = allweights * sf_resolved3[0]
         temp_original_weight  = allweights
-        allweights_metTrigsecond = (allweights/metTrig_firstmethodReweight)*metTrig_secondmethodReweight
-#        print 'central weight',temp_original_weight
+        allweights_metTrig_up = (allweights/metTrig_firstmethodReweight)*metTrig_firstmethodReweight_up
+        allweights_metTrig_down = (allweights/metTrig_firstmethodReweight)*metTrig_firstmethodReweight_down
         temp_weight_withBtag = allweights/(eleweights*muweights)
-#        print 'eleweights, muweights', eleweights,muweights
-#        print 'total weight without e and mu weight',temp_weight_withBtag
 
         if isData: allweights = 1.0
         allweights_noPU = allweights/puweight
@@ -2986,7 +3021,8 @@ def AnalyzeDataSet():
         allquantities.N_j             = nJets
         allquantities.weight          = allweights
         allquantities.weight_NoPU     = allweights_noPU
-        allquantities.weight_met_second = allweights_metTrigsecond
+        allquantities.weight_met_up   = allweights_metTrig_up
+        allquantities.weight_met_down = allweights_metTrig_down
         allquantities.totalevents     = 1
 
         btag_sysnum=0
