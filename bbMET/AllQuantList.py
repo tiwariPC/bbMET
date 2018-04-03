@@ -10,7 +10,6 @@ def getAll():
                 allquantlist.append('jet'+str(jetnum)+"_"+jetprop+"_"+region+"2")
     allquantlist.append('dr_jet_sr1')
     allquantlist.append('dr_jet_sr2')
-    allquantlist.append('metTrigSysUnc')
     #for systematics
     for jetprop in ['btag','lep','metTrig','ewkZ','ewkW','ewkTop']:
         for syst in ['up','down']:
