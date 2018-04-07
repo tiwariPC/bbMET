@@ -1865,18 +1865,18 @@ def AnalyzeDataSet():
                     allquantities.reg_1mu1e1b_nUncleanTau = nUncleanTau
                     allquantities.reg_1mu1e1b_nUncleanEle = nUncleanEle
                     allquantities.reg_1mu1e1b_nUncleanMu = nUncleanMu
-                    allquantities.lep_syst_1e1mu1b_up = TOPRecoil
-                    allquantities.lep_syst_1e1mu1b_down = TOPRecoil
-                    allquantities.btag_syst_1e1mu1b_up = TOPRecoil
-                    allquantities.btag_syst_1e1mu1b_down = TOPRecoil
-                    allquantities.metTrig_syst_1e1mu1b_up = TOPRecoil
-                    allquantities.metTrig_syst_1e1mu1b_down = TOPRecoil
-                    allquantities.ewkZ_syst_1e1mu1b_up = TOPRecoil
-                    allquantities.ewkZ_syst_1e1mu1b_down = TOPRecoil
-                    allquantities.ewkW_syst_1e1mu1b_up = TOPRecoil
-                    allquantities.ewkW_syst_1e1mu1b_down = TOPRecoil
-                    allquantities.ewkTop_syst_1e1mu1b_up = TOPRecoil
-                    allquantities.ewkTop_syst_1e1mu1b_down = TOPRecoil
+                    allquantities.lep_syst_1mu1e1b_up = TOPRecoil
+                    allquantities.lep_syst_1mu1e1b_down = TOPRecoil
+                    allquantities.btag_syst_1mu1e1b_up = TOPRecoil
+                    allquantities.btag_syst_1mu1e1b_down = TOPRecoil
+                    allquantities.metTrig_syst_1mu1e1b_up = TOPRecoil
+                    allquantities.metTrig_syst_1mu1e1b_down = TOPRecoil
+                    allquantities.ewkZ_syst_1mu1e1b_up = TOPRecoil
+                    allquantities.ewkZ_syst_1mu1e1b_down = TOPRecoil
+                    allquantities.ewkW_syst_1mu1e1b_up = TOPRecoil
+                    allquantities.ewkW_syst_1mu1e1b_down = TOPRecoil
+                    allquantities.ewkTop_syst_1mu1e1b_up = TOPRecoil
+                    allquantities.ewkTop_syst_1mu1e1b_down = TOPRecoil
                     isTopCR1 = True
 
             #1mu, 1e, 2 b-tagged
@@ -1927,18 +1927,18 @@ def AnalyzeDataSet():
                     allquantities.reg_1mu1e2b_nUncleanTau = nUncleanTau
                     allquantities.reg_1mu1e2b_nUncleanEle = nUncleanEle
                     allquantities.reg_1mu1e2b_nUncleanMu = nUncleanMu
-                    allquantities.lep_syst_1e1mu2b_up = TOPRecoil
-                    allquantities.lep_syst_1e1mu2b_down = TOPRecoil
-                    allquantities.btag_syst_1e1mu2b_up = TOPRecoil
-                    allquantities.btag_syst_1e1mu2b_down = TOPRecoil
-                    allquantities.metTrig_syst_1e1mu2b_up = TOPRecoil
-                    allquantities.metTrig_syst_1e1mu2b_down = TOPRecoil
-                    allquantities.ewkZ_syst_1e1mu2b_up = TOPRecoil
-                    allquantities.ewkZ_syst_1e1mu2b_down = TOPRecoil
-                    allquantities.ewkW_syst_1e1mu2b_up = TOPRecoil
-                    allquantities.ewkW_syst_1e1mu2b_down = TOPRecoil
-                    allquantities.ewkTop_syst_1e1mu2b_up = TOPRecoil
-                    allquantities.ewkTop_syst_1e1mu2b_down = TOPRecoil
+                    allquantities.lep_syst_1mu1e2b_up = TOPRecoil
+                    allquantities.lep_syst_1mu1e2b_down = TOPRecoil
+                    allquantities.btag_syst_1mu1e2b_up = TOPRecoil
+                    allquantities.btag_syst_1mu1e2b_down = TOPRecoil
+                    allquantities.metTrig_syst_1mu1e2b_up = TOPRecoil
+                    allquantities.metTrig_syst_1mu1e2b_down = TOPRecoil
+                    allquantities.ewkZ_syst_1mu1e2b_up = TOPRecoil
+                    allquantities.ewkZ_syst_1mu1e2b_down = TOPRecoil
+                    allquantities.ewkW_syst_1mu1e2b_up = TOPRecoil
+                    allquantities.ewkW_syst_1mu1e2b_down = TOPRecoil
+                    allquantities.ewkTop_syst_1mu1e2b_up = TOPRecoil
+                    allquantities.ewkTop_syst_1mu1e2b_down = TOPRecoil
                     isTopCR2 = True
 # -------------------------------------------
 # Gamma CR
