@@ -1967,7 +1967,8 @@ def AnalyzeDataSet():
                 if nBjets==1 and SR1njetcond:
                     allquantities.reg_1gamma1b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(GammaPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                if nBjets==1 and SR1njetcond and GammaPhicond:
+#                if nBjets==1 and SR1njetcond and GammaPhicond:
+                if SR1njetcond and GammaPhicond:
 
                     allquantities.reg_1gamma1b_hadrecoil = GammaRecoil
                     allquantities.reg_1gamma1b_MET = pfMet
