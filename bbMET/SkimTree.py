@@ -56,6 +56,8 @@ def arctan(x,y):
     else:
         return math.pi/2+corr
 
+def getPT(P4):
+    return P4.Pt()
 
 def AnalyzeDataSet():
     CSVMWP=0.8484
@@ -140,6 +142,11 @@ def AnalyzeDataSet():
     st_THINjetHadronFlavor          = ROOT.std.vector('int')()
     st_THINjetNHadEF                = ROOT.std.vector('float')()
     st_THINjetCHadEF                = ROOT.std.vector('float')()
+    
+    st_THINjetCEmEF                 = ROOT.std.vector('float')()
+    st_THINjetPhoEF                 = ROOT.std.vector('float')()
+    st_THINjetEleEF                 = ROOT.std.vector('float')()
+    st_THINjetMuoEF                 = ROOT.std.vector('float')()
 
     st_AK4deepCSVnJet               = array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
     st_AK4deepCSVjetP4              = ROOT.std.vector('TLorentzVector')()
@@ -234,7 +241,11 @@ def AnalyzeDataSet():
     outTree.Branch( 'st_THINjetHadronFlavor',st_THINjetHadronFlavor )
     outTree.Branch( 'st_THINjetNHadEF',st_THINjetNHadEF )
     outTree.Branch( 'st_THINjetCHadEF',st_THINjetCHadEF )
-
+    
+    outTree.Branch( 'st_THINjetCEmEF',st_THINjetCEmEF )
+    outTree.Branch( 'st_THINjetPhoEF',st_THINjetPhoEF )
+    outTree.Branch( 'st_THINjetEleEF',st_THINjetEleEF )
+    outTree.Branch( 'st_THINjetMuoEF',st_THINjetMuoEF )
 
     outTree.Branch( 'st_AK4deepCSVnJet',st_AK4deepCSVnJet, 'st_AK4deepCSVnJet/L' )
     outTree.Branch( 'st_AK4deepCSVjetP4',st_AK4deepCSVjetP4 )
@@ -336,21 +347,26 @@ def AnalyzeDataSet():
         thinJetCSV                 = skimmedTree.__getattr__('THINjetCISVV2')
         passThinJetLooseID         = skimmedTree.__getattr__('THINjetPassIDLoose')        
         THINjetHadronFlavor        = skimmedTree.__getattr__('THINjetHadronFlavor')
+        THINjetNPV                 = skimmedTree.__getattr__('THINjetNPV')         #int()
         thinjetNhadEF              = skimmedTree.__getattr__('THINjetNHadEF')
         thinjetChadEF              = skimmedTree.__getattr__('THINjetCHadEF')
-        THINjetNPV                 = skimmedTree.__getattr__('THINjetNPV')         #int()
+        thinjetCEmEF               = skimmedTree.__getattr__('THINjetCEmEF')
+        thinjetPhoEF               = skimmedTree.__getattr__('THINjetPhoEF')
+        thinjetEleEF               = skimmedTree.__getattr__('THINjetEleEF')
+        thinjetMuoEF               = skimmedTree.__getattr__('THINjetMuoEF')
+        
+        nTHINdeepCSVJets           = skimmedTree.__getattr__('AK4deepCSVnJet')
+        thindeepCSVjetP4           = skimmedTree.__getattr__('AK4deepCSVjetP4')
+        thinJetdeepCSV             = skimmedTree.__getattr__('AK4deepCSVjetDeepCSV_b')
+        THINdeepCSVjetHadronFlavor = skimmedTree.__getattr__('AK4deepCSVjetHadronFlavor')
+        thindeepCSVjetNhadEF       = skimmedTree.__getattr__('AK4deepCSVjetNHadEF')
+        thindeepCSVjetChadEF       = skimmedTree.__getattr__('AK4deepCSVjetCHadEF')
+        THINdeepCSVjetNPV          = skimmedTree.__getattr__('AK4deepCSVjetNPV')
 
         try:
-            nTHINdeepCSVJets           = skimmedTree.__getattr__('AK4deepCSVnJet')
-            thindeepCSVjetP4           = skimmedTree.__getattr__('AK4deepCSVjetP4')
-            thinJetdeepCSV             = skimmedTree.__getattr__('AK4deepCSVjetDeepCSV_b')
-            THINdeepCSVjetHadronFlavor = skimmedTree.__getattr__('AK4deepCSVjetHadronFlavor')
-            thindeepCSVjetNhadEF       = skimmedTree.__getattr__('AK4deepCSVjetNHadEF')
-            thindeepCSVjetChadEF       = skimmedTree.__getattr__('AK4deepCSVjetCHadEF')
-            THINdeepCSVjetNPV          = skimmedTree.__getattr__('AK4deepCSVjetNPV')
             thindeepCSVJetLooseID      = skimmedTree.__getattr__('AK4deepCSVjetPassIDLoose')
         except:
-            if ievent==0: print "\n**********WARNING: Looks like the ntuple is from an older version, as DeepCSV jet collection is missing. DeepCSV information will NOT be stored.**********\n"
+            if ievent==0: print "\n**********WARNING: Looks like the ntuple is from an older version, as DeepCSV Loose ID is missing. DeepCSV jet ID will NOT be stored.**********\n"
             thindeepCSVJetLooseID = None
 
         nEle                       = skimmedTree.__getattr__('nEle')
@@ -571,6 +587,16 @@ def AnalyzeDataSet():
         myEles=[]
         for iele in range(nEle):
             if (eleP4[iele].Pt() > 10. ) & (abs(eleP4[iele].Eta()) <2.5) & (bool(eleIsPassLoose[iele]) == True) :
+                
+#                # Clean eles against jets: if ele in jet coll, remove ele. Currently only for CSV coll
+#                isClean=True
+#                for ithinjet in thinjetpassindex:
+#                    if DeltaR(thinjetP4[ithinjet],eleP4[iele]) < 0.4:
+#                        isClean=False
+#                        break
+#                        #print DeltaR(thinjetP4[ithinjet],eleP4[iele])
+#                if isClean:
+                    
                 myEles.append(iele)
 
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -612,6 +638,11 @@ def AnalyzeDataSet():
         st_THINjetHadronFlavor.clear()
         st_THINjetNHadEF.clear()
         st_THINjetCHadEF.clear()
+        
+        st_THINjetCEmEF.clear()
+        st_THINjetPhoEF.clear()
+        st_THINjetEleEF.clear()
+        st_THINjetMuoEF.clear()
 
         st_AK4deepCSVjetP4.clear()
         st_AK4deepCSVjetDeepCSV_b.clear()
@@ -639,6 +670,11 @@ def AnalyzeDataSet():
             st_THINjetHadronFlavor.push_back(THINjetHadronFlavor[ithinjet])
             st_THINjetNHadEF.push_back(thinjetNhadEF[ithinjet])
             st_THINjetCHadEF.push_back(thinjetChadEF[ithinjet])
+            
+            st_THINjetCEmEF.push_back(thinjetCEmEF[ithinjet])
+            st_THINjetPhoEF.push_back(thinjetPhoEF[ithinjet])
+            st_THINjetEleEF.push_back(thinjetEleEF[ithinjet])
+            st_THINjetMuoEF.push_back(thinjetMuoEF[ithinjet])
 
         try:
             st_AK4deepCSVnJet[0] = len(thindCSVjetpassindex)
@@ -841,9 +877,14 @@ def AnalyzeDataSet():
 # Gamma CR
 # ------------------
         ## for Single photon
-        if len(myPhos) == 1:
+        if len(myPhos) >= 1:
            pho1 = myPhos[0]
-           p4_pho1 = phoP4[pho1]
+           myPhosP4=[phoP4[myPhos[i]] for i in range(len(myPhos))]           
+           p4_pho1 = sorted(myPhosP4,key=getPT,reverse=True)[0]
+#           if len(myPhos) > 1:
+#              print [i.Pt() for i in myPhosP4]
+#              print p4_pho1.Pt()
+#              print
 
            GammaRecoilPx = -( pfMet*math.cos(pfMetPhi) + p4_pho1.Px())
            GammaRecoilPy = -( pfMet*math.sin(pfMetPhi) + p4_pho1.Py())
