@@ -2555,6 +2555,14 @@ def AnalyzeDataSet():
 
         if isData: allweights = 1.0
         allweights_noPU = allweights/puweight
+        
+        allweights_ewkW_down = temp_original_weight
+        allweights_ewkW_up = temp_original_weight
+        allweights_ewkZ_down = temp_original_weight
+        allweights_ewkZ_up = temp_original_weight
+        allweights_ewkTop_down = temp_original_weight
+        allweights_ewkTop_up = temp_original_weight
+        allweights_metTrig_up = temp_original_weight
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------
         if samplename=="WJETS":
