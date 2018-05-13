@@ -27,7 +27,7 @@ def submitjob(jobcount,fname,tempfile):
     submittemp.write("transfer_output_remaps = \"BROutput.root = BR_Outputs/Output_"+fname.split('.')[0]+"_"+str(jobcount)+".root\"\nqueue")    
     submittemp.close()
     
-    print "\n===============================\nSubmitting jobs #"+str(count)+": "+ fname.split('.')[0]+"\n===============================\n"
+    print "\n===============================\nSubmitting jobs #"+str(count)+": "+ fname.split('.')[0]+"_"+str(jobcount)+"\n===============================\n"
     
     if not test: os.system("condor_submit submit_multi_temp.sub")
     count+=1

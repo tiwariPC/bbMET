@@ -1,6 +1,7 @@
+#!/bin/sh
 #### FRAMEWORK SANDBOX SETUP ####
 # Load cmssw_setup function
-source cmssw_setup.sh
+source ./cmssw_setup.sh
 
 # Setup CMSSW Base
 export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
