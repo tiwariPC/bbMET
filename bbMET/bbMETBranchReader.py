@@ -2548,14 +2548,8 @@ def AnalyzeDataSet():
                 if sf_resolved3[0]==0.0:
                     sf_resolved3[0]=1.0
                 allweights = allweights * sf_resolved3[0]
-        temp_original_weight  = allweights
-        allweights_metTrig_up = (allweights/metTrig_firstmethodReweight)*metTrig_firstmethodReweight_up
-        allweights_metTrig_down = (allweights/metTrig_firstmethodReweight)*metTrig_firstmethodReweight_down
-        temp_weight_withBtag = allweights/(eleweights*muweights)
 
-        if isData: allweights = 1.0
-        allweights_noPU = allweights/puweight
-        
+        temp_original_weight  = allweights
         allweights_ewkW_down = temp_original_weight
         allweights_ewkW_up = temp_original_weight
         allweights_ewkZ_down = temp_original_weight
@@ -2563,6 +2557,16 @@ def AnalyzeDataSet():
         allweights_ewkTop_down = temp_original_weight
         allweights_ewkTop_up = temp_original_weight
         allweights_metTrig_up = temp_original_weight
+        allweights_metTrig_down = temp_original_weight
+
+        allweights_metTrig_up = (allweights/metTrig_firstmethodReweight)*metTrig_firstmethodReweight_up
+        allweights_metTrig_down = (allweights/metTrig_firstmethodReweight)*metTrig_firstmethodReweight_down
+        temp_weight_withBtag = allweights/(eleweights*muweights)
+
+        if isData: allweights = 1.0
+        allweights_noPU = allweights/puweight
+
+
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------
         if samplename=="WJETS":
