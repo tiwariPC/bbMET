@@ -291,23 +291,11 @@ class MonoHbbQuantities:
         WF_met_up = self.weight_met_up
         WF_met_down = self.weight_met_down
         WF_ewkZ_up = self.weight_ewkZ_up
-        if WF_ewkZ_up == 1.0:
-            WF_ewkZ_up = WF
         WF_ewkZ_down = self.weight_ewkZ_down
-        if WF_ewkZ_down == 1.0:
-            WF_ewkZ_down = WF
         WF_ewkW_up = self.weight_ewkW_up
-        if WF_ewkW_up == 1.0:
-            WF_ewkW_up = WF
         WF_ewkW_down = self.weight_ewkW_down
-        if WF_ewkW_down == 1.0:
-            WF_ewkW_down = WF
         WF_ewkTop_up = self.weight_ewkTop_up
-        if WF_ewkTop_up == 1.0:
-            WF_ewkTop_up = WF
         WF_ewkTop_down = self.weight_ewkTop_down
-        if WF_ewkTop_down == 1.0:
-            WF_ewkTop_down = WF
         #print "WF = ", WF
         self.h_met[0]        .Fill(self.met,       WF)
 
