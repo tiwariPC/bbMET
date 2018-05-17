@@ -159,7 +159,7 @@ class MonoHbbQuantities:
                 bins='40'
                 low='0.'
                 high='2000.'
-            elif 'chf' in quant or 'nhf' in quant:
+            elif 'chf' in quant or 'nhf' in quant or 'EF' in quant:
                 bins='40'
                 low='0.'
                 high='1.'

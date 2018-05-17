@@ -457,6 +457,12 @@ def AnalyzeDataSet():
             thinjetNhadEF              = skimmedTree.__getattr__('st_THINjetNHadEF')
             thinjetChadEF              = skimmedTree.__getattr__('st_THINjetCHadEF')
             thinjetNPV                 = skimmedTree.__getattr__('st_THINjetNPV')
+            
+            thinjetCEmEF               = skimmedTree.__getattr__('st_THINjetCEmEF')
+            thinjetPhoEF               = skimmedTree.__getattr__('st_THINjetPhoEF')
+            thinjetEleEF               = skimmedTree.__getattr__('st_THINjetEleEF')
+            thinjetMuoEF               = skimmedTree.__getattr__('st_THINjetMuoEF')
+            
 
             nTHINdeepCSVJets           = skimmedTree.__getattr__('st_AK4deepCSVnJet')
             thindeepCSVjetP4           = skimmedTree.__getattr__('st_AK4deepCSVjetP4')
@@ -694,6 +700,10 @@ def AnalyzeDataSet():
         myJetHadronFlavor=[]
         myJetNhadEF=[]
         myJetChadEF=[]
+        myJetCEmEF=[]
+        myJetPhoEF=[]
+        myJetEleEF=[]
+        myJetMuoEF=[]
 
         if options.CSV:
 
@@ -721,6 +731,11 @@ def AnalyzeDataSet():
                 myJetHadronFlavor.append(THINjetHadronFlavor[nb])
                 myJetNhadEF.append(thinjetNhadEF[nb])
                 myJetChadEF.append(thinjetChadEF[nb])
+                
+                myJetCEmEF.append(thinjetCEmEF[nb])
+                myJetPhoEF.append(thinjetPhoEF[nb])
+                myJetEleEF.append(thinjetEleEF[nb])
+                myJetMuoEF.append(thinjetMuoEF[nb])
 
                 if thinJetCSV[nb] > CSVMWP and abs(thinjetP4[nb].Eta())<2.4:
                     mybjets.append(nb)
@@ -744,6 +759,12 @@ def AnalyzeDataSet():
                 myJetHadronFlavor.append(THINdeepCSVjetHadronFlavor[nb])
                 myJetNhadEF.append(thindeepCSVjetNhadEF[nb])
                 myJetChadEF.append(thindeepCSVjetChadEF[nb])
+                
+                if ievent==0: print "Jet Energy fractions are not saved in DeepCSV collection. Saving default -1 for these."
+                myJetCEmEF.append(-1)
+                myJetPhoEF.append(-1)
+                myJetEleEF.append(-1)
+                myJetMuoEF.append(-1)
 
                 if thinJetdeepCSV[nb] > deepCSVMWP and abs(thindeepCSVjetP4[nb].Eta())<2.4:
                     mybjets.append(nb)
@@ -1258,7 +1279,7 @@ def AnalyzeDataSet():
 
          #2e, 1 b-tagged
 
-        if nEle==2 and nMu==0 and nPho==0 and EleCRtrigstatus and ZeeMass>70. and ZeeMass<110. and ZeeRecoil>200. and jetcond:
+        if nEle==2 and nMu==0 and EleCRtrigstatus and ZeeMass>70. and ZeeMass<110. and ZeeRecoil>200. and jetcond:
 #            CRCutFlow['nlepcond']+=1
             alllepPT=[lep.Pt() for lep in myEles]
             lepindex=[i for i in range(len(myEles))]
@@ -1290,6 +1311,13 @@ def AnalyzeDataSet():
 
                     allquantities.reg_2e1b_jet1_eta=j1.Eta()
                     if nJets>1: allquantities.reg_2e1b_jet2_eta=j2.Eta()
+                    
+                    allquantities.reg_2e1b_jet1_NHadEF=myJetNhadEF[ifirstjet]
+                    allquantities.reg_2e1b_jet1_CHadEF=myJetChadEF[ifirstjet]
+                    allquantities.reg_2e1b_jet1_CEmEF=myJetCEmEF[ifirstjet]
+                    allquantities.reg_2e1b_jet1_PhoEF=myJetPhoEF[ifirstjet]
+                    allquantities.reg_2e1b_jet1_EleEF=myJetEleEF[ifirstjet]
+                    allquantities.reg_2e1b_jet1_MuoEF=myJetMuoEF[ifirstjet]
 
                     allquantities.reg_2e1b_njet = nJets
 
@@ -1306,6 +1334,7 @@ def AnalyzeDataSet():
                     allquantities.reg_2e1b_ntau = nTau
                     allquantities.reg_2e1b_nele = nEle
                     allquantities.reg_2e1b_nmu = nMu
+                    
                     allquantities.reg_2e1b_nUncleanTau = nUncleanTau
                     allquantities.reg_2e1b_nUncleanEle = nUncleanEle
                     allquantities.reg_2e1b_nUncleanMu = nUncleanMu
@@ -1343,6 +1372,13 @@ def AnalyzeDataSet():
 
                     allquantities.reg_2e2b_jet1_eta=j1.Eta()
                     if nJets>1: allquantities.reg_2e2b_jet2_eta=j2.Eta()
+                    
+                    allquantities.reg_2e2b_jet1_NHadEF=myJetNhadEF[ifirstjet]
+                    allquantities.reg_2e2b_jet1_CHadEF=myJetChadEF[ifirstjet]
+                    allquantities.reg_2e2b_jet1_CEmEF=myJetCEmEF[ifirstjet]
+                    allquantities.reg_2e2b_jet1_PhoEF=myJetPhoEF[ifirstjet]
+                    allquantities.reg_2e2b_jet1_EleEF=myJetEleEF[ifirstjet]
+                    allquantities.reg_2e2b_jet1_MuoEF=myJetMuoEF[ifirstjet]
 
                     allquantities.reg_2e2b_njet = nJets
 
@@ -1379,7 +1415,7 @@ def AnalyzeDataSet():
 
 
         #2mu, 1 b-tagged
-        if nMu==2 and nEle==0 and nPho==0 and MuCRtrigstatus and ZmumuMass>70. and ZmumuMass<110. and ZmumuRecoil>200. and jetcond:
+        if nMu==2 and nEle==0 and MuCRtrigstatus and ZmumuMass>70. and ZmumuMass<110. and ZmumuRecoil>200. and jetcond:
 
 #            CRCutFlow['nlepcond']+=1
             alllepPT=[lep.Pt() for lep in myMuos]
@@ -1415,6 +1451,13 @@ def AnalyzeDataSet():
 
                     allquantities.reg_2mu1b_jet1_eta=j1.Eta()
                     if nJets>1: allquantities.reg_2mu1b_jet2_eta=j2.Eta()
+                    
+                    allquantities.reg_2mu1b_jet1_NHadEF=myJetNhadEF[ifirstjet]
+                    allquantities.reg_2mu1b_jet1_CHadEF=myJetChadEF[ifirstjet]
+                    allquantities.reg_2mu1b_jet1_CEmEF=myJetCEmEF[ifirstjet]
+                    allquantities.reg_2mu1b_jet1_PhoEF=myJetPhoEF[ifirstjet]
+                    allquantities.reg_2mu1b_jet1_EleEF=myJetEleEF[ifirstjet]
+                    allquantities.reg_2mu1b_jet1_MuoEF=myJetMuoEF[ifirstjet]
 
                     allquantities.reg_2mu1b_njet = nJets
 
@@ -1480,6 +1523,13 @@ def AnalyzeDataSet():
 
                     allquantities.reg_2mu2b_jet1_eta=j1.Eta()
                     if nJets>1: allquantities.reg_2mu2b_jet2_eta=j2.Eta()
+                    
+                    allquantities.reg_2mu2b_jet1_NHadEF=myJetNhadEF[ifirstjet]
+                    allquantities.reg_2mu2b_jet1_CHadEF=myJetChadEF[ifirstjet]
+                    allquantities.reg_2mu2b_jet1_CEmEF=myJetCEmEF[ifirstjet]
+                    allquantities.reg_2mu2b_jet1_PhoEF=myJetPhoEF[ifirstjet]
+                    allquantities.reg_2mu2b_jet1_EleEF=myJetEleEF[ifirstjet]
+                    allquantities.reg_2mu2b_jet1_MuoEF=myJetMuoEF[ifirstjet]
 
                     allquantities.reg_2mu2b_njet = nJets
 
@@ -1543,7 +1593,7 @@ def AnalyzeDataSet():
 
 
         #1e, 1 b-tagged
-        if nEle==1 and nMu==0 and nPho==0 and EleCRtrigstatus and WenuRecoil>200. and jetcond and Wenumass>50. and Wenumass<160.:
+        if nEle==1 and nMu==0 and EleCRtrigstatus and WenuRecoil>200. and jetcond and Wenumass>50. and Wenumass<160.:
 
             iLeadLep=0
 
@@ -1574,6 +1624,13 @@ def AnalyzeDataSet():
 
                     allquantities.reg_1e1b_jet1_eta=j1.Eta()
                     if nJets>1: allquantities.reg_1e1b_jet2_eta=j2.Eta()
+                    
+                    allquantities.reg_1e1b_jet1_NHadEF=myJetNhadEF[ifirstjet]
+                    allquantities.reg_1e1b_jet1_CHadEF=myJetChadEF[ifirstjet]
+                    allquantities.reg_1e1b_jet1_CEmEF=myJetCEmEF[ifirstjet]
+                    allquantities.reg_1e1b_jet1_PhoEF=myJetPhoEF[ifirstjet]
+                    allquantities.reg_1e1b_jet1_EleEF=myJetEleEF[ifirstjet]
+                    allquantities.reg_1e1b_jet1_MuoEF=myJetMuoEF[ifirstjet]
 
                     allquantities.reg_1e1b_njet = nJets
 
@@ -1631,6 +1688,13 @@ def AnalyzeDataSet():
 
                     allquantities.reg_1e2b_jet1_eta=j1.Eta()
                     if nJets>1: allquantities.reg_1e2b_jet2_eta=j2.Eta()
+                    
+                    allquantities.reg_1e2b_jet1_NHadEF=myJetNhadEF[ifirstjet]
+                    allquantities.reg_1e2b_jet1_CHadEF=myJetChadEF[ifirstjet]
+                    allquantities.reg_1e2b_jet1_CEmEF=myJetCEmEF[ifirstjet]
+                    allquantities.reg_1e2b_jet1_PhoEF=myJetPhoEF[ifirstjet]
+                    allquantities.reg_1e2b_jet1_EleEF=myJetEleEF[ifirstjet]
+                    allquantities.reg_1e2b_jet1_MuoEF=myJetMuoEF[ifirstjet]
 
                     allquantities.reg_1e2b_njet = nJets
 
@@ -1672,7 +1736,7 @@ def AnalyzeDataSet():
 
 
         #1mu, 1 b-tagged
-        if nMu==1 and nEle==0 and nPho==0 and MuCRtrigstatus and WmunuRecoil>200. and jetcond and Wmunumass>50. and Wmunumass<160.:
+        if nMu==1 and nEle==0 and MuCRtrigstatus and WmunuRecoil>200. and jetcond and Wmunumass>50. and Wmunumass<160.:
             iLeadLep=0
 
             if myMuos[iLeadLep].Pt() > 30. and myMuTightID[iLeadLep]:       # and myMuIso[iLeadLep]<0.15
@@ -1702,6 +1766,13 @@ def AnalyzeDataSet():
 
                     allquantities.reg_1mu1b_jet1_eta=j1.Eta()
                     if nJets>1: allquantities.reg_1mu1b_jet2_eta=j2.Eta()
+                    
+                    allquantities.reg_1mu1b_jet1_NHadEF=myJetNhadEF[ifirstjet]
+                    allquantities.reg_1mu1b_jet1_CHadEF=myJetChadEF[ifirstjet]
+                    allquantities.reg_1mu1b_jet1_CEmEF=myJetCEmEF[ifirstjet]
+                    allquantities.reg_1mu1b_jet1_PhoEF=myJetPhoEF[ifirstjet]
+                    allquantities.reg_1mu1b_jet1_EleEF=myJetEleEF[ifirstjet]
+                    allquantities.reg_1mu1b_jet1_MuoEF=myJetMuoEF[ifirstjet]
 
                     allquantities.reg_1mu1b_njet = nJets
 
@@ -1756,6 +1827,13 @@ def AnalyzeDataSet():
 
                     allquantities.reg_1mu2b_jet1_eta=j1.Eta()
                     if nJets>1: allquantities.reg_1mu2b_jet2_eta=j2.Eta()
+                    
+                    allquantities.reg_1mu2b_jet1_NHadEF=myJetNhadEF[ifirstjet]
+                    allquantities.reg_1mu2b_jet1_CHadEF=myJetChadEF[ifirstjet]
+                    allquantities.reg_1mu2b_jet1_CEmEF=myJetCEmEF[ifirstjet]
+                    allquantities.reg_1mu2b_jet1_PhoEF=myJetPhoEF[ifirstjet]
+                    allquantities.reg_1mu2b_jet1_EleEF=myJetEleEF[ifirstjet]
+                    allquantities.reg_1mu2b_jet1_MuoEF=myJetMuoEF[ifirstjet]
 
                     allquantities.reg_1mu2b_njet = nJets
 
@@ -1809,7 +1887,7 @@ def AnalyzeDataSet():
                     #if DeltaPhi(j3.Phi(),Phi_mpi_pi(math.pi+TOPPhi)) < 0.5: TopdPhicond=False
 
         #1mu, 1e, 1 b-tagged
-        if nEle==1 and nMu==1 and nPho==0 and MuCRtrigstatus and TOPRecoil>200. and jetcond:
+        if nEle==1 and nMu==1 and MuCRtrigstatus and TOPRecoil>200. and jetcond:
 
             if myEles[0].Pt() > 30. and myEleTightID[0] and myMuos[0].Pt() > 30. and myMuTightID[0] and myMuIso[0]<0.15:
 
@@ -1845,6 +1923,13 @@ def AnalyzeDataSet():
 
                     allquantities.reg_1mu1e1b_jet1_eta=j1.Eta()
                     if nJets>1: allquantities.reg_1mu1e1b_jet2_eta=j2.Eta()
+                    
+                    allquantities.reg_1mu1e1b_jet1_NHadEF=myJetNhadEF[ifirstjet]
+                    allquantities.reg_1mu1e1b_jet1_CHadEF=myJetChadEF[ifirstjet]
+                    allquantities.reg_1mu1e1b_jet1_CEmEF=myJetCEmEF[ifirstjet]
+                    allquantities.reg_1mu1e1b_jet1_PhoEF=myJetPhoEF[ifirstjet]
+                    allquantities.reg_1mu1e1b_jet1_EleEF=myJetEleEF[ifirstjet]
+                    allquantities.reg_1mu1e1b_jet1_MuoEF=myJetMuoEF[ifirstjet]
 
                     allquantities.reg_1mu1e1b_njet = nJets
 
@@ -1907,6 +1992,13 @@ def AnalyzeDataSet():
 
                     allquantities.reg_1mu1e2b_jet1_eta=j1.Eta()
                     if nJets>1: allquantities.reg_1mu1e2b_jet2_eta=j2.Eta()
+                    
+                    allquantities.reg_1mu1e2b_jet1_NHadEF=myJetNhadEF[ifirstjet]
+                    allquantities.reg_1mu1e2b_jet1_CHadEF=myJetChadEF[ifirstjet]
+                    allquantities.reg_1mu1e2b_jet1_CEmEF=myJetCEmEF[ifirstjet]
+                    allquantities.reg_1mu1e2b_jet1_PhoEF=myJetPhoEF[ifirstjet]
+                    allquantities.reg_1mu1e2b_jet1_EleEF=myJetEleEF[ifirstjet]
+                    allquantities.reg_1mu1e2b_jet1_MuoEF=myJetMuoEF[ifirstjet]
 
                     allquantities.reg_1mu1e2b_njet = nJets
 
@@ -1982,6 +2074,13 @@ def AnalyzeDataSet():
 
                     allquantities.reg_1gamma1b_jet1_eta=j1.Eta()
                     if nJets>1: allquantities.reg_1gamma1b_jet2_eta=j2.Eta()
+                    
+                    allquantities.reg_1gamma1b_jet1_NHadEF=myJetNhadEF[ifirstjet]
+                    allquantities.reg_1gamma1b_jet1_CHadEF=myJetChadEF[ifirstjet]
+                    allquantities.reg_1gamma1b_jet1_CEmEF=myJetCEmEF[ifirstjet]
+                    allquantities.reg_1gamma1b_jet1_PhoEF=myJetPhoEF[ifirstjet]
+                    allquantities.reg_1gamma1b_jet1_EleEF=myJetEleEF[ifirstjet]
+                    allquantities.reg_1gamma1b_jet1_MuoEF=myJetMuoEF[ifirstjet]
 
                     allquantities.reg_1gamma1b_njet = nJets
 
@@ -2036,6 +2135,13 @@ def AnalyzeDataSet():
 
                     allquantities.reg_1gamma2b_jet1_eta=j1.Eta()
                     if nJets>1: allquantities.reg_1gamma2b_jet2_eta=j2.Eta()
+                    
+                    allquantities.reg_1gamma2b_jet1_NHadEF=myJetNhadEF[ifirstjet]
+                    allquantities.reg_1gamma2b_jet1_CHadEF=myJetChadEF[ifirstjet]
+                    allquantities.reg_1gamma2b_jet1_CEmEF=myJetCEmEF[ifirstjet]
+                    allquantities.reg_1gamma2b_jet1_PhoEF=myJetPhoEF[ifirstjet]
+                    allquantities.reg_1gamma2b_jet1_EleEF=myJetEleEF[ifirstjet]
+                    allquantities.reg_1gamma2b_jet1_MuoEF=myJetMuoEF[ifirstjet]
 
                     allquantities.reg_1gamma2b_njet = nJets
 
