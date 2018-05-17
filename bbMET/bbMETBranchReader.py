@@ -533,7 +533,7 @@ def AnalyzeDataSet():
         ##Define region wise triggers
 
         if isData:
-            SRtrigstatus = HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v or HLT_PFMETNoMu100_PFMHTNoMu100_IDTight_v or HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_v or HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v
+            SRtrigstatus = HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v or HLT_PFMETNoMu100_PFMHTNoMu100_IDTight_v or HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_v or HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v or HLT_PFMET170_
             MuCRtrigstatus = ((UnPrescaledIsoMu20 and HLT_IsoMu20) or HLT_IsoMu24_v or HLT_IsoTkMu24_v)
             EleCRtrigstatus = (HLT_Ele27_WPLoose_Gsf or HLT_Ele27_WPTight_Gsf)
             PhotonCRtrigstatus = (HLT_Photon165_HE10 or HLT_Photon175)
@@ -2501,22 +2501,6 @@ def AnalyzeDataSet():
         if eleweights == 0.0:
 #            print 'Warning:: electron weight is 0, setting it to 1'
             eleweights = 1.0
-        # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-        if samplename=="WJETS":
-            allweights_ewkW_down = puweight * mcweight * eleweights * metTrig_firstmethodReweight * muweights
-            allweights_ewkW_up = puweight * mcweight *genpTReweighting*genpTReweighting * eleweights * metTrig_firstmethodReweight * muweights
-            allquantities.weight_ewkW_up  = allweights_ewkW_up
-            allquantities.weight_ewkW_down  =  allweights_ewkW_down
-        if samplename == "ZJETS":
-            allweights_ewkZ_down = puweight * mcweight * eleweights * metTrig_firstmethodReweight * muweights
-            allweights_ewkZ_up = puweight * mcweight *genpTReweighting*genpTReweighting * eleweights * metTrig_firstmethodReweight * muweights
-            allquantities.weight_ewkZ_up  = allweights_ewkZ_up
-            allquantities.weight_ewkZ_down  =  allweights_ewkZ_down
-        if samplename == "TT":
-            allweights_ewkTop_down = puweight * mcweight * eleweights * metTrig_firstmethodReweight * muweights
-            allweights_ewkTop_up = puweight * mcweight *genpTReweighting*genpTReweighting * eleweights * metTrig_firstmethodReweight * muweights
-            allquantities.weight_ewkTop_up  = allweights_ewkTop_up
-            allquantities.weight_ewkTop_down  =  allweights_ewkTop_down
 
         allweights = puweight * mcweight * genpTReweighting * eleweights * metTrig_firstmethodReweight * muweights
 
@@ -2571,13 +2555,43 @@ def AnalyzeDataSet():
                 if sf_resolved3[0]==0.0:
                     sf_resolved3[0]=1.0
                 allweights = allweights * sf_resolved3[0]
+
         temp_original_weight  = allweights
+        allweights_ewkW_down = temp_original_weight
+        allweights_ewkW_up = temp_original_weight
+        allweights_ewkZ_down = temp_original_weight
+        allweights_ewkZ_up = temp_original_weight
+        allweights_ewkTop_down = temp_original_weight
+        allweights_ewkTop_up = temp_original_weight
+        allweights_metTrig_up = temp_original_weight
+        allweights_metTrig_down = temp_original_weight
+
         allweights_metTrig_up = (allweights/metTrig_firstmethodReweight)*metTrig_firstmethodReweight_up
         allweights_metTrig_down = (allweights/metTrig_firstmethodReweight)*metTrig_firstmethodReweight_down
         temp_weight_withBtag = allweights/(eleweights*muweights)
 
         if isData: allweights = 1.0
         allweights_noPU = allweights/puweight
+
+
+#----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        if samplename=="WJETS":
+            allweights_ewkW_down = temp_original_weight/genpTReweighting
+            allweights_ewkW_up = temp_original_weight*genpTReweighting
+            allquantities.weight_ewkW_up  = allweights_ewkW_up
+            allquantities.weight_ewkW_down  =  allweights_ewkW_down
+
+        if samplename == "ZJETS":
+            allweights_ewkZ_down = temp_original_weight/genpTReweighting
+            allweights_ewkZ_up = temp_original_weight*genpTReweighting
+            allquantities.weight_ewkZ_up  = allweights_ewkZ_up
+            allquantities.weight_ewkZ_down  =  allweights_ewkZ_down
+        if samplename == "TT":
+            allweights_ewkTop_down = temp_original_weight/genpTReweighting
+            allweights_ewkTop_up = temp_original_weight*genpTReweighting
+            allquantities.weight_ewkTop_up  = allweights_ewkTop_up
+            allquantities.weight_ewkTop_down  =  allweights_ewkTop_down
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         #SR 1 Cutflow
