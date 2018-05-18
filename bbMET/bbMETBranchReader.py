@@ -763,11 +763,11 @@ def AnalyzeDataSet():
                 if pho_jet_dR < 0.4:
                     isClean=False
                     break
-	    for iele in myEles[:]:
-		lep_pho_dR=DeltaR(iele,phoP4[ipho])
-    		if lep_pho_dR < 0.4:
-        	    isClean=False
-        	    break
+            for iele in myEles[:]:
+                lep_pho_dR=DeltaR(iele,phoP4[ipho])
+                if lep_pho_dR < 0.4:
+                    isClean=False
+                    break
             if not isClean: continue
             myPhos.append(phoP4[ipho])
             myPhoLooseID.append(phoIsPassLoose[ipho])
@@ -2028,7 +2028,7 @@ def AnalyzeDataSet():
                     allquantities.reg_1gamma2b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(GammaPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
                 if nBjets==0 and SR2jet2 and SR2njetcond and GammaPhicond:
-#		if SR2jet2 and SR2njetcond and GammaPhicond:	
+#		if SR2jet2 and SR2njetcond and GammaPhicond:
 
                     allquantities.reg_1gamma2b_hadrecoil = GammaRecoil
                     allquantities.reg_1gamma2b_MET = pfMet
