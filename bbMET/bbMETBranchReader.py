@@ -889,7 +889,8 @@ def AnalyzeDataSet():
             allquantities.presel_jet1_nhf_sr1=myJetNhadEF[ifirstjet]
             allquantities.FillPreSel()
             #===
-
+        if (nJets == 1 or nJets == 2):
+            SR1jetcond=True
         if (nJets == 1 or nJets == 2) and nBjets==1:
             SR1njetcond=True
 
@@ -1019,7 +1020,8 @@ def AnalyzeDataSet():
             allquantities.presel_jet1_nhf_sr2=myJetNhadEF[ifirstjet]
             allquantities.FillPreSel()
             #===
-
+        if (nJets == 2 or nJets == 3):
+            SR2jetcond=True
         if (nJets == 2 or nJets == 3) and nBjets==2:
             SR2njetcond=True
 
@@ -1972,7 +1974,7 @@ def AnalyzeDataSet():
                 if nBjets==1 and SR1njetcond:
                     allquantities.reg_1gamma1b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(GammaPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                if nBjets==0 and SR1njetcond and GammaPhicond:
+                if nBjets==0 and SR1jetcond and GammaPhicond:
 #                if SR1njetcond and GammaPhicond:
 
                     allquantities.reg_1gamma1b_hadrecoil = GammaRecoil
@@ -2027,7 +2029,7 @@ def AnalyzeDataSet():
                 if nBjets==2 and SR2jet2 and SR2njetcond:
                     allquantities.reg_1gamma2b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(GammaPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                if nBjets==0 and SR2jet2 and SR2njetcond and GammaPhicond:
+                if nBjets==0 and SR2jet2 and SR2jetcond and GammaPhicond:
 #		if SR2jet2 and SR2njetcond and GammaPhicond:
 
                     allquantities.reg_1gamma2b_hadrecoil = GammaRecoil
@@ -2955,7 +2957,7 @@ def AnalyzeDataSet():
                     if nJets==1 or nJets==2:
                         CR1gamma1bCutFlow['njets']+=allweights
 
-                        if True:
+                        if nBjets==0:
                             CR1gamma1bCutFlow['nbjets']+=allweights
 
                             if jetcond:
@@ -2970,7 +2972,7 @@ def AnalyzeDataSet():
                     if nJets==2 or nJets==3:
                         CR1gamma2bCutFlow['njets']+=allweights
 
-                        if True:
+                        if nBjets==0:
                             CR1gamma2bCutFlow['nbjets']+=allweights
 
                             if jetcond and SR2jet2:
