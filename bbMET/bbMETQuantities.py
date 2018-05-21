@@ -85,6 +85,8 @@ class MonoHbbQuantities:
         self.weight_ewkW_down = 1.0
         self.weight_ewkTop_up = 1.0
         self.weight_ewkTop_down = 1.0
+        self.weight_pho_up = 1.0
+        self.weight_pho_down = 1.0
 
         self.weight_pdf   = []
         self.weight_muR   = []
@@ -308,6 +310,12 @@ class MonoHbbQuantities:
         WF_ewkTop_down = self.weight_ewkTop_down
         if WF_ewkTop_down == 1.0:
             WF_ewkTop_down = WF
+        WF_pho_up = self.weight_pho_up
+        if WF_pho_up == 1.0:
+            WF_pho_up = WF
+        WF_pho_down = self.weight_pho_down
+        if WF_pho_down == 1.0:
+            WF_pho_down = WF
         #print "WF = ", WF
         self.h_met[0]        .Fill(self.met,       WF)
 
@@ -366,6 +374,10 @@ class MonoHbbQuantities:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_ewkTop_up)")
             elif 'syst' in quant and 'down' in quant and 'ewkTop' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_ewkTop_down)")
+            elif 'syst' in quant and 'up' in quant and 'pho' in quant:
+                exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_pho_up)")
+            elif 'syst' in quant and 'down' in quant and 'pho' in quant:
+                exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_pho_down)")
             else:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF)")
 
