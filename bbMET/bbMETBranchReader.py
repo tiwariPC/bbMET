@@ -498,6 +498,11 @@ def AnalyzeDataSet():
             tauP4                      = skimmedTree.__getattr__('st_HPSTau_4Momentum')
             #isDecayModeFinding         = skimmedTree.__getattr__('st_disc_decayModeFinding')
             #passLooseTauIso            = skimmedTree.__getattr__('st_disc_byLooseIsolationMVA3oldDMwLT')
+            disc_againstElectronLoose  = skimmedTree.__getattr__('st_disc_againstElectronLoose')
+            disc_againstElectronMedium = skimmedTree.__getattr__('st_disc_againstElectronMedium')
+            disc_againstElectronTight  = skimmedTree.__getattr__('st_disc_againstElectronTight')
+            disc_againstMuonLoose      = skimmedTree.__getattr__('st_disc_againstMuonLoose')
+            disc_againstMuonTight      = skimmedTree.__getattr__('st_disc_againstMuonTight')
 
             isData                     = skimmedTree.__getattr__('st_isData')
             mcWeight                   = skimmedTree.__getattr__('mcweight')
@@ -664,10 +669,24 @@ def AnalyzeDataSet():
             myMuIso.append(MuIso[imu])
 
 
-        myTaus=[]
+#        myTaus=[]
+        nTausDRbased=0
+        myTausTightElectron=[]
+        myTausTightMuon=[]
+        myTausTightEleMu=[]
+        myTausLooseEleMu=[]        
         for itau in range(nTau):
             if tauP4[itau].Pt()<18. : continue
             if abs(tauP4[itau].Eta())>2.3 : continue
+            if disc_againstElectronTight[itau] and disc_againstMuonLoose[itau]:
+                myTausTightElectron.append(tauP4[itau])
+            if disc_againstMuonTight[itau] and disc_againstElectronLoose[itau]:
+                myTausTightMuon.append(tauP4[itau])    
+            if disc_againstMuonTight[itau] and disc_againstElectronTight[itau]:
+                myTausTightEleMu.append(tauP4[itau]) 
+            if disc_againstMuonLoose[itau] and disc_againstElectronLoose[itau]:
+                myTausLooseEleMu.append(tauP4[itau])
+                
             #---Fake tau cleaner----
             isClean=True
             for iele in myEles[:]:
@@ -682,9 +701,10 @@ def AnalyzeDataSet():
                     isClean=False
 #                    myMuos.remove(imu)      #Removes correspoding muon as well
                     break
-            if not isClean: continue
+#            if not isClean: continue
+            if isClean: nTausDRbased+=1
             ##---
-            myTaus.append(tauP4[itau])
+#            myTaus.append(tauP4[itau])
 
         #--------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -709,11 +729,16 @@ def AnalyzeDataSet():
 
             for nb in range(nTHINJets):
 
-            #---Fake jet cleaner, wrt electrons----
+            #---Fake jet cleaner, wrt electrons and muons----
                 isClean=True
                 for iele in myEles[:]:
                     if DeltaR(iele,thinjetP4[nb]) < 0.4:
                         isClean=False
+                        break
+                for imu in myMuos[:]:
+                    if DeltaR(imu,thinjetP4[nb]) < 0.4:
+                        isClean=False
+                        break
 
 
                         #for itau in tauP4:
@@ -746,10 +771,16 @@ def AnalyzeDataSet():
         if options.DeepCSV:
             for nb in range(nTHINdeepCSVJets):
 
-            #---Fake jet cleaner, wrt electrons----
+            #---Fake jet cleaner, wrt electrons and muons----
                 isClean=True
                 for iele in myEles:
-                    if DeltaR(iele,thindeepCSVjetP4[nb]) < 0.4: isClean=False
+                    if DeltaR(iele,thindeepCSVjetP4[nb]) < 0.4:
+                        isClean=False
+                        break
+                for imu in myMuos:
+                    if DeltaR(imu,thindeepCSVjetP4[nb]) < 0.4:
+                        isClean=False
+                        break
 
                 if not isClean: continue
             #---
@@ -800,7 +831,14 @@ def AnalyzeDataSet():
         nPho=len(myPhos)
         nEle=len(myEles)
         nMu=len(myMuos)
-        nTau=len(myTaus)
+#        nTau=len(myTaus)
+        nTauTightElectron=len(myTausTightElectron)
+        nTauTightMuon=len(myTausTightMuon)
+        nTauTightEleMu=len(myTausTightEleMu)
+        nTauLooseEleMu=len(myTausLooseEleMu)
+        nTau=nTauLooseEleMu
+        
+#        print "Unclean,dR-based,Loose,ETight,MTight,EMTight:",nUncleanTau,nTausDRbased,nTauLooseEleMu,nTauTightElectron,nTauTightMuon, nTauTightEleMu
 
         nBjets=len(mybjets)
         nJets=len(myJetCSV)
@@ -878,7 +916,7 @@ def AnalyzeDataSet():
         SR2jetcond=False
 
 
-        if nEle+nMu+nTau==0:
+        if nEle+nMu+nTauLooseEleMu==0:
             SRlepcond=True
         else:
             SRlepcond=False
@@ -918,7 +956,7 @@ def AnalyzeDataSet():
         else:
             SR1_Cut5_jet2       =   True
         SR1_Cut6_dPhi_jet_MET   =   min_dPhi_jet_MET > 0.5
-        SR1_Cut7_nLep           =   nEle+nMu+nTau == 0
+        SR1_Cut7_nLep           =   nEle+nMu+nTauLooseEleMu == 0
         SR1_Cut8_pfMET          =   pfmetstatus
 
         if SR1_Cut1_nJets and SR1_Cut2_nBjets and SR1_Cut3_trigstatus and SR1_Cut4_jet1 and SR1_Cut5_jet2 and SR1_Cut6_dPhi_jet_MET and SR1_Cut7_nLep and SR1_Cut8_pfMET and keepevent:
@@ -1052,7 +1090,7 @@ def AnalyzeDataSet():
         else:
             SR2_Cut6_jet3       =   True
         SR2_Cut7_dPhi_jet_MET   =   min_dPhi_jet_MET > 0.5
-        SR2_Cut8_nLep           =   nEle+nMu+nTau == 0
+        SR2_Cut8_nLep           =   nEle+nMu+nTauLooseEleMu == 0
         SR2_Cut9_pfMET          =   pfmetstatus
 
         if SR2_Cut1_nJets and SR2_Cut2_nBjets and SR2_Cut3_trigstatus and SR2_Cut4_jet1 and SR2_Cut5_jet2 and SR2_Cut6_jet3 and SR2_Cut7_dPhi_jet_MET and SR2_Cut8_nLep and SR2_Cut9_pfMET and keepevent:
@@ -1331,7 +1369,7 @@ def AnalyzeDataSet():
                     allquantities.reg_2e1b_min_dPhi_jet_Recoil = min( [DeltaPhi(ZeePhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
                     allquantities.reg_2e1b_min_dPhi_jet_MET = min( [DeltaPhi(pfMetPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                    allquantities.reg_2e1b_ntau = nTau
+                    allquantities.reg_2e1b_ntau = nTauTightElectron
                     allquantities.reg_2e1b_nele = nEle
                     allquantities.reg_2e1b_nmu = nMu
                     
@@ -1392,7 +1430,7 @@ def AnalyzeDataSet():
                     allquantities.reg_2e2b_min_dPhi_jet_Recoil = min( [DeltaPhi(ZeePhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
                     allquantities.reg_2e2b_min_dPhi_jet_MET = min( [DeltaPhi(pfMetPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                    allquantities.reg_2e2b_ntau = nTau
+                    allquantities.reg_2e2b_ntau = nTauTightElectron
                     allquantities.reg_2e2b_nele = nEle
                     allquantities.reg_2e2b_nmu = nMu
                     allquantities.reg_2e2b_nUncleanTau = nUncleanTau
@@ -1471,7 +1509,7 @@ def AnalyzeDataSet():
                     allquantities.reg_2mu1b_min_dPhi_jet_Recoil = min( [DeltaPhi(ZmumuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
                     allquantities.reg_2mu1b_min_dPhi_jet_MET = min( [DeltaPhi(pfMetPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                    allquantities.reg_2mu1b_ntau = nTau
+                    allquantities.reg_2mu1b_ntau = nTauTightMuon
                     allquantities.reg_2mu1b_nele = nEle
                     allquantities.reg_2mu1b_nmu = nMu
                     allquantities.reg_2mu1b_nUncleanTau = nUncleanTau
@@ -1544,7 +1582,7 @@ def AnalyzeDataSet():
                     allquantities.reg_2mu2b_min_dPhi_jet_Recoil = min( [DeltaPhi(ZmumuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
                     allquantities.reg_2mu2b_min_dPhi_jet_MET = min( [DeltaPhi(pfMetPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                    allquantities.reg_2mu2b_ntau = nTau
+                    allquantities.reg_2mu2b_ntau = nTauTightMuon
                     allquantities.reg_2mu2b_nele = nEle
                     allquantities.reg_2mu2b_nmu = nMu
                     allquantities.reg_2mu2b_nUncleanTau = nUncleanTau
@@ -1649,7 +1687,7 @@ def AnalyzeDataSet():
                     allquantities.reg_1e1b_min_dPhi_jet_Recoil = min( [DeltaPhi(WenuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
                     allquantities.reg_1e1b_min_dPhi_jet_MET = min( [DeltaPhi(pfMetPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                    allquantities.reg_1e1b_ntau = nTau
+                    allquantities.reg_1e1b_ntau = nTauTightElectron
                     allquantities.reg_1e1b_nele = nEle
                     allquantities.reg_1e1b_nmu = nMu
                     allquantities.reg_1e1b_nUncleanTau = nUncleanTau
@@ -1713,7 +1751,7 @@ def AnalyzeDataSet():
                     allquantities.reg_1e2b_min_dPhi_jet_Recoil = min( [DeltaPhi(WenuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
                     allquantities.reg_1e2b_min_dPhi_jet_MET = min( [DeltaPhi(pfMetPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                    allquantities.reg_1e2b_ntau = nTau
+                    allquantities.reg_1e2b_ntau = nTauTightElectron
                     allquantities.reg_1e2b_nele = nEle
                     allquantities.reg_1e2b_nmu = nMu
                     allquantities.reg_1e2b_nUncleanTau = nUncleanTau
@@ -1787,7 +1825,7 @@ def AnalyzeDataSet():
                     allquantities.reg_1mu1b_min_dPhi_jet_Recoil = min( [DeltaPhi(WmunuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
                     allquantities.reg_1mu1b_min_dPhi_jet_MET = min( [DeltaPhi(pfMetPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                    allquantities.reg_1mu1b_ntau = nTau
+                    allquantities.reg_1mu1b_ntau = nTauTightMuon
                     allquantities.reg_1mu1b_nele = nEle
                     allquantities.reg_1mu1b_nmu = nMu
                     allquantities.reg_1mu1b_nUncleanTau = nUncleanTau
@@ -1848,7 +1886,7 @@ def AnalyzeDataSet():
                     allquantities.reg_1mu2b_min_dPhi_jet_Recoil = min( [DeltaPhi(WmunuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
                     allquantities.reg_1mu2b_min_dPhi_jet_MET = min( [DeltaPhi(pfMetPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                    allquantities.reg_1mu2b_ntau = nTau
+                    allquantities.reg_1mu2b_ntau = nTauTightMuon
                     allquantities.reg_1mu2b_nele = nEle
                     allquantities.reg_1mu2b_nmu = nMu
                     allquantities.reg_1mu2b_nUncleanTau = nUncleanTau
@@ -1944,7 +1982,7 @@ def AnalyzeDataSet():
                     allquantities.reg_1mu1e1b_min_dPhi_jet_Recoil = min( [DeltaPhi(TOPPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
                     allquantities.reg_1mu1e1b_min_dPhi_jet_MET = min( [DeltaPhi(pfMetPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                    allquantities.reg_1mu1e1b_ntau = nTau
+                    allquantities.reg_1mu1e1b_ntau = nTauTightEleMu
                     allquantities.reg_1mu1e1b_nele = nEle
                     allquantities.reg_1mu1e1b_nmu = nMu
                     allquantities.reg_1mu1e1b_nUncleanTau = nUncleanTau
@@ -2013,7 +2051,7 @@ def AnalyzeDataSet():
                     allquantities.reg_1mu1e2b_min_dPhi_jet_Recoil = min( [DeltaPhi(TOPPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
                     allquantities.reg_1mu1e2b_min_dPhi_jet_MET = min( [DeltaPhi(pfMetPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                    allquantities.reg_1mu1e2b_ntau = nTau
+                    allquantities.reg_1mu1e2b_ntau = nTauTightEleMu
                     allquantities.reg_1mu1e2b_nele = nEle
                     allquantities.reg_1mu1e2b_nmu = nMu
                     allquantities.reg_1mu1e2b_nUncleanTau = nUncleanTau
@@ -2095,7 +2133,7 @@ def AnalyzeDataSet():
                     allquantities.reg_1gamma1b_min_dPhi_jet_Recoil = min( [DeltaPhi(GammaPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
                     allquantities.reg_1gamma1b_min_dPhi_jet_MET = min( [DeltaPhi(pfMetPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                    allquantities.reg_1gamma1b_ntau = nTau
+                    allquantities.reg_1gamma1b_ntau = nTauLooseEleMu
                     allquantities.reg_1gamma1b_nele = nEle
                     allquantities.reg_1gamma1b_nmu = nMu
                     allquantities.reg_1gamma1b_nPho = nPho
@@ -2156,7 +2194,7 @@ def AnalyzeDataSet():
                     allquantities.reg_1gamma2b_min_dPhi_jet_Recoil = min( [DeltaPhi(GammaPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
                     allquantities.reg_1gamma2b_min_dPhi_jet_MET = min( [DeltaPhi(pfMetPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                    allquantities.reg_1gamma2b_ntau = nTau
+                    allquantities.reg_1gamma2b_ntau = nTauLooseEleMu
                     allquantities.reg_1gamma2b_nele = nEle
                     allquantities.reg_1gamma2b_nmu = nMu
                     allquantities.reg_1gamma2b_nPho = nPho
@@ -2208,7 +2246,7 @@ def AnalyzeDataSet():
                 if nJets>1: allquantities.reg_QCD1b_jet2_deepcsv    = myJetCSV[isecondjet]
 
             allquantities.reg_QCD1b_njet    =   nJets
-            allquantities.reg_QCD1b_ntau    =   nTau
+            allquantities.reg_QCD1b_ntau    =   nTauLooseEleMu
             allquantities.reg_QCD1b_nele    =   nEle
             allquantities.reg_QCD1b_nmu     =   nMu
             allquantities.reg_QCD1b_nUncleanEle =   nUncleanEle
@@ -2247,7 +2285,7 @@ def AnalyzeDataSet():
                 allquantities.reg_QCD2b_jet2_deepcsv    = myJetCSV[isecondjet]
 
             allquantities.reg_QCD2b_njet    =   nJets
-            allquantities.reg_QCD2b_ntau    =   nTau
+            allquantities.reg_QCD2b_ntau    =   nTauLooseEleMu
             allquantities.reg_QCD2b_nele    =   nEle
             allquantities.reg_QCD2b_nmu     =   nMu
             allquantities.reg_QCD2b_nUncleanEle =   nUncleanEle
@@ -2267,7 +2305,7 @@ def AnalyzeDataSet():
         ## Lepton Veto
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-        nleptons_ = (len(myTaus) + len(myMuos) + len(myEles))
+#        nleptons_ = (len(myTaus) + len(myMuos) + len(myEles))
 
         #if not (nleptons_ >= nlepton) : continue
         #if not (nleptons_ < nLepton) : continue
@@ -3135,7 +3173,7 @@ def AnalyzeDataSet():
         allquantities.met             = pfMet
         allquantities.N_e             = nEle
         allquantities.N_mu            = nMu
-        allquantities.N_tau           = nTau
+        allquantities.N_tau           = nTauLooseEleMu
         allquantities.N_Pho           = nPho
         allquantities.N_b             = nBjets
         allquantities.N_j             = nJets
