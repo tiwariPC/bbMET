@@ -2557,9 +2557,9 @@ def AnalyzeDataSet():
             eleweights = 1.0
 
         phoweights = phoIDSF_loose * phoIDSF_tight
-            if phoweights == 0.0:
-    #            print 'Warning:: photon weight is 0, setting it to 1'
-                phoweights = 1.0
+        if phoweights == 0.0:
+#            print 'Warning:: photon weight is 0, setting it to 1'
+            phoweights = 1.0
 
         allweights = puweight * mcweight * genpTReweighting * eleweights * metTrig_firstmethodReweight * muweights*phoweights
 
