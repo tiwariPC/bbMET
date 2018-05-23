@@ -120,12 +120,16 @@ def AnalyzeDataSet():
     outTree = TTree( 'outTree', 'tree branches' )
     samplepath = TNamed('samplepath', str(sys.argv[1]))
 
-    st_runId            = numpy_.zeros(1, dtype=int)
-    st_lumiSection      = array( 'L', [ 0 ] )
-    st_eventId          = array( 'L', [ 0 ] )
-    st_pfMetCorrPt      = array( 'f', [ 0. ] )
-    st_pfMetCorrPhi     = array( 'f', [ 0. ] )
-    st_pfMetCorrUnc      = ROOT.std.vector('TLorentzVector')()
+    st_runId                  = numpy_.zeros(1, dtype=int)
+    st_lumiSection            = array( 'L', [ 0 ] )
+    st_eventId                = array( 'L', [ 0 ] )
+    st_pfMetCorrPt            = array( 'f', [ 0. ] )
+    st_pfMetCorrPhi           = array( 'f', [ 0. ] )
+    st_pfMetUncJetResUp       = ROOT.std.vector('float')()
+    st_pfMetUncJetResDown     = ROOT.std.vector('float')()
+    st_pfMetUncJetEnUp        = ROOT.std.vector('float')()
+    st_pfMetUncJetEnDown      = ROOT.std.vector('float')()
+
     st_isData           = array( 'b', [ 0 ] )
     for trigs in triglist:
         exec("st_"+trigs+"  = array( 'b', [ 0 ] )")
@@ -225,7 +229,10 @@ def AnalyzeDataSet():
     outTree.Branch( 'st_eventId',  st_eventId, 'st_eventId/L')
     outTree.Branch( 'st_pfMetCorrPt', st_pfMetCorrPt , 'st_pfMetCorrPt/F')
     outTree.Branch( 'st_pfMetCorrPhi', st_pfMetCorrPhi , 'st_pfMetCorrPhi/F')
-    outTree.Branch( 'st_pfMetCorrUnc', st_pfMetCorrUnc )
+    outTree.Branch( 'st_pfMetUncJetResUp', st_pfMetUncJetResUp)
+    outTree.Branch( 'st_pfMetUncJetResDown', st_pfMetUncJetResDown)
+    outTree.Branch( 'st_pfMetUncJetEnUp', st_pfMetUncJetEnUp )
+    outTree.Branch( 'st_pfMetUncJetEnDown', st_pfMetUncJetEnDown)
     outTree.Branch( 'st_isData', st_isData , 'st_isData/O')
 
     for trigs in triglist:
@@ -631,11 +638,15 @@ def AnalyzeDataSet():
         st_lumiSection[0]       = lumi
         st_eventId[0]           = event
 #        print '-----------'+str(st_runId)+", "+str(st_lumiSection)+", "+str(st_eventId)
-
+        st_isData[0]            = isData
         st_pfMetCorrPt[0]       = pfMet
         st_pfMetCorrPhi[0]      = pfMetPhi
-        st_pfMetCorrUnc.clear()
-        st_isData[0]            = isData
+
+        st_pfMetUncJetResUp.clear()
+        st_pfMetUncJetResDown.clear()
+
+        st_pfMetUncJetEnUp.clean()
+        st_pfMetUncJetEnDown.clear()
 
         st_THINjetP4.clear()
         st_THINjetCISVV2.clear()
@@ -735,8 +746,13 @@ def AnalyzeDataSet():
             st_genMomParId.push_back(genMomParId[igp])
             st_genParSt.push_back(genParSt[igp])
             st_genParP4.push_back(genParP4[igp])
-            
-        st_pfMetCorrUnc.push_back(pfMetJetUnc)
+
+        st_pfMetUncJetResUp.push_back(pfMetJetUnc[0])
+        st_pfMetUncJetResDown.push_back(pfMetJetUnc[1])
+
+        st_pfMetUncJetEnUp.push_back(pfMetJetUnc[2])
+        st_pfMetUncJetEnDown.push_back(pfMetJetUnc[3])
+
 
 
 
