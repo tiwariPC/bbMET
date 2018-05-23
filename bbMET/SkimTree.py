@@ -645,7 +645,7 @@ def AnalyzeDataSet():
         st_pfMetUncJetResUp.clear()
         st_pfMetUncJetResDown.clear()
 
-        st_pfMetUncJetEnUp.clean()
+        st_pfMetUncJetEnUp.clear()
         st_pfMetUncJetEnDown.clear()
 
         st_THINjetP4.clear()
