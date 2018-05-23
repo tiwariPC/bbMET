@@ -16,6 +16,12 @@ def getAll():
             for reg in ['sr1','sr2','2e1b','2mu1b','2e2b','2mu2b','1e1b','1mu1b','1e2b','1mu2b','1mu1e1b','1mu1e2b','1gamma1b','1gamma2b']:
                 allquantlist.append(jetprop+'_syst_'+reg+'_'+syst)
 
+    for jetprop in ['jer','jec']:
+        for syst in ['up','down']:
+            for reg in ['sr1','sr2']:
+                allquantlist.append(jetprop+'_syst_'+reg+'_'+syst)
+
+
     for dt in ['','mu_','ele_','pho_']:
         allquantlist.append(dt+'noPuReweightPV')
         allquantlist.append(dt+'PuReweightPV')

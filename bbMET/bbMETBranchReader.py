@@ -455,6 +455,10 @@ def AnalyzeDataSet():
 
             pfMet                      = skimmedTree.__getattr__('st_pfMetCorrPt')
             pfMetPhi                   = skimmedTree.__getattr__('st_pfMetCorrPhi')
+            pfMetJetResUp              = skimmedTree.__getattr__('st_pfMetUncJetResUp')
+            pfMetJetResDown            = skimmedTree.__getattr__('st_pfMetUncJetResDown')
+            pfMetJetEnUp               = skimmedTree.__getattr__('st_pfMetUncJetEnUp')
+            pfMetJetEnDown             = skimmedTree.__getattr__('st_pfMetUncJetEnDown')
 
             nTHINJets                  = skimmedTree.__getattr__('st_THINnJet')
             thinjetP4                  = skimmedTree.__getattr__('st_THINjetP4')
@@ -942,8 +946,12 @@ def AnalyzeDataSet():
             allquantities.ewkW_syst_sr1_down = pfMet
             allquantities.ewkTop_syst_sr1_up = pfMet
             allquantities.ewkTop_syst_sr1_down = pfMet
+            allquantities.pho_syst_sr1_up = pfMet
             allquantities.pho_syst_sr1_down = pfMet
-            allquantities.pho_syst_sr1_down = pfMet
+            allquantities.jec_syst_sr1_up = pfMetJetResUp
+            allquantities.jec_syst_sr1_down = pfMetJetResDown
+            allquantities.jer_syst_sr1_up = pfMetJetEnUp
+            allquantities.jer_syst_sr1_down = pfMetJetEnDown
             writeSR1=True
 
 
@@ -1090,6 +1098,10 @@ def AnalyzeDataSet():
             allquantities.ewkTop_syst_sr2_down = pfMet
             allquantities.pho_syst_sr2_up = pfMet
             allquantities.pho_syst_sr2_down = pfMet
+            allquantities.jec_syst_sr2_up = pfMetJetResUp
+            allquantities.jec_syst_sr2_down = pfMetJetResDown
+            allquantities.jer_syst_sr2_up = pfMetJetEnUp
+            allquantities.jer_syst_sr2_down = pfMetJetEnDown
             writeSR2=True
 
 
