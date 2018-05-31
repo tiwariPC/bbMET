@@ -70,7 +70,6 @@ class MonoHbbQuantities:
 
         ## 2d histograms
         self.h_met_vs_mass     = []
-        self.h_csv_vs_dPhi     = []
 
         self.weight   = 1.0
         self.weight_NoPU = 1.0
@@ -231,6 +230,12 @@ class MonoHbbQuantities:
             Mbins='20'
             Mlow='0.'
             Mhigh='500.'
+            csvbin='50'
+            csvlow='0.'
+            csvhigh='1.'
+            dphibins='32'
+            dphilow = '0'
+            dphihigh = '3.2'
 
             if 'ZpT_Recoil' in quant:
                 return ZpTbins,ZpTlow,ZpThigh,Rbins,Rlow,Rhigh
@@ -238,6 +243,9 @@ class MonoHbbQuantities:
                 return ZpTbins,ZpTlow,ZpThigh,Mbins,Mlow,Mhigh
             elif 'MET_Recoil' in quant:
                 return Mbins,Mlow,Mhigh,Rbins,Rlow,Rhigh
+            elif 'csv_vs_dPhi_sr1' in quant:
+                return dphibins,dphilow,dphihigh,csvbin,csvlow,csvhigh
+
 
         Histos2D=AllQuantList.getHistos2D()
         for quant in Histos2D:
@@ -325,7 +333,6 @@ class MonoHbbQuantities:
 
 
         #self.h_met_vs_mass[0] .Fill(self.met, self.mass, WF)
-        self.h_csv_vs_dPhi[0] .Fill(self.pre_dPhi_sr1,self.presel_jet1_csv_sr1, WF)
 
         #self.h_mass           Fill(self.mass,      WF)
         #self.h_csv1           .Fill(self.csv1,      WF)

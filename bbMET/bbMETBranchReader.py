@@ -931,8 +931,6 @@ def AnalyzeDataSet():
             preselquantlist=AllQuantList.getPresel()
             for quant in preselquantlist:
                 exec("allquantities."+quant+" = None")
-            allquantities.pre_dPhi_sr1 = min_dPhi_jet_MET
-
 
             if options.CSV:
                 allquantities.presel_jet1_csv_sr1=myJetCSV[ifirstjet]
@@ -944,6 +942,8 @@ def AnalyzeDataSet():
             allquantities.presel_jet1_chf_sr1=myJetChadEF[ifirstjet]
             allquantities.presel_jet1_nhf_sr1=myJetNhadEF[ifirstjet]
             allquantities.FillPreSel()
+
+            allquantities.csv_vs_dPhi_sr1 = [myJetCSV[ifirstjet],min_dPhi_jet_MET]
             #===
 
         if (nJets == 1 or nJets == 2) and nBjets==1:
