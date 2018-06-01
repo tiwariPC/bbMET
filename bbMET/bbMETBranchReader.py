@@ -1078,12 +1078,12 @@ def AnalyzeDataSet():
             allquantities.presel_jet1_nhf_sr2=myJetNhadEF[ifirstjet]
             allquantities.FillPreSel()
             #===
-        if options.CSV:
-            csv_ = min(myJetCSV[ifirstjet],myJetCSV[isecondjet])
-            allquantities.csv_vs_dPhi_sr2 = [csv_,min_dPhi_jet_MET]
-        if options.DeepCSV:
-            deepcsv_ = min(myJetCSV[ifirstjet],myJetCSV[isecondjet])
-            allquantities.deepcsv_vs_dPhi_sr2 = [deepcsv_,min_dPhi_jet_MET]
+            if options.CSV:
+                csv_ = min(myJetCSV[ifirstjet],myJetCSV[isecondjet])
+                allquantities.csv_vs_dPhi_sr2 = [csv_,min_dPhi_jet_MET]
+            if options.DeepCSV:
+                deepcsv_ = min(myJetCSV[ifirstjet],myJetCSV[isecondjet])
+                allquantities.deepcsv_vs_dPhi_sr2 = [deepcsv_,min_dPhi_jet_MET]
 
         if (nJets == 2 or nJets == 3) and nBjets==2:
             SR2njetcond=True
