@@ -232,8 +232,8 @@ class MonoHbbQuantities:
             csvbin='100'
             csvlow='0.'
             csvhigh='1.'
-            dphibins='320'
-            dphilow = '0'
+            dphibins='100'
+            dphilow = '0.'
             dphihigh = '3.2'
 
             if 'ZpT_Recoil' in quant:
