@@ -242,7 +242,7 @@ class MonoHbbQuantities:
                 return ZpTbins,ZpTlow,ZpThigh,Mbins,Mlow,Mhigh
             elif 'MET_Recoil' in quant:
                 return Mbins,Mlow,Mhigh,Rbins,Rlow,Rhigh
-            elif 'csv_vs_dPhi_sr1' in quant:
+            elif 'csv_vs_dPhi_sr' in quant:
                 return dphibins,dphilow,dphihigh,csvbin,csvlow,csvhigh
 
 
