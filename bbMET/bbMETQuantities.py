@@ -132,7 +132,7 @@ class MonoHbbQuantities:
                 low='-3'
                 high='3'
             elif 'dPhi' in quant:
-                bins='32'
+                bins='320'
                 low='0'
                 high='3.2'
             elif 'phi' in quant:
@@ -232,7 +232,7 @@ class MonoHbbQuantities:
             csvbin='100'
             csvlow='0.'
             csvhigh='1.'
-            dphibins='100'
+            dphibins='320'
             dphilow = '0.'
             dphihigh = '3.2'
 
