@@ -945,6 +945,9 @@ def AnalyzeDataSet():
 
             if options.CSV:
                 allquantities.csv_vs_dPhi_sr1 = [myJetCSV[ifirstjet],min_dPhi_jet_MET]
+                print ('For SR1 \n')
+                print(myJetCSV[ifirstjet],min_dPhi_jet_MET)
+                print (' \n')
             if options.DeepCSV:
                 allquantities.deepcsv_vs_dPhi_sr1 = [myJetCSV[ifirstjet],min_dPhi_jet_MET]
             #===
@@ -1081,6 +1084,9 @@ def AnalyzeDataSet():
             if options.CSV:
                 csv_ = min(myJetCSV[ifirstjet],myJetCSV[isecondjet])
                 allquantities.csv_vs_dPhi_sr2 = [csv_,min_dPhi_jet_MET]
+                print ('For SR2 \n')
+                print(csv_,min_dPhi_jet_MET)
+                print (' \n')
             if options.DeepCSV:
                 deepcsv_ = min(myJetCSV[ifirstjet],myJetCSV[isecondjet])
                 allquantities.deepcsv_vs_dPhi_sr2 = [deepcsv_,min_dPhi_jet_MET]
