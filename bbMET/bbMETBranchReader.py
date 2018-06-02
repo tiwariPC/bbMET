@@ -950,12 +950,9 @@ def AnalyzeDataSet():
                 allquantities.dPhi_lastJet_sr1=DeltaPhi(j2.Phi(),pfMetPhi)
 
             if options.CSV:
-                allquantities.csv_vs_dPhi_sr1 = [myJetCSV[ifirstjet],min_dPhi_jet_MET]
-                print ('For SR1 \n')
-                print(myJetCSV[ifirstjet],min_dPhi_jet_MET)
-                print (' \n')
+                allquantities.csv_vs_dPhi_sr1 = [min_dPhi_jet_MET,myJetCSV[ifirstjet]]
             if options.DeepCSV:
-                allquantities.deepcsv_vs_dPhi_sr1 = [myJetCSV[ifirstjet],min_dPhi_jet_MET]
+                allquantities.deepcsv_vs_dPhi_sr1 = [min_dPhi_jet_MET,myJetCSV[ifirstjet]]
             #===
 
         if (nJets == 1 or nJets == 2) and nBjets==1:
@@ -1095,13 +1092,11 @@ def AnalyzeDataSet():
             #===
             if options.CSV:
                 csv_ = min(myJetCSV[ifirstjet],myJetCSV[isecondjet])
-                allquantities.csv_vs_dPhi_sr2 = [csv_,min_dPhi_jet_MET]
-                print ('For SR2 \n')
-                print(csv_,min_dPhi_jet_MET)
-                print (' \n')
+                allquantities.csv_vs_dPhi_sr2 = [min_dPhi_jet_MET,csv_]
+
             if options.DeepCSV:
                 deepcsv_ = min(myJetCSV[ifirstjet],myJetCSV[isecondjet])
-                allquantities.deepcsv_vs_dPhi_sr2 = [deepcsv_,min_dPhi_jet_MET]
+                allquantities.deepcsv_vs_dPhi_sr2 = [min_dPhi_jet_MET,deepcsv_]
 
         if (nJets == 2 or nJets == 3) and nBjets==2:
             SR2njetcond=True
