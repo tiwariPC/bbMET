@@ -946,7 +946,7 @@ def AnalyzeDataSet():
             allquantities.FillPreSel()
 
             allquantities.dPhi_leadJET_sr1=DeltaPhi(j1.Phi(),pfMetPhi)
-            if j2:
+            if nJets>1:
                 allquantities.dPhi_lastJet_sr1=DeltaPhi(j2.Phi(),pfMetPhi)
 
             if options.CSV:
@@ -1088,8 +1088,10 @@ def AnalyzeDataSet():
             allquantities.FillPreSel()
 
             allquantities.dPhi_leadJET_sr2=DeltaPhi(j1.Phi(),pfMetPhi)
-            if j3:
+            if nJets>2:
                 allquantities.dPhi_lastJet_sr2=DeltaPhi(j3.Phi(),pfMetPhi)
+            else:
+                allquantities.dPhi_lastJet_sr2=DeltaPhi(j2.Phi(),pfMetPhi)
             #===
             if options.CSV:
                 csv_ = min(myJetCSV[ifirstjet],myJetCSV[isecondjet])
