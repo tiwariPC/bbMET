@@ -924,7 +924,9 @@ def AnalyzeDataSet():
         ## for SR1
          # 1 or 2 jets and 1 btagged
 
-
+        Histos2D=AllQuantList.getHistos2D()
+        for quant in Histos2D:
+            exec("allquantities."+quant+" = None")
 
         if (nJets == 1 or nJets == 2) and pfmetstatus and SRlepcond and SRtrigstatus:
             #===CSVs before any selection===
@@ -942,6 +944,9 @@ def AnalyzeDataSet():
             allquantities.presel_jet1_chf_sr1=myJetChadEF[ifirstjet]
             allquantities.presel_jet1_nhf_sr1=myJetNhadEF[ifirstjet]
             allquantities.FillPreSel()
+
+            allquantities.dPhi_leadJET_sr1=DeltaPhi(j1.Phi(),pfMetPhi)
+            allquantities.dPhi_lastJet_sr1=DeltaPhi(j2.Phi(),pfMetPhi)
 
             if options.CSV:
                 allquantities.csv_vs_dPhi_sr1 = [myJetCSV[ifirstjet],min_dPhi_jet_MET]
@@ -1080,6 +1085,9 @@ def AnalyzeDataSet():
             allquantities.presel_jet1_chf_sr2=myJetChadEF[ifirstjet]
             allquantities.presel_jet1_nhf_sr2=myJetNhadEF[ifirstjet]
             allquantities.FillPreSel()
+
+            allquantities.dPhi_leadJET_sr2=DeltaPhi(j1.Phi(),pfMetPhi)
+            allquantities.dPhi_lastJet_sr2=DeltaPhi(j3.Phi(),pfMetPhi)
             #===
             if options.CSV:
                 csv_ = min(myJetCSV[ifirstjet],myJetCSV[isecondjet])
@@ -1251,9 +1259,9 @@ def AnalyzeDataSet():
         for quant in regquants:
             exec("allquantities."+quant+" = None")
 
-        Histos2D=AllQuantList.getHistos2D()
-        for quant in Histos2D:
-            exec("allquantities."+quant+" = None")
+        # Histos2D=AllQuantList.getHistos2D()
+        # for quant in Histos2D:
+        #     exec("allquantities."+quant+" = None")
 
 
 
