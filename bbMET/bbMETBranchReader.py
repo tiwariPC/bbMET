@@ -948,10 +948,10 @@ def AnalyzeDataSet():
             allquantities.ewkTop_syst_sr1_down = pfMet
             allquantities.pho_syst_sr1_up = pfMet
             allquantities.pho_syst_sr1_down = pfMet
-            allquantities.jec_syst_sr1_up = pfMetJetResUp
-            allquantities.jec_syst_sr1_down = pfMetJetResDown
-            allquantities.jer_syst_sr1_up = pfMetJetEnUp
-            allquantities.jer_syst_sr1_down = pfMetJetEnDown
+            allquantities.jec_syst_sr1_up = pfMetJetResUp[0]
+            allquantities.jec_syst_sr1_down = pfMetJetResDown[0]
+            allquantities.jer_syst_sr1_up = pfMetJetEnUp[0]
+            allquantities.jer_syst_sr1_down = pfMetJetEnDown[0]
             writeSR1=True
 
 
