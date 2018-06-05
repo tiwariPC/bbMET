@@ -2255,7 +2255,7 @@ def AnalyzeDataSet():
         QCD1b_Cut8_pfMET        =   SR1_Cut8_pfMET
 
         if QCD1b_Cut1_nJets and QCD1b_Cut2_nBjets and QCD1b_Cut3_trigstatus and QCD1b_Cut4_jet1 and QCD1b_Cut5_jet2 and QCD1b_Cut7_nLep and QCD1b_Cut8_pfMET:
-            allquantities.reg_QCD1b_dPhi_leadJET=DeltaPhi(j1.Phi(),pfMetPhi)
+            allquantities.reg_QCD1b_dPhi_leadJet=DeltaPhi(j1.Phi(),pfMetPhi)
             if nJets>1:
                 allquantities.reg_QCD2b_dPhi_lastJet=DeltaPhi(j2.Phi(),pfMetPhi)
 
@@ -2300,7 +2300,7 @@ def AnalyzeDataSet():
         QCD2b_Cut9_pfMET        =   SR2_Cut9_pfMET
 
         if QCD2b_Cut1_nJets and QCD2b_Cut2_nBjets and QCD2b_Cut3_trigstatus and QCD2b_Cut4_jet1 and QCD2b_Cut5_jet2 and QCD2b_Cut7_dPhi_jet_MET and QCD2b_Cut8_nLep and QCD2b_Cut9_pfMET:
-            allquantities.reg_QCD2b_dPhi_leadJET=DeltaPhi(j1.Phi(),pfMetPhi)
+            allquantities.reg_QCD2b_dPhi_leadJet=DeltaPhi(j1.Phi(),pfMetPhi)
             if nJets>2:
                 allquantities.reg_QCD2b_dPhi_lastJet=DeltaPhi(j3.Phi(),pfMetPhi)
             else:

@@ -94,7 +94,7 @@ def getRegionQuants():
 
     #QCD CR
     regions=['QCD1b','QCD2b']
-    varlist=['MET','jet1_pT','jet2_pT','jet1_eta','jet2_eta','jet1_csv','jet2_csv','jet1_deepcsv','jet2_deepcsv','njet','ntau','nele','nmu','nUncleanEle','nUncleanMu','nUncleanTau','min_dPhi_jet_MET','dPhi_leadJET','dPhi_lastJet','dPhi_leadJET','dPhi_lastJet']
+    varlist=['MET','jet1_pT','jet2_pT','jet1_eta','jet2_eta','jet1_csv','jet2_csv','jet1_deepcsv','jet2_deepcsv','njet','ntau','nele','nmu','nUncleanEle','nUncleanMu','nUncleanTau','min_dPhi_jet_MET','dPhi_leadJet','dPhi_lastJet']
 
     for reg in regions:
         for var in varlist:
