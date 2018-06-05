@@ -427,119 +427,119 @@ def AnalyzeDataSet():
         skimmedTree.GetEntry(ievent)
 
         ## Get all relevant branches
-        # try:
+        try:
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Extract branches
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-        run                        = skimmedTree.__getattr__('st_runId')
-        lumi                       = skimmedTree.__getattr__('st_lumiSection')
-        event                      = skimmedTree.__getattr__('st_eventId')
+            run                        = skimmedTree.__getattr__('st_runId')
+            lumi                       = skimmedTree.__getattr__('st_lumiSection')
+            event                      = skimmedTree.__getattr__('st_eventId')
 
-        #if event != 4126: continue
-        #if lumi  != 42: continue
-        if ievent%100==0: print (ievent)
-        #trigName                   = skimmedTree.__getattr__('st_hlt_trigName')
-        #trigResult                 = skimmedTree.__getattr__('st_hlt_trigResult')
-        #filterName                 = skimmedTree.__getattr__('st_hlt_filterName')
-        #filterResult               = skimmedTree.__getattr__('st_hlt_filterResult')
+            #if event != 4126: continue
+            #if lumi  != 42: continue
+            if ievent%100==0: print (ievent)
+            #trigName                   = skimmedTree.__getattr__('st_hlt_trigName')
+            #trigResult                 = skimmedTree.__getattr__('st_hlt_trigResult')
+            #filterName                 = skimmedTree.__getattr__('st_hlt_filterName')
+            #filterResult               = skimmedTree.__getattr__('st_hlt_filterResult')
 
-        pfMet                      = skimmedTree.__getattr__('st_pfMetCorrPt')
-        pfMetPhi                   = skimmedTree.__getattr__('st_pfMetCorrPhi')
+            pfMet                      = skimmedTree.__getattr__('st_pfMetCorrPt')
+            pfMetPhi                   = skimmedTree.__getattr__('st_pfMetCorrPhi')
 
-        nTHINJets                  = skimmedTree.__getattr__('st_THINnJet')
-        thinjetP4                  = skimmedTree.__getattr__('st_THINjetP4')
-        thinJetCSV                 = skimmedTree.__getattr__('st_THINjetCISVV2')
-        #passThinJetLooseID         = skimmedTree.__getattr__('st_THINjetPassIDLoose')
-        #passThinJetPUID            = skimmedTree.__getattr__('st_THINisPUJetID')
-        THINjetHadronFlavor        = skimmedTree.__getattr__('st_THINjetHadronFlavor')
-        thinjetNhadEF              = skimmedTree.__getattr__('st_THINjetNHadEF')
-        thinjetChadEF              = skimmedTree.__getattr__('st_THINjetCHadEF')
-        thinjetNPV                 = skimmedTree.__getattr__('st_THINjetNPV')
+            nTHINJets                  = skimmedTree.__getattr__('st_THINnJet')
+            thinjetP4                  = skimmedTree.__getattr__('st_THINjetP4')
+            thinJetCSV                 = skimmedTree.__getattr__('st_THINjetCISVV2')
+            #passThinJetLooseID         = skimmedTree.__getattr__('st_THINjetPassIDLoose')
+            #passThinJetPUID            = skimmedTree.__getattr__('st_THINisPUJetID')
+            THINjetHadronFlavor        = skimmedTree.__getattr__('st_THINjetHadronFlavor')
+            thinjetNhadEF              = skimmedTree.__getattr__('st_THINjetNHadEF')
+            thinjetChadEF              = skimmedTree.__getattr__('st_THINjetCHadEF')
+            thinjetNPV                 = skimmedTree.__getattr__('st_THINjetNPV')
 
-        thinjetCEmEF               = skimmedTree.__getattr__('st_THINjetCEmEF')
-        thinjetPhoEF               = skimmedTree.__getattr__('st_THINjetPhoEF')
-        thinjetEleEF               = skimmedTree.__getattr__('st_THINjetEleEF')
-        thinjetMuoEF               = skimmedTree.__getattr__('st_THINjetMuoEF')
-
-
-        nTHINdeepCSVJets           = skimmedTree.__getattr__('st_AK4deepCSVnJet')
-        thindeepCSVjetP4           = skimmedTree.__getattr__('st_AK4deepCSVjetP4')
-        thinJetdeepCSV             = skimmedTree.__getattr__('st_AK4deepCSVjetDeepCSV_b')
-        THINdeepCSVjetHadronFlavor = skimmedTree.__getattr__('st_AK4deepCSVjetHadronFlavor')
-        thindeepCSVjetNhadEF       = skimmedTree.__getattr__('st_AK4deepCSVjetNHadEF')
-        thindeepCSVjetChadEF       = skimmedTree.__getattr__('st_AK4deepCSVjetCHadEF')
-        thindeepCSVjetNPV          = skimmedTree.__getattr__('st_AK4deepCSVjetNPV')
-
-        nPho                       = skimmedTree.__getattr__('st_nPho')
-        phoP4                      = skimmedTree.__getattr__('st_phoP4')
-        phoIsPassLoose             = skimmedTree.__getattr__('st_phoIsPassLoose')
-        phoIsPassMedium            = skimmedTree.__getattr__('st_phoIsPassMedium')
-        phoIsPassTight             = skimmedTree.__getattr__('st_phoIsPassTight')
-
-        nEle                       = skimmedTree.__getattr__('st_nEle')
-        eleP4                      = skimmedTree.__getattr__('st_eleP4')
-        eleIsPassLoose             = skimmedTree.__getattr__('st_eleIsPassLoose')
-        eleIsPassMedium            = skimmedTree.__getattr__('st_eleIsPassMedium')
-        eleIsPassTight             = skimmedTree.__getattr__('st_eleIsPassTight')
-
-        nMu                        = skimmedTree.__getattr__('st_nMu')
-        muP4                       = skimmedTree.__getattr__('st_muP4')
-        isLooseMuon                = skimmedTree.__getattr__('st_isLooseMuon')
-        isMediumMuon               = skimmedTree.__getattr__('st_isMediumMuon')
-        isTightMuon                = skimmedTree.__getattr__('st_isTightMuon')
-        muChHadIso                 = skimmedTree.__getattr__('st_muChHadIso')
-        muNeHadIso                 = skimmedTree.__getattr__('st_muNeHadIso')
-        muGamIso                   = skimmedTree.__getattr__('st_muGamIso')
-        muPUPt                     = skimmedTree.__getattr__('st_muPUPt')
-
-        nTau                       = skimmedTree.__getattr__('st_HPSTau_n')
-        tauP4                      = skimmedTree.__getattr__('st_HPSTau_4Momentum')
-        #isDecayModeFinding         = skimmedTree.__getattr__('st_disc_decayModeFinding')
-        #passLooseTauIso            = skimmedTree.__getattr__('st_disc_byLooseIsolationMVA3oldDMwLT')
-        disc_againstElectronLoose  = skimmedTree.__getattr__('st_disc_againstElectronLoose')
-        disc_againstElectronMedium = skimmedTree.__getattr__('st_disc_againstElectronMedium')
-        disc_againstElectronTight  = skimmedTree.__getattr__('st_disc_againstElectronTight')
-        disc_againstMuonLoose      = skimmedTree.__getattr__('st_disc_againstMuonLoose')
-        disc_againstMuonTight      = skimmedTree.__getattr__('st_disc_againstMuonTight')
-
-        isData                     = skimmedTree.__getattr__('st_isData')
-        mcWeight                   = skimmedTree.__getattr__('mcweight')
-        pu_nTrueInt                = int(skimmedTree.__getattr__('st_pu_nTrueInt'))
-        pu_nPUVert                 = int(skimmedTree.__getattr__('st_pu_nPUVert'))
-
-        nGenPar                    = skimmedTree.__getattr__('st_nGenPar')
-        genParId                   = skimmedTree.__getattr__('st_genParId')
-        genMomParId                = skimmedTree.__getattr__('st_genMomParId')
-        genParSt                   = skimmedTree.__getattr__('st_genParSt')
-        genParP4                   = skimmedTree.__getattr__('st_genParP4')
-
-        WenuRecoil                 = skimmedTree.__getattr__('WenuRecoil')
-        Wenumass                   = skimmedTree.__getattr__('Wenumass')
-        WenuPhi                    = skimmedTree.__getattr__('WenuPhi')
-        WmunuRecoil                = skimmedTree.__getattr__('WmunuRecoil')
-        Wmunumass                  = skimmedTree.__getattr__('Wmunumass')
-        WmunuPhi                   = skimmedTree.__getattr__('WmunuPhi')
-        ZeeRecoil                  = skimmedTree.__getattr__('ZeeRecoil')
-        ZeeMass                    = skimmedTree.__getattr__('ZeeMass')
-        ZeePhi                     = skimmedTree.__getattr__('ZeePhi')
-        ZmumuRecoil                = skimmedTree.__getattr__('ZmumuRecoil')
-        ZmumuMass                  = skimmedTree.__getattr__('ZmumuMass')
-        ZmumuPhi                   = skimmedTree.__getattr__('ZmumuPhi')
-        TOPRecoil                  = skimmedTree.__getattr__('TOPRecoil')
-        TOPPhi                     = skimmedTree.__getattr__('TOPPhi')
-        GammaRecoil                = skimmedTree.__getattr__('GammaRecoil')
-        GammaPhi                   = skimmedTree.__getattr__('GammaPhi')
+            thinjetCEmEF               = skimmedTree.__getattr__('st_THINjetCEmEF')
+            thinjetPhoEF               = skimmedTree.__getattr__('st_THINjetPhoEF')
+            thinjetEleEF               = skimmedTree.__getattr__('st_THINjetEleEF')
+            thinjetMuoEF               = skimmedTree.__getattr__('st_THINjetMuoEF')
 
 
+            nTHINdeepCSVJets           = skimmedTree.__getattr__('st_AK4deepCSVnJet')
+            thindeepCSVjetP4           = skimmedTree.__getattr__('st_AK4deepCSVjetP4')
+            thinJetdeepCSV             = skimmedTree.__getattr__('st_AK4deepCSVjetDeepCSV_b')
+            THINdeepCSVjetHadronFlavor = skimmedTree.__getattr__('st_AK4deepCSVjetHadronFlavor')
+            thindeepCSVjetNhadEF       = skimmedTree.__getattr__('st_AK4deepCSVjetNHadEF')
+            thindeepCSVjetChadEF       = skimmedTree.__getattr__('st_AK4deepCSVjetCHadEF')
+            thindeepCSVjetNPV          = skimmedTree.__getattr__('st_AK4deepCSVjetNPV')
 
-        for trig in triglist:
-            exec(trig+" = skimmedTree.__getattr__('st_"+trig+"')")
+            nPho                       = skimmedTree.__getattr__('st_nPho')
+            phoP4                      = skimmedTree.__getattr__('st_phoP4')
+            phoIsPassLoose             = skimmedTree.__getattr__('st_phoIsPassLoose')
+            phoIsPassMedium            = skimmedTree.__getattr__('st_phoIsPassMedium')
+            phoIsPassTight             = skimmedTree.__getattr__('st_phoIsPassTight')
 
-        # except:
-        #     print "Corrupt file detected! Skipping 1 event."
-        #     continue
+            nEle                       = skimmedTree.__getattr__('st_nEle')
+            eleP4                      = skimmedTree.__getattr__('st_eleP4')
+            eleIsPassLoose             = skimmedTree.__getattr__('st_eleIsPassLoose')
+            eleIsPassMedium            = skimmedTree.__getattr__('st_eleIsPassMedium')
+            eleIsPassTight             = skimmedTree.__getattr__('st_eleIsPassTight')
+
+            nMu                        = skimmedTree.__getattr__('st_nMu')
+            muP4                       = skimmedTree.__getattr__('st_muP4')
+            isLooseMuon                = skimmedTree.__getattr__('st_isLooseMuon')
+            isMediumMuon               = skimmedTree.__getattr__('st_isMediumMuon')
+            isTightMuon                = skimmedTree.__getattr__('st_isTightMuon')
+            muChHadIso                 = skimmedTree.__getattr__('st_muChHadIso')
+            muNeHadIso                 = skimmedTree.__getattr__('st_muNeHadIso')
+            muGamIso                   = skimmedTree.__getattr__('st_muGamIso')
+            muPUPt                     = skimmedTree.__getattr__('st_muPUPt')
+
+            nTau                       = skimmedTree.__getattr__('st_HPSTau_n')
+            tauP4                      = skimmedTree.__getattr__('st_HPSTau_4Momentum')
+            #isDecayModeFinding         = skimmedTree.__getattr__('st_disc_decayModeFinding')
+            #passLooseTauIso            = skimmedTree.__getattr__('st_disc_byLooseIsolationMVA3oldDMwLT')
+            disc_againstElectronLoose  = skimmedTree.__getattr__('st_disc_againstElectronLoose')
+            disc_againstElectronMedium = skimmedTree.__getattr__('st_disc_againstElectronMedium')
+            disc_againstElectronTight  = skimmedTree.__getattr__('st_disc_againstElectronTight')
+            disc_againstMuonLoose      = skimmedTree.__getattr__('st_disc_againstMuonLoose')
+            disc_againstMuonTight      = skimmedTree.__getattr__('st_disc_againstMuonTight')
+
+            isData                     = skimmedTree.__getattr__('st_isData')
+            mcWeight                   = skimmedTree.__getattr__('mcweight')
+            pu_nTrueInt                = int(skimmedTree.__getattr__('st_pu_nTrueInt'))
+            pu_nPUVert                 = int(skimmedTree.__getattr__('st_pu_nPUVert'))
+
+            nGenPar                    = skimmedTree.__getattr__('st_nGenPar')
+            genParId                   = skimmedTree.__getattr__('st_genParId')
+            genMomParId                = skimmedTree.__getattr__('st_genMomParId')
+            genParSt                   = skimmedTree.__getattr__('st_genParSt')
+            genParP4                   = skimmedTree.__getattr__('st_genParP4')
+
+            WenuRecoil                 = skimmedTree.__getattr__('WenuRecoil')
+            Wenumass                   = skimmedTree.__getattr__('Wenumass')
+            WenuPhi                    = skimmedTree.__getattr__('WenuPhi')
+            WmunuRecoil                = skimmedTree.__getattr__('WmunuRecoil')
+            Wmunumass                  = skimmedTree.__getattr__('Wmunumass')
+            WmunuPhi                   = skimmedTree.__getattr__('WmunuPhi')
+            ZeeRecoil                  = skimmedTree.__getattr__('ZeeRecoil')
+            ZeeMass                    = skimmedTree.__getattr__('ZeeMass')
+            ZeePhi                     = skimmedTree.__getattr__('ZeePhi')
+            ZmumuRecoil                = skimmedTree.__getattr__('ZmumuRecoil')
+            ZmumuMass                  = skimmedTree.__getattr__('ZmumuMass')
+            ZmumuPhi                   = skimmedTree.__getattr__('ZmumuPhi')
+            TOPRecoil                  = skimmedTree.__getattr__('TOPRecoil')
+            TOPPhi                     = skimmedTree.__getattr__('TOPPhi')
+            GammaRecoil                = skimmedTree.__getattr__('GammaRecoil')
+            GammaPhi                   = skimmedTree.__getattr__('GammaPhi')
+
+
+
+            for trig in triglist:
+                exec(trig+" = skimmedTree.__getattr__('st_"+trig+"')")
+
+        except:
+            print "Corrupt file detected! Skipping 1 event."
+            continue
 
         ##Define region wise triggers
 
