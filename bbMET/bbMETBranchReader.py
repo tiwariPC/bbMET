@@ -968,10 +968,12 @@ def AnalyzeDataSet():
         SR1_Cut7_nLep           =   nEle+nMu+nTauLooseEleMu == 0
         SR1_Cut8_pfMET          =   pfmetstatus
 
-        if SR1_Cut1_nJets and SR1_Cut2_nBjets and SR1_Cut3_trigstatus and SR1_Cut4_jet1 and SR1_Cut5_jet2 and SR1_Cut6_dPhi_jet_MET and SR1_Cut7_nLep and SR1_Cut8_pfMET and keepevent:
+        if SR1_Cut1_nJets and SR1_Cut2_nBjets and SR1_Cut3_trigstatus and SR1_Cut4_jet1 and SR1_Cut5_jet2 and SR1_Cut7_nLep and SR1_Cut8_pfMET and keepevent:
             allquantities.dPhi_leadJET_sr1=DeltaPhi(j1.Phi(),pfMetPhi)
             if nJets>1:
                 allquantities.dPhi_lastJet_sr1=DeltaPhi(j2.Phi(),pfMetPhi)
+
+        if SR1_Cut1_nJets and SR1_Cut2_nBjets and SR1_Cut3_trigstatus and SR1_Cut4_jet1 and SR1_Cut5_jet2 and SR1_Cut6_dPhi_jet_MET and SR1_Cut7_nLep and SR1_Cut8_pfMET and keepevent:
             allquantities.jet1_pT_sr1     = j1.Pt()
             allquantities.jet1_eta_sr1    = j1.Eta()
             allquantities.jet1_phi_sr1    = j1.Phi()
@@ -1114,14 +1116,14 @@ def AnalyzeDataSet():
         SR2_Cut8_nLep           =   nEle+nMu+nTauLooseEleMu == 0
         SR2_Cut9_pfMET          =   pfmetstatus
 
-        if SR2_Cut1_nJets and SR2_Cut2_nBjets and SR2_Cut3_trigstatus and SR2_Cut4_jet1 and SR2_Cut5_jet2 and SR2_Cut6_jet3 and SR2_Cut7_dPhi_jet_MET and SR2_Cut8_nLep and SR2_Cut9_pfMET and keepevent:
-
+        if SR2_Cut1_nJets and SR2_Cut2_nBjets and SR2_Cut3_trigstatus and SR2_Cut4_jet1 and SR2_Cut5_jet2 and SR2_Cut6_jet3 and SR2_Cut8_nLep and SR2_Cut9_pfMET and keepevent:
             allquantities.dPhi_leadJET_sr2=DeltaPhi(j1.Phi(),pfMetPhi)
             if nJets>2:
                 allquantities.dPhi_lastJet_sr2=DeltaPhi(j3.Phi(),pfMetPhi)
             else:
                 allquantities.dPhi_lastJet_sr2=DeltaPhi(j2.Phi(),pfMetPhi)
 
+        if SR2_Cut1_nJets and SR2_Cut2_nBjets and SR2_Cut3_trigstatus and SR2_Cut4_jet1 and SR2_Cut5_jet2 and SR2_Cut6_jet3 and SR2_Cut7_dPhi_jet_MET and SR2_Cut8_nLep and SR2_Cut9_pfMET and keepevent:
             allquantities.jet1_pT_sr2     = j1.Pt()
             allquantities.jet1_eta_sr2    = j1.Eta()
             allquantities.jet1_phi_sr2    = j1.Phi()
