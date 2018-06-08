@@ -2576,8 +2576,11 @@ def AnalyzeDataSet():
         jecUncUP = 1.0
         jecUncDOWN = 1.0
         for jet in range(nJets):
-            jecUncUP*=1+myJetCorrUnc[jet]
-            jecUncDOWN*=1-myJetCorrUnc[jet]
+            up = 1+myJetCorrUnc[jet]
+            jecUncUP *= up
+            down = 1-myJetCorrUnc[jet]
+            jecUncDOWN*= down
+            print jecUncUP,jecUncDOWN
         print jecUncUP,jecUncDOWN
         print ('\n')
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
