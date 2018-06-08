@@ -708,6 +708,8 @@ def AnalyzeDataSet():
         myJetHadronFlavor=[]
         myJetNhadEF=[]
         myJetChadEF=[]
+        myJetCorrUnc=[]
+
 
         if options.CSV:
 
