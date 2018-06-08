@@ -377,7 +377,11 @@ def AnalyzeDataSet():
         thindeepCSVjetNhadEF       = skimmedTree.__getattr__('AK4deepCSVjetNHadEF')
         thindeepCSVjetChadEF       = skimmedTree.__getattr__('AK4deepCSVjetCHadEF')
         THINdeepCSVjetNPV          = skimmedTree.__getattr__('AK4deepCSVjetNPV')
-        thindeepCSVjetCorrUnc      = skimmedTree.__getattr__('AK4deepCSVjetCorrUncUp')
+        try:
+            thindeepCSVjetCorrUnc      = skimmedTree.__getattr__('AK4deepCSVjetCorrUncUp')
+        except:
+            if ievent==0: print "\n**********WARNING: Looks like the ntuple is from an older version, as DeepCSV jet correction Unc is missing. DeepCSV jet correction Unc will NOT be stored.**********\n"
+            thindeepCSVjetCorrUnc = 1.
 
         try:
             thindeepCSVJetLooseID      = skimmedTree.__getattr__('AK4deepCSVjetPassIDLoose')
