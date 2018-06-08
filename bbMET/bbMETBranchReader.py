@@ -2695,7 +2695,7 @@ def AnalyzeDataSet():
         temp_original_weight  = allweights
         allweights_jec_up = temp_original_weight*jecUncUP
         allquantities.weight_jec_up = allweights_jec_up
-        allweights_jec_up = temp_original_weight*jecUncDOWN
+        allweights_jec_down= temp_original_weight*jecUncDOWN
         allquantities.weight_jec_down = allweights_jec_down
         allweights_ewkW_down = temp_original_weight
         allweights_ewkW_up = temp_original_weight
