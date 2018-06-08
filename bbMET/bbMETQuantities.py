@@ -87,6 +87,8 @@ class MonoHbbQuantities:
         self.weight_ewkTop_down = 1.0
         self.weight_pho_up = 1.0
         self.weight_pho_down = 1.0
+        self.weight_jec_up = 1.0
+        self.weight_jec_down = 1.0
 
         self.weight_pdf   = []
         self.weight_muR   = []
@@ -316,6 +318,12 @@ class MonoHbbQuantities:
         WF_pho_down = self.weight_pho_down
         if WF_pho_down == 1.0:
             WF_pho_down = WF
+        WF_jec_up = self.weight_jec_up
+        if WF_jec_up == 1.0:
+            WF_jec_up = WF
+        WF_jec_down = self.weight_jec_down
+        if WF_jec_down == 1.0:
+            WF_jec_down = WF
         #print "WF = ", WF
         self.h_met[0]        .Fill(self.met,       WF)
 
@@ -350,34 +358,47 @@ class MonoHbbQuantities:
         for quant in allquantlist:
             if 'noPuReweightPV' in quant or 'noPuReweightnPVert' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF1)")
+
             elif 'syst' in quant and 'up' in quant and 'btag' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_btag_up)")
             elif 'syst' in quant and 'down' in quant and 'btag' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_btag_down)")
+
             elif 'syst' in quant and 'up' in quant and 'lep' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_lep_up)")
             elif 'syst' in quant and 'down' in quant and 'lep' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_lep_down)")
+
             elif 'syst' in quant and 'up' in quant and 'metTrig' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_met_up)")
             elif 'syst' in quant and 'down' in quant and 'metTrig' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_met_down)")
+
             elif 'syst' in quant and 'up' in quant and 'ewkZ' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_ewkZ_up)")
             elif 'syst' in quant and 'down' in quant and 'ewkZ' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_ewkZ_down)")
+
             elif 'syst' in quant and 'up' in quant and 'ewkW' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_ewkW_up)")
             elif 'syst' in quant and 'down' in quant and 'ewkW' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_ewkW_down)")
+
             elif 'syst' in quant and 'up' in quant and 'ewkTop' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_ewkTop_up)")
             elif 'syst' in quant and 'down' in quant and 'ewkTop' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_ewkTop_down)")
+
             elif 'syst' in quant and 'up' in quant and 'pho' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_pho_up)")
             elif 'syst' in quant and 'down' in quant and 'pho' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_pho_down)")
+
+            elif 'syst' in quant and 'up' in quant and 'jec' in quant:
+                exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_jec_up)")
+            elif 'syst' in quant and 'down' in quant and 'jec' in quant:
+                exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_jec_down)")
+
             else:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF)")
 

@@ -469,6 +469,7 @@ def AnalyzeDataSet():
             thinjetNhadEF              = skimmedTree.__getattr__('st_THINjetNHadEF')
             thinjetChadEF              = skimmedTree.__getattr__('st_THINjetCHadEF')
             thinjetNPV                 = skimmedTree.__getattr__('st_THINjetNPV')
+            thinjetCorrUnc             = skimmedTree.__getattr__('st_THINjetCHadEF')
 
             nTHINdeepCSVJets           = skimmedTree.__getattr__('st_AK4deepCSVnJet')
             thindeepCSVjetP4           = skimmedTree.__getattr__('st_AK4deepCSVjetP4')
@@ -477,6 +478,7 @@ def AnalyzeDataSet():
             thindeepCSVjetNhadEF       = skimmedTree.__getattr__('st_AK4deepCSVjetNHadEF')
             thindeepCSVjetChadEF       = skimmedTree.__getattr__('st_AK4deepCSVjetCHadEF')
             thindeepCSVjetNPV          = skimmedTree.__getattr__('st_AK4deepCSVjetNPV')
+            thindeepCSVjetCorrUnc      = skimmedTree.__getattr__('st_AK4deepCSVjetCorrUnc')
 
             nPho                       = skimmedTree.__getattr__('st_nPho')
             phoP4                      = skimmedTree.__getattr__('st_phoP4')
@@ -733,6 +735,7 @@ def AnalyzeDataSet():
                 myJetHadronFlavor.append(THINjetHadronFlavor[nb])
                 myJetNhadEF.append(thinjetNhadEF[nb])
                 myJetChadEF.append(thinjetChadEF[nb])
+                myJetCorrUnc.append(thinjetCorrUnc[nb])
 
                 if thinJetCSV[nb] > CSVMWP and abs(thinjetP4[nb].Eta())<2.4:
                     mybjets.append(nb)
@@ -756,6 +759,7 @@ def AnalyzeDataSet():
                 myJetHadronFlavor.append(THINdeepCSVjetHadronFlavor[nb])
                 myJetNhadEF.append(thindeepCSVjetNhadEF[nb])
                 myJetChadEF.append(thindeepCSVjetChadEF[nb])
+                myJetCorrUnc.append(thindeepCSVjetCorrUnc[nb])
 
                 if thinJetdeepCSV[nb] > deepCSVMWP and abs(thindeepCSVjetP4[nb].Eta())<2.4:
                     mybjets.append(nb)
@@ -1347,6 +1351,10 @@ def AnalyzeDataSet():
                     allquantities.ewkTop_syst_2e1b_down = ZeeRecoil
                     allquantities.pho_syst_2e1b_up = ZeeRecoil
                     allquantities.pho_syst_2e1b_down = ZeeRecoil
+                    allquantities.jec_syst_2e1b_up = ZeeRecoil
+                    allquantities.jec_syst_2e1b_down = ZeeRecoil
+                    allquantities.jer_syst_2e1b_up = ZeeRecoil
+                    allquantities.jer_syst_2e1b_down = ZeeRecoil
                     isZeeCR1 = True
 
             #2e, 2 b-tagged
@@ -1402,6 +1410,10 @@ def AnalyzeDataSet():
                     allquantities.ewkTop_syst_2e2b_down = ZeeRecoil
                     allquantities.pho_syst_2e2b_up = ZeeRecoil
                     allquantities.pho_syst_2e2b_down = ZeeRecoil
+                    allquantities.jec_syst_2e2b_up = ZeeRecoil
+                    allquantities.jec_syst_2e2b_down = ZeeRecoil
+                    allquantities.jer_syst_2e2b_up = ZeeRecoil
+                    allquantities.jer_syst_2e2b_down = ZeeRecoil
 
                     isZeeCR2 = True
 
@@ -1476,6 +1488,10 @@ def AnalyzeDataSet():
                     allquantities.ewkTop_syst_2mu1b_down = ZmumuRecoil
                     allquantities.pho_syst_2mu1b_up = ZmumuRecoil
                     allquantities.pho_syst_2mu1b_down = ZmumuRecoil
+                    allquantities.jec_syst_2mu1b_up = ZmumuRecoil
+                    allquantities.jec_syst_2mu1b_down = ZmumuRecoil
+                    allquantities.jer_syst_2mu1b_up = ZmumuRecoil
+                    allquantities.jer_syst_2mu1b_down = ZmumuRecoil
 
                     allquantities.ZpT_MET = [ZpT,pfMet]
                     allquantities.MET_Recoil = [pfMet,ZmumuRecoil]
@@ -1544,6 +1560,10 @@ def AnalyzeDataSet():
                     allquantities.ewkTop_syst_2mu2b_down = ZmumuRecoil
                     allquantities.pho_syst_2mu2b_up = ZmumuRecoil
                     allquantities.pho_syst_2mu2b_down = ZmumuRecoil
+                    allquantities.jec_syst_2mu2b_up = ZmumuRecoil
+                    allquantities.jec_syst_2mu2b_down = ZmumuRecoil
+                    allquantities.jer_syst_2mu2b_up = ZmumuRecoil
+                    allquantities.jer_syst_2mu2b_down = ZmumuRecoil
                     isZmunuCR2 = True
 
 # -------------------------------------------
@@ -1644,6 +1664,10 @@ def AnalyzeDataSet():
                     allquantities.ewkTop_syst_1e1b_down = WenuRecoil
                     allquantities.pho_syst_1e1b_up = WenuRecoil
                     allquantities.pho_syst_1e1b_down = WenuRecoil
+                    allquantities.jec_syst_1e1b_up = WenuRecoil
+                    allquantities.jec_syst_1e1b_down = WenuRecoil
+                    allquantities.jer_syst_1e1b_up = WenuRecoil
+                    allquantities.jer_syst_1e1b_down = WenuRecoil
                     isWenuCR1 = True
 
             #1e, 2 b-tagged
@@ -1703,6 +1727,10 @@ def AnalyzeDataSet():
                     allquantities.ewkTop_syst_1e2b_down = WenuRecoil
                     allquantities.pho_syst_1e2b_up = WenuRecoil
                     allquantities.pho_syst_1e2b_down = WenuRecoil
+                    allquantities.jec_syst_1e2b_up = WenuRecoil
+                    allquantities.jec_syst_1e2b_down = WenuRecoil
+                    allquantities.jer_syst_1e2b_up = WenuRecoil
+                    allquantities.jer_syst_1e2b_down = WenuRecoil
                     isWenuCR2 = True
 
 
@@ -1772,6 +1800,10 @@ def AnalyzeDataSet():
                     allquantities.ewkTop_syst_1mu1b_down = WmunuRecoil
                     allquantities.pho_syst_1mu1b_up = WmunuRecoil
                     allquantities.pho_syst_1mu1b_down = WmunuRecoil
+                    allquantities.jec_syst_1mu1b_up = WmunuRecoil
+                    allquantities.jec_syst_1mu1b_down = WmunuRecoil
+                    allquantities.jer_syst_1mu1b_up = WmunuRecoil
+                    allquantities.jer_syst_1mu1b_down = WmunuRecoil
                     isWmunuCR1 = True
 
             #1mu, 2 b-tagged
@@ -1828,6 +1860,10 @@ def AnalyzeDataSet():
                     allquantities.ewkTop_syst_1mu2b_down = WmunuRecoil
                     allquantities.pho_syst_1mu2b_up = WmunuRecoil
                     allquantities.pho_syst_1mu2b_down = WmunuRecoil
+                    allquantities.jec_syst_1mu2b_up = WmunuRecoil
+                    allquantities.jec_syst_1mu2b_down = WmunuRecoil
+                    allquantities.jer_syst_1mu2b_up = WmunuRecoil
+                    allquantities.jer_syst_1mu2b_down = WmunuRecoil
                     isWmunuCR2 = True
 
 # -------------------------------------------
@@ -1919,6 +1955,10 @@ def AnalyzeDataSet():
                     allquantities.ewkTop_syst_1mu1e1b_down = TOPRecoil
                     allquantities.pho_syst_1mu1e1b_up = TOPRecoil
                     allquantities.pho_syst_1mu1e1b_down = TOPRecoil
+                    allquantities.jec_syst_1mu1e1b_up = TOPRecoil
+                    allquantities.jec_syst_1mu1e1b_down = TOPRecoil
+                    allquantities.jer_syst_1mu1e1b_up = TOPRecoil
+                    allquantities.jer_syst_1mu1e1b_down = TOPRecoil
                     isTopCR1 = True
 
             #1mu, 1e, 2 b-tagged
@@ -1983,6 +2023,10 @@ def AnalyzeDataSet():
                     allquantities.ewkTop_syst_1mu1e2b_down = TOPRecoil
                     allquantities.pho_syst_1mu1e2b_up = TOPRecoil
                     allquantities.pho_syst_1mu1e2b_down = TOPRecoil
+                    allquantities.jec_syst_1mu1e2b_up = TOPRecoil
+                    allquantities.jec_syst_1mu1e2b_down = TOPRecoil
+                    allquantities.jer_syst_1mu1e2b_up = TOPRecoil
+                    allquantities.jer_syst_1mu1e2b_down = TOPRecoil
                     isTopCR2 = True
 # -------------------------------------------
 # Gamma CR
@@ -2061,6 +2105,10 @@ def AnalyzeDataSet():
                     allquantities.ewkTop_syst_1gamma1b_down = GammaRecoil
                     allquantities.pho_syst_1gamma1b_up = GammaRecoil
                     allquantities.pho_syst_1gamma1b_down = GammaRecoil
+                    allquantities.jec_syst_1gamma1b_up = GammaRecoil
+                    allquantities.jec_syst_1gamma1b_down = GammaRecoil
+                    allquantities.jer_syst_1gamma1b_up = GammaRecoil
+                    allquantities.jer_syst_1gamma1b_down = GammaRecoil
                     isGammaCR1 = True
 
    #1 photon, 2 b-tagged
@@ -2117,6 +2165,10 @@ def AnalyzeDataSet():
                     allquantities.ewkTop_syst_1gamma2b_down = GammaRecoil
                     allquantities.pho_syst_1gamma2b_up = GammaRecoil
                     allquantities.pho_syst_1gamma2b_down = GammaRecoil
+                    allquantities.jec_syst_1gamma2b_up = GammaRecoil
+                    allquantities.jec_syst_1gamma2b_down = GammaRecoil
+                    allquantities.jer_syst_1gamma2b_up = GammaRecoil
+                    allquantities.jer_syst_1gamma2b_down = GammaRecoil
                     isGammaCR2 = True
 
 
@@ -2516,6 +2568,17 @@ def AnalyzeDataSet():
                 phoIDSF_loose_systDOWN *= (phoLooseIDSF_EGamma_SF2D.GetBinContent(xbin,ybin) - phoLooseIDSF_EGamma_SF2D.GetBinErrorLow(xbin,ybin))
 
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+        ## JEC uncertainity
+        # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+        print ('\n')
+        jecUncUP = 1.0
+        jecUncDOWN = 1.0
+        for jet in len(myJetP4):
+            jecUncUP*=1+myJetCorrUnc[jet]
+            jecUncDOWN*=1-myJetCorrUnc[jet]
+        print jecUncUP,jecUncDOWN
+        print ('\n')
+        # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Pileup weight
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 #        allpuweights = PUWeight()
@@ -2628,6 +2691,10 @@ def AnalyzeDataSet():
                 allweights = allweights * sf_resolved3[0]
 
         temp_original_weight  = allweights
+        allweights_jec_up = temp_original_weight*jecUncUP
+        allquantities.weight_jec_up = allweights_jec_up
+        allweights_jec_up = temp_original_weight*jecUncDown
+        allquantities.weight_jec_down = allweights_jec_down
         allweights_ewkW_down = temp_original_weight
         allweights_ewkW_up = temp_original_weight
         allweights_ewkZ_down = temp_original_weight

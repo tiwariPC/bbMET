@@ -152,6 +152,7 @@ def AnalyzeDataSet():
     st_THINjetPhoEF                 = ROOT.std.vector('float')()
     st_THINjetEleEF                 = ROOT.std.vector('float')()
     st_THINjetMuoEF                 = ROOT.std.vector('float')()
+    st_THINjetCorrUnc               = ROOT.std.vector('float')()
 
     st_AK4deepCSVnJet               = array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
     st_AK4deepCSVjetP4              = ROOT.std.vector('TLorentzVector')()
@@ -159,6 +160,7 @@ def AnalyzeDataSet():
     st_AK4deepCSVjetHadronFlavor    = ROOT.std.vector('int')()
     st_AK4deepCSVjetNHadEF          = ROOT.std.vector('float')()
     st_AK4deepCSVjetCHadEF          = ROOT.std.vector('float')()
+    st_AK4deepCSVjetCorrUnc         = ROOT.std.vector('float')()
 
 
     st_nEle                = array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
@@ -255,6 +257,7 @@ def AnalyzeDataSet():
     outTree.Branch( 'st_THINjetPhoEF',st_THINjetPhoEF )
     outTree.Branch( 'st_THINjetEleEF',st_THINjetEleEF )
     outTree.Branch( 'st_THINjetMuoEF',st_THINjetMuoEF )
+    outTree.Branch('st_THINjetCorrUnc', st_THINjetCorrUnc)
 
     outTree.Branch( 'st_AK4deepCSVnJet',st_AK4deepCSVnJet, 'st_AK4deepCSVnJet/L' )
     outTree.Branch( 'st_AK4deepCSVjetP4',st_AK4deepCSVjetP4 )
@@ -262,6 +265,7 @@ def AnalyzeDataSet():
     outTree.Branch( 'st_AK4deepCSVjetHadronFlavor',st_AK4deepCSVjetHadronFlavor )
     outTree.Branch( 'st_AK4deepCSVjetNHadEF',st_AK4deepCSVjetNHadEF )
     outTree.Branch( 'st_AK4deepCSVjetCHadEF',st_AK4deepCSVjetCHadEF )
+    outTree.Branch( 'st_AK4deepCSVjetCorrUnc', st_AK4deepCSVjetCorrUnc)
 
 
     outTree.Branch( 'st_nEle',st_nEle , 'st_nEle/L')
@@ -364,6 +368,7 @@ def AnalyzeDataSet():
         thinjetPhoEF               = skimmedTree.__getattr__('THINjetPhoEF')
         thinjetEleEF               = skimmedTree.__getattr__('THINjetEleEF')
         thinjetMuoEF               = skimmedTree.__getattr__('THINjetMuoEF')
+        thinjetCorrUnc             = skimmedTree.__getattr__('THINjetCorrUncUp')
 
         nTHINdeepCSVJets           = skimmedTree.__getattr__('AK4deepCSVnJet')
         thindeepCSVjetP4           = skimmedTree.__getattr__('AK4deepCSVjetP4')
@@ -372,6 +377,7 @@ def AnalyzeDataSet():
         thindeepCSVjetNhadEF       = skimmedTree.__getattr__('AK4deepCSVjetNHadEF')
         thindeepCSVjetChadEF       = skimmedTree.__getattr__('AK4deepCSVjetCHadEF')
         THINdeepCSVjetNPV          = skimmedTree.__getattr__('AK4deepCSVjetNPV')
+        thindeepCSVjetCorrUnc      = skimmedTree.__getattr__('AK4deepCSVjetCorrUncUp')
 
         try:
             thindeepCSVJetLooseID      = skimmedTree.__getattr__('AK4deepCSVjetPassIDLoose')
@@ -658,12 +664,14 @@ def AnalyzeDataSet():
         st_THINjetPhoEF.clear()
         st_THINjetEleEF.clear()
         st_THINjetMuoEF.clear()
+        st_THINjetCorrUnc.clear()
 
         st_AK4deepCSVjetP4.clear()
         st_AK4deepCSVjetDeepCSV_b.clear()
         st_AK4deepCSVjetHadronFlavor.clear()
         st_AK4deepCSVjetNHadEF.clear()
         st_AK4deepCSVjetCHadEF.clear()
+        st_AK4deepCSVjetCorrUnc.clear()
 
         st_eleP4.clear()
         st_muP4.clear()
@@ -690,6 +698,7 @@ def AnalyzeDataSet():
             st_THINjetPhoEF.push_back(thinjetPhoEF[ithinjet])
             st_THINjetEleEF.push_back(thinjetEleEF[ithinjet])
             st_THINjetMuoEF.push_back(thinjetMuoEF[ithinjet])
+            st_THINjetCorrUnc.push_back(thinjetCorrUnc[ithinjet])
 
         try:
             st_AK4deepCSVnJet[0] = len(thindCSVjetpassindex)
@@ -699,6 +708,7 @@ def AnalyzeDataSet():
                 st_AK4deepCSVjetHadronFlavor.push_back(THINdeepCSVjetHadronFlavor[ithinjet])
                 st_AK4deepCSVjetNHadEF.push_back(thindeepCSVjetNhadEF[ithinjet])
                 st_AK4deepCSVjetCHadEF.push_back(thindeepCSVjetChadEF[ithinjet])
+                st_AK4deepCSVjetCorrUnc.push_back(thindeepCSVjetCorrUnc[ithinjet])
         except:
             pass
 
