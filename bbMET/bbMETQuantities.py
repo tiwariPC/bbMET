@@ -229,9 +229,9 @@ class MonoHbbQuantities:
             Mbins='20'
             Mlow='0.'
             Mhigh='500.'
-            csvbins='[0.0,0.8484,1.0]'
+            csvbins=["0.","0.8484","1.0"]
             csvBinNum='2'
-            dphibins='[0.0,0.5,3.2]'
+            dphibins=['0.','0.5','3.2']
             dphibinNum = '2'
 
             if 'ZpT_Recoil' in quant:
@@ -251,6 +251,7 @@ class MonoHbbQuantities:
                 exec("self.h_"+quant+".append(TH2F('h_"+quant+"_','h_"+quant+"_',"+xbins+","+xlow+","+xhigh+","+ybins+","+ylow+","+yhigh+"))")
             elif 'csv_vs_dPhi_sr' in quant:
                 xbinnum,xbins,ybinnum,ybins=getBins2D(quant)
+                print xbinnum,xbins,ybinnum,ybins
                 exec("self.h_"+quant+".append(TH2F('h_"+quant+"_','h_"+quant+"_',"+xbinnum+","+xbins+","+ybinnum+","+ybins+"))")
 
         h_met_pdf_tmp = []
