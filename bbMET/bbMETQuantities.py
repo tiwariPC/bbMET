@@ -207,8 +207,9 @@ class MonoHbbQuantities:
             return bins,low,high
 
         for quant in allquantlist:
-            bins,low,high=getBins(quant)
-            exec("self.h_"+quant+".append(TH1F('h_"+quant+"_','h_"+quant+"_',"+bins+","+low+","+high+"))")
+            if 'csv_vs_dPhi_sr' not in quant:
+                bins,low,high=getBins(quant)
+                exec("self.h_"+quant+".append(TH1F('h_"+quant+"_','h_"+quant+"_',"+bins+","+low+","+high+"))")
 
         for quant in preselquantlist:
             bins,low,high=getBins(quant)
