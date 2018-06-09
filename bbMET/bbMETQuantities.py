@@ -1,6 +1,7 @@
 from ROOT import TFile, TTree, TH1F, TH1D, TH1, TCanvas, TChain,TGraphAsymmErrors, TMath, TH2D, TH2F
 import ROOT as ROOT
 import AllQuantList
+from array import array
 
 class MonoHbbQuantities:
 
@@ -241,7 +242,7 @@ class MonoHbbQuantities:
             elif 'MET_Recoil' in quant:
                 return Mbins,Mlow,Mhigh,Rbins,Rlow,Rhigh
             elif 'csv_vs_dPhi_sr' in quant:
-                return dphibinNum,dphibins,csvBinNum,csvbins
+                return dphibinNum,array('d',dphibins),csvBinNum,array('d',csvbins)
 
 
         Histos2D=AllQuantList.getHistos2D()
