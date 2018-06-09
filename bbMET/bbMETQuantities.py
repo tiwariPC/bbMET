@@ -229,9 +229,9 @@ class MonoHbbQuantities:
             Mbins='20'
             Mlow='0.'
             Mhigh='500.'
-            csvbins=["0.","0.8484","1.0"]
+            csvbins='[0.,0.8484,1.0]'
             csvBinNum='2'
-            dphibins=['0.','0.5','3.2']
+            dphibins='[0.,0.5,3.2]'
             dphibinNum = '2'
 
             if 'ZpT_Recoil' in quant:
