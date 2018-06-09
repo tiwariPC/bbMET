@@ -207,9 +207,8 @@ class MonoHbbQuantities:
             return bins,low,high
 
         for quant in allquantlist:
-            if 'csv_vs_dPhi_sr' not in quant:
-                bins,low,high=getBins(quant)
-                exec("self.h_"+quant+".append(TH1F('h_"+quant+"_','h_"+quant+"_',"+bins+","+low+","+high+"))")
+            bins,low,high=getBins(quant)
+            exec("self.h_"+quant+".append(TH1F('h_"+quant+"_','h_"+quant+"_',"+bins+","+low+","+high+"))")
 
         for quant in preselquantlist:
             bins,low,high=getBins(quant)
@@ -242,7 +241,7 @@ class MonoHbbQuantities:
             elif 'MET_Recoil' in quant:
                 return Mbins,Mlow,Mhigh,Rbins,Rlow,Rhigh
             elif 'csv_vs_dPhi_sr' in quant:
-                return dphibinNum,dphibins,csvBinNum,csvbin,csvbins
+                return dphibinNum,dphibins,csvBinNum,csvbins
 
 
         Histos2D=AllQuantList.getHistos2D()
