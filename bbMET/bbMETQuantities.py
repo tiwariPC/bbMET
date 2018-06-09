@@ -229,12 +229,10 @@ class MonoHbbQuantities:
             Mbins='20'
             Mlow='0.'
             Mhigh='500.'
-            csvbin='50'
-            csvlow='0.'
-            csvhigh='1.'
-            dphibins='150'
-            dphilow = '0.'
-            dphihigh = '3.2'
+            csvbins[3]={'0','0.8484','1.0'}
+            csvBinNum='2'
+            dphibins[3]={'0','0.5','3.2'}
+            dphibinNum = '2'
 
             if 'ZpT_Recoil' in quant:
                 return ZpTbins,ZpTlow,ZpThigh,Rbins,Rlow,Rhigh
@@ -243,13 +241,17 @@ class MonoHbbQuantities:
             elif 'MET_Recoil' in quant:
                 return Mbins,Mlow,Mhigh,Rbins,Rlow,Rhigh
             elif 'csv_vs_dPhi_sr' in quant:
-                return dphibins,dphilow,dphihigh,csvbin,csvlow,csvhigh
+                return dphibinNum,dphibins,csvBinNum,csvbin,csvbins
 
 
         Histos2D=AllQuantList.getHistos2D()
         for quant in Histos2D:
-            xbins,xlow,xhigh,ybins,ylow,yhigh=getBins2D(quant)
-            exec("self.h_"+quant+".append(TH2F('h_"+quant+"_','h_"+quant+"_',"+xbins+","+xlow+","+xhigh+","+ybins+","+ylow+","+yhigh+"))")
+            if 'csv_vs_dPhi_sr' not in quant:
+                xbins,xlow,xhigh,ybins,ylow,yhigh=getBins2D(quant)
+                exec("self.h_"+quant+".append(TH2F('h_"+quant+"_','h_"+quant+"_',"+xbins+","+xlow+","+xhigh+","+ybins+","+ylow+","+yhigh+"))")
+            elif 'csv_vs_dPhi_sr' in quant:
+                xbinnum,xbins,ybinnum,ybins=getBins2D(quant)
+                exec("self.h_"+quant+".append(TH2F('h_"+quant+"_','h_"+quant+"_',"+xbinnum+","+xbins+","+ybinnum+","+ybins+"))")
 
         h_met_pdf_tmp = []
         for ipdf in range(2):
