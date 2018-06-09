@@ -229,10 +229,10 @@ class MonoHbbQuantities:
             Mbins='20'
             Mlow='0.'
             Mhigh='500.'
-            csvbin='100'
+            csvbin='50'
             csvlow='0.'
             csvhigh='1.'
-            dphibins='320'
+            dphibins='150'
             dphilow = '0.'
             dphihigh = '3.2'
 
