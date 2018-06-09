@@ -242,7 +242,7 @@ class MonoHbbQuantities:
             elif 'MET_Recoil' in quant:
                 return Mbins,Mlow,Mhigh,Rbins,Rlow,Rhigh
             elif 'csv_vs_dPhi_sr' in quant:
-                return dphibinNum,array('d',dphibins),csvBinNum,array('d',csvbins)
+                return dphibinNum,dphibins,csvBinNum,csvbins
 
 
         Histos2D=AllQuantList.getHistos2D()
@@ -253,7 +253,7 @@ class MonoHbbQuantities:
             elif 'csv_vs_dPhi_sr' in quant:
                 xbinnum,xbins,ybinnum,ybins=getBins2D(quant)
                 print xbinnum,xbins,ybinnum,ybins
-                exec("self.h_"+quant+".append(TH2F('h_"+quant+"_','h_"+quant+"_',"+xbinnum+","+xbins+","+ybinnum+","+ybins+"))")
+                exec("self.h_"+quant+".append(TH2F('h_"+quant+"_','h_"+quant+"_',"+xbinnum+",array('d',"+xbins+"),"+ybinnum+",array('d',"+ybins+")))")
 
         h_met_pdf_tmp = []
         for ipdf in range(2):
