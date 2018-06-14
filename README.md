@@ -10,7 +10,7 @@ First step is to generate ntuples.
 2. Use MultiCrab to submit jobs for signal, backgrounds, and data separately. (Detailed instructions to be updated soon).
 
 # II. Run SkimTree
-Clone this repository in a location from where HTCondor jobs can be submitted (```login.uscms.org``` for example). We shall refer to this location as the working directory for the rest of this documentation.
+Clone this repository in a location from where HTCondor jobs can be submitted (```login.uscms.org``` for example). We shall refer to this location as the working directory for this section.
 ## a. Running Locally
 SkimTree can be run using:
 ```bash
@@ -21,10 +21,11 @@ python SkimTree.py path_to_ntuple_file
 python SkimTree.py root://se01.indiacms.res.in:1094//dpm/indiacms.res.in/home/cms/store/user/zabai/t3store2/bbDM_bkg/WJetsToLNu_HT-100To200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/WJetsToLNu_HT-100To200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328/180202_114154/0001/NCUGlobalTuples_1009.root
 ```
 ## b. Running on HTCondor
-***Note: The Condor framework is configured to run BranchReader whenever one runs SkimTree, since this helps save a lot of time. So one will get the final BranchReader outputs directly after running this step besides getting the Skimmed Trees.***
+***SkimTree jobs are numerous is number, hence using a Condor network with large number of cores is recommended. Recommended submit node: uscms.***
+
 ### Making a list of ntuple files
 The T2ListMaker can be used to produce lists of ntuples (CRAB job outputs) that SkimTree takes as input. Since the CRAB job outputs are stored in T2, the ListMaker can be used from a T3 location which has read access to the T2 location (via `rfdir`).
-1. Copy the T2ListMaker directory from your working directory to the T3 location (if different from your working directory), or run the following from a T3 location:
+1. Copy the T2ListMaker directory from your working directory to the T3 location (if different from your working directory), *or* run the following from a T3 location:
     ```bash
     wget https://raw.githubusercontent.com/mondalspandan/bbMET/master/T2FileListMaker/ListMaker_T3.py
     ```
@@ -44,12 +45,12 @@ The T2ListMaker can be used to produce lists of ntuples (CRAB job outputs) that 
     ```
 This produces one directory and one log file. In the example above, the directory and logfile will be named `Filelist_180321_data_ntuples` and `log_180321_data_ntuples.txt` respectively. The filelists are now available in your T3 location. Both the directory and the log files now have to be copied back to the working directory.
 4. Repeat the above for each of signal, data and bkg. So in the end you will probably have 3 or more different directories (and corresponding log files).
-5. Navigate to `bbMET/bbMET/ST_BR_Condor/` in the working directory.
+5. Navigate to `bbMET/bbMET/ST_Condor/` in the working directory.
 6. `mkdir Filelists`
-7. Now copy all directories and log files (such as `Filelist_180321_data_ntuples` and `log_180321_data_ntuples.txt`) to workingdir/`bbMET/bbMET/ST_BR_Condor/Filelists` using `cp` (or `scp` if the working directory is not in T3).
+7. Now copy all directories and log files (such as `Filelist_180321_data_ntuples` and `log_180321_data_ntuples.txt`) to workingdir/`bbMET/bbMET/ST_Condor/Filelists` using `cp` (or `scp` if the working directory is not in T3).
 
-### Running SkimTree + BranchReader Condor Jobs
-1. Navigate to workingdir/`bbMET/bbMET/ST_BR_Condor/`.
+### Running SkimTree Condor Jobs
+1. Navigate to workingdir/`bbMET/bbMET/ST_Condor/`.
 2. Open `runAnalysis.sh` to edit.
 3. Line 19 contains an exemplar path to a T2 location. The SkimTree outputs (Skimmed Trees) will be stored in this location. Edit this path (remember to change the username) and specify where you wish to store the outputs. The directory does not necessarily have to exist, it will be created if non-existent. Make sure you have write access to the specified directory.
 4. Initiate your voms-proxy using `voms-proxy-init --voms cms --valid 192:00`.
@@ -63,19 +64,142 @@ This produces one directory and one log file. In the example above, the director
     ```
 7. To monitor status of jobs, use `condor_q username`.
 
-### Retrieving Outputs
-* The SkimTree outputs (Skimmed Trees) are saved to the location that was specified in the `runAnalysis.sh` file. These can be used while running BranchReader (next section) alone in future iterations.
-* The Condor jobs that were submitted for SkimTree run BranchReader as well as soon as the Skimming part is over. Hence, it transfers the final BranchReader outputs to the working directory as well. All these will be stored in the `bbMET/bbMET/ST_BR_Condor/data` directory, but one needs to combine several fragments of each sample before one can use them in plotting.
+### Outputs
+The SkimTree outputs (Skimmed Trees) are saved to the location that was specified in the `runAnalysis.sh` file. These will be used while running BranchReader (next section).
 
-**(SkimTree+BranchReader jobs may take upto 2 days to finish.)**
-1. Once all SkimTree+BranchReader Condor jobs are complete, one needs to combine the output .root files for each sample. This can be achieved by using the `hadd` command. If no CMSSW or ROOT instance is sourced by default in your working area, go to a CMSSW release base and run `cmsenv`, otherwise the `hadd` command may not work.
-2. Navigate to `bbMET/bbMET/ST_BR_Condor/` and run
-    ```bash
-    python HADD_multi_v2.py
-    ```
-    The outputs .root files are stitched on a per sample basis and one .root file per sample is produced inside `bbMET/bbMET/ST_BR_Condor/BROutputs`/Filelist_tag (where Filelist_tag would be `Filelist_180321_data_ntuples` according the previous example.
-3. These .root files inside `BROutputs` can be used directly as inputs to the plotting code.
+**(SkimTree jobs for all data and background may take upto 1 day to finish.)**
 
 # III. Run BranchReader
+Clone this repository in a location from where HTCondor jobs can be submitted (```ui.indiacms.res.in``` for example). We shall refer to this location as the working directory for this section.
+## a. Running Locally
+* BranchReader can be run using:
+```bash
+python bbMETBranchReader.py -a -i path_to_skimmed_tree -D . --csv
+```
+* The "farmout" mode can be used to combine multiple input root files in one go. If all the root files are listed in a text file named input.txt, one can use:
+```bash
+python bbMETBranchReader.py -a -F -i input.txt -D . --csv
+```
+## b. Running on HTCondor
+***The number of BranchReader jobs can be adjusted by combining suitable number of input files in the Farmout mode. Recommended submit node: ui.indiacms.***
+
+### Making a list of skimmed trees
+The T2ListMaker can be used to produce lists of skimmed trees (SkimTree outputs) that SkimTree takes as input. Since the skimmed trees are also stored in T2, the ListMaker can be used from a T3 location which has read access to the T2 location (via `rfdir`). For Farmout mode of the BranchReader, it is necessary to use the "nolog" variant of the ListMaker.
+
+1. Copy the T2ListMaker directory from your working directory to the T3 location (if different from your working directory), *or* run the following from a T3 location:
+    ```bash
+    wget https://raw.githubusercontent.com/mondalspandan/bbMET/master/T2FileListMaker/ListMaker_T3_nolog.py
+    ```
+2. Find the parent directory in T2 where the skimmed trees are stored.
+    Example:
+    ```bash
+    rfdir /dpm/indiacms.res.in/home/cms/store/user/username/t3store2
+    ```
+    can be used to view contents of the directory. Navigate to the parent directory where the skimmed trees are stored.
+3. Run `ListMaker_T3_nolog.py` using
+    ```bash
+    python ListMaker_T3_nolog.py st path_to_parent_T2_directory_of_skimmed_trees filelist_tag
+    ```
+    Example:
+    ```bash
+    python ListMaker_T3_nolog.py st /dpm/indiacms.res.in/home/cms/store/user/spmondal/t3store2/bbDM_skimmed_trees 180322_skimmed_trees
+    ```
+This produces one directory. In the example above, the directory will be named `Filelist_180322_skimmed_trees`, The filelists are now available in your T3 location. Both the *contents of the directory* now have to be copied back to the working directory.
+4. Repeat the above for each of signal, data and bkg. So in the end you will probably have 3 or more different directories).
+5. Navigate to `bbMET/bbMET/BR_Condor_Farmout/` in the working directory.
+6. `mkdir Filelists`
+7. Now copy *files inside all the directories* (such as `Filelist_180322_skimmed_trees/*.txt) to workingdir/`bbMET/bbMET/BR_Condor_Farmout/Filelists` using `cp` (or `scp` if the working directory is not in T3). This means there will be .txt files inside the Filelists folder, unlike in case of SkimTree jobs.
+
+### Running BranchReader Condor Jobs
+1. Navigate to workingdir/`bbMET/bbMET/BR_Condor_Farmout/`.
+2. This framework automatically combines multiple skimmed_tree root files in one job. The number of root files to be combined in each job can be specified by editing L4 of MultiSubmit.py (`maxfilesperjob=100`).
+3. Initiate your voms-proxy using `voms-proxy-init --voms cms --valid 192:00`.
+4. Submit jobs using
+    ```bash
+    . submitjobs.sh
+    ```
+5. To monitor the job submission process, use:
+    ```bash
+    tail -f logsubmit.txt
+    ```
+6. To monitor status of jobs, use `condor_q username`.
+ 
+### Retrieving Outputs
+
+1. Once all BranchReader Condor jobs are complete, one needs to combine the output .root files for each sample. This can be achieved by using the `hadd` command. If no CMSSW or ROOT instance is sourced by default in your working area, go to a CMSSW release base and run `cmsenv`, otherwise the `hadd` command may not work.
+2. Navigate to `bbMET/bbMET/BR_Condor_Farmout/` and run
+    ```bash
+    python HADD_multi_Farmout.py
+    ```
+    The outputs .root files are stitched on a per sample basis and one .root file per sample is produced inside `bbMET/bbMET/BR_Condor_Farmout/hadd_outputs`.
+3. These .root files inside `hadd_outputs` can be used directly as inputs to the plotting code.
 
 # IV. Run Plotting Script
+1. Copy all the outputs from BranchReader to a directory (or, optionally, segregate the files in separate directories named `data`, `bkg`, and `signal`).
+2. Open `bbMETplot/Scripts/bbMET_StackFactory.py` and edit L92 to suit the current working directory. Edit L160, L229, and L272 to the path(s) where the BranchReader outputs are stored.
+3. Navigate to `bbMETplot/Scripts/test` and run
+```
+python ../bbMET_StackFactory.py -d MET -s -m -q
+python ../bbMET_StackFactory.py -d SE -e
+python ../bbMET_StackFactory.py -d SP -p
+```
+The boolean flags are explained as follows:
+
+* s: Signal Regions (only MC plots)
+* m: Muon Control Regions
+* q: QCD Control Regions
+* e: Electron Control Regions
+* p: Photon Control Regions
+* The `d` flag is used to select the appropriate primary dataset for each region.
+
+The output plots are stored inside test/date/bbMETPng directory.
+
+# V. Make a combined .root histogram file
+The idea is to make a combined .root file containing MET and Hadronic Recoil histograms of all regions with all systematics with suitable names.
+
+1. Open bbMETplot/Scripts/CombinedRootMaker.py and edit L36 if histograms for systematics are contained in a separate directory. Otherwise point this to read the same directory as next step.
+2. Run:
+  ```
+  python CombinedRootMaker.py path_to_the_plot_script_output_dir
+  ```
+  Example:
+  ```
+  python CombinedRootMaker.py test/22022018
+  ```
+ 
+This creates a directory named DataCardRootFiles. The file `AllMETHistos.root` inside this directory contains all histograms from all regions with all systematics. Besides this, a .root file for each region is also created. Depending on the signal model either the `AllMETHistos.root` file or all the other files need to be used as input to the limit setting code.
+
+# VI. Preliminary Limits and Fitting
+1. Copy all files from bbMETplot/Scripts/DataCardRootFiles directory to LimitsAndFitting/bbDM/data directory.
+2. Run:
+   ```
+   python RunLimitOnAll.py create
+   python RunLimitOnAll.py run
+   ```
+   This will create .txt files inside the bin/ directory.
+   Navigate to the ```plotting``` directory.
+3. To make DMSimp plots:
+   ```
+   python TextToTGraph.py
+   python plotLimit.py ps
+   python plotLimit.py s
+   ```
+4. To make 2HDM+a plots with variable MH4:
+   ```
+   python TextToTGraph_2HDMa.py
+   plotLimit.py 2h
+   ```
+5. To make 2HDM+a plots with fixed MH4 (50 or 100 GeV) but variable tanβ or variable sinθ:
+   ```
+   python TextToTGraph_fixedMH4.py
+   python plotLimit.py tanb50
+   python plotLimit.py tanb100
+   python plotLimit.py sinp50
+   ```
+6. To plot overlapping cross section and limit plots for various tanβ and sinθ scans:
+   ```
+   cd variableTanB
+   python TextToGraph_tanB_allMH4.py
+   python plotLimit_overlap.py tanb
+   python plotLimit_overlap.py sinp
+   ```
