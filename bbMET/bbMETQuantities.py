@@ -370,7 +370,7 @@ class MonoHbbQuantities:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF)")
 
 
-    def WriteHisto(self, (nevts,nevts_weight,npass,cutflowvalues,cutflownames,cutflowvaluesSR1,cutflownamesSR1,cutflowvaluesSR2,cutflownamesSR2,CRvalues,CRnames,regionnames,CRcutnames,CRcutflowvaluesSet)):
+    def WriteHisto(self, (nevts,nevts_weight,npass,cutflowvalues,cutflownames,cutflowvaluesSR1,cutflownamesSR1,cutflowvaluesSR2,cutflownamesSR2,CRvalues,CRnames,regionnames, CRcutnames,CRcutflowvaluesSet, CRSummary,regNames, CRSummaryMu,regNamesMu, CRSummaryEle,regNamesEle)):
         f = TFile(self.rootfilename,'RECREATE')
         print
         f.cd()
@@ -418,6 +418,28 @@ class MonoHbbQuantities:
             self.h_CRs.GetXaxis().SetBinLabel(iCR+1,CRnames[iCR])
             self.h_CRs.SetBinContent(iCR+1,CRvalues[iCR])
         self.h_CRs.Write()
+        
+        
+        nreg=len(regNames)
+        self.h_CRSum=TH1F('h_CRSum_','h_CRSum_',nreg, 0, nreg)
+        for ireg in range(nreg):
+            self.h_CRSum.GetXaxis().SetBinLabel(ireg+1,regNames[ireg])
+            self.h_CRSum.SetBinContent(ireg+1,CRSummary[regNames[ireg]])
+        self.h_CRSum.Write()
+        
+        nreg=len(regNamesMu)
+        self.h_CRSumMu=TH1F('h_CRSumMu_','h_CRSumMu_',nreg, 0, nreg)
+        for ireg in range(nreg):
+            self.h_CRSumMu.GetXaxis().SetBinLabel(ireg+1,regNamesMu[ireg])
+            self.h_CRSumMu.SetBinContent(ireg+1,CRSummaryMu[regNamesMu[ireg]])
+        self.h_CRSumMu.Write()
+        
+        nreg=len(regNamesEle)
+        self.h_CRSumEle=TH1F('h_CRSumEle_','h_CRSumEle_',nreg, 0, nreg)
+        for ireg in range(nreg):
+            self.h_CRSumEle.GetXaxis().SetBinLabel(ireg+1,regNamesEle[ireg])
+            self.h_CRSumEle.SetBinContent(ireg+1,CRSummaryEle[regNamesEle[ireg]])
+        self.h_CRSumEle.Write()
 
         self.h_met[0].Write()
         #self.h_met_rebin[iregime].Write()
