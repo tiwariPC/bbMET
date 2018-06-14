@@ -3,11 +3,11 @@ from array import array
 import os
 
 
-inputstring_ = ['scalar','pseudo']
+inputstring_ = ['2HDM'] #['scalar','pseudo']
 
 
 xsec_dict={}
-for iline in open('xsec.txt'):
+for iline in open('xsec2HDM.txt'):
     masspoint = str(iline.rstrip().split()[0])
     xsec = str(iline.rstrip().split()[1])
     key_ = masspoint
@@ -28,8 +28,8 @@ for inputstring in inputstring_:
     errx=array('f')
     for line in f:
         if line.rstrip().split()[0]=='400': continue
-        masspointstr = 'NLO_'+inputstring+'_mphi_'+line.rstrip().split()[0]+'_mchi_'+line.rstrip().split()[1]
-#        masspointstr = 'NLO_pseudo_mphi_'+line.rstrip().split()[0]+'_mchi_'+line.rstrip().split()[1]
+#        masspointstr = 'NLO_'+inputstring+'_mphi_'+line.rstrip().split()[0]+'_mchi_'+line.rstrip().split()[1]
+        masspointstr = 'NLO_pseudo_mphi_'+line.rstrip().split()[0]+'_mchi_'+line.rstrip().split()[1]
         xsec_ = float(xsec_dict[masspointstr] )
         
         med.append(float(line.rstrip().split()[0]))

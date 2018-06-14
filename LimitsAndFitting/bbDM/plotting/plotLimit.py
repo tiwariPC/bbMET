@@ -68,8 +68,8 @@ elif sys.argv[1].lower().startswith("sinp"):
     xmin=.089
 else:
     exp2s.GetXaxis().SetTitle("M_{#phi} [GeV]");
-    exp2s.GetXaxis().SetRangeUser(40,700)
-    exp2s.GetYaxis().SetRangeUser(.05,10)
+#    exp2s.GetXaxis().SetRangeUser(40,700)
+#    exp2s.GetYaxis().SetRangeUser(.05,10)
     leg = TLegend(.30, .65, .55, .890);
 
 exp2s.GetXaxis().SetTitleOffset(1.4)
