@@ -72,46 +72,46 @@ def AnalyzeDataSet():
         'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v','HLT_PFMET110_PFMHT110_','HLT_IsoMu24_v','HLT_IsoTkMu24_v','HLT_Ele27_WPTight_Gsf',
         'HLT_IsoMu20','HLT_Ele27_WPLoose_Gsf','HLT_Photon165_HE10','HLT_Photon175']
 
-    METtrigs = ['HLT_PFMET120_Mu5_v', 'HLT_MET600_v', 'HLT_PFMET100_PFMHT100_IDTight_v', 'HLT_MET250_v', 'HLT_PFMET400_v', 'HLT_PFMETTypeOne190_HBHE_BeamHaloCleaned_v', 'HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_v', 'HLT_PFMETNoMu100_PFMHTNoMu100_IDTight_v', 'HLT_PFMET90_PFMHT90_IDTight_v', 'HLT_Mu6_PFHT200_PFMET100_v', 'HLT_PFMET600_v', 'HLT_Mu14er_PFMET100_v', 'HLT_PFMET170_NoiseCleaned_v', 'HLT_CaloMHTNoPU90_PFMET90_PFMHT90_IDTight_v', 'HLT_PFMET170_NotCleaned_v', 'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v', 'HLT_PFMET100_PFMHT100_IDTight_BeamHaloCleaned_v', 'HLT_Mu3er_PFHT140_PFMET125_v', 'HLT_MET200_v', 'HLT_PFMET170_HBHE_BeamHaloCleaned_v', 'HLT_MET75_IsoTrk50_v', 'HLT_MET90_IsoTrk50_v', 'HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v', 'HLT_DoubleMu3_PFMET50_v', 'HLT_MonoCentralPFJet80_PFMETNoMu110_PFMHTNoMu110_IDTight_v', 'HLT_PFMET110_PFMHT110_IDTight_v', 'HLT_DiCentralPFJet55_PFMET110_v', 'HLT_MET700_v', 'HLT_MonoCentralPFJet80_PFMETNoMu90_PFMHTNoMu90_IDTight_v', 'HLT_MET60_IsoTrk35_Loose_v', 'HLT_PFMET170_JetIdCleaned_v', 'HLT_PFMET170_BeamHaloCleaned_v', 'HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight_v', 'HLT_MET300_v', 'HLT_PFMET120_PFMHT120_IDTight_v', 'HLT_Mu6_PFHT200_PFMET80_BTagCSV_p067_v', 'HLT_MonoCentralPFJet80_PFMETNoMu100_PFMHTNoMu100_IDTight_v', 'HLT_CaloMHTNoPU90_PFMET90_PFMHT90_IDTight_BTagCSV_p067_v', 'HLT_PFMET170_HBHECleaned_v', 'HLT_PFMET120_BTagCSV_p067_v', 'HLT_PFMET500_v','HLT_PFMET300_v']
+#    METtrigs = ['HLT_PFMET120_Mu5_v', 'HLT_MET600_v', 'HLT_PFMET100_PFMHT100_IDTight_v', 'HLT_MET250_v', 'HLT_PFMET400_v', 'HLT_PFMETTypeOne190_HBHE_BeamHaloCleaned_v', 'HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_v', 'HLT_PFMETNoMu100_PFMHTNoMu100_IDTight_v', 'HLT_PFMET90_PFMHT90_IDTight_v', 'HLT_Mu6_PFHT200_PFMET100_v', 'HLT_PFMET600_v', 'HLT_Mu14er_PFMET100_v', 'HLT_PFMET170_NoiseCleaned_v', 'HLT_CaloMHTNoPU90_PFMET90_PFMHT90_IDTight_v', 'HLT_PFMET170_NotCleaned_v', 'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v', 'HLT_PFMET100_PFMHT100_IDTight_BeamHaloCleaned_v', 'HLT_Mu3er_PFHT140_PFMET125_v', 'HLT_MET200_v', 'HLT_PFMET170_HBHE_BeamHaloCleaned_v', 'HLT_MET75_IsoTrk50_v', 'HLT_MET90_IsoTrk50_v', 'HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v', 'HLT_DoubleMu3_PFMET50_v', 'HLT_MonoCentralPFJet80_PFMETNoMu110_PFMHTNoMu110_IDTight_v', 'HLT_PFMET110_PFMHT110_IDTight_v', 'HLT_DiCentralPFJet55_PFMET110_v', 'HLT_MET700_v', 'HLT_MonoCentralPFJet80_PFMETNoMu90_PFMHTNoMu90_IDTight_v', 'HLT_MET60_IsoTrk35_Loose_v', 'HLT_PFMET170_JetIdCleaned_v', 'HLT_PFMET170_BeamHaloCleaned_v', 'HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight_v', 'HLT_MET300_v', 'HLT_PFMET120_PFMHT120_IDTight_v', 'HLT_Mu6_PFHT200_PFMET80_BTagCSV_p067_v', 'HLT_MonoCentralPFJet80_PFMETNoMu100_PFMHTNoMu100_IDTight_v', 'HLT_CaloMHTNoPU90_PFMET90_PFMHT90_IDTight_BTagCSV_p067_v', 'HLT_PFMET170_HBHECleaned_v', 'HLT_PFMET120_BTagCSV_p067_v', 'HLT_PFMET500_v','HLT_PFMET300_v']
 
-    SingleElectrontrigs=['HLT_Ele15_IsoVVVL_PFHT350_PFMET50_v', 'HLT_Ele45_WPLoose_Gsf_v', 'HLT_Ele32_eta2p1_WPLoose_Gsf_v', 'HLT_Ele27_WPTight_Gsf_L1JetTauSeeded_v', 'HLT_Ele32_WPTight_Gsf_v', 'HLT_Ele50_CaloIdVT_GsfTrkIdT_PFJet165_v', 'HLT_Ele105_CaloIdVT_GsfTrkIdT_v', 'HLT_Ele25_eta2p1_WPTight_Gsf_v', 'HLT_Ele27_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_SingleL1_v', 'HLT_Ele32_eta2p1_WPTight_Gsf_v', 'HLT_Ele27_WPLoose_Gsf_v', 'HLT_Ele27_eta2p1_WPLoose_Gsf_DoubleMediumIsoPFTau32_Trk1_eta2p1_Reg_v', 'HLT_Ele27_WPLoose_Gsf_WHbbBoost_v', 'HLT_Ele27_eta2p1_WPLoose_Gsf_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v', 'HLT_Ele300_CaloIdVT_GsfTrkIdT_v', 'HLT_Ele35_WPLoose_Gsf_v', 'HLT_Ele50_CaloIdVT_GsfTrkIdT_PFJet140_v', 'HLT_Ele50_IsoVVVL_PFHT400_v', 'HLT_Ele25_eta2p1_WPLoose_Gsf_v', 'HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v' , 'HLT_Ele250_CaloIdVT_GsfTrkIdT_v', 'HLT_Ele24_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v', 'HLT_Ele15_IsoVVVL_PFHT400_PFMET50_v', 'HLT_Ele24_eta2p1_WPLoose_Gsf_v', 'HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau29_v', 'HLT_Ele32_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_SingleL1_v', 'HLT_Ele27_WPTight_Gsf_v', 'HLT_Ele15_IsoVVVL_PFHT350_v', 'HLT_Ele35_CaloIdVT_GsfTrkIdT_PFJet150_PFJet50_v', 'HLT_Ele30_eta2p1_WPLoose_Gsf_v', 'HLT_Ele200_CaloIdVT_GsfTrkIdT_v', 'HLT_Ele30_eta2p1_WPTight_Gsf_v', 'HLT_Ele45_WPLoose_Gsf_L1JetTauSeeded_v', 'HLT_Ele24_eta2p1_WPLoose_Gsf_LooseIsoPFTau30_v', 'HLT_Ele22_eta2p1_WPLoose_Gsf_v', 'HLT_Ele15_IsoVVVL_BTagCSV_p067_PFHT400_v', 'HLT_Ele36_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_SingleL1_v', 'HLT_Ele115_CaloIdVT_GsfTrkIdT_v', 'HLT_Ele23_WPLoose_Gsf_v', 'HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_SingleL1_v', 'HLT_Ele145_CaloIdVT_GsfTrkIdT_v', 'HLT_Ele27_eta2p1_WPLoose_Gsf_HT200_v', 'HLT_Ele23_WPLoose_Gsf_WHbbBoost_v', 'HLT_Ele20_eta2p1_WPLoose_Gsf_LooseIsoPFTau28_v', 'HLT_Ele24_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_SingleL1_v', 'HLT_Ele27_eta2p1_WPLoose_Gsf_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg_v', 'HLT_Ele27_eta2p1_WPTight_Gsf_v', 'HLT_Ele15_IsoVVVL_PFHT400_v', 'HLT_Ele30_WPTight_Gsf_v', 'HLT_Ele15_IsoVVVL_PFHT600_v', 'HLT_Ele27_eta2p1_WPLoose_Gsf_v', 'HLT_Ele25_WPTight_Gsf_v']
+#    SingleElectrontrigs=['HLT_Ele15_IsoVVVL_PFHT350_PFMET50_v', 'HLT_Ele45_WPLoose_Gsf_v', 'HLT_Ele32_eta2p1_WPLoose_Gsf_v', 'HLT_Ele27_WPTight_Gsf_L1JetTauSeeded_v', 'HLT_Ele32_WPTight_Gsf_v', 'HLT_Ele50_CaloIdVT_GsfTrkIdT_PFJet165_v', 'HLT_Ele105_CaloIdVT_GsfTrkIdT_v', 'HLT_Ele25_eta2p1_WPTight_Gsf_v', 'HLT_Ele27_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_SingleL1_v', 'HLT_Ele32_eta2p1_WPTight_Gsf_v', 'HLT_Ele27_WPLoose_Gsf_v', 'HLT_Ele27_eta2p1_WPLoose_Gsf_DoubleMediumIsoPFTau32_Trk1_eta2p1_Reg_v', 'HLT_Ele27_WPLoose_Gsf_WHbbBoost_v', 'HLT_Ele27_eta2p1_WPLoose_Gsf_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v', 'HLT_Ele300_CaloIdVT_GsfTrkIdT_v', 'HLT_Ele35_WPLoose_Gsf_v', 'HLT_Ele50_CaloIdVT_GsfTrkIdT_PFJet140_v', 'HLT_Ele50_IsoVVVL_PFHT400_v', 'HLT_Ele25_eta2p1_WPLoose_Gsf_v', 'HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v' , 'HLT_Ele250_CaloIdVT_GsfTrkIdT_v', 'HLT_Ele24_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v', 'HLT_Ele15_IsoVVVL_PFHT400_PFMET50_v', 'HLT_Ele24_eta2p1_WPLoose_Gsf_v', 'HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau29_v', 'HLT_Ele32_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_SingleL1_v', 'HLT_Ele27_WPTight_Gsf_v', 'HLT_Ele15_IsoVVVL_PFHT350_v', 'HLT_Ele35_CaloIdVT_GsfTrkIdT_PFJet150_PFJet50_v', 'HLT_Ele30_eta2p1_WPLoose_Gsf_v', 'HLT_Ele200_CaloIdVT_GsfTrkIdT_v', 'HLT_Ele30_eta2p1_WPTight_Gsf_v', 'HLT_Ele45_WPLoose_Gsf_L1JetTauSeeded_v', 'HLT_Ele24_eta2p1_WPLoose_Gsf_LooseIsoPFTau30_v', 'HLT_Ele22_eta2p1_WPLoose_Gsf_v', 'HLT_Ele15_IsoVVVL_BTagCSV_p067_PFHT400_v', 'HLT_Ele36_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_SingleL1_v', 'HLT_Ele115_CaloIdVT_GsfTrkIdT_v', 'HLT_Ele23_WPLoose_Gsf_v', 'HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_SingleL1_v', 'HLT_Ele145_CaloIdVT_GsfTrkIdT_v', 'HLT_Ele27_eta2p1_WPLoose_Gsf_HT200_v', 'HLT_Ele23_WPLoose_Gsf_WHbbBoost_v', 'HLT_Ele20_eta2p1_WPLoose_Gsf_LooseIsoPFTau28_v', 'HLT_Ele24_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_SingleL1_v', 'HLT_Ele27_eta2p1_WPLoose_Gsf_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg_v', 'HLT_Ele27_eta2p1_WPTight_Gsf_v', 'HLT_Ele15_IsoVVVL_PFHT400_v', 'HLT_Ele30_WPTight_Gsf_v', 'HLT_Ele15_IsoVVVL_PFHT600_v', 'HLT_Ele27_eta2p1_WPLoose_Gsf_v', 'HLT_Ele25_WPTight_Gsf_v']
 
-    SinglePhotontrigs = ['HLT_Photon120_R9Id90_HE10_Iso40_EBOnly_PFMET40_v',
-    'HLT_Photon120_R9Id90_HE10_Iso40_EBOnly_VBF_v',
-    'HLT_Photon120_R9Id90_HE10_IsoM_v',
-    'HLT_Photon120_v',
-    'HLT_Photon135_PFMET100_v',
-    'HLT_Photon165_HE10_v',
-    'HLT_Photon165_R9Id90_HE10_IsoM_v',
-    'HLT_Photon175_v',
-    'HLT_Photon22_R9Id90_HE10_Iso40_EBOnly_PFMET40_v',
-    'HLT_Photon22_R9Id90_HE10_Iso40_EBOnly_VBF_v',
-    'HLT_Photon22_R9Id90_HE10_IsoM_v',
-    'HLT_Photon22_v',
-    'HLT_Photon250_NoHE_v',
-    'HLT_Photon300_NoHE_v',
-    'HLT_Photon30_R9Id90_HE10_IsoM_v',
-    'HLT_Photon30_v',
-    'HLT_Photon36_R9Id90_HE10_Iso40_EBOnly_PFMET40_v',
-    'HLT_Photon36_R9Id90_HE10_Iso40_EBOnly_VBF_v',
-    'HLT_Photon36_R9Id90_HE10_IsoM_v',
-    'HLT_Photon36_v',
-    'HLT_Photon500_v',
-    'HLT_Photon50_R9Id90_HE10_Iso40_EBOnly_PFMET40_v',
-    'HLT_Photon50_R9Id90_HE10_Iso40_EBOnly_VBF_v',
-    'HLT_Photon50_R9Id90_HE10_IsoM_v',
-    'HLT_Photon50_v',
-    'HLT_Photon600_v',
-    'HLT_Photon75_R9Id90_HE10_Iso40_EBOnly_PFMET40_v',
-    'HLT_Photon75_R9Id90_HE10_Iso40_EBOnly_VBF_v',
-    'HLT_Photon75_R9Id90_HE10_IsoM_v',
-    'HLT_Photon75_v',
-    'HLT_Photon90_CaloIdL_PFHT500_v',
-    'HLT_Photon90_CaloIdL_PFHT600_v',
-    'HLT_Photon90_R9Id90_HE10_Iso40_EBOnly_PFMET40_v',
-    'HLT_Photon90_R9Id90_HE10_Iso40_EBOnly_VBF_v',
-    'HLT_Photon90_R9Id90_HE10_IsoM_v',
-    'HLT_Photon90_v']
+#    SinglePhotontrigs = ['HLT_Photon120_R9Id90_HE10_Iso40_EBOnly_PFMET40_v',
+#    'HLT_Photon120_R9Id90_HE10_Iso40_EBOnly_VBF_v',
+#    'HLT_Photon120_R9Id90_HE10_IsoM_v',
+#    'HLT_Photon120_v',
+#    'HLT_Photon135_PFMET100_v',
+#    'HLT_Photon165_HE10_v',
+#    'HLT_Photon165_R9Id90_HE10_IsoM_v',
+#    'HLT_Photon175_v',
+#    'HLT_Photon22_R9Id90_HE10_Iso40_EBOnly_PFMET40_v',
+#    'HLT_Photon22_R9Id90_HE10_Iso40_EBOnly_VBF_v',
+#    'HLT_Photon22_R9Id90_HE10_IsoM_v',
+#    'HLT_Photon22_v',
+#    'HLT_Photon250_NoHE_v',
+#    'HLT_Photon300_NoHE_v',
+#    'HLT_Photon30_R9Id90_HE10_IsoM_v',
+#    'HLT_Photon30_v',
+#    'HLT_Photon36_R9Id90_HE10_Iso40_EBOnly_PFMET40_v',
+#    'HLT_Photon36_R9Id90_HE10_Iso40_EBOnly_VBF_v',
+#    'HLT_Photon36_R9Id90_HE10_IsoM_v',
+#    'HLT_Photon36_v',
+#    'HLT_Photon500_v',
+#    'HLT_Photon50_R9Id90_HE10_Iso40_EBOnly_PFMET40_v',
+#    'HLT_Photon50_R9Id90_HE10_Iso40_EBOnly_VBF_v',
+#    'HLT_Photon50_R9Id90_HE10_IsoM_v',
+#    'HLT_Photon50_v',
+#    'HLT_Photon600_v',
+#    'HLT_Photon75_R9Id90_HE10_Iso40_EBOnly_PFMET40_v',
+#    'HLT_Photon75_R9Id90_HE10_Iso40_EBOnly_VBF_v',
+#    'HLT_Photon75_R9Id90_HE10_IsoM_v',
+#    'HLT_Photon75_v',
+#    'HLT_Photon90_CaloIdL_PFHT500_v',
+#    'HLT_Photon90_CaloIdL_PFHT600_v',
+#    'HLT_Photon90_R9Id90_HE10_Iso40_EBOnly_PFMET40_v',
+#    'HLT_Photon90_R9Id90_HE10_Iso40_EBOnly_VBF_v',
+#    'HLT_Photon90_R9Id90_HE10_IsoM_v',
+#    'HLT_Photon90_v']
 
 
 
@@ -135,9 +135,9 @@ def AnalyzeDataSet():
         exec("st_"+trigs+"  = array( 'b', [ 0 ] )")
 #    st_HLT_IsoMu20      = array( 'b', [ 0 ] )
 #    st_HLT_Ele27_WPLoose_Gsf = array( 'b', [ 0 ] )
-    st_MET_trig = array( 'b', [ 0 ] )
-    st_SE_trig  = array( 'b', [ 0 ] )
-    st_SP_trig  = array( 'b', [ 0 ] )
+#    st_MET_trig = array( 'b', [ 0 ] )
+#    st_SE_trig  = array( 'b', [ 0 ] )
+#    st_SP_trig  = array( 'b', [ 0 ] )
 
     maxn = 10
 
@@ -191,7 +191,14 @@ def AnalyzeDataSet():
 
     st_HPSTau_n= array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
     st_HPSTau_4Momentum= ROOT.std.vector('TLorentzVector')()
-
+    
+    st_disc_againstElectronLoose    =    ROOT.std.vector('bool')()
+    st_disc_againstElectronMedium   =    ROOT.std.vector('bool')()
+    st_disc_againstElectronTight    =    ROOT.std.vector('bool')()
+    st_disc_againstMuonLoose        =    ROOT.std.vector('bool')()
+#    st_disc_againstMuonMedium       =    ROOT.std.vector('bool')()
+    st_disc_againstMuonTight        =    ROOT.std.vector('bool')()
+    
     mcweight = array( 'f', [ 0 ] )
     st_pu_nTrueInt= array( 'f', [ 0 ] ) #ROOT.std.vector('std::vector<float>')()
     st_pu_nPUVert= array( 'f', [ 0 ] )
@@ -240,9 +247,9 @@ def AnalyzeDataSet():
     for trigs in triglist:
         exec("outTree.Branch( 'st_"+trigs+"', st_"+trigs+" , 'st_"+trigs+"/O')")
 
-    outTree.Branch( 'st_MET_trig', st_MET_trig , 'st_MET_trig/O')
-    outTree.Branch( 'st_SE_trig', st_SE_trig , 'st_SE_trig/O')
-    outTree.Branch( 'st_SP_trig', st_SP_trig , 'st_SP_trig/O')
+#    outTree.Branch( 'st_MET_trig', st_MET_trig , 'st_MET_trig/O')
+#    outTree.Branch( 'st_SE_trig', st_SE_trig , 'st_SE_trig/O')
+#    outTree.Branch( 'st_SP_trig', st_SP_trig , 'st_SP_trig/O')
 #    outTree.Branch( 'st_HLT_IsoMu20', st_HLT_IsoMu20 , 'st_HLT_IsoMu20/O')
 #    outTree.Branch( 'st_HLT_Ele27_WPLoose_Gsf', st_HLT_Ele27_WPLoose_Gsf , 'st_HLT_Ele27_WPLoose_Gsf/O')
 
@@ -295,8 +302,15 @@ def AnalyzeDataSet():
 #    outTree.Branch( 'st_trigResult', st_trigResult)
 
     outTree.Branch( 'st_HPSTau_n', st_HPSTau_n, 'st_HPSTau_n/L')
-    outTree.Branch( 'st_HPSTau_4Momentum', st_HPSTau_4Momentum)
-
+    outTree.Branch( 'st_HPSTau_4Momentum', st_HPSTau_4Momentum)    
+    
+    outTree.Branch( 'st_disc_againstElectronLoose', st_disc_againstElectronLoose)
+    outTree.Branch( 'st_disc_againstElectronMedium', st_disc_againstElectronMedium)
+    outTree.Branch( 'st_disc_againstElectronTight', st_disc_againstElectronTight)
+    outTree.Branch( 'st_disc_againstMuonLoose', st_disc_againstMuonLoose)
+#    outTree.Branch( 'st_disc_againstMuonMedium', st_disc_againstMuonMedium)
+    outTree.Branch( 'st_disc_againstMuonTight', st_disc_againstMuonTight)
+    
     outTree.Branch( 'st_pu_nTrueInt', st_pu_nTrueInt, 'st_pu_nTrueInt/F')
     outTree.Branch( 'st_pu_nPUVert', st_pu_nPUVert, 'st_pu_nPUVert/F')
     outTree.Branch( 'st_AK4deepCSVjetNPV', st_AK4deepCSVjetNPV, 'st_AK4deepCSVjetNPV/F')
@@ -411,6 +425,13 @@ def AnalyzeDataSet():
         tauP4                      = skimmedTree.__getattr__('HPSTau_4Momentum')
         isDecayModeFinding         = skimmedTree.__getattr__('disc_decayModeFinding')
         passLooseTauIso            = skimmedTree.__getattr__('disc_byLooseIsolationMVA3oldDMwLT')
+        
+        disc_againstElectronLoose  = skimmedTree.__getattr__('disc_againstElectronLooseMVA5')
+        disc_againstElectronMedium = skimmedTree.__getattr__('disc_againstElectronMediumMVA5')
+        disc_againstElectronTight  = skimmedTree.__getattr__('disc_againstElectronTightMVA5')
+        disc_againstMuonLoose      = skimmedTree.__getattr__('disc_againstMuonLoose3')
+        disc_againstMuonTight      = skimmedTree.__getattr__('disc_againstMuonTight3')
+        
         isData                     = skimmedTree.__getattr__('isData')
         mcWeight                   = skimmedTree.__getattr__('mcWeight')
         pu_nTrueInt                = skimmedTree.__getattr__('pu_nTrueInt')         #int()
@@ -433,7 +454,8 @@ def AnalyzeDataSet():
         genParP4                   = skimmedTree.__getattr__('genParP4')
 
 
-        # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+        #---------------------------------------------------------------------------------------------------------------------------------------------------------------
+        #        print len(tauP4), len(disc_againstElectronLoose),len(disc_againstElectronMedium),len(disc_againstElectronTight), len(disc_againstMuonLoose),len(disc_againstMuonTight)
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # MC Weights ----------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -480,7 +502,7 @@ def AnalyzeDataSet():
         for itrig in range(len(triglist)):
             exec(triglist[itrig]+" = CheckFilter(trigName, trigResult, " + "'" + triglist[itrig] + "')")        #Runs the above commented-off code dynamically.
             exec("if "+triglist[itrig]+": trigstatus=True")                                                     #If any of the trigs is true, the event is kept.
-            exec("trig"+str(itrig+1)+"="+triglist[itrig])                                                       #Saves them as trig1, trig2, etc. #Deprecated
+#            exec("trig"+str(itrig+1)+"="+triglist[itrig])                                                       #Saves them as trig1, trig2, etc. #Deprecated
             exec("st_"+triglist[itrig]+"[0]="+triglist[itrig])                                                  #Adds to SkimmedTree output.
 
         if not isData: trigstatus=True
@@ -490,27 +512,27 @@ def AnalyzeDataSet():
 
         # PD-wise triggers. Simply saves one boolean signifying whether at least one of the trigger paths of each PD was passed.
 
-        METtrigstatus=False
-        for itrig in METtrigs:
-            if CheckFilter(trigName, trigResult, itrig):
-                METtrigstatus=True
-                break
-        SEtrigstatus=False
-        for itrig in SingleElectrontrigs:
-            if CheckFilter(trigName, trigResult, itrig):
-                SEtrigstatus=True
-                break
-        SPtrigstatus=False
-        for itrig in SinglePhotontrigs:
-            if CheckFilter(trigName, trigResult, itrig):
-                SPtrigstatus=True
-                break
+#        METtrigstatus=False
+#        for itrig in METtrigs:
+#            if CheckFilter(trigName, trigResult, itrig):
+#                METtrigstatus=True
+#                break
+#        SEtrigstatus=False
+#        for itrig in SingleElectrontrigs:
+#            if CheckFilter(trigName, trigResult, itrig):
+#                SEtrigstatus=True
+#                break
+#        SPtrigstatus=False
+#        for itrig in SinglePhotontrigs:
+#            if CheckFilter(trigName, trigResult, itrig):
+#                SPtrigstatus=True
+#                break
 
 #        print METtrigstatus,SEtrigstatus, SPtrigstatus
 
-        st_MET_trig[0]=METtrigstatus
-        st_SE_trig[0]=SEtrigstatus
-        st_SP_trig[0]=SPtrigstatus
+#        st_MET_trig[0]=METtrigstatus
+#        st_SE_trig[0]=SEtrigstatus
+#        st_SP_trig[0]=SPtrigstatus
 #
 #        for itrig in range(len(list(trigName))):
 #            st_trigName.push_back(list(trigName)[itrig])
@@ -684,12 +706,20 @@ def AnalyzeDataSet():
         st_muGamIso.clear()
         st_muNeHadIso.clear()
         st_HPSTau_4Momentum.clear()
+        
+        st_disc_againstElectronLoose.clear()
+        st_disc_againstElectronMedium.clear()
+        st_disc_againstElectronTight.clear()
+        st_disc_againstMuonLoose.clear()
+#        st_disc_againstMuonMedium.clear()
+        st_disc_againstMuonTight.clear()
 
         st_genParId.clear()
         st_genMomParId.clear()
         st_genParSt.clear()
         st_genParP4.clear()
 
+        
         st_THINnJet[0] = len(thinjetpassindex)
         for ithinjet in thinjetpassindex:
             st_THINjetP4.push_back(thinjetP4[ithinjet])
@@ -737,6 +767,11 @@ def AnalyzeDataSet():
         st_HPSTau_n[0] = len(myTaus)
         for itau in myTaus:
             st_HPSTau_4Momentum.push_back(tauP4[itau])
+            st_disc_againstElectronLoose.push_back(bool(disc_againstElectronLoose[itau]))
+            st_disc_againstElectronMedium.push_back(bool(disc_againstElectronMedium[itau]))
+            st_disc_againstElectronTight.push_back(bool(disc_againstElectronTight[itau]))
+            st_disc_againstMuonLoose.push_back(bool(disc_againstMuonLoose[itau]))
+            st_disc_againstMuonTight.push_back(bool(disc_againstMuonTight[itau]))
 
         st_nPho[0]=nPho
         for ipho in range(nPho):
@@ -748,10 +783,10 @@ def AnalyzeDataSet():
         st_pu_nTrueInt[0] = pu_nTrueInt
         st_pu_nPUVert[0] = pu_nPUVert
         st_THINjetNPV[0] = THINjetNPV
-        try:
-            st_AK4deepCSVjetNPV[0] = THINdeepCSVjetNPV
-        except:
-            pass
+#        try:
+        st_AK4deepCSVjetNPV[0] = THINdeepCSVjetNPV
+#        except:
+#            pass
 #        print pu_nTrueInt
 #        print st_pu_nTrueInt[0]
         st_nGenPar[0] =  nGenPar
@@ -766,7 +801,6 @@ def AnalyzeDataSet():
 
         st_pfMetUncJetEnUp.push_back(pfMetJetUnc[2])
         st_pfMetUncJetEnDown.push_back(pfMetJetUnc[3])
-
 
 
 
@@ -914,8 +948,9 @@ def AnalyzeDataSet():
 # ------------------
         ## for Single photon
         if len(myPhos) >= 1:
-           pho1 = myPhos[0]
-           myPhosP4=[phoP4[myPhos[i]] for i in range(len(myPhos))]
+
+#           pho1 = myPhos[0]
+           myPhosP4=[phoP4[myPhos[i]] for i in range(len(myPhos))]           
            p4_pho1 = sorted(myPhosP4,key=getPT,reverse=True)[0]
 #           if len(myPhos) > 1:
 #              print [i.Pt() for i in myPhosP4]
@@ -1083,3 +1118,4 @@ def MT(Pt, met, dphi):
 
 if __name__ == "__main__":
     AnalyzeDataSet()
+

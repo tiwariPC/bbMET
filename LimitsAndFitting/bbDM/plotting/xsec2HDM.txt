@@ -1,0 +1,5 @@
+NLO_pseudo_mphi_50_mchi_1 11.6518463088
+NLO_pseudo_mphi_100_mchi_1 6.2059319728
+NLO_pseudo_mphi_350_mchi_1 0.3764105848
+NLO_pseudo_mphi_400_mchi_1 0.2363522498
+NLO_pseudo_mphi_500_mchi_1 0.1548675041
