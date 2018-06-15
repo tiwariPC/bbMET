@@ -1,6 +1,7 @@
 from ROOT import TFile, TTree, TH1F, TH1D, TH1, TCanvas, TChain,TGraphAsymmErrors, TMath, TH2D, TH2F
 import ROOT as ROOT
 import AllQuantList
+from array import array
 
 class MonoHbbQuantities:
 
@@ -136,7 +137,7 @@ class MonoHbbQuantities:
                 low='-3'
                 high='3'
             elif 'dPhi' in quant:
-                bins='32'
+                bins='320'
                 low='0'
                 high='3.2'
             elif 'phi' in quant:
@@ -233,6 +234,10 @@ class MonoHbbQuantities:
             Mbins='20'
             Mlow='0.'
             Mhigh='500.'
+            csvbins='[0.,0.8484,1.0]'
+            csvBinNum='2'
+            dphibins='[0.,0.5,3.2]'
+            dphibinNum = '2'
 
             if 'ZpT_Recoil' in quant:
                 return ZpTbins,ZpTlow,ZpThigh,Rbins,Rlow,Rhigh
@@ -240,11 +245,19 @@ class MonoHbbQuantities:
                 return ZpTbins,ZpTlow,ZpThigh,Mbins,Mlow,Mhigh
             elif 'MET_Recoil' in quant:
                 return Mbins,Mlow,Mhigh,Rbins,Rlow,Rhigh
+            elif 'csv_vs_dPhi_sr' in quant:
+                return dphibinNum,dphibins,csvBinNum,csvbins
+
 
         Histos2D=AllQuantList.getHistos2D()
         for quant in Histos2D:
-            xbins,xlow,xhigh,ybins,ylow,yhigh=getBins2D(quant)
-            exec("self.h_"+quant+".append(TH2F('h_"+quant+"_','h_"+quant+"_',"+xbins+","+xlow+","+xhigh+","+ybins+","+ylow+","+yhigh+"))")
+            if 'csv_vs_dPhi_sr' not in quant:
+                xbins,xlow,xhigh,ybins,ylow,yhigh=getBins2D(quant)
+                exec("self.h_"+quant+".append(TH2F('h_"+quant+"_','h_"+quant+"_',"+xbins+","+xlow+","+xhigh+","+ybins+","+ylow+","+yhigh+"))")
+            elif 'csv_vs_dPhi_sr' in quant:
+                xbinnum,xbins,ybinnum,ybins=getBins2D(quant)
+                print xbinnum,xbins,ybinnum,ybins
+                exec("self.h_"+quant+".append(TH2F('h_"+quant+"_','h_"+quant+"_',"+xbinnum+",array('d',"+xbins+"),"+ybinnum+",array('d',"+ybins+")))")
 
         h_met_pdf_tmp = []
         for ipdf in range(2):
