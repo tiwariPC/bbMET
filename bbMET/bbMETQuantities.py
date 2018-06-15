@@ -86,6 +86,10 @@ class MonoHbbQuantities:
         self.weight_ewkW_down = 1.0
         self.weight_ewkTop_up = 1.0
         self.weight_ewkTop_down = 1.0
+        self.weight_pho_up = 1.0
+        self.weight_pho_down = 1.0
+        self.weight_jec_up = 1.0
+        self.weight_jec_down = 1.0
 
         self.weight_pdf   = []
         self.weight_muR   = []
@@ -321,6 +325,18 @@ class MonoHbbQuantities:
         WF_ewkTop_down = self.weight_ewkTop_down
         if WF_ewkTop_down == 1.0:
             WF_ewkTop_down = WF
+        WF_pho_up = self.weight_pho_up
+        if WF_pho_up == 1.0:
+            WF_pho_up = WF
+        WF_pho_down = self.weight_pho_down
+        if WF_pho_down == 1.0:
+            WF_pho_down = WF
+        WF_jec_up = self.weight_jec_up
+        if WF_jec_up == 1.0:
+            WF_jec_up = WF
+        WF_jec_down = self.weight_jec_down
+        if WF_jec_down == 1.0:
+            WF_jec_down = WF
         #print "WF = ", WF
         self.h_met[0]        .Fill(self.met,       WF)
 
@@ -355,35 +371,52 @@ class MonoHbbQuantities:
         for quant in allquantlist:
             if 'noPuReweightPV' in quant or 'noPuReweightnPVert' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF1)")
+
             elif 'syst' in quant and 'up' in quant and 'btag' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_btag_up)")
             elif 'syst' in quant and 'down' in quant and 'btag' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_btag_down)")
+
             elif 'syst' in quant and 'up' in quant and 'lep' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_lep_up)")
             elif 'syst' in quant and 'down' in quant and 'lep' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_lep_down)")
+
             elif 'syst' in quant and 'up' in quant and 'metTrig' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_met_up)")
             elif 'syst' in quant and 'down' in quant and 'metTrig' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_met_down)")
+
             elif 'syst' in quant and 'up' in quant and 'ewkZ' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_ewkZ_up)")
             elif 'syst' in quant and 'down' in quant and 'ewkZ' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_ewkZ_down)")
+
             elif 'syst' in quant and 'up' in quant and 'ewkW' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_ewkW_up)")
             elif 'syst' in quant and 'down' in quant and 'ewkW' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_ewkW_down)")
+
             elif 'syst' in quant and 'up' in quant and 'ewkTop' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_ewkTop_up)")
             elif 'syst' in quant and 'down' in quant and 'ewkTop' in quant:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_ewkTop_down)")
+
+            elif 'syst' in quant and 'up' in quant and 'pho' in quant:
+                exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_pho_up)")
+            elif 'syst' in quant and 'down' in quant and 'pho' in quant:
+                exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_pho_down)")
+
+            elif 'syst' in quant and 'up' in quant and 'jec' in quant:
+                exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_jec_up)")
+            elif 'syst' in quant and 'down' in quant and 'jec' in quant:
+                exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF_jec_down)")
+
             else:
                 exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF)")
 
 
-    def WriteHisto(self, (nevts,nevts_weight,npass,cutflowvalues,cutflownames,cutflowvaluesSR1,cutflownamesSR1,cutflowvaluesSR2,cutflownamesSR2,CRvalues,CRnames,regionnames,CRcutnames,CRcutflowvaluesSet)):
+    def WriteHisto(self, (nevts,nevts_weight,npass,cutflowvalues,cutflownames,cutflowvaluesSR1,cutflownamesSR1,cutflowvaluesSR2,cutflownamesSR2,CRvalues,CRnames,regionnames, CRcutnames,CRcutflowvaluesSet, CRSummary,regNames, CRSummaryMu,regNamesMu, CRSummaryEle,regNamesEle)):
         f = TFile(self.rootfilename,'RECREATE')
         print
         f.cd()
@@ -431,6 +464,28 @@ class MonoHbbQuantities:
             self.h_CRs.GetXaxis().SetBinLabel(iCR+1,CRnames[iCR])
             self.h_CRs.SetBinContent(iCR+1,CRvalues[iCR])
         self.h_CRs.Write()
+        
+        
+        nreg=len(regNames)
+        self.h_CRSum=TH1F('h_CRSum_','h_CRSum_',nreg, 0, nreg)
+        for ireg in range(nreg):
+            self.h_CRSum.GetXaxis().SetBinLabel(ireg+1,regNames[ireg])
+            self.h_CRSum.SetBinContent(ireg+1,CRSummary[regNames[ireg]])
+        self.h_CRSum.Write()
+        
+        nreg=len(regNamesMu)
+        self.h_CRSumMu=TH1F('h_CRSumMu_','h_CRSumMu_',nreg, 0, nreg)
+        for ireg in range(nreg):
+            self.h_CRSumMu.GetXaxis().SetBinLabel(ireg+1,regNamesMu[ireg])
+            self.h_CRSumMu.SetBinContent(ireg+1,CRSummaryMu[regNamesMu[ireg]])
+        self.h_CRSumMu.Write()
+        
+        nreg=len(regNamesEle)
+        self.h_CRSumEle=TH1F('h_CRSumEle_','h_CRSumEle_',nreg, 0, nreg)
+        for ireg in range(nreg):
+            self.h_CRSumEle.GetXaxis().SetBinLabel(ireg+1,regNamesEle[ireg])
+            self.h_CRSumEle.SetBinContent(ireg+1,CRSummaryEle[regNamesEle[ireg]])
+        self.h_CRSumEle.Write()
 
         self.h_met[0].Write()
         #self.h_met_rebin[iregime].Write()
