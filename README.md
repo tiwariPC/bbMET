@@ -150,9 +150,14 @@ The boolean flags are explained as follows:
 * q: QCD Control Regions
 * e: Electron Control Regions
 * p: Photon Control Regions
-* The `d` flag is used to select the appropriate primary dataset for each region.
+* The `-d` flag is used to select the appropriate primary dataset for each region.
 
 The output plots are stored inside test/date/bbMETPng directory.
+
+### CR Summary plots
+
+* Control region summary plots, separately for muon and electron regions, are automatically plotted by the above plotting script. However, the combined summary plot, although produced by the plotting script, will not be correct.
+* To make a combined summary plots, the number of data events and bkgsum events for each region have to be copied to bbMETplot/Scripts/CRSummary.py, L5-L6. It can then be run using ```python CRSummary.py```.
 
 # V. Make a combined .root histogram file
 The idea is to make a combined .root file containing MET and Hadronic Recoil histograms of all regions with all systematics with suitable names.
