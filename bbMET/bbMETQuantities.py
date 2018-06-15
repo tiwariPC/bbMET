@@ -260,7 +260,7 @@ class MonoHbbQuantities:
                 exec("self.h_"+quant+".append(TH2F('h_"+quant+"_','h_"+quant+"_',"+xbins+","+xlow+","+xhigh+","+ybins+","+ylow+","+yhigh+"))")
             elif 'csv_vs_dPhi_sr' in quant:
                 xbinnum,xbins,ybinnum,ybins=getBins2D(quant)
-                print xbinnum,xbins,ybinnum,ybins
+                #print xbinnum,xbins,ybinnum,ybins
                 exec("self.h_"+quant+".append(TH2F('h_"+quant+"_','h_"+quant+"_',"+xbinnum+",array('d',"+xbins+"),"+ybinnum+",array('d',"+ybins+")))")
 
         h_met_pdf_tmp = []
