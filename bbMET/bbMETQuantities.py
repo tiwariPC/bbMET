@@ -184,14 +184,18 @@ class MonoHbbQuantities:
                 bins='60'
                 low='0.'
                 high='6.'
-            elif 'lep1_pT' in quant or 'jet2_pT' in quant:
+            elif 'lep1_pT' in quant or 'jet1_pT' in quant:
                 bins='100'
                 low='0.'
-                high='1000.'
+                high='1400.'
             elif 'lep2_pT' in quant:
                 bins='200'
                 low='0.'
                 high='1000.'
+	    elif 'pho_pT' in quant:
+		bins='100'
+		low='0'
+		high='1200'	
             elif 'dr_jet_sr2' in quant or 'dr_jet_sr1' in quant:
                 bins='400'
                 low='0.'

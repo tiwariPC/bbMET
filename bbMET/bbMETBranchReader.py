@@ -832,6 +832,7 @@ def AnalyzeDataSet():
 
             #---Fake jet cleaner, wrt electrons and muons----
                 isClean=True
+
                 for iele in myEles:
                     if DeltaR(iele,thindeepCSVjetP4[nb]) < 0.4:
                         isClean=False
@@ -840,6 +841,7 @@ def AnalyzeDataSet():
                     if DeltaR(imu,thindeepCSVjetP4[nb]) < 0.4:
                         isClean=False
                         break
+
 
                 if not isClean: continue
             #---
@@ -871,9 +873,14 @@ def AnalyzeDataSet():
             if phoP4[ipho].Pt() < 175 : continue
             #---Fake Pho cleaner----
             isClean=True
-            for ijet in myJetP4:
+            for ijet in myJetP4[:]:
                 pho_jet_dR=DeltaR(ijet,phoP4[ipho])    # math.sqrt(  (  ijet.Eta()-phoP4[ipho].Eta() )**2  + (  DeltaPhi(ijet.Phi(),phoP4[ipho].Phi()) )**2 )
                 if pho_jet_dR < 0.4:
+                    isClean=False
+                    break
+            for iele in myEles[:]:
+                lep_pho_dR=DeltaR(iele,phoP4[ipho])
+                if lep_pho_dR < 0.4:
                     isClean=False
                     break
             if not isClean: continue
@@ -1014,7 +1021,8 @@ def AnalyzeDataSet():
             if options.DeepCSV:
                 allquantities.deepcsv_vs_dPhi_sr1 = [min_dPhi_jet_MET,myJetCSV[ifirstjet]]
             #===
-
+        if (nJets == 1 or nJets == 2):
+            SR1jetcond=True
         if (nJets == 1 or nJets == 2) and nBjets==1:
             SR1njetcond=True
 
@@ -1164,6 +1172,9 @@ def AnalyzeDataSet():
             if options.DeepCSV:
                 deepcsv_ = min(myJetCSV[ifirstjet],myJetCSV[isecondjet])
                 allquantities.deepcsv_vs_dPhi_sr2 = [min_dPhi_jet_MET,deepcsv_]
+          
+        if (nJets == 2 or nJets == 3):
+            SR2jetcond=True
 
         if (nJets == 2 or nJets == 3) and nBjets==2:
             SR2njetcond=True
@@ -2260,12 +2271,13 @@ def AnalyzeDataSet():
                 if nBjets==1 and SR1njetcond:
                     allquantities.reg_1gamma1b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(GammaPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                if nBjets==1 and SR1njetcond and GammaPhicond:
+                if nBjets==0 and SR1jetcond and GammaPhicond:
+#                if SR1njetcond and GammaPhicond:
 
                     allquantities.reg_1gamma1b_hadrecoil = GammaRecoil
                     allquantities.reg_1gamma1b_MET = pfMet
 
-                    allquantities.reg_1gamma1b_pho1_pT=myPhos[0].Pt()
+                    allquantities.reg_1gamma1b_pho_pT=myPhos[0].Pt()
                     #allquantities.reg_1mu1e1b_lep2_pT=myPhos[0].Pt()
                     #allquantities.reg_1mu1e1b_lep2_iso=myMuIso[0]
 
@@ -2327,12 +2339,13 @@ def AnalyzeDataSet():
                 if nBjets==2 and SR2jet2 and SR2njetcond:
                     allquantities.reg_1gamma2b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(GammaPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                if nBjets==2 and SR2jet2 and SR2njetcond and GammaPhicond:
+                if nBjets==0 and SR2jet2 and SR2jetcond and GammaPhicond:
+#		if SR2jet2 and SR2njetcond and GammaPhicond:
 
                     allquantities.reg_1gamma2b_hadrecoil = GammaRecoil
                     allquantities.reg_1gamma2b_MET = pfMet
 
-                    allquantities.reg_1gamma2b_pho1_pT=myPhos[0].Pt()
+                    allquantities.reg_1gamma2b_pho_pT=myPhos[0].Pt()
                     #allquantities.reg_1gamma2b_lep2_pT=myMuos[0].Pt()
                     #allquantities.reg_1gamma2b_lep2_iso=myMuIso[0]
 
