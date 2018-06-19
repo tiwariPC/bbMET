@@ -204,9 +204,9 @@ python ../bbMET_StackFactory_syst.py -d SE -e
 python ../bbMET_StackFactory_syst.py -d SP -p
 ```
 The root files are stored inside syst/date/bbMETROOT directory.
-Go to syst directory and run the following file:
+Go to syst directory and run the following file(update the directory named by date):
 ```
-. plot_syst.sh
+. syst_plot.sh
 ```
 
 ### 5.1. CR Summary plots
