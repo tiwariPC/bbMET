@@ -157,7 +157,7 @@ gROOT.SetBatch(True)
 uncertfile=open("uncert.txt","w")
 binuncertfile=open("binuncert.txt","w")
 for loc in ['bbMETSystPdf','bbMETSystPng']:
-    for jetprop in ['btag','lep','ewk/W','ewk/Z','TopReweight','met','jec','jer']:
+    for jetprop in ['btag','lep','ewkZ','ewkW','ewkTop','met','jec','jer']:
         for reg in ['sr','Zcr','Wcr','TOPcr','Gamma']:
             os.system("mkdir -p "+loc+"/"+jetprop+"/"+reg )
 for jetprop in ['btag','lep','ewkZ','ewkW','ewkTop','met','jec','jer']:
@@ -261,9 +261,6 @@ for jetprop in ['btag','lep','ewkZ','ewkW','ewkTop','met','jec','jer']:
             c1.SetLogy()
             c1.Update()
 
-            if 'ewkW' in jetprop: jetprop='ewk/W'
-            if 'ewkZ' in jetprop: jetprop='ewk/Z'
-            if 'ewkTop' in jetprop: jetprop='TopReweight'
             if reg=='sr1' or reg=='sr2':
                 exec("c1.SaveAs('bbMETSystPdf/"+jetprop+"/sr/"+jetprop+"_syst_"+reg+".pdf')")
                 exec("c1.SaveAs('bbMETSystPng/"+jetprop+"/sr/"+jetprop+"_syst_"+reg+".png')")
