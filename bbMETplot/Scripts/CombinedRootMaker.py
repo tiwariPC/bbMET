@@ -1,13 +1,13 @@
 import sys,os,array
-if len(sys.argv)!=2:
-    print "Usage: python CombinedRootMaker.py directorypath"
+if len(sys.argv)!=3:
+    print "Usage: python CombinedRootMaker.py directorypath syst_path"
     sys.exit()
 
 from ROOT import *
 gROOT.SetBatch(True)
 
 fold=sys.argv[1].strip('/')
-
+fold_syst=sys.argv[2].strip('/')
 def setHistStyle(h_temp2,bins,newname):
     
     h_temp=h_temp2.Rebin(len(bins)-1,"h_temp",array.array('d',bins))
@@ -33,7 +33,7 @@ f.cd()
 
 inCRfiles=[fold+"/"+i for i in os.listdir(fold) if i.endswith('hadrecoil.root')]
 inSRfiles=[fold+"/"+i for i in ['met_sr1.root','met_sr2.root']]
-inSystfiles=["Systematics/"+i for i in os.listdir("Systematics") if "syst" in i]
+inSystfiles=[fold_syst+"/"+i for i in os.listdir(fold_syst) if "syst" in i]
 
 bins=[200,250,300,400,500,700,1000,2000]
 
