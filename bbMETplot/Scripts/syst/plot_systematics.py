@@ -158,8 +158,8 @@ uncertfile=open("uncert.txt","w")
 binuncertfile=open("binuncert.txt","w")
 for jetprop in ['btag','lep','ewk/W','ewk/Z','TopReweight','met','jec','jer']:
     for reg in ['sr','Zcr','Wcr','TOPcr','Gamma']:
-        for loc in ['pdf','png']:
-            os.system("mkdir -p "+jetprop+"/"+reg+"/"+loc )
+        for loc in ['bbMETSystPdf','bbMETSystPng']:
+            os.system("mkdir -p "+loc"/"+jetprop+"/"+reg )
 for jetprop in ['btag','lep','ewkZ','ewkW','ewkTop','met','jec','jer']:
     for reg in ['sr1','sr2','2e1b','2mu1b','2e2b','2mu2b','1e1b','1mu1b','1e2b','1mu2b','1mu1e1b','1mu1e2b','1gamma1b','1gamma2b']:
         try:
@@ -265,17 +265,17 @@ for jetprop in ['btag','lep','ewkZ','ewkW','ewkTop','met','jec','jer']:
             if 'ewkZ' in jetprop: jetprop='ewk/Z'
             if 'ewkTop' in jetprop: jetprop='TopReweight'
             if reg=='sr1' or reg=='sr2':
-                exec("c1.SaveAs('"+jetprop+"/sr/pdf/"+jetprop+"_syst_"+reg+".pdf')")
-                exec("c1.SaveAs('"+jetprop+"/sr/png/"+jetprop+"_syst_"+reg+".png')")
+                exec("c1.SaveAs('bbMETSystPdf/"+jetprop+"/sr/"+jetprop+"_syst_"+reg+".pdf')")
+                exec("c1.SaveAs('bbMETSystPng/"+jetprop+"/sr/"+jetprop+"_syst_"+reg+".png')")
             if reg=="2mu1b" or reg=="2e1b" or reg=="2mu2b" or reg=="2e2b":
-                exec("c1.SaveAs('"+jetprop+"/Zcr/pdf/"+jetprop+"_syst_"+reg+".pdf')")
-                exec("c1.SaveAs('"+jetprop+"/Zcr/png/"+jetprop+"_syst_"+reg+".png')")
+                exec("c1.SaveAs('bbMETSystPdf/"+jetprop+"/Zcr/"+jetprop+"_syst_"+reg+".pdf')")
+                exec("c1.SaveAs('bbMETSystPng/"+jetprop+"/Zcr/"+jetprop+"_syst_"+reg+".png')")
             if reg=="1mu1b" or reg=="1e1b" or reg=="1mu2b" or reg=="1e2b" :
-                exec("c1.SaveAs('"+jetprop+"/Wcr/pdf/"+jetprop+"_syst_"+reg+".pdf')")
-                exec("c1.SaveAs('"+jetprop+"/Wcr/png/"+jetprop+"_syst_"+reg+".png')")
+                exec("c1.SaveAs('bbMETSystPdf/"+jetprop+"/Wcr/"+jetprop+"_syst_"+reg+".pdf')")
+                exec("c1.SaveAs('bbMETSystPng/"+jetprop+"/Wcr/"+jetprop+"_syst_"+reg+".png')")
             if reg =='1mu1e1b' or reg == '1mu1e2b' :
-                exec("c1.SaveAs('"+jetprop+"/TOPcr/pdf/"+jetprop+"_syst_"+reg+".pdf')")
-                exec("c1.SaveAs('"+jetprop+"/TOPcr/png/"+jetprop+"_syst_"+reg+".png')")
+                exec("c1.SaveAs('bbMETSystPdf/"+jetprop+"/TOPcr/"+jetprop+"_syst_"+reg+".pdf')")
+                exec("c1.SaveAs('bbMETSystPng/"+jetprop+"/TOPcr/"+jetprop+"_syst_"+reg+".png')")
 
             c1.Close()
             exec("print ('Done "+jetprop+"_syst_"+reg+"')")
