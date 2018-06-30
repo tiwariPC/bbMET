@@ -393,20 +393,20 @@ def AnalyzeDataSet():
     CRStatus={'total':NEntries}
     for CRname in CRs:
         CRStatus[CRname]=0
-    
+
     # ---CR Summary---
     regNames=['1#mu1b','1e1b','1#mu2b','1e2b','2#mu1b','2e1b','2#mu2b','2e2b','1#mu1e1b','1#mu1e2b']
     regNamesMu=['1#mu1b','1#mu2b','2#mu1b','2#mu2b','1#mu1e1b','1#mu1e2b']
     regNamesEle=['1e1b','1e2b','2e1b','2e2b']
-    
+
     CRSummary={}
     for ireg in regNames:
         CRSummary[ireg]=0.
-        
+
     CRSummaryMu={}
     for ireg in regNamesMu:
         CRSummaryMu[ireg]=0.
-    
+
     CRSummaryEle={}
     for ireg in regNamesEle:
         CRSummaryEle[ireg]=0.
@@ -486,13 +486,13 @@ def AnalyzeDataSet():
             thinjetChadEF              = skimmedTree.__getattr__('st_THINjetCHadEF')
             thinjetNPV                 = skimmedTree.__getattr__('st_THINjetNPV')
             thinjetCorrUnc             = skimmedTree.__getattr__('st_THINjetCorrUnc')
-            
+
             try:
                 thinjetCEmEF               = skimmedTree.__getattr__('st_THINjetCEmEF')
                 thinjetPhoEF               = skimmedTree.__getattr__('st_THINjetPhoEF')
                 thinjetEleEF               = skimmedTree.__getattr__('st_THINjetEleEF')
                 thinjetMuoEF               = skimmedTree.__getattr__('st_THINjetMuoEF')
-              
+
             except:
                 nulljet=[-1. for i in range(nTHINJets)]
                 thinjetCEmEF=nulljet
@@ -508,13 +508,13 @@ def AnalyzeDataSet():
             thindeepCSVjetChadEF       = skimmedTree.__getattr__('st_AK4deepCSVjetCHadEF')
             thindeepCSVjetNPV          = skimmedTree.__getattr__('st_AK4deepCSVjetNPV')
             thindeepCSVjetCorrUnc      = skimmedTree.__getattr__('st_AK4deepCSVjetCorrUnc')
-            
+
             try:
-                thindeepCSVjetCEmEF               = skimmedTree.__getattr__('st_THINjetCEmEF')
-                thindeepCSVjetPhoEF               = skimmedTree.__getattr__('st_THINjetPhoEF')
-                thindeepCSVjetEleEF               = skimmedTree.__getattr__('st_THINjetEleEF')
-                thindeepCSVjetMuoEF               = skimmedTree.__getattr__('st_THINjetMuoEF')
-              
+                thindeepCSVjetCEmEF               = skimmedTree.__getattr__('st_AK4deepCSVjetCEmEF')
+                thindeepCSVjetPhoEF               = skimmedTree.__getattr__('st_AK4deepCSVjetPhoEF')
+                thindeepCSVjetEleEF               = skimmedTree.__getattr__('st_AK4deepCSVjetEleEF')
+                thindeepCSVjetMuoEF               = skimmedTree.__getattr__('st_AK4deepCSVjetMuoEF')
+
             except:
                 nulljet=[-1. for i in range(nTHINdeepCSVJets)]
                 thindeepCSVjetCEmEF=nulljet
@@ -592,7 +592,7 @@ def AnalyzeDataSet():
         except Exception as e:
 #        else:
             print e
-            print "Corrupt file detected! Skipping 1 event."            
+            print "Corrupt file detected! Skipping 1 event."
             continue
 
         ##Define region wise triggers
@@ -608,7 +608,7 @@ def AnalyzeDataSet():
             MuCRtrigstatus = True
             EleCRtrigstatus = True
             PhotonCRtrigstatus = True
-            
+
 
 #        try:
 
@@ -738,12 +738,12 @@ def AnalyzeDataSet():
                 if disc_againstElectronTight[itau] and disc_againstMuonLoose[itau]:
                     myTausTightElectron.append(tauP4[itau])
                 if disc_againstMuonTight[itau] and disc_againstElectronLoose[itau]:
-                    myTausTightMuon.append(tauP4[itau])    
+                    myTausTightMuon.append(tauP4[itau])
                 if disc_againstMuonTight[itau] and disc_againstElectronTight[itau]:
-                    myTausTightEleMu.append(tauP4[itau]) 
+                    myTausTightEleMu.append(tauP4[itau])
                 if disc_againstMuonLoose[itau] and disc_againstElectronLoose[itau]:
                     myTausLooseEleMu.append(tauP4[itau])
-                
+
             #---Fake tau cleaner----
             isClean=True
             for iele in myEles[:]:
@@ -853,12 +853,12 @@ def AnalyzeDataSet():
                 myJetChadEF.append(thindeepCSVjetChadEF[nb])
 
                 myJetCorrUnc.append(thindeepCSVjetCorrUnc[nb])
-                
+
                 if ievent==0: print "Jet Energy fractions are not saved in DeepCSV collection. Saving default -1 for these."
-                myJetCEmEF.append(-1)
-                myJetPhoEF.append(-1)
-                myJetEleEF.append(-1)
-                myJetMuoEF.append(-1)
+                myJetCEmEF.append(thindeepCSVjetCEmEF[nb])
+                myJetPhoEF.append(thindeepCSVjetPhoEF[nb])
+                myJetEleEF.append(thindeepCSVjetEleEF[nb])
+                myJetMuoEF.append(thindeepCSVjetMuoEF[nb])
 
                 if thinJetdeepCSV[nb] > deepCSVMWP and abs(thindeepCSVjetP4[nb].Eta())<2.4:
                     mybjets.append(nb)
@@ -899,8 +899,8 @@ def AnalyzeDataSet():
         nPho=len(myPhos)
         nEle=len(myEles)
         nMu=len(myMuos)
-#        nTau=len(myTaus)        
-        
+#        nTau=len(myTaus)
+
         nTauTightElectron=len(myTausTightElectron)
         nTauTightMuon=len(myTausTightMuon)
         nTauTightEleMu=len(myTausTightEleMu)
@@ -1172,7 +1172,7 @@ def AnalyzeDataSet():
             if options.DeepCSV:
                 deepcsv_ = min(myJetCSV[ifirstjet],myJetCSV[isecondjet])
                 allquantities.deepcsv_vs_dPhi_sr2 = [min_dPhi_jet_MET,deepcsv_]
-          
+
         if (nJets == 2 or nJets == 3):
             SR2jetcond=True
 
@@ -1999,7 +1999,7 @@ def AnalyzeDataSet():
                     allquantities.jer_syst_1mu1b_up = WmunuRecoil
                     allquantities.jer_syst_1mu1b_down = WmunuRecoil
                     isWmunuCR1 = True
-                    
+
 
             #1mu, 2 b-tagged
                 if  nBjets==2 and SR2jet2 and SR2njetcond:
@@ -3013,8 +3013,8 @@ def AnalyzeDataSet():
 
                                         if SR1_Cut7_nLep:
                                             cutStatus['nlep']+=allweights
-                                            cutStatusSR1['nlep']+=allweights                                          
-                                            
+                                            cutStatusSR1['nlep']+=allweights
+
         #SR2 Cutflow
 
             if SR2_Cut3_trigstatus:
@@ -3066,7 +3066,7 @@ def AnalyzeDataSet():
             if ZeeRecoil>200.:
                 CR2e1bCutFlow['recoil']+=allweights
                 CR2e2bCutFlow['recoil']+=allweights
-                
+
                 if pfMet > 0.:
                     CR2e1bCutFlow['realMET']+=allweights
                     CR2e2bCutFlow['realMET']+=allweights
@@ -3130,7 +3130,7 @@ def AnalyzeDataSet():
             if ZmumuRecoil>200.:
                 CR2mu1bCutFlow['recoil']+=allweights
                 CR2mu2bCutFlow['recoil']+=allweights
-                
+
                 if pfMet > 0.:
                     CR2mu1bCutFlow['realMET']+=allweights
                     CR2mu2bCutFlow['realMET']+=allweights
@@ -3193,11 +3193,11 @@ def AnalyzeDataSet():
             if WenuRecoil>200.:
                 CR1e1bCutFlow['recoil']+=allweights
                 CR1e2bCutFlow['recoil']+=allweights
-                
+
                 if pfMet > 50.:
                     CR1e1bCutFlow['realMET']+=allweights
                     CR1e2bCutFlow['realMET']+=allweights
-                
+
                     if Wenumass>50. and  Wenumass<160.:
 
                     #if True:
@@ -3248,7 +3248,7 @@ def AnalyzeDataSet():
             if WmunuRecoil>200.:
                 CR1mu1bCutFlow['recoil']+=allweights
                 CR1mu2bCutFlow['recoil']+=allweights
-                
+
                 if pfMet > 50.:
                     CR1mu1bCutFlow['realMET']+=allweights
                     CR1mu2bCutFlow['realMET']+=allweights
@@ -3301,8 +3301,8 @@ def AnalyzeDataSet():
 
             if TOPRecoil>200.:
                 CR1mu1e1bCutFlow['recoil']+=allweights
-                CR1mu1e2bCutFlow['recoil']+=allweights                
-                
+                CR1mu1e2bCutFlow['recoil']+=allweights
+
                 if pfMet > 50.:
                     CR1mu1e1bCutFlow['realMET']+=allweights
                     CR1mu1e2bCutFlow['realMET']+=allweights
@@ -3353,8 +3353,8 @@ def AnalyzeDataSet():
             if GammaRecoil>200.:
                 CR1gamma1bCutFlow['recoil']+=allweights
                 CR1gamma2bCutFlow['recoil']+=allweights
-                
-                
+
+
                 if pfMet > 0.:
                     CR1gamma1bCutFlow['realMET']+=allweights
                     CR1gamma2bCutFlow['realMET']+=allweights
@@ -3451,35 +3451,35 @@ def AnalyzeDataSet():
             CRSummaryEle['2e1b']+=allweights
         if isZeeCR2:
             CRSummary['2e2b']+=allweights
-            CRSummaryEle['2e2b']+=allweights          
+            CRSummaryEle['2e2b']+=allweights
         if isZmumuCR1:
             CRSummary['2#mu1b']+=allweights
-            CRSummaryMu['2#mu1b']+=allweights        
+            CRSummaryMu['2#mu1b']+=allweights
         if isZmumuCR2:
             CRSummary['2#mu2b']+=allweights
-            CRSummaryMu['2#mu2b']+=allweights 
-            
+            CRSummaryMu['2#mu2b']+=allweights
+
         if isWenuCR1:
             CRSummary['1e1b']+=allweights
-            CRSummaryEle['1e1b']+=allweights            
+            CRSummaryEle['1e1b']+=allweights
         if isWenuCR2:
             CRSummary['1e2b']+=allweights
-            CRSummaryEle['1e2b']+=allweights        
+            CRSummaryEle['1e2b']+=allweights
         if isWmunuCR1:
             CRSummary['1#mu1b']+=allweights
             CRSummaryMu['1#mu1b']+=allweights
         if isWmunuCR2:
             CRSummary['1#mu2b']+=allweights
             CRSummaryMu['1#mu2b']+=allweights
-            
+
         if isTopCR1:
             CRSummary['1#mu1e1b']+=allweights
             CRSummaryMu['1#mu1e1b']+=allweights
         if isTopCR2:
             CRSummary['1#mu1e2b']+=allweights
             CRSummaryMu['1#mu1e2b']+=allweights
-        
-        
+
+
  #--------------------------------------------------------------------------------------------------------------------------------------------------------------------
         allquantities.met             = pfMet
         allquantities.N_e             = nEle
@@ -3639,7 +3639,7 @@ def AnalyzeDataSet():
         for cutname in CRcutnames:
             exec("CFvalues.append(CR"+CRreg+"CutFlow['"+cutname+"'])")
         CRcutflowvaluesSet.append(CFvalues)
-        
+
     print CRSummary
 
     allquantities.WriteHisto((NEntries_total,NEntries_Weight,npass,cutflowvalues,cutflownames,cutflowvaluesSR1,cutflownamesSR1, cutflowvaluesSR2,cutflownamesSR2,CRvalues,CRs,regionnames,CRcutnames,CRcutflowvaluesSet, CRSummary,regNames, CRSummaryMu,regNamesMu, CRSummaryEle,regNamesEle))
