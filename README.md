@@ -138,7 +138,7 @@ This produces one directory. In the example above, the directory will be named `
     tail -f logsubmit.txt
     ```
 6. To monitor status of jobs, use `condor_q username`.
- 
+
 ### 3.2.3. Retrieving Outputs
 
 1. Once all BranchReader Condor jobs are complete, one needs to combine the output .root files for each sample. This can be achieved by using the `hadd` command. If no CMSSW or ROOT instance is sourced by default in your working area, go to a CMSSW release base and run `cmsenv`, otherwise the `hadd` command may not work.
@@ -197,8 +197,17 @@ The boolean flags are explained as follows:
 * e: Electron Control Regions
 * p: Photon Control Regions
 * The `-d` flag is used to select the appropriate primary dataset for each region.
-
-The output plots are stored inside test/date/bbMETPng directory.
+4. Similarly for getting systematics only, navigate to `bbMETplot/Scripts/syst` and run:
+```
+python ../bbMET_StackFactory_syst.py -d MET -s -m -q
+python ../bbMET_StackFactory_syst.py -d SE -e
+python ../bbMET_StackFactory_syst.py -d SP -p
+```
+The root files are stored inside syst/date/bbMETROOT directory.
+Go to syst directory and run the following file(update the directory named by date):
+```
+. syst_plot.sh
+```
 
 ### 5.1. CR Summary plots
 
@@ -212,13 +221,13 @@ The idea is to make a combined .root file containing MET and Hadronic Recoil his
 1. Open bbMETplot/Scripts/CombinedRootMaker.py and edit L36 if histograms for systematics are contained in a separate directory. Otherwise point this to read the same directory as next step.
 2. Run:
   ```
-  python CombinedRootMaker.py path_to_the_plot_script_output_dir
+  python CombinedRootMaker.py path_to_the_plot_script_output_dir path_to_systematics
   ```
   Example:
   ```
-  python CombinedRootMaker.py test/22022018
+  python CombinedRootMaker.py test/22022018 syst/22022018
   ```
- 
+
 This creates a directory named DataCardRootFiles. The file `AllMETHistos.root` inside this directory contains all histograms from all regions with all systematics. Besides this, a .root file for each region is also created. Depending on the signal model either the `AllMETHistos.root` file or all the other files need to be used as input to the limit setting code.
 
 # 7. Preliminary Limits and Fitting
