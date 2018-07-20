@@ -1089,36 +1089,39 @@ def ttbarDecayModeChecker(genParId,genMomParId,genDa1,genDa2):
     myel=[]
     mytau=[]
     W_hadCond=False
-    W_eleCod=False
+    W_eleCond=False
     W_muCond=False
     W_tauCond=False
     for i in range(len(genParId)):
-        eleCond = (abs(genDa1[i])==11 or abs(genDa2[i])==11)
-        muCon   = (abs(genDa1[i])==13 or abs(genDa2[i])==13)
-        TauCon  = (abs(genDa1[i])==15 or abs(genDa2[i])==15)
-        if (abs(genParId[i])==24 and (abs(genMomParId[i])==6 or abs(genMomParId[i])==24) and (abs(genDa1[i])==11 or abs(genDa2[i])==11)):
+        eleCond  = (abs(genDa1[i])==11 or abs(genDa2[i])==11)
+        muCond   = (abs(genDa1[i])==13 or abs(genDa2[i])==13)
+        tauCond  = (abs(genDa1[i])==15 or abs(genDa2[i])==15)
+        momCond  = (abs(genMomParId[i])==6 or abs(genMomParId[i])==24)
+
+
+        if abs(genParId[i])==24 and eleCond and momCond:
             myel.append(1)
-            W_eleCod=True
-        elif (abs(genParId[i])==24 and (abs(genMomParId[i])==6 or abs(genMomParId[i])==24) and (abs(genDa1[i])==13 or abs(genDa2[i])==13)):
+            W_eleCond=True
+
+        elif abs(genParId[i])==24 and muCond and momCond:
             mymu.append(2)
             W_muCond=True
-        elif (abs(genParId[i])==24 and (abs(genMomParId[i])==6 or abs(genMomParId[i])==24) and (abs(genDa1[i])==15 or abs(genDa2[i])==15)):
+
+        elif abs(genParId[i])==24 and tauCond and momCond:
             mytau.append(3)
             W_tauCond=True
-        elif (abs(genParId[i])==24 and (abs(genMomParId[i])==6 or abs(genMomParId[i])==24)) and not ( eleCond or muCon or TauCon):  W_hadCond=True
-    numLep=len(mymu)+len(myel)+len(mytau)
-    nlep_0=0
-    nlep_min_1= -1
 
-    if (W_eleCod or W_muCond or W_tauCond) and not W_hadCond:
-        #print numLep
+        elif momCond and (not eleCond) and (not muCond) and (not tauCond):
+            W_hadCond=True
+
+    numLep=len(mymu)+len(myel)+len(mytau)
+
+    if (W_eleCond or W_muCond or W_tauCond):
         return numLep
-    if (not (W_eleCod or  W_muCond or W_tauCond)) and  W_hadCond:
-        #print nlep_0
-        return nlep_0
+    if W_hadCond:
+        return 0
     else:
-        #print nlep_min_1
-        return nlep_min_1
+        return -1
 
 if __name__ == "__main__":
     AnalyzeDataSet()
