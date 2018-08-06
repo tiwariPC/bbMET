@@ -294,7 +294,7 @@ def AnalyzeDataSet():
         nTHINJets                  = skimmedTree.__getattr__('THINnJet')
         thinjetP4                  = skimmedTree.__getattr__('THINjetP4')
         thinJetCSV                 = skimmedTree.__getattr__('THINjetCISVV2')
-        passThinJetLooseID         = skimmedTree.__getattr__('THINjetPassIDLoose')
+        passThinJetTightID         = skimmedTree.__getattr__('THINjetPassIDTight')
         THINjetHadronFlavor        = skimmedTree.__getattr__('THINjetHadronFlavor')
         THINjetNPV                 = skimmedTree.__getattr__('THINjetNPV')         #int()
         thinjetNhadEF              = skimmedTree.__getattr__('THINjetNHadEF')
@@ -477,8 +477,8 @@ def AnalyzeDataSet():
         nBjets=0
         for ithinjet in range(nTHINJets):
             j1 = thinjetP4[ithinjet]
-            #if (j1.Pt() > 30.0)&(abs(j1.Eta())<2.4)&(bool(passThinJetLooseID[ithinjet])==True)&(bool(passThinJetPUID[ithinjet]) == True):
-            if (j1.Pt() > 30.0)&(abs(j1.Eta())<4.5)&(bool(passThinJetLooseID[ithinjet])==True):
+            #if (j1.Pt() > 30.0)&(abs(j1.Eta())<2.4)&(bool(passThinJetTightID[ithinjet])==True)&(bool(passThinJetPUID[ithinjet]) == True):
+            if (j1.Pt() > 30.0)&(abs(j1.Eta())<4.5)&(bool(passThinJetTightID[ithinjet])==True):
                 thinjetpassindex.append(ithinjet)
                 if thinJetCSV[ithinjet] > CSVMWP and abs(j1.Eta())<2.4 : nBjets += 1
 
@@ -492,9 +492,9 @@ def AnalyzeDataSet():
             if thindeepCSVJetLooseID==None:
                 deepCSVJetLooseID=True
             else:
-                deepCSVJetLooseID=bool(passThinJetLooseID[jthinjet])
+                deepCSVJetLooseID=bool(passThinJetTightID[jthinjet])
 
-            if (j1.Pt() > 30.0)&(abs(j1.Eta())<4.5) and deepCSVJetLooseID: #  &(bool(passThinJetLooseID[jthinjet])==True):
+            if (j1.Pt() > 30.0)&(abs(j1.Eta())<4.5) and deepCSVJetLooseID: #  &(bool(passThinJetTightID[jthinjet])==True):
                 thindCSVjetpassindex.append(jthinjet)
             if thinJetdeepCSV[jthinjet] > DCSVMWP and abs(j1.Eta())<2.4 : ndBjets += 1
 
