@@ -309,11 +309,11 @@ def AnalyzeDataSet():
         nTau                       = skimmedTree.__getattr__('HPSTau_n')
         tauP4                      = skimmedTree.__getattr__('HPSTau_4Momentum')
         isDecayModeFinding         = skimmedTree.__getattr__('disc_decayModeFinding')
-        passLooseTauIso            = skimmedTree.__getattr__('disc_byLooseIsolationMVA3oldDMwLT')
+        passLooseTauIso            = skimmedTree.__getattr__('disc_byLooseIsolationMVArun2017v2DBnewDMwLT2017')
 
-        disc_againstElectronLoose  = skimmedTree.__getattr__('disc_againstElectronLooseMVA5')
-        disc_againstElectronMedium = skimmedTree.__getattr__('disc_againstElectronMediumMVA5')
-        disc_againstElectronTight  = skimmedTree.__getattr__('disc_againstElectronTightMVA5')
+        disc_againstElectronLoose  = skimmedTree.__getattr__('disc_againstElectronLooseMVA6')
+        disc_againstElectronMedium = skimmedTree.__getattr__('disc_againstElectronMediumMVA6')
+        disc_againstElectronTight  = skimmedTree.__getattr__('disc_againstElectronTightMVA6')
         disc_againstMuonLoose      = skimmedTree.__getattr__('disc_againstMuonLoose3')
         disc_againstMuonTight      = skimmedTree.__getattr__('disc_againstMuonTight3')
 
