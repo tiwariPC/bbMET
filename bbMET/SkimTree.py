@@ -308,7 +308,7 @@ def AnalyzeDataSet():
 
         nTau                       = skimmedTree.__getattr__('HPSTau_n')
         tauP4                      = skimmedTree.__getattr__('HPSTau_4Momentum')
-        isDecayModeFinding         = skimmedTree.__getattr__('disc_decayModeFinding')
+        isDecayModeFinding         = skimmedTree.__getattr__('disc_decayModeFindingNewDMs')
         passLooseTauIso            = skimmedTree.__getattr__('disc_byLooseIsolationMVArun2017v2DBnewDMwLT2017')
 
         disc_againstElectronLoose  = skimmedTree.__getattr__('disc_againstElectronLooseMVA6')
