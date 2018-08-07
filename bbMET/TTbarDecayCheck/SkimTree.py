@@ -1115,7 +1115,7 @@ def ttbarDecayModeChecker(genParId,genMomParId,genDa1,genDa2):
             W_hadCond=True
 
     #numLep=len(mymu)+len(myel)+len(mytau)
-    numLep=len(mymu)+len(myel))
+    numLep=len(mymu)+len(myel)
 
     if (W_eleCond or W_muCond):
         return numLep
