@@ -1095,9 +1095,8 @@ def ttbarDecayModeChecker(genParId,genMomParId,genDa1,genDa2):
     for i in range(len(genParId)):
         eleCond  = (abs(genDa1[i])==11 or abs(genDa2[i])==11)
         muCond   = (abs(genDa1[i])==13 or abs(genDa2[i])==13)
-        tauCond  = (abs(genDa1[i])==15 or abs(genDa2[i])==15)
+#        tauCond  = (abs(genDa1[i])==15 or abs(genDa2[i])==15)
         momCond  = (abs(genMomParId[i])==6 or abs(genMomParId[i])==24)
-
 
         if abs(genParId[i])==24 and eleCond and momCond:
             myel.append(1)
@@ -1107,17 +1106,20 @@ def ttbarDecayModeChecker(genParId,genMomParId,genDa1,genDa2):
             mymu.append(2)
             W_muCond=True
 
-        elif abs(genParId[i])==24 and tauCond and momCond:
-            mytau.append(3)
-            W_tauCond=True
+        # elif abs(genParId[i])==24 and tauCond and momCond:
+        #     mytau.append(3)
+        #     W_tauCond=True
 
-        elif momCond and (not eleCond) and (not muCond) and (not tauCond):
+        #elif momCond and (not eleCond) and (not muCond) and (not tauCond):
+        elif momCond and (not eleCond) and (not muCond):
             W_hadCond=True
 
-    numLep=len(mymu)+len(myel)+len(mytau)
+    #numLep=len(mymu)+len(myel)+len(mytau)
+    numLep=len(mymu)+len(myel))
 
-    if (W_eleCond or W_muCond or W_tauCond):
+    if (W_eleCond or W_muCond):
         return numLep
+
     if W_hadCond:
         return 0
     else:
