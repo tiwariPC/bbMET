@@ -272,17 +272,17 @@ std::string BTagEntry::trimStr(std::string str) {
 
 
 
-BTagCalibrationStandalone::BTagCalibrationStandalone(const std::string &taggr):
+BTagCalibration::BTagCalibration(const std::string &taggr):
   tagger_(taggr)
 {}
 
-BTagCalibrationStandalone::BTagCalibrationStandalone(const std::string &taggr,
+BTagCalibration::BTagCalibration(const std::string &taggr,
                                  const std::string &filename):
   tagger_(taggr)
 {
   std::ifstream ifs(filename);
   if (!ifs.good()) {
-std::cerr << "ERROR in BTagCalibrationStandalone: "
+std::cerr << "ERROR in BTagCalibration: "
           << "input file not available: "
           << filename;
 throw std::exception();
@@ -291,17 +291,17 @@ throw std::exception();
   ifs.close();
 }
 
-void BTagCalibrationStandalone::addEntry(const BTagEntry &entry)
+void BTagCalibration::addEntry(const BTagEntry &entry)
 {
   data_[token(entry.params)].push_back(entry);
 }
 
-const std::vector<BTagEntry>& BTagCalibrationStandalone::getEntries(
+const std::vector<BTagEntry>& BTagCalibration::getEntries(
   const BTagEntry::Parameters &par) const
 {
   std::string tok = token(par);
   if (!data_.count(tok)) {
-std::cerr << "ERROR in BTagCalibrationStandalone: "
+std::cerr << "ERROR in BTagCalibration: "
           << "(OperatingPoint, measurementType, sysType) not available: "
           << tok;
 throw std::exception();
@@ -309,13 +309,13 @@ throw std::exception();
   return data_.at(tok);
 }
 
-void BTagCalibrationStandalone::readCSV(const std::string &s)
+void BTagCalibration::readCSV(const std::string &s)
 {
   std::stringstream buff(s);
   readCSV(buff);
 }
 
-void BTagCalibrationStandalone::readCSV(std::istream &s)
+void BTagCalibration::readCSV(std::istream &s)
 {
   std::string line;
 
@@ -334,7 +334,7 @@ void BTagCalibrationStandalone::readCSV(std::istream &s)
   }
 }
 
-void BTagCalibrationStandalone::makeCSV(std::ostream &s) const
+void BTagCalibration::makeCSV(std::ostream &s) const
 {
   s << tagger_ << ";" << BTagEntry::makeCSVHeader();
   for (std::map<std::string, std::vector<BTagEntry> >::const_iterator i
@@ -347,14 +347,14 @@ void BTagCalibrationStandalone::makeCSV(std::ostream &s) const
   }
 }
 
-std::string BTagCalibrationStandalone::makeCSV() const
+std::string BTagCalibration::makeCSV() const
 {
   std::stringstream buff;
   makeCSV(buff);
   return buff.str();
 }
 
-std::string BTagCalibrationStandalone::token(const BTagEntry::Parameters &par)
+std::string BTagCalibration::token(const BTagEntry::Parameters &par)
 {
   std::stringstream buff;
   buff << par.operatingPoint << ", "
@@ -366,9 +366,9 @@ std::string BTagCalibrationStandalone::token(const BTagEntry::Parameters &par)
 
 
 
-class BTagCalibrationStandaloneReader::BTagCalibrationStandaloneReaderImpl
+class BTagCalibrationReader::BTagCalibrationReaderImpl
 {
-  friend class BTagCalibrationStandaloneReader;
+  friend class BTagCalibrationReader;
 
 public:
   struct TmpEntry {
@@ -382,11 +382,11 @@ public:
   };
 
 private:
-  BTagCalibrationStandaloneReaderImpl(BTagEntry::OperatingPoint op,
+  BTagCalibrationReaderImpl(BTagEntry::OperatingPoint op,
                             const std::string & sysType,
                             const std::vector<std::string> & otherSysTypes={});
 
-  void load(const BTagCalibrationStandalone & c,
+  void load(const BTagCalibration & c,
             BTagEntry::JetFlavor jf,
             std::string measurementType);
 
@@ -404,16 +404,19 @@ private:
   std::pair<float, float> min_max_pt(BTagEntry::JetFlavor jf,
                                      float eta,
                                      float discr) const;
+ 
+  std::pair<float, float> min_max_eta(BTagEntry::JetFlavor jf,
+                                     float discr) const;
 
   BTagEntry::OperatingPoint op_;
   std::string sysType_;
   std::vector<std::vector<TmpEntry> > tmpData_;  // first index: jetFlavor
   std::vector<bool> useAbsEta_;                  // first index: jetFlavor
-  std::map<std::string, std::shared_ptr<BTagCalibrationStandaloneReaderImpl>> otherSysTypeReaders_;
+  std::map<std::string, std::shared_ptr<BTagCalibrationReaderImpl>> otherSysTypeReaders_;
 };
 
 
-BTagCalibrationStandaloneReader::BTagCalibrationStandaloneReaderImpl::BTagCalibrationStandaloneReaderImpl(
+BTagCalibrationReader::BTagCalibrationReaderImpl::BTagCalibrationReaderImpl(
                                              BTagEntry::OperatingPoint op,
                                              const std::string & sysType,
                                              const std::vector<std::string> & otherSysTypes):
@@ -424,24 +427,24 @@ BTagCalibrationStandaloneReader::BTagCalibrationStandaloneReaderImpl::BTagCalibr
 {
   for (const std::string & ost : otherSysTypes) {
     if (otherSysTypeReaders_.count(ost)) {
-std::cerr << "ERROR in BTagCalibrationStandalone: "
+std::cerr << "ERROR in BTagCalibration: "
             << "Every otherSysType should only be given once. Duplicate: "
             << ost;
 throw std::exception();
     }
-    otherSysTypeReaders_[ost] = std::auto_ptr<BTagCalibrationStandaloneReaderImpl>(
-        new BTagCalibrationStandaloneReaderImpl(op, ost)
+    otherSysTypeReaders_[ost] = std::auto_ptr<BTagCalibrationReaderImpl>(
+        new BTagCalibrationReaderImpl(op, ost)
     );
   }
 }
 
-void BTagCalibrationStandaloneReader::BTagCalibrationStandaloneReaderImpl::load(
-                                             const BTagCalibrationStandalone & c,
+void BTagCalibrationReader::BTagCalibrationReaderImpl::load(
+                                             const BTagCalibration & c,
                                              BTagEntry::JetFlavor jf,
                                              std::string measurementType)
 {
   if (tmpData_[jf].size()) {
-std::cerr << "ERROR in BTagCalibrationStandalone: "
+std::cerr << "ERROR in BTagCalibration: "
           << "Data for this jet-flavor is already loaded: "
           << jf;
 throw std::exception();
@@ -482,7 +485,7 @@ throw std::exception();
   }
 }
 
-double BTagCalibrationStandaloneReader::BTagCalibrationStandaloneReaderImpl::eval(
+double BTagCalibrationReader::BTagCalibrationReaderImpl::eval(
                                              BTagEntry::JetFlavor jf,
                                              float eta,
                                              float pt,
@@ -499,7 +502,7 @@ double BTagCalibrationStandaloneReader::BTagCalibrationStandaloneReaderImpl::eva
   for (unsigned i=0; i<entries.size(); ++i) {
     const auto &e = entries.at(i);
     if (
-      e.etaMin <= eta && eta < e.etaMax                   // find eta
+      e.etaMin <= eta && eta <= e.etaMax                   // find eta
       && e.ptMin < pt && pt <= e.ptMax                    // check pt
     ){
       if (use_discr) {                                    // discr. reshaping?
@@ -515,18 +518,31 @@ double BTagCalibrationStandaloneReader::BTagCalibrationStandaloneReaderImpl::eva
   return 0.;  // default value
 }
 
-double BTagCalibrationStandaloneReader::BTagCalibrationStandaloneReaderImpl::eval_auto_bounds(
+double BTagCalibrationReader::BTagCalibrationReaderImpl::eval_auto_bounds(
                                              const std::string & sys,
                                              BTagEntry::JetFlavor jf,
                                              float eta,
                                              float pt,
                                              float discr) const
 {
-  auto sf_bounds = min_max_pt(jf, eta, discr);
-  float pt_for_eval = pt;
-  bool is_out_of_bounds = false;
+  auto sf_bounds_eta = min_max_eta(jf, discr);
+  bool eta_is_out_of_bounds = false;
 
-  if (pt < sf_bounds.first) {
+  if (sf_bounds_eta.first < 0) sf_bounds_eta.first = -sf_bounds_eta.second;   
+  if (eta <= sf_bounds_eta.first || eta > sf_bounds_eta.second ) {
+    eta_is_out_of_bounds = true;
+  }
+   
+  if (eta_is_out_of_bounds) {
+    return 1.;
+  }
+
+
+   auto sf_bounds = min_max_pt(jf, eta, discr);
+   float pt_for_eval = pt;
+   bool is_out_of_bounds = false;
+
+   if (pt <= sf_bounds.first) {
     pt_for_eval = sf_bounds.first + .0001;
     is_out_of_bounds = true;
   } else if (pt > sf_bounds.second) {
@@ -542,7 +558,7 @@ double BTagCalibrationStandaloneReader::BTagCalibrationStandaloneReaderImpl::eva
 
   // get sys SF (and maybe return)
   if (!otherSysTypeReaders_.count(sys)) {
-std::cerr << "ERROR in BTagCalibrationStandalone: "
+std::cerr << "ERROR in BTagCalibration: "
         << "sysType not available (maybe not loaded?): "
         << sys;
 throw std::exception();
@@ -557,7 +573,7 @@ throw std::exception();
   return sf_err;
 }
 
-std::pair<float, float> BTagCalibrationStandaloneReader::BTagCalibrationStandaloneReaderImpl::min_max_pt(
+std::pair<float, float> BTagCalibrationReader::BTagCalibrationReaderImpl::min_max_pt(
                                                BTagEntry::JetFlavor jf,
                                                float eta,
                                                float discr) const
@@ -571,7 +587,7 @@ std::pair<float, float> BTagCalibrationStandaloneReader::BTagCalibrationStandalo
   float min_pt = -1., max_pt = -1.;
   for (const auto & e: entries) {
     if (
-      e.etaMin <= eta && eta < e.etaMax                   // find eta
+      e.etaMin <= eta && eta <=e.etaMax                   // find eta
     ){
       if (min_pt < 0.) {                                  // init
         min_pt = e.ptMin;
@@ -594,20 +610,45 @@ std::pair<float, float> BTagCalibrationStandaloneReader::BTagCalibrationStandalo
   return std::make_pair(min_pt, max_pt);
 }
 
+std::pair<float, float> BTagCalibrationReader::BTagCalibrationReaderImpl::min_max_eta(
+                                               BTagEntry::JetFlavor jf,
+                                               float discr) const
+{
+  bool use_discr = (op_ == BTagEntry::OP_RESHAPING);
 
-BTagCalibrationStandaloneReader::BTagCalibrationStandaloneReader(BTagEntry::OperatingPoint op,
+  const auto &entries = tmpData_.at(jf);
+  float min_eta = 0., max_eta = 0.;
+  for (const auto & e: entries) {
+
+      if (use_discr) {                                    // discr. reshaping?
+        if (e.discrMin <= discr && discr < e.discrMax) {  // check discr
+          min_eta = min_eta < e.etaMin ? min_eta : e.etaMin;
+          max_eta = max_eta > e.etaMax ? max_eta : e.etaMax;
+        }
+      } else {
+        min_eta = min_eta < e.etaMin ? min_eta : e.etaMin;
+        max_eta = max_eta > e.etaMax ? max_eta : e.etaMax;
+      }
+    }
+
+
+  return std::make_pair(min_eta, max_eta);
+}
+
+
+BTagCalibrationReader::BTagCalibrationReader(BTagEntry::OperatingPoint op,
                                              const std::string & sysType,
                                              const std::vector<std::string> & otherSysTypes):
-  pimpl(new BTagCalibrationStandaloneReaderImpl(op, sysType, otherSysTypes)) {}
+  pimpl(new BTagCalibrationReaderImpl(op, sysType, otherSysTypes)) {}
 
-void BTagCalibrationStandaloneReader::load(const BTagCalibrationStandalone & c,
+void BTagCalibrationReader::load(const BTagCalibration & c,
                                  BTagEntry::JetFlavor jf,
                                  const std::string & measurementType)
 {
   pimpl->load(c, jf, measurementType);
 }
 
-double BTagCalibrationStandaloneReader::eval(BTagEntry::JetFlavor jf,
+double BTagCalibrationReader::eval(BTagEntry::JetFlavor jf,
                                    float eta,
                                    float pt,
                                    float discr) const
@@ -615,7 +656,7 @@ double BTagCalibrationStandaloneReader::eval(BTagEntry::JetFlavor jf,
   return pimpl->eval(jf, eta, pt, discr);
 }
 
-double BTagCalibrationStandaloneReader::eval_auto_bounds(const std::string & sys,
+double BTagCalibrationReader::eval_auto_bounds(const std::string & sys,
                                                BTagEntry::JetFlavor jf,
                                                float eta,
                                                float pt,
@@ -624,11 +665,13 @@ double BTagCalibrationStandaloneReader::eval_auto_bounds(const std::string & sys
   return pimpl->eval_auto_bounds(sys, jf, eta, pt, discr);
 }
 
-std::pair<float, float> BTagCalibrationStandaloneReader::min_max_pt(BTagEntry::JetFlavor jf,
+std::pair<float, float> BTagCalibrationReader::min_max_pt(BTagEntry::JetFlavor jf,
                                                           float eta,
                                                           float discr) const
 {
   return pimpl->min_max_pt(jf, eta, discr);
 }
+
+
 
 

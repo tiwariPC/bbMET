@@ -81,14 +81,14 @@ public:
 #endif  // BTagEntry_H
 
 
-#ifndef BTagCalibrationStandalone_H
-#define BTagCalibrationStandalone_H
+#ifndef BTagCalibration_H
+#define BTagCalibration_H
 
 /**
- * BTagCalibrationStandalone
+ * BTagCalibration
  *
  * The 'hierarchy' of stored information is this:
- * - by tagger (BTagCalibrationStandalone)
+ * - by tagger (BTagCalibration)
  *   - by operating point or reshape bin
  *     - by jet parton flavor
  *       - by type of measurement
@@ -105,13 +105,13 @@ public:
 #include <ostream>
 
 
-class BTagCalibrationStandalone
+class BTagCalibration
 {
 public:
-  BTagCalibrationStandalone() {}
-  BTagCalibrationStandalone(const std::string &tagger);
-  BTagCalibrationStandalone(const std::string &tagger, const std::string &filename);
-  ~BTagCalibrationStandalone() {}
+  BTagCalibration() {}
+  BTagCalibration(const std::string &tagger);
+  BTagCalibration(const std::string &tagger, const std::string &filename);
+  ~BTagCalibration() {}
 
   std::string tagger() const {return tagger_;}
 
@@ -131,17 +131,17 @@ protected:
 
 };
 
-#endif  // BTagCalibrationStandalone_H
+#endif  // BTagCalibration_H
 
 
-#ifndef BTagCalibrationStandaloneReader_H
-#define BTagCalibrationStandaloneReader_H
+#ifndef BTagCalibrationReader_H
+#define BTagCalibrationReader_H
 
 /**
- * BTagCalibrationStandaloneReader
+ * BTagCalibrationReader
  *
  * Helper class to pull out a specific set of BTagEntry's out of a
- * BTagCalibrationStandalone. TF1 functions are set up at initialization time.
+ * BTagCalibration. TF1 functions are set up at initialization time.
  *
  ************************************************************/
 
@@ -150,17 +150,17 @@ protected:
 
 
 
-class BTagCalibrationStandaloneReader
+class BTagCalibrationReader
 {
 public:
-  class BTagCalibrationStandaloneReaderImpl;
+  class BTagCalibrationReaderImpl;
 
-  BTagCalibrationStandaloneReader() {}
-  BTagCalibrationStandaloneReader(BTagEntry::OperatingPoint op,
+  BTagCalibrationReader() {}
+  BTagCalibrationReader(BTagEntry::OperatingPoint op,
                         const std::string & sysType="central",
                         const std::vector<std::string> & otherSysTypes={});
 
-  void load(const BTagCalibrationStandalone & c,
+  void load(const BTagCalibration & c,
             BTagEntry::JetFlavor jf,
             const std::string & measurementType="comb");
 
@@ -178,12 +178,11 @@ public:
   std::pair<float, float> min_max_pt(BTagEntry::JetFlavor jf,
                                      float eta,
                                      float discr=0.) const;
-
 protected:
-  std::shared_ptr<BTagCalibrationStandaloneReaderImpl> pimpl;
+  std::shared_ptr<BTagCalibrationReaderImpl> pimpl;
 };
 
 
-#endif  // BTagCalibrationStandaloneReader_H
+#endif  // BTagCalibrationReader_H
 
 
