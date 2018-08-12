@@ -60,8 +60,8 @@ muonLooseIsoSFs_EfficienciesAndSF_BCDEF = muonIsoSFsBCDEFFile.Get('LooseISO_Loos
 muonTightIsoSFs_EfficienciesAndSF_BCDEF = muonIsoSFsBCDEFFile.Get('TightISO_TightID_pt_eta/abseta_pt_ratio')
 
 #Muon Tracking SFs
-muonTrackingSFsFile = TFile('scalefactors/muon_Tracking_SFs_Tracking_EfficienciesAndSF_BCDEFGH.root')
-muonTrackingSFs_EfficienciesAndSF_BCDEFGH = muonTrackingSFsFile.Get('ratio_eff_aeta_dr030e030_corr')
+muonTrackingSFsFile = TFile('scalefactors/muon_Tracking_SFs_Tracking_EfficienciesAndSF_BCDEF.root')
+muonTrackingSFs_EfficienciesAndSF_BCDEF = muonTrackingSFsFile.Get('ratio_eff_aeta_dr030e030_corr')
 
 
 #MET Trigger reweights
@@ -2565,10 +2565,10 @@ def AnalyzeDataSet():
         muTracking_SF_systDOWN=1.0
         for imu in range(nMu):
             abeta = abs(muP4[imu].Eta())
-            muTracking_SF *= muonTrackingSFs_EfficienciesAndSF_BCDEFGH.Eval(abeta)
-            ybin = muonTrackingSFs_EfficienciesAndSF_BCDEFGH.GetYaxis().FindBin(abeta)
-            muTracking_SF_systUP *= (muonTrackingSFs_EfficienciesAndSF_BCDEFGH.Eval(abeta) + muonTrackingSFs_EfficienciesAndSF_BCDEFGH.GetErrorYhigh(ybin))
-            muTracking_SF_systDOWN *= (muonTrackingSFs_EfficienciesAndSF_BCDEFGH.Eval(abeta) - muonTrackingSFs_EfficienciesAndSF_BCDEFGH.GetErrorYlow(ybin))
+            muTracking_SF *= muonTrackingSFs_EfficienciesAndSF_BCDEF.Eval(abeta)
+            ybin = muonTrackingSFs_EfficienciesAndSF_BCDEF.GetYaxis().FindBin(abeta)
+            muTracking_SF_systUP *= (muonTrackingSFs_EfficienciesAndSF_BCDEF.Eval(abeta) + muonTrackingSFs_EfficienciesAndSF_BCDEF.GetErrorYhigh(ybin))
+            muTracking_SF_systDOWN *= (muonTrackingSFs_EfficienciesAndSF_BCDEF.Eval(abeta) - muonTrackingSFs_EfficienciesAndSF_BCDEF.GetErrorYlow(ybin))
 
 
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
