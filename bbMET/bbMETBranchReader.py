@@ -414,11 +414,11 @@ def AnalyzeDataSet():
     othersys.push_back('up')
     ## ThinJets
     if options.CSV:
-        calib1 = ROOT.BTagCalibrationStandalone('csvv2', 'CSVv2_94XSF_V2_B_F.csv')
+        calib1 = ROOT.BTagCalibration('csvv2', 'CSVv2_94XSF_V2_B_F.csv')
     if options.DeepCSV:
-        calib1 = ROOT.BTagCalibrationStandalone('deepcsv', 'DeepCSV_94XSF_V3_B_F.csv')
+        calib1 = ROOT.BTagCalibration('deepcsv', 'DeepCSV_94XSF_V3_B_F.csv')
 
-    reader1 = ROOT.BTagCalibrationStandaloneReader( 0, "central", othersys)
+    reader1 = ROOT.BTagCalibrationReader( 0, "central", othersys)
     reader1.load(calib1, 0,  "comb" )
     reader1.load(calib1, 1,  "comb" )
     reader1.load(calib1, 2,  "incl" )
