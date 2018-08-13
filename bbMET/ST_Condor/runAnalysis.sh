@@ -8,16 +8,16 @@ export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
 source $VO_CMS_SW_DIR/cmsset_default.sh
 
 # Download sandbox
-wget --no-check-certificate "http://stash.osgconnect.net/+spmondal/sandbox-CMSSW_8_0_26_patch1-939efad.tar.bz2"
+wget --no-check-certificate "http://stash.osgconnect.net/+ptiwari/sandbox-CMSSW_9_4_6_patch1-877018e.tar.bz2"
 
 # Setup framework from sandbox
-cmssw_setup sandbox-CMSSW_8_0_26_patch1-939efad.tar.bz2
+cmssw_setup sandbox-CMSSW_9_4_6_patch1-877018e.tar.bz2
 
 cd $CMSSW_BASE
 cmsenv
 cd ../../
 python SkimTree.py "$1"
-until xrdcp -f SkimmedTree.root root://se01.indiacms.res.in//dpm/indiacms.res.in/home/cms/store/user/spmondal/t3store2/bbDM_SkimmedTrees_test/"$2"/SkimmedTree_"$3".root; do
+until xrdcp -f SkimmedTree.root root://se01.indiacms.res.in//dpm/indiacms.res.in/home/cms/store/user/ptiwari/t3store2/bbDM_SkimmedTrees_test/"$2"/SkimmedTree_"$3".root; do
   sleep 60
 done
 
@@ -28,4 +28,3 @@ if [ ! -e "SkimmedTree.root" ]; then
 
 fi
 exit $exitcode
-

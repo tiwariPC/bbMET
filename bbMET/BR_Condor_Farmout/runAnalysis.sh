@@ -8,16 +8,16 @@ export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
 source $VO_CMS_SW_DIR/cmsset_default.sh
 
 # Download sandbox
-wget --no-check-certificate "http://stash.osgconnect.net/+spmondal/sandbox-CMSSW_8_0_26_patch1-939efad.tar.bz2"
+wget --no-check-certificate "http://stash.osgconnect.net/+ptiwari/sandbox-CMSSW_9_4_6_patch1-877018e.tar.bz2"
 
 # Setup framework from sandbox
-cmssw_setup sandbox-CMSSW_8_0_26_patch1-939efad.tar.bz2
+cmssw_setup sandbox-CMSSW_9_4_6_patch1-877018e.tar.bz2
 
 cd $CMSSW_BASE
 cmsenv
 cd ../../
 
-python bbMETBranchReader.py -a -F -i "$1" -D . -o BROutput.root --csv
+python bbMETBranchReader.py -a -F -i "$1" -D . -o BROutput.root --deepcsv
 
 exitcode=$?
 
@@ -26,4 +26,3 @@ if [ ! -e "BROutput.root" ]; then
 
 fi
 exit $exitcode
-
