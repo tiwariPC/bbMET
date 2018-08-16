@@ -196,9 +196,9 @@ filenameString.push_back(filenamepath + "Output_WJetsToLNu_HT-1200To2500_TuneCP5
 filenameString.push_back(filenamepath + "Output_WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8.root");
 
 // Single Top 26,27,28,29 30
-filenameString.push_back(filenamepath + "Output_ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8.root");
-filenameString.push_back(filenamepath + "Output_ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8.root");
-filenameString.push_back(filenamepath + "Output_ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-powheg-pythia8.root");
+filenameString.push_back(filenamepath + "Output_ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8.root");
+filenameString.push_back(filenamepath + "Output_ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8.root");
+filenameString.push_back(filenamepath + "Output_ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8.root");
 filenameString.push_back(filenamepath + "Output_ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8.root");
 filenameString.push_back(filenamepath + "Output_ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8.root");
 
