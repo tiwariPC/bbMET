@@ -160,9 +160,9 @@ TH1F*  QCD;
 TString filenamepath("../../../bbMET/BR_Condor_Farmout/hadd_outputs/");
 
 // Diboson WW WZ ZZ 0 1 2
-filenameString.push_back(filenamepath + "Output_WW_TuneCUETP8M1_13TeV-pythia8_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_WZ_TuneCUETP8M1_13TeV-pythia8_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_ZZ_TuneCUETP8M1_13TeV-pythia8_MC25ns_LegacyMC_20170328.root");
+filenameString.push_back(filenamepath + "Output_WW_TuneCP5_13TeV-pythia8.root");
+filenameString.push_back(filenamepath + "Output_WZ_TuneCP5_13TeV-pythia8.root");
+filenameString.push_back(filenamepath + "Output_ZZ_TuneCP5_13TeV-pythia8.root");
 
 
 //ZJets High pt DYSample 3,4,5,6,7,8,9
