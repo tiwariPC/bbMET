@@ -1625,7 +1625,7 @@ def AnalyzeDataSet():
                     allquantities.jec_syst_2mu2b_down = ZmumuRecoil
                     allquantities.jer_syst_2mu2b_up = ZmumuRecoil
                     allquantities.jer_syst_2mu2b_down = ZmumuRecoil
-                    isZmunuCR2 = True
+                    isZmumuCR2 = True
 
 # -------------------------------------------
 # W CR
