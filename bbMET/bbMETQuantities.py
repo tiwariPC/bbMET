@@ -195,7 +195,7 @@ class MonoHbbQuantities:
 	    elif 'pho_pT' in quant:
 		bins='100'
 		low='0'
-		high='1200'	
+		high='1200'
             elif 'dr_jet_sr2' in quant or 'dr_jet_sr1' in quant:
                 bins='400'
                 low='0.'
@@ -458,6 +458,8 @@ class MonoHbbQuantities:
             ncutflowCR=len(CRcutflowvaluesSet[ireg])
             self.h_cutflowCR=TH1F('h_cutflow_'+regionnames[ireg]+'_','h_cutflow_'+regionnames[ireg]+'_',ncutflowCR, 0, ncutflowCR)
             for icutflow in range(len(CRcutflowvaluesSet[ireg])):
+                if ('top' in regionnames[ireg] or '1e1b' in regionnames[ireg] or '1e2b' in regionnames[ireg] or '1mu1b' in regionnames[ireg] or '1mu2b' in regionnames[ireg]) and (not '1mu1e' in regionnames[ireg] ) and 'njets' in CRcutnames[icutflow]:
+                    ['add_Jet' if x=='njets' else x for x in CRcutnames[icutflow]]
                 self.h_cutflowCR.GetXaxis().SetBinLabel(icutflow+1,CRcutnames[icutflow])
                 self.h_cutflowCR.SetBinContent(icutflow+1,CRcutflowvaluesSet[ireg][icutflow])
             self.h_cutflowCR.Write()
@@ -468,22 +470,22 @@ class MonoHbbQuantities:
             self.h_CRs.GetXaxis().SetBinLabel(iCR+1,CRnames[iCR])
             self.h_CRs.SetBinContent(iCR+1,CRvalues[iCR])
         self.h_CRs.Write()
-        
-        
+
+
         nreg=len(regNames)
         self.h_CRSum=TH1F('h_CRSum_','h_CRSum_',nreg, 0, nreg)
         for ireg in range(nreg):
             self.h_CRSum.GetXaxis().SetBinLabel(ireg+1,regNames[ireg])
             self.h_CRSum.SetBinContent(ireg+1,CRSummary[regNames[ireg]])
         self.h_CRSum.Write()
-        
+
         nreg=len(regNamesMu)
         self.h_CRSumMu=TH1F('h_CRSumMu_','h_CRSumMu_',nreg, 0, nreg)
         for ireg in range(nreg):
             self.h_CRSumMu.GetXaxis().SetBinLabel(ireg+1,regNamesMu[ireg])
             self.h_CRSumMu.SetBinContent(ireg+1,CRSummaryMu[regNamesMu[ireg]])
         self.h_CRSumMu.Write()
-        
+
         nreg=len(regNamesEle)
         self.h_CRSumEle=TH1F('h_CRSumEle_','h_CRSumEle_',nreg, 0, nreg)
         for ireg in range(nreg):
