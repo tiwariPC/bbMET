@@ -974,6 +974,10 @@ def AnalyzeDataSet():
         isWenuCR2=False
         isWmunuCR1=False
         isWmunuCR2=False
+        isTopenuCR1=False
+        isTopenuCR2=False
+        isTopmunuCR1=False
+        isTopmunuCR2=False
         isTopCR1=False
         isTopCR2=False
         isGammaCR1=False
@@ -3877,6 +3881,19 @@ def AnalyzeDataSet():
         if isWmunuCR2:
             CRSummary['1#mu2b']+=allweights
             CRSummaryMu['1#mu2b']+=allweights
+
+        if isTopenuCR1:
+            CRSummary['1etop1b']+=allweights
+            CRSummaryEle['1etop1b']+=allweights
+        if isTopenuCR2:
+            CRSummary['1etop2b']+=allweights
+            CRSummaryEle['1etop2b']+=allweights
+        if isTopmunuCR1:
+            CRSummary['1#mutop1b']+=allweights
+            CRSummaryMu['1#mutop1b']+=allweights
+        if isTopmunuCR2:
+            CRSummary['1#mutop2b']+=allweights
+            CRSummaryMu['1#mutop2b']+=allweights
 
         if isTopCR1:
             CRSummary['1#mu1e1b']+=allweights
