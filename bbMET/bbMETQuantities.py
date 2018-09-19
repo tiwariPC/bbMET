@@ -459,7 +459,8 @@ class MonoHbbQuantities:
             self.h_cutflowCR=TH1F('h_cutflow_'+regionnames[ireg]+'_','h_cutflow_'+regionnames[ireg]+'_',ncutflowCR, 0, ncutflowCR)
             for icutflow in range(len(CRcutflowvaluesSet[ireg])):
                 if ('top' in regionnames[ireg] or '1e1b' in regionnames[ireg] or '1e2b' in regionnames[ireg] or '1mu1b' in regionnames[ireg] or '1mu2b' in regionnames[ireg]) and (not '1mu1e' in regionnames[ireg] ) and 'njets' in CRcutnames[icutflow]:
-                    ['add_Jet' if x=='njets' else x for x in CRcutnames[icutflow]]
+                    CRcutnames[icutflow] = 'add_Jet'
+                print CRcutnames[icutflow]
                 self.h_cutflowCR.GetXaxis().SetBinLabel(icutflow+1,CRcutnames[icutflow])
                 self.h_cutflowCR.SetBinContent(icutflow+1,CRcutflowvaluesSet[ireg][icutflow])
             self.h_cutflowCR.Write()
