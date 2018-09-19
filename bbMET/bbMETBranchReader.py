@@ -385,6 +385,8 @@ def AnalyzeDataSet():
     for CRreg in regionnames:
         exec("CR"+CRreg+"CutFlow={'preselection':NEntries}")
         for cutname in CRcutnames:
+            if ('top' in CRreg or '1e1b' in CRreg or '1e2b' in CRreg or '1mu1b' in CRreg or '1mu2b' in CRreg  )and 'njets' in cutname:
+                cutname = 'add_Jet'
             exec("CR"+CRreg+"CutFlow['"+cutname+"']=0")
 
 
