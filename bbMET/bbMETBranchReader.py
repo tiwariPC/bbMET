@@ -3562,8 +3562,8 @@ def AnalyzeDataSet():
                             CR1etop2bCutFlow['dPhicond']+=allweights
 
                             if (nJets - nBjets)==0:
-                                CR1e1bCutFlow['njets']+=allweights
-                                CR1e2bCutFlow['njets']+=allweights
+                                CR1e1bCutFlow['add_Jet']+=allweights
+                                CR1e2bCutFlow['add_Jet']+=allweights
 
                                 if nBjets==1:
                                     CR1e1bCutFlow['nbjets']+=allweights
@@ -3589,7 +3589,8 @@ def AnalyzeDataSet():
                                                 CR1e2bCutFlow['lepconds']+=allweights
 
                             if (nJets - nBjets)>=1:
-                                CR1etop1bCutFlow['njets']+=allweights
+                                CR1etop1bCutFlow['add_Jet']+=allweights
+                                CR1etop2bCutFlow['add_Jet']+=allweights
 
                                 if nBjets==1:
                                     CR1etop1bCutFlow['nbjets']+=allweights
@@ -3647,9 +3648,9 @@ def AnalyzeDataSet():
                             CR1mutop1bCutFlow['dPhicond']+=allweights
                             CR1mutop2bCutFlow['dPhicond']+=allweights
 
-                            if nJets-nBjets==0:
-                                CR1mu1bCutFlow['njets']+=allweights
-                                CR1mu2bCutFlow['njets']+=allweights
+                            if (nJets-nBjets)==0:
+                                CR1mu1bCutFlow['add_Jet']+=allweights
+                                CR1mu2bCutFlow['add_Jet']+=allweights
 
                                 if nBjets==1:
                                     CR1mu1bCutFlow['nbjets']+=allweights
@@ -3675,9 +3676,9 @@ def AnalyzeDataSet():
                                             if myMuos[0].Pt() > 30. and myMuTightID[0]:
                                                 CR1mu2bCutFlow['lepconds']+=allweights
 
-                            if nJets-nBjets>=1:
-                                CR1mutop1bCutFlow['njets']+=allweights
-                                CR1mutop2bCutFlow['njets']+=allweights
+                            if (nJets-nBjets)>=1:
+                                CR1mutop1bCutFlow['add_Jet']+=allweights
+                                CR1mutop2bCutFlow['add_Jet']+=allweights
 
                                 if nBjets==1:
                                     CR1mutop1bCutFlow['nbjets']+=allweights
