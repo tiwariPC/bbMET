@@ -13,7 +13,7 @@ def getAll():
     #for systematics
     for jetprop in ['btag','lep','metTrig','ewkZ','ewkW','ewkTop','pho','jec','jer']:
         for syst in ['up','down']:
-            for reg in ['sr1','sr2','2e1b','2mu1b','2e2b','2mu2b','1e1b','1mu1b','1e2b','1mu2b','1mu1e1b','1mu1e2b','1gamma1b','1gamma2b']:
+            for reg in ['sr1','sr2','2e1b','2mu1b','2e2b','2mu2b','1e1b','1mu1b','1e2b','1mu2b','1mu1e1b','1mu1e2b','1gamma1b','1gamma2b','1etop1b','1etop2b','1mutop1b','1mutop2b']:
                 allquantlist.append(jetprop+'_syst_'+reg+'_'+syst)
 
     # for jetprop in ['jer','jec']:
@@ -84,7 +84,11 @@ def getRegionQuants():
 
     #Top CR
     regions=['1etop1b','1etop2b','1mutop1b','1mutop2b']
-    varlist=['hadrecoil','MET','lep1_pT','lep2_pT','lep1_iso','lep2_iso','e_pT','mu_pT','mu_iso','jet1_pT','jet2_pT','jet1_eta','jet2_eta','jet1_csv','jet2_csv','jet1_deepcsv','jet2_deepcsv','njet','ntau','nele','nmu','nUncleanEle','nUncleanMu','nUncleanTau','min_dPhi_jet_Recoil','min_dPhi_jet_MET','min_dPhi_jet_Recoil_n_minus_1','jet1_NHadEF','jet1_CHadEF','jet1_CEmEF','jet1_PhoEF','jet1_EleEF','jet1_MuoEF']
+    varlist=['Wmass','WpT','hadrecoil','MET','lep1_pT','lep1_iso','jet1_pT','jet2_pT','jet1_eta','jet2_eta','jet1_csv','jet2_csv','jet1_deepcsv','jet2_deepcsv','njet','ntau','nele','nmu','nUncleanEle','nUncleanMu','nUncleanTau','min_dR_jet_ele_preclean','min_dR_jet_ele_postclean','njet_n_minus_1','unclean_njet_n_minus_1','min_dPhi_jet_Recoil','min_dPhi_jet_MET','min_dPhi_jet_Recoil_n_minus_1','jet1_NHadEF','jet1_CHadEF','jet1_CEmEF','jet1_PhoEF','jet1_EleEF','jet1_MuoEF']
+
+    for reg in regions:
+        for var in varlist:
+            regquants.append("reg_"+reg+"_"+var)
 
     #Top CR
     regions=['1mu1e1b','1mu1e2b']
