@@ -3596,6 +3596,7 @@ def AnalyzeDataSet():
 
                                             if myEles[0].Pt() > 30. and myEleTightID[0]:
                                                 CR1etop1bCutFlow['lepconds']+=allweights
+
                                 if nBjets==2:
                                     CR1etop2bCutFlow['nbjets']+=allweights
 
@@ -3656,8 +3657,7 @@ def AnalyzeDataSet():
                                             if myMuos[0].Pt() > 30. and myMuTightID[0]:
                                                 CR1mu1bCutFlow['lepconds']+=allweights\
 
-
-                                 if nBjets==2:
+                                if nBjets==2:
                                     CR1mu2bCutFlow['nbjets']+=allweights
 
                                     if jetcond and SR2jet2:
@@ -3686,7 +3686,7 @@ def AnalyzeDataSet():
                                                 CR1mutop1bCutFlow['lepconds']+=allweights\
 
 
-                                 if nBjets==2:
+                                if nBjets==2:
                                     CR1mutop2bCutFlow['nbjets']+=allweights
 
                                     if jetcond and SR2jet2:
