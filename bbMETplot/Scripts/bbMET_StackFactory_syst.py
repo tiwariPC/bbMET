@@ -90,7 +90,7 @@ TString dirpathname;
  system("mkdir -p  " + DirPreName+dirpathname +"/bbMETROOT");
  system("mkdir -p  " + DirPreName+dirpathname +"/bbMETPdf");
  system("mkdir -p  " + DirPreName+dirpathname +"/bbMETPng");
- 
+
 
 
  ofstream mout;
@@ -153,7 +153,7 @@ TH1F*  STop;
 TH1F*  GJets;
 TH1F*  QCD;
 //TH1F*  data_obs;
-TString filenamepath("/home/ptiwari/bbMET_final/bbMET/BR_Condor_Farmout/hadd_outputs/");
+TString filenamepath("../../../bbMET/BR_Condor_Farmout/hadd_outputs/");
 
 // Diboson WW WZ ZZ 0 1 2
 filenameString.push_back(filenamepath + "Output_WW_TuneCUETP8M1_13TeV-pythia8_MC25ns_LegacyMC_20170328.root");
@@ -222,7 +222,7 @@ filenameString.push_back(filenamepath + "Output_QCD_HT2000toInf_TuneCUETP8M1_13T
 //
 
 // not used so far
-TString filenamesigpath("/home/ptiwari/bbMET_final/bbMET/BR_Condor_Farmout/signal/");
+TString filenamesigpath("../../../bbMET/BR_Condor_Farmout/signal/");
 //bbMET Signal Sample 46 - 83
 filenameString.push_back(filenamesigpath + "Output_scalar_NLO_Mchi-50_Mphi-400.root");
 filenameString.push_back(filenamesigpath + "Output_scalar_NLO_Mchi-50_Mphi-350.root");
@@ -265,7 +265,7 @@ filenameString.push_back(filenamesigpath + "Output_pseudo_NLO_Mchi-100_Mphi-350.
 
 //
 
-TString filenamedatapath("/home/ptiwari/bbMET_final/bbMET/BR_Condor_Farmout/data/");
+TString filenamedatapath("../../../bbMET/BR_Condor_Farmout/hadd_outputs/");
 //Data File 84
 filenameString.push_back(filenamedatapath + "data_combined_'''+dtset+'''.root");
 
