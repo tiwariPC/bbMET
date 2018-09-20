@@ -370,25 +370,26 @@ def AnalyzeDataSet():
 
 
     CRcutnames=['datatrig','trig','recoil','realMET','mass','dPhicond','njets','nbjets','jetconds','nlep/npho','lepconds']
-        regionnames=['2e1b','2mu1b','2e2b','2mu2b','1e1b','1mu1b','1e2b','1mu2b','1etop1b','1mutop1b','1etop2b','1mutop2b','1mu1e1b','1mu1e2b','1gamma1b','1gamma2b','QCD1b','QCD2b']
-        for CRreg in regionnames:
-            exec("CR"+CRreg+"CutFlow={'preselection':NEntries}")
-            for cutname in CRcutnames:
-                if ('top' in CRreg or '1e1b' in CRreg or '1e2b' in CRreg or '1mu1b' in CRreg or '1mu2b' in CRreg) and (not '1mu1e' in CRreg ) and 'njets' in cutname:
-                    cutname = 'add_Jet'
-                exec("CR"+CRreg+"CutFlow['"+cutname+"']=0")
+    regionnames=['2e1b','2mu1b','2e2b','2mu2b','1e1b','1mu1b','1e2b','1mu2b','1etop1b','1mutop1b','1etop2b','1mutop2b','1mu1e1b','1mu1e2b','1gamma1b','1gamma2b','QCD1b','QCD2b']
+    for CRreg in regionnames:
+        exec("CR"+CRreg+"CutFlow={'preselection':NEntries}")
+        for cutname in CRcutnames:
+            if ('top' in CRreg or '1e1b' in CRreg or '1e2b' in CRreg or '1mu1b' in CRreg or '1mu2b' in CRreg) and (not '1mu1e' in CRreg ) and 'njets' in cutname:
+                cutname = 'add_Jet'
+            exec("CR"+CRreg+"CutFlow['"+cutname+"']=0")
 
 
-        CRs=['ZCRSR1','ZCRSR2','WCRSR1','WCRSR2','TOPCRSR1','TOPCRSR2','TopCRSR1','TopCRSR2', 'GammaCRSR1','GammaCRSR2']
+    CRs=['ZCRSR1','ZCRSR2','WCRSR1','WCRSR2','TOPCRSR1','TOPCRSR2','TopCRSR1','TopCRSR2', 'GammaCRSR1','GammaCRSR2']
 
-        CRStatus={'total':NEntries}
-        for CRname in CRs:
-            CRStatus[CRname]=0
+    CRStatus={'total':NEntries}
+    for CRname in CRs:
+        CRStatus[CRname]=0
 
-        # ---CR Summary---
-        regNames=['1#mu1b','1e1b','1#mu2b','1e2b','1#mutop1b','1etop1b','1#mutop2b','1etop2b','2#mu1b','2e1b','2#mu2b','2e2b','1#mu1e1b','1#mu1e2b']
-        regNamesMu=['1#mu1b','1#mu2b','2#mu1b','2#mu2b','1#mutop1b','1#mutop2b','1#mu1e1b','1#mu1e2b']
-        regNamesEle=['1e1b','1e2b','1etop1b','1etop2b','2e1b','2e2b']
+    # ---CR Summary---
+    regNames=['1#mu1b','1e1b','1#mu2b','1e2b','1#mutop1b','1etop1b','1#mutop2b','1etop2b','2#mu1b','2e1b','2#mu2b','2e2b','1#mu1e1b','1#mu1e2b']
+    regNamesMu=['1#mu1b','1#mu2b','2#mu1b','2#mu2b','1#mutop1b','1#mutop2b','1#mu1e1b','1#mu1e2b']
+    regNamesEle=['1e1b','1e2b','1etop1b','1etop2b','2e1b','2e2b']
+
     CRSummary={}
     for ireg in regNames:
         CRSummary[ireg]=0.
