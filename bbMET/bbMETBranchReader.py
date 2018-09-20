@@ -3912,6 +3912,9 @@ def AnalyzeDataSet():
     for CRreg in regionnames:
         CFvalues=[]
         for cutname in CRcutnames:
+            for cutname in CRcutnames:
+            if ('top' in CRreg or '1e1b' in CRreg or '1e2b' in CRreg or '1mu1b' in CRreg or '1mu2b' in CRreg) and (not '1mu1e' in CRreg ) and 'njets' in cutname:
+                cutname = 'add_Jet'
             exec("CFvalues.append(CR"+CRreg+"CutFlow['"+cutname+"'])")
         CRcutflowvaluesSet.append(CFvalues)
 
