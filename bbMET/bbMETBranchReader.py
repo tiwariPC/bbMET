@@ -3026,7 +3026,7 @@ def AnalyzeDataSet():
         if not isData:
 #            if pu_nTrueInt  <= len_puweight: puweight = allpuweights[pu_nTrueInt-1]
 #            if pu_nTrueInt  > len_puweight : puweight = 0.0
-            if pu_nTrueInt < 100:
+            if pu_nTrueInt < 100 and pu_nTrueInt > 0:
                 puweight = pileup2016histo.GetBinContent(pu_nTrueInt)
             else:
                 puweight = 1.
