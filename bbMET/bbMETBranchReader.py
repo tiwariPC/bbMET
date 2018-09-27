@@ -1662,7 +1662,8 @@ def AnalyzeDataSet():
 
 
         #1e, 1 b-tagged
-        if nEle==1 and nMu==0 and nTauTightElectron==0 and EleCRtrigstatus and WenuRecoil>200. and jetcond and Wenumass>50. and Wenumass<160. and pfMet > 50.:
+        #if nEle==1 and nMu==0 and nTauTightElectron==0 and EleCRtrigstatus and WenuRecoil>200. and jetcond and Wenumass>50. and Wenumass<160. and pfMet > 50.:
+        if nEle==1 and nMu==0 and nTauTightElectron==0 and EleCRtrigstatus and WenuRecoil>200. and jetcond and Wenumass<160. and pfMet > 50.:
 
             iLeadLep=0
 
@@ -1677,7 +1678,8 @@ def AnalyzeDataSet():
                 if nBjets==1 and SR1njetcond:
                     allquantities.reg_1e1b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(WenuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                if nBjets==1 and SR1njetcond and WdPhicond:
+                #if nBjets==1 and SR1njetcond and WdPhicond:
+                if  nBjets==1 and WdPhicond and (nJets-nBjets)==0:
                     allquantities.reg_1e1b_Wmass = Wenumass
                     allquantities.reg_1e1b_WpT=WpT
 
@@ -1749,7 +1751,8 @@ def AnalyzeDataSet():
                 if nBjets==2 and SR2jet2 and SR2njetcond:
                     allquantities.reg_1e2b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(WenuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                if nBjets==2 and SR2jet2 and SR2njetcond and WdPhicond:
+                #if nBjets==2 and SR2jet2 and SR2njetcond and WdPhicond:
+                if nBjets==2 and SR2jet2 and WdPhicond and (nJets-nBjets)==0
                     allquantities.reg_1e2b_Wmass = Wenumass
                     allquantities.reg_1e2b_WpT=WpT
 
@@ -1817,7 +1820,8 @@ def AnalyzeDataSet():
 
 
         #1mu, 1 b-tagged
-        if nMu==1 and nEle==0 and nTauTightMuon==0 and MuCRtrigstatus and WmunuRecoil>200. and jetcond and Wmunumass>50. and Wmunumass<160. and pfMet > 50.:
+        #if nMu==1 and nEle==0 and nTauTightMuon==0 and MuCRtrigstatus and WmunuRecoil>200. and jetcond and Wmunumass>50. and Wmunumass<160. and pfMet > 50.:
+        if nMu==1 and nEle==0 and nTauTightMuon==0 and MuCRtrigstatus and WmunuRecoil>200. and jetcond and Wmunumass<160. and pfMet > 50.:
             iLeadLep=0
 
             if myMuos[iLeadLep].Pt() > 30. and myMuTightID[iLeadLep] and myMuIso[iLeadLep]<0.15:
@@ -1831,7 +1835,8 @@ def AnalyzeDataSet():
                 if  nBjets==1 and SR1njetcond:
                     allquantities.reg_1mu1b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(WmunuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                if  nBjets==1 and SR1njetcond and WdPhicond:
+                #if  nBjets==1 and SR1njetcond and WdPhicond:
+                if  nBjets==1 and WdPhicond and (nJets-nBjets)==0:
                     allquantities.reg_1mu1b_Wmass = Wmunumass
                     allquantities.reg_1mu1b_WpT=WpT
 
@@ -1899,7 +1904,8 @@ def AnalyzeDataSet():
                 if  nBjets==2 and SR2jet2 and SR2njetcond:
                     allquantities.reg_1mu2b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(WmunuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
-                if  nBjets==2 and SR2jet2 and SR2njetcond and WdPhicond:
+                #if nBjets==2 and SR2jet2 and SR2njetcond and WdPhicond:
+                if nBjets==2 and SR2jet2 and WdPhicond and (nJets-nBjets)==0:
                     allquantities.reg_1mu2b_Wmass = Wmunumass
                     allquantities.reg_1mu2b_WpT=WpT
 
@@ -1992,7 +1998,8 @@ def AnalyzeDataSet():
 
 
         #1lep, 1 b-tagged
-        if ((nEle==1 and nMu==0) or (nEle==0 and nMu==1)) and nTauTightElectron==0 and EleCRtrigstatus and WenuRecoil>200. and jetcond and Wenumass>50. and Wenumass<160. and pfMet > 50.:
+        #if ((nEle==1 and nMu==0) or (nEle==0 and nMu==1)) and nTauTightElectron==0 and EleCRtrigstatus and WenuRecoil>200. and jetcond and Wenumass>50. and Wenumass<160. and pfMet > 50.:
+        if ((nEle==1 and nMu==0) or (nEle==0 and nMu==1)) and nTauTightElectron==0 and EleCRtrigstatus and WenuRecoil>200. and jetcond and Wenumass<160. and pfMet > 50.:
 
             iLeadLep=0
 
@@ -2000,7 +2007,7 @@ def AnalyzeDataSet():
 
                 WpT = math.sqrt( ( pfMet*math.cos(pfMetPhi) + myEles[iLeadLep].Px())**2 + ( pfMet*math.sin(pfMetPhi) + myEles[iLeadLep].Py())**2)
 
-                if nBjets==1 and WdPhicond:
+                if nBjets==1 and WdPhicond :
                     allquantities.reg_1etop1b_njet_n_minus_1=nJets
                     allquantities.reg_1etop1b_unclean_njet_n_minus_1=nUncleanJets
 
@@ -2077,7 +2084,7 @@ def AnalyzeDataSet():
 
 
             #1e, 2 b-tagged
-                if nBjets==2 and SR2jet2 and SR2njetcond:
+                if nBjets==2 and SR2jet2 and (nJets-nBjets)>=1:
                     allquantities.reg_1etop2b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(WenuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
                 #if nBjets==2 and SR2jet2 and SR2njetcond and WdPhicond:
@@ -2149,7 +2156,8 @@ def AnalyzeDataSet():
 
 
         #1mu, 1 b-tagged
-        if nMu==1 and nEle==0 and nTauTightMuon==0 and MuCRtrigstatus and WmunuRecoil>200. and jetcond and Wmunumass>50. and Wmunumass<160. and pfMet > 50.:
+        #if nMu==1 and nEle==0 and nTauTightMuon==0 and MuCRtrigstatus and WmunuRecoil>200. and jetcond and Wmunumass>50. and Wmunumass<160. and pfMet > 50.:
+        if nMu==1 and nEle==0 and nTauTightMuon==0 and MuCRtrigstatus and WmunuRecoil>200. and jetcond and Wmunumass<160. and pfMet > 50.:
             iLeadLep=0
 
             if myMuos[iLeadLep].Pt() > 30. and myMuTightID[iLeadLep] and myMuIso[iLeadLep]<0.15:
