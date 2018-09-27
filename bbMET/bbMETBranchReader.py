@@ -1752,7 +1752,7 @@ def AnalyzeDataSet():
                     allquantities.reg_1e2b_min_dPhi_jet_Recoil_n_minus_1 = min( [DeltaPhi(WenuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] )
 
                 #if nBjets==2 and SR2jet2 and SR2njetcond and WdPhicond:
-                if nBjets==2 and SR2jet2 and WdPhicond and (nJets-nBjets)==0
+                if nBjets==2 and SR2jet2 and WdPhicond and (nJets-nBjets)==0:
                     allquantities.reg_1e2b_Wmass = Wenumass
                     allquantities.reg_1e2b_WpT=WpT
 
