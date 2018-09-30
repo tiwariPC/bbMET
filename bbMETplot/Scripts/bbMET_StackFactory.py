@@ -269,7 +269,7 @@ filenameString.push_back(filenamesigpath + "Output_pseudo_NLO_Mchi-100_Mphi-350.
 
 //
 
-TString filenamedatapath("../../../bbMET/BR_Condor_Farmout/data/");
+TString filenamedatapath("../../../bbMET/BR_Condor_Farmout/hadd_outputs/");
 //Data File 84
 filenameString.push_back(filenamedatapath + "data_combined_'''+dtset+'''.root");
 
@@ -1466,10 +1466,10 @@ for dirname in dirnames:
 #    if makeMuCRplots and makeEleCRplots:
 #        regions=['2e1b','2mu1b','2e2b','2mu2b','1e1b','1mu1b','1e2b','1mu2b','1mu1e1b','1mu1e2b']
     if makeMuCRplots:
-        regions+=['2mu1b','2mu2b','1mu1b','1mu2b','1mu1e1b','1mu1e2b']
+        regions+=['1mu1b','1mu2b','1mutop1b','1mutop2b','2mu1b','2mu2b']
         PUreg+=['mu_']
     if makeEleCRplots:
-        regions+=['2e1b','2e2b','1e1b','1e2b']
+        regions+=['1e1b','1e2b','1etop1b','1etop2b','2e1b','2e2b']
         PUreg+=['ele_']
     if makePhoCRplots:
         regions+=['1gamma1b','1gamma2b']
