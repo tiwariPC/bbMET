@@ -3059,7 +3059,7 @@ def AnalyzeDataSet():
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         temp_weight_withOutBtag = allweights
         ## BTag Scale Factor
-        if SR1njetcond or (nJets-nBjets)>=1 or (nJets-nBjets)==0:
+        if SR1njetcond or (((nJets-nBjets)>=1 or (nJets-nBjets)==0) and  nBjets==1):
             ij = ifirstjet
             if nJets>1: jj = isecondjet
 
@@ -3072,7 +3072,7 @@ def AnalyzeDataSet():
             if nJets>1: sf_resolved2 = weightbtag(reader1, flav2, myJetP4[jj].Pt(), myJetP4[jj].Eta())
 
 #            print (sf_resolved1, sf_resolved2)
-        elif SR2njetcond  or (nJets-nBjets)>=1 or (nJets-nBjets)==0:
+        elif SR2njetcond  or (((nJets-nBjets)>=1 or (nJets-nBjets)==0) and nBjets==2):
             ij = ifirstjet
             jj = isecondjet
             if nJets>2: jk = ithirdjet
@@ -3088,7 +3088,7 @@ def AnalyzeDataSet():
             if nJets>2: sf_resolved3 = weightbtag(reader1, flav3, myJetP4[jk].Pt(), myJetP4[jk].Eta())
 
 
-        if SR1njetcond or (nJets-nBjets)>=1 or (nJets-nBjets)==0:
+        if SR1njetcond or (((nJets-nBjets)>=1 or (nJets-nBjets)==0) and  nBjets==1):
             if sf_resolved1[0]==0.0:
                 sf_resolved1[0]=1.0
             allweights = allweights * sf_resolved1[0]
@@ -3097,7 +3097,7 @@ def AnalyzeDataSet():
                     sf_resolved2[0]=1.0
                 allweights = allweights * sf_resolved2[0]
 
-        if SR2njetcond or (nJets-nBjets)>=1 or (nJets-nBjets)==0:
+        if SR2njetcond or (((nJets-nBjets)>=1 or (nJets-nBjets)==0) and  nBjets==2):
             if sf_resolved1[0]==0.0:
                 sf_resolved1[0]=1.0
             if sf_resolved2[0]==0.0:
