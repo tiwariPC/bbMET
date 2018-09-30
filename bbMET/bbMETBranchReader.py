@@ -1774,7 +1774,8 @@ def AnalyzeDataSet():
 
 
         #1e, 1 b-tagged
-        if nEle==1 and nMu==0 and nTauTightElectron==0 and EleCRtrigstatus and WenuRecoil>200. and jetcond and Wenumass>50. and Wenumass<160. and pfMet > 50.:
+        #if nEle==1 and nMu==0 and nTauTightElectron==0 and EleCRtrigstatus and WenuRecoil>200. and jetcond and Wenumass>50. and Wenumass<160. and pfMet > 50.:
+        if nEle==1 and nMu==0 and nTauTightElectron==0 and EleCRtrigstatus and WenuRecoil>200. and jetcond and Wenumass<160. and pfMet > 50.:
 
             iLeadLep=0
 
@@ -1931,7 +1932,8 @@ def AnalyzeDataSet():
 
 
         #1mu, 1 b-tagged
-        if nMu==1 and nEle==0 and nTauTightMuon==0 and MuCRtrigstatus and WmunuRecoil>200. and jetcond and Wmunumass>50. and Wmunumass<160. and pfMet > 50.:
+        #if nMu==1 and nEle==0 and nTauTightMuon==0 and MuCRtrigstatus and WmunuRecoil>200. and jetcond and Wmunumass>50. and Wmunumass<160. and pfMet > 50.:
+        if nMu==1 and nEle==0 and nTauTightMuon==0 and MuCRtrigstatus and WmunuRecoil>200. and jetcond and Wmunumass<160. and pfMet > 50.:
             iLeadLep=0
 
             if myMuos[iLeadLep].Pt() > 30. and myMuTightID[iLeadLep] and myMuIso[iLeadLep]<0.15:
@@ -2107,7 +2109,8 @@ def AnalyzeDataSet():
 
 
         #1lep, 1 b-tagged
-        if ((nEle==1 and nMu==0) or (nEle==0 and nMu==1)) and nTauTightElectron==0 and EleCRtrigstatus and WenuRecoil>200. and jetcond and Wenumass>50. and Wenumass<160. and pfMet > 50.:
+        #if nEle==1 and nMu==0 and nTauTightElectron==0 and EleCRtrigstatus and WenuRecoil>200. and jetcond and Wenumass>50. and Wenumass<160. and pfMet > 50.:
+        if nEle==1 and nMu==0 and nTauTightElectron==0 and EleCRtrigstatus and WenuRecoil>200. and jetcond and Wenumass<160. and pfMet > 50.:
 
             iLeadLep=0
 
@@ -2264,7 +2267,8 @@ def AnalyzeDataSet():
 
 
         #1mu, 1 b-tagged
-        if nMu==1 and nEle==0 and nTauTightMuon==0 and MuCRtrigstatus and WmunuRecoil>200. and jetcond and Wmunumass>50. and Wmunumass<160. and pfMet > 50.:
+        #if nMu==1 and nEle==0 and nTauTightMuon==0 and MuCRtrigstatus and WmunuRecoil>200. and jetcond and Wmunumass>50. and Wmunumass<160. and pfMet > 50.:
+        if nMu==1 and nEle==0 and nTauTightMuon==0 and MuCRtrigstatus and WmunuRecoil>200. and jetcond and Wmunumass<160. and pfMet > 50.:
             iLeadLep=0
 
             if myMuos[iLeadLep].Pt() > 30. and myMuTightID[iLeadLep] and myMuIso[iLeadLep]<0.15:
