@@ -3059,7 +3059,7 @@ def AnalyzeDataSet():
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         temp_weight_withOutBtag = allweights
         ## BTag Scale Factor
-        if SR1njetcond:
+        if SR1njetcond or (nJets-nBjets)>=1 or (nJets-nBjets)==0:
             ij = ifirstjet
             if nJets>1: jj = isecondjet
 
@@ -3072,7 +3072,7 @@ def AnalyzeDataSet():
             if nJets>1: sf_resolved2 = weightbtag(reader1, flav2, myJetP4[jj].Pt(), myJetP4[jj].Eta())
 
 #            print (sf_resolved1, sf_resolved2)
-        elif SR2njetcond:
+        elif SR2njetcond  or (nJets-nBjets)>=1 or (nJets-nBjets)==0:
             ij = ifirstjet
             jj = isecondjet
             if nJets>2: jk = ithirdjet
