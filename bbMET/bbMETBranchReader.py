@@ -3088,7 +3088,7 @@ def AnalyzeDataSet():
             if nJets>2: sf_resolved3 = weightbtag(reader1, flav3, myJetP4[jk].Pt(), myJetP4[jk].Eta())
 
 
-        if SR1njetcond:
+        if SR1njetcond or (nJets-nBjets)>=1 or (nJets-nBjets)==0:
             if sf_resolved1[0]==0.0:
                 sf_resolved1[0]=1.0
             allweights = allweights * sf_resolved1[0]
@@ -3097,7 +3097,7 @@ def AnalyzeDataSet():
                     sf_resolved2[0]=1.0
                 allweights = allweights * sf_resolved2[0]
 
-        if SR2njetcond:
+        if SR2njetcond or (nJets-nBjets)>=1 or (nJets-nBjets)==0:
             if sf_resolved1[0]==0.0:
                 sf_resolved1[0]=1.0
             if sf_resolved2[0]==0.0:
