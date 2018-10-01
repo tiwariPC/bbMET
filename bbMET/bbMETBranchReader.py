@@ -11,8 +11,8 @@ import AllQuantList
 ROOT.gROOT.SetBatch(True)
 from bbMETQuantities import *
 #from PileUpWeights import PUWeight
-pileup2016file = TFile('pileUPinfo2016.root')
-pileup2016histo=pileup2016file.Get('hpileUPhist')
+pileup2017file = TFile('PU_Reweight_2017.root')
+pileup2017histo=pileup2017file.Get('PU_Ratio')
 
 #Electron Trigger reweights
 eleTrigReweightFile = TFile('scalefactors/electron_Trigger_eleTrig.root')
@@ -1147,84 +1147,6 @@ def AnalyzeDataSet():
             allquantities.jer_syst_sr2_down = pfMetJetEnDown[0]
             writeSR2=True
 
-
-
-        #if (nJets == 2 or nJets == 3) and nBjets==2 and SRtrigstatus:
-            #SR2njetcond=True
-            #if pfmetstatus: cutStatusSR2['njet+nBjet'] +=1
-            #if pfmetstatus: cutStatus['njet+nBjet'] += 1
-
-            #SR2jetcond=True
-
-            #if j1.Pt() < 50.0: SR2jetcond=False
-            #if DeltaPhi(j1.Phi(),pfMetPhi) < 0.5: SR2jetcond=False
-            #if myJetNhadEF[ifirstjet] > 0.8 : SR2jetcond=False
-            #if myJetChadEF[ifirstjet]< 0.1: SR2jetcond=False
-
-            #if SR2jetcond and pfmetstatus:
-                #cutStatus['jet1'] += 1              # Lead jet satisfies required criteria
-                #cutStatusSR2['jet1'] += 1
-
-            #if j2.Pt() < 50.0: SR2jetcond=False
-            #if DeltaPhi(j2.Phi(),pfMetPhi) < 0.5: SR2jetcond=False
-
-            #if SR2jetcond and pfmetstatus:
-                #cutStatusSR2['jet2'] += 1
-
-            #if nJets>2:
-                #if j3.Pt() < 30.0: SR2jetcond=False
-                #if DeltaPhi(j3.Phi(),pfMetPhi) < 0.5: SR2jetcond=False
-
-            #if SR2jetcond and pfmetstatus:
-                #cutStatusSR2['jet3'] += 1
-                #cutStatus['jet2/3'] += 1           # The jets 2 and 3 satisfy the required criteria
-
-            #if SR2jetcond:
-                #jet1pt = j1.Pt()
-                #jet1phi = j1.Phi()
-                #jet1eta = j1.Eta()
-
-                #jet2pt = j2.Pt()
-                #jet2phi = j2.Phi()
-                #jet2eta = j2.Eta()
-
-                #if nJets>2:
-                    #jet3pt = j3.Pt()
-                    #jet3phi = j3.Phi()
-                    #jet3eta = j3.Eta()
-                    #jet3csv = mybJet_disc[ithirdjet]
-                    #min_dPhi=min(DeltaPhi(j1.Phi(),pfMetPhi),DeltaPhi(j2.Phi(),pfMetPhi),DeltaPhi(j3.Phi(),pfMetPhi))
-                #else:
-                    #jet3pt = None
-                    #jet3phi = None
-                    #jet3eta = None
-                    #jet3csv = None
-                    #min_dPhi=min(DeltaPhi(j1.Phi(),pfMetPhi),DeltaPhi(j2.Phi(),pfMetPhi))
-
-                #jet1csv = mybJet_disc[ifirstjet]
-                #jet2csv = mybJet_disc[isecondjet]
-
-                #jetSR2Info.append([jet1pt,jet1eta,jet1phi,jet1csv])
-                #jetSR2Info.append([jet2pt,jet2eta,jet2phi,jet2csv])
-                #jetSR2Info.append([jet3pt,jet3eta,jet3phi,jet3csv])
-                #jetSR2Info.append(min_dPhi)
-                #jetSR2Info.append(pfMet)
-                #jetSR2Info.append(myJetNhadEF[ifirstjet])
-                #jetSR2Info.append(myJetChadEF[ifirstjet])
-                #writeSR2=True
-
-        #if pfmetstatus and SRlepcond and SR1jetcond:
-            #cutStatus['lep'] += 1
-            #cutStatusSR1['lep'] += 1
-
-        #if pfmetstatus and SRlepcond and SR2jetcond:
-            #cutStatus['lep'] += 1
-            #cutStatusSR2['lep'] += 1
-
-
-
-
-
 # --------------------------------------------------------------------------------------------------------------------------------------------------------
 
         #Control Regions
@@ -1267,31 +1189,6 @@ def AnalyzeDataSet():
 
             if nJets>=3:
                 if j3.Pt() < 30.0: jetcond=False
-
-
-#        if jetcond: CRCutFlow['jetcond']+=1
-#        ### Experimental: First 1/2/3 jets alone satisfy nBjet condition: Doesn't make any positive difference
-#
-#        SR1bjetcond=False
-#        SR2bjetcond=False
-#
-#        if nJets==1 and mybJet_disc[0]>CSVMWP: SR1bjetcond = True
-#
-#        if nJets>=2:
-#            nbjetin2=0
-#            for ijet in [ifirstjet,isecondjet]:
-#                if mybJet_disc[ijet]>CSVMWP:
-#                    nbjetin2 += 1
-#            if nbjetin2 == 1: SR1bjetcond = True
-#            if nbjetin2 == 2: SR2bjetcond = True
-#
-#        if nJets>=3:
-#            nbjetin3=0
-#            for ijet in [ifirstjet,isecondjet,ithirdjet]:
-#                if mybJet_disc[ijet]>CSVMWP:
-#                    nbjetin3 += 1
-#            if nbjetin3 == 2: SR2bjetcond = True
-#
 
 
 # -------------------------------------------
@@ -3007,7 +2904,7 @@ def AnalyzeDataSet():
 #            if pu_nTrueInt  <= len_puweight: puweight = allpuweights[pu_nTrueInt-1]
 #            if pu_nTrueInt  > len_puweight : puweight = 0.0
             if pu_nTrueInt < 100 and pu_nTrueInt > 0:
-                puweight = pileup2016histo.GetBinContent(pu_nTrueInt)
+                puweight = pileup2017histo.GetBinContent(pu_nTrueInt)
             else:
                 puweight = 1.
 
