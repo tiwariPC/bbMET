@@ -368,12 +368,12 @@ for(int i =0; i<84; i++){
         std::cout << "Setting variable bining for recoil" << std::endl;
         h_temp = (TH1F*) fIn->Get(histnameString);
 
-        Double_t bins[8] = {bins=200,250,300,400,500,700,1000,2000};
+        Double_t bins[8] = {200,250,300,400,500,700,1000,2000};
         //Int_t binnum = sizeof(bins)/sizeof(Double_t) - 1;
 
         std::cout << "start rebining histogram" << std::endl;
         std::cout << "Integral of first hist" << h_temp->Integral() << std::endl;
-        TH1F* h_ = (TH1F *) h_temp->Rebin(3, "hnew", bins);
+        TH1F* h_ = (TH1F *) h_temp->Rebin(7, "hnew", bins);
         //h_temp->Rebin(2, "hnew", bins);
         std::cout << "Integral of new hist" << h_->Integral() << std::endl;
         std::cout << "done rebining histogram" << std::endl;
@@ -411,9 +411,9 @@ if (varbin && (histnameString.Index("hadrecoil") !=string::npos || histnameStrin
     h_temp =(TH1F*) fIn->Get(histnameString);
     //h_temp->Rebin(3,"hnew",metbins);
     //h_data= (TH1F*)hnew->Clone();
-    Double_t bins[5] = {200,345,480,1000};
+    Double_t bins[8] = {200,250,300,400,500,700,1000,2000};
     //Int_t binnum = sizeof(bins)/sizeof(Double_t) - 1;
-    TH1F* h_ = (TH1F *) h_temp->Rebin(3, "hnew", bins);
+    TH1F* h_ = (TH1F *) h_temp->Rebin(7, "hnew", bins);
     h_data= (TH1F*)h_->Clone();
 //}
 }else{
