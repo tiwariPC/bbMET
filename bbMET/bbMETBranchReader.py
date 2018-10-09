@@ -3649,13 +3649,13 @@ def AnalyzeDataSet():
         btag_sysnum=0
         for btag_sysnum in[1,2]:
             allweights = temp_weight_withOutBtag
-            if SR1njetcond:
+            if SR1njetcond or (((nJets-nBjets)>=1 or (nJets-nBjets)==0) and  nBjets==1):
                 if sf_resolved1[btag_sysnum]==0.0: sf_resolved1[btag_sysnum]=1.0
                 allweights = allweights*sf_resolved1[btag_sysnum]
                 if nJets>1:
                     if sf_resolved2[btag_sysnum]==0.0: sf_resolved2[btag_sysnum]=1.0
                     allweights = allweights *sf_resolved2[btag_sysnum]
-            if SR2njetcond:
+            if SR2njetcond or (((nJets-nBjets)>=1 or (nJets-nBjets)==0) and  nBjets==2):
                 if sf_resolved1[btag_sysnum]==0.0: sf_resolved1[btag_sysnum]=1.0
                 if sf_resolved2[btag_sysnum]==0.0: sf_resolved2[btag_sysnum]=1.0
                 allweights = allweights * sf_resolved1[btag_sysnum] * sf_resolved2[btag_sysnum]
