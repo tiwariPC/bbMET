@@ -88,7 +88,7 @@ void Plot(){
 time_t now = time(0);
 tm *ltm = localtime(&now);
 TString dirpathname;
-
+bool varbin = true;
  TString DirPreName = "/home/ptiwari/t3store2/2017_bbMET_13082018/bbMETplot/Scripts/test/";
  dirpathname = "'''+datestr+'''"; //.Form("%d%1.2d%d",ltm->tm_mday,1 + ltm->tm_mon,1900 + ltm->tm_year);
 
@@ -364,17 +364,33 @@ for(int i =0; i<84; i++){
     fIn = new TFile(filenameString[i],"READ");
 
     //if(VARIABLEBINS){
-    //h_temp = (TH1F*) fIn->Get(histnameString);
+    if (varbin && (histnameString.Index("hadrecoil") !=string::npos || histnameString.Index("met") !=string::npos)){
+        std::cout << "Setting variable bining for recoil" << std::endl;
+        h_temp = (TH1F*) fIn->Get(histnameString);
 
-    //h_temp->Rebin(REBIN);
-    //h_temp->Rebin(3,"hnew",metbins);
-    //h_temp->Sumw2();
-    //h_mc[i]= (TH1F*)hnew->Clone();
-    //}else{
+        Double_t bins[8] = {bins=200,250,300,400,500,700,1000,2000};
+        //Int_t binnum = sizeof(bins)/sizeof(Double_t) - 1;
+
+        std::cout << "start rebining histogram" << std::endl;
+        std::cout << "Integral of first hist" << h_temp->Integral() << std::endl;
+        TH1F* h_ = (TH1F *) h_temp->Rebin(3, "hnew", bins);
+        //h_temp->Rebin(2, "hnew", bins);
+        std::cout << "Integral of new hist" << h_->Integral() << std::endl;
+        std::cout << "done rebining histogram" << std::endl;
+
+        //h_temp->Rebin(REBIN);
+        //h_temp->Rebin(3,"hnew",metbins);
+        //h_temp_->Sumw2();
+        //TH1F* h= (TH1F*) hnew->Clone();
+        h_mc[i]= (TH1F*) h_->Clone();
+        std::cout << "done cloning" << std::endl;
+        //h_mc[i]= (TH1F*)h_temp_->Clone();
+
+    }else{
     h_mc[i] = (TH1F*) fIn->Get(histnameString);
     h_mc[i]->Rebin(REBIN);
     h_mc[i]->Sumw2();
-    //}
+    }
     //h_total      = (TH1F*) fIn->Get("nEvents_weight");
      h_total      = (TH1F*) fIn->Get("h_total");
 
@@ -393,10 +409,17 @@ for(int i =0; i<84; i++){
 
 
 fIn = new TFile(filenameString[84],"READ");
-if(VARIABLEBINS){
-h_temp =(TH1F*) fIn->Get(histnameString);
-h_temp->Rebin(3,"hnew",metbins);
-h_data= (TH1F*)hnew->Clone();
+//if(VARIABLEBINS){
+if (varbin && (histnameString.Index("hadrecoil") !=string::npos || histnameString.Index("met") !=string::npos)){
+    std::cout << "Setting variable bining for recoil" << std::endl;
+    h_temp =(TH1F*) fIn->Get(histnameString);
+    //h_temp->Rebin(3,"hnew",metbins);
+    //h_data= (TH1F*)hnew->Clone();
+    Double_t bins[5] = {200,345,480,1000};
+    //Int_t binnum = sizeof(bins)/sizeof(Double_t) - 1;
+    TH1F* h_ = (TH1F *) h_temp->Rebin(3, "hnew", bins);
+    h_data= (TH1F*)h_->Clone();
+//}
 }else{
 h_data = (TH1F*) fIn->Get(histnameString);
 h_data->Rebin(REBIN);
