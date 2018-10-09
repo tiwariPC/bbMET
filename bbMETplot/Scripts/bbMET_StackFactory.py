@@ -364,7 +364,7 @@ for(int i =0; i<84; i++){
     fIn = new TFile(filenameString[i],"READ");
 
     //if(VARIABLEBINS){
-    if (varbin && histnameString.Index("hadrecoil") !=string::npos){
+    if (varbin && (histnameString.Index("hadrecoil") !=string::npos || histnameString.Index("met") !=string::npos)){
         std::cout << "Setting variable bining for recoil" << std::endl;
         h_temp = (TH1F*) fIn->Get(histnameString);
 
