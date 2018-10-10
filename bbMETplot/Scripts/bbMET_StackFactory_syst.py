@@ -1,7 +1,7 @@
 import os
 import sys
 import datetime
-import sys, optparse
+import commands, optparse
 ## Ratio is added Data/MC
 ## Template macro is fed to a python variable
 ## 1.)  is created on DateBase
@@ -69,6 +69,7 @@ else:
 print "Using dataset "+dtset
 
 datestr = datetime.date.today().strftime("%d%m%Y")
+directorystr = commands.getstatusoutput('echo "$PWD"')[1]+'/'
 
 macro='''
 #include <ctime>
@@ -83,8 +84,8 @@ void Plot(){
 time_t now = time(0);
 tm *ltm = localtime(&now);
 TString dirpathname;
-
- TString DirPreName = "/home/ptiwari/bbMET_final/bbMETplot/Scripts/syst/";
+bool varbin = true;
+ TString DirPreName ="'''+directorystr+'''";
  dirpathname = "'''+datestr+'''"; //.Form("%d%1.2d%d",ltm->tm_mday,1 + ltm->tm_mon,1900 + ltm->tm_year);
 
  system("mkdir -p  " + DirPreName+dirpathname +"/bbMETROOT");
@@ -210,15 +211,15 @@ filenameString.push_back(filenamepath + "Output_TT_TuneCUETP8M2T4_13TeV-powheg-p
 //
 
 // QCD 37,38,39,40,41,42,43,44,45
-filenameString.push_back(filenamepath + "Output_QCD_HT50to100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
-filenameString.push_back(filenamepath + "Output_QCD_HT100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
-filenameString.push_back(filenamepath + "Output_QCD_HT200to300_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
-filenameString.push_back(filenamepath + "Output_QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
-filenameString.push_back(filenamepath + "Output_QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
-filenameString.push_back(filenamepath + "Output_QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
-filenameString.push_back(filenamepath + "Output_QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
-filenameString.push_back(filenamepath + "Output_QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
-filenameString.push_back(filenamepath + "Output_QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
+filenameString.push_back(filenamepath + "Output_QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");  //dummy
+filenameString.push_back(filenamepath + "Output_QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");  //dummy
+filenameString.push_back(filenamepath + "Output_QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");  //dummy
+filenameString.push_back(filenamepath + "Output_QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");  //dummy
+filenameString.push_back(filenamepath + "Output_QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
+filenameString.push_back(filenamepath + "Output_QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
+filenameString.push_back(filenamepath + "Output_QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
+filenameString.push_back(filenamepath + "Output_QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
+filenameString.push_back(filenamepath + "Output_QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
 //
 
 // not used so far

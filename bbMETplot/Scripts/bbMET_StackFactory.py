@@ -1,7 +1,7 @@
 import os
 import sys
 import datetime
-import sys, optparse
+import commands, optparse
 ## Ratio is added Data/MC
 ## Template macro is fed to a python variable
 ## 1.)  is created on DateBase
@@ -74,6 +74,7 @@ else:
 print "Using dataset "+dtset
 
 datestr = datetime.date.today().strftime("%d%m%Y")
+directorystr = commands.getstatusoutput('echo "$PWD"')[1]+'/'
 
 macro='''
 #include <ctime>
@@ -89,7 +90,7 @@ time_t now = time(0);
 tm *ltm = localtime(&now);
 TString dirpathname;
 bool varbin = true;
- TString DirPreName = "/home/ptiwari/t3store2/2017_bbMET_13082018/bbMETplot/Scripts/test/";
+ TString DirPreName ="'''+directorystr+'''";
  dirpathname = "'''+datestr+'''"; //.Form("%d%1.2d%d",ltm->tm_mday,1 + ltm->tm_mon,1900 + ltm->tm_year);
 
  system("mkdir -p  " + DirPreName+dirpathname +"/bbMETROOT");
