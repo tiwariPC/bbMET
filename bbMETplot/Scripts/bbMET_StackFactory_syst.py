@@ -153,76 +153,80 @@ TH1F*  STop;
 TH1F*  GJets;
 TH1F*  QCD;
 //TH1F*  data_obs;
-TString filenamepath("/home/ptiwari/bbMET_final/bbMET/BR_Condor_Farmout/hadd_outputs/");
+TString filenamepath("../../../bbMET/BR_Condor_Farmout/hadd_outputs/");
 
 // Diboson WW WZ ZZ 0 1 2
-filenameString.push_back(filenamepath + "Output_WW_TuneCUETP8M1_13TeV-pythia8_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_WZ_TuneCUETP8M1_13TeV-pythia8_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_ZZ_TuneCUETP8M1_13TeV-pythia8_MC25ns_LegacyMC_20170328.root");
+filenameString.push_back(filenamepath + "Output_WW_TuneCP5_13TeV-pythia8.root");
+filenameString.push_back(filenamepath + "Output_WZ_TuneCP5_13TeV-pythia8.root");
+filenameString.push_back(filenamepath + "Output_ZZ_TuneCP5_13TeV-pythia8.root");
 
 
 //ZJets High pt DYSample 3,4,5,6,7,8,9
-filenameString.push_back(filenamepath + "Output_ZJetsToNuNu_HT-100To200_13TeV-madgraph_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_ZJetsToNuNu_HT-200To400_13TeV-madgraph_MC25ns_LegacyMC_20170328.root");
+filenameString.push_back(filenamepath + "Output_ZJetsToNuNu_HT-100To200_13TeV-madgraph.root");
+filenameString.push_back(filenamepath + "Output_ZJetsToNuNu_HT-200To400_13TeV-madgraph.root");
+//filenameString.push_back(filenamepath + "Output_ZJetsToNuNu_HT-400To600_13TeV-madgraph.root");
 filenameString.push_back(filenamepath + "Output_ZJetsToNuNu_HT-400To600_13TeV-madgraph_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_ZJetsToNuNu_HT-600To800_13TeV-madgraph_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_ZJetsToNuNu_HT-800To1200_13TeV-madgraph_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_ZJetsToNuNu_HT-1200To2500_13TeV-madgraph_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph_MC25ns_LegacyMC_20170328.root");
+filenameString.push_back(filenamepath + "Output_ZJetsToNuNu_HT-600To800_13TeV-madgraph.root");
+filenameString.push_back(filenamepath + "Output_ZJetsToNuNu_HT-800To1200_13TeV-madgraph.root");
+filenameString.push_back(filenamepath + "Output_ZJetsToNuNu_HT-1200To2500_13TeV-madgraph.root");
+filenameString.push_back(filenamepath + "Output_ZJetsToNuNu_HT-2500ToInf_13TeV-madgraph.root");
 
 
 //DYJets High pt DYSample 10,11,12,13,14,15,16,17
+//filenameString.push_back(filenamepath + "Output_DYJetsToLL_M-50_HT-70to100_TuneCP5_13TeV-madgraphMLM-pythia8.root");
 filenameString.push_back(filenamepath + "Output_DYJetsToLL_M-50_HT-70to100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_DYJetsToLL_M-50_HT-100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_DYJetsToLL_M-50_HT-200to400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_DYJetsToLL_M-50_HT-400to600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_DYJetsToLL_M-50_HT-600to800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_DYJetsToLL_M-50_HT-800to1200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_DYJetsToLL_M-50_HT-1200to2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_DYJetsToLL_M-50_HT-2500toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
+filenameString.push_back(filenamepath + "Output_DYJetsToLL_M-50_HT-100to200_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+filenameString.push_back(filenamepath + "Output_DYJetsToLL_M-50_HT-200to400_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+filenameString.push_back(filenamepath + "Output_DYJetsToLL_M-50_HT-400to600_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+filenameString.push_back(filenamepath + "Output_DYJetsToLL_M-50_HT-600to800_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+filenameString.push_back(filenamepath + "Output_DYJetsToLL_M-50_HT-800to1200_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+filenameString.push_back(filenamepath + "Output_DYJetsToLL_M-50_HT-1200to2500_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+filenameString.push_back(filenamepath + "Output_DYJetsToLL_M-50_HT-2500toInf_TuneCP5_13TeV-madgraphMLM-pythia8.root");
 
 // WJets in Bins  18,18,19,20,21,22,23,24,25
+//filenameString.push_back(filenamepath + "Output_WJetsToLNu_HT-70To100_TuneCP5_13TeV-madgraphMLM-pythia8.root");
 filenameString.push_back(filenamepath + "Output_WJetsToLNu_HT-70To100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_WJetsToLNu_HT-100To200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_WJetsToLNu_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_WJetsToLNu_HT-400To600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_WJetsToLNu_HT-600To800_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_WJetsToLNu_HT-800To1200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_WJetsToLNu_HT-1200To2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_WJetsToLNu_HT-2500ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
+filenameString.push_back(filenamepath + "Output_WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+filenameString.push_back(filenamepath + "Output_WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+filenameString.push_back(filenamepath + "Output_WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+filenameString.push_back(filenamepath + "Output_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+filenameString.push_back(filenamepath + "Output_WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+filenameString.push_back(filenamepath + "Output_WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+filenameString.push_back(filenamepath + "Output_WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8.root");
 
 // Single Top 26,27,28,29 30
-filenameString.push_back(filenamepath + "Output_ST_t-channel_top_4f_inclusiveDecays_13TeV-powhegV2-madspin-pythia8_TuneCUETP8M1_MC25ns_LegacyMC_2017.root");
-filenameString.push_back(filenamepath + "Output_ST_t-channel_antitop_4f_inclusiveDecays_13TeV-powhegV2-madspin-pythia8_TuneCUETP8M1_MC25ns_LegacyMC_.root");
-filenameString.push_back(filenamepath + "Output_ST_s-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_ST_tW_top_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M1_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_ST_tW_antitop_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M1_MC25ns_LegacyMC_20170328.root");
+filenameString.push_back(filenamepath + "Output_ST_t-channel_top_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8.root");
+filenameString.push_back(filenamepath + "Output_ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_13TeV-powhegV2-madspin-pythia8.root");
+filenameString.push_back(filenamepath + "Output_ST_s-channel_4f_leptonDecays_TuneCP5_13TeV-amcatnlo-pythia8.root");
+filenameString.push_back(filenamepath + "Output_ST_tW_top_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8.root");
+filenameString.push_back(filenamepath + "Output_ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8.root");
 
 // Gamma + Jets 31,32,33,34,35
-filenameString.push_back(filenamepath + "Output_GJets_HT-40To100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_GJets_HT-100To200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_GJets_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
+filenameString.push_back(filenamepath + "Output_GJets_HT-40To100_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+filenameString.push_back(filenamepath + "Output_GJets_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+filenameString.push_back(filenamepath + "Output_GJets_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8.root");
+//filenameString.push_back(filenamepath + "Output_GJets_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8.root");
 filenameString.push_back(filenamepath + "Output_GJets_HT-400To600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
-filenameString.push_back(filenamepath + "Output_GJets_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_MC25ns_LegacyMC_20170328.root");
+filenameString.push_back(filenamepath + "Output_GJets_HT-600ToInf_TuneCP5_13TeV-madgraphMLM-pythia8.root");
 
 // TTJets 36
 filenameString.push_back(filenamepath + "Output_TT_TuneCUETP8M2T4_13TeV-powheg-pythia8.root");
 //
 
 // QCD 37,38,39,40,41,42,43,44,45
-filenameString.push_back(filenamepath + "Output_QCD_HT50to100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
-filenameString.push_back(filenamepath + "Output_QCD_HT100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
-filenameString.push_back(filenamepath + "Output_QCD_HT200to300_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
-filenameString.push_back(filenamepath + "Output_QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
-filenameString.push_back(filenamepath + "Output_QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
-filenameString.push_back(filenamepath + "Output_QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
-filenameString.push_back(filenamepath + "Output_QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
-filenameString.push_back(filenamepath + "Output_QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
-filenameString.push_back(filenamepath + "Output_QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8.root");
+filenameString.push_back(filenamepath + "Output_QCD_HT2000toInf_TuneCP5_13TeV-madgraph-pythia8.root");  //dummy
+filenameString.push_back(filenamepath + "Output_QCD_HT2000toInf_TuneCP5_13TeV-madgraph-pythia8.root");  //dummy
+filenameString.push_back(filenamepath + "Output_QCD_HT2000toInf_TuneCP5_13TeV-madgraph-pythia8.root");  //dummy
+filenameString.push_back(filenamepath + "Output_QCD_HT2000toInf_TuneCP5_13TeV-madgraph-pythia8.root");  //dummy
+filenameString.push_back(filenamepath + "Output_QCD_HT500to700_TuneCP5_13TeV-madgraph-pythia8.root");
+filenameString.push_back(filenamepath + "Output_QCD_HT700to1000_TuneCP5_13TeV-madgraph-pythia8.root");
+filenameString.push_back(filenamepath + "Output_QCD_HT1000to1500_TuneCP5_13TeV-madgraph-pythia8.root");
+filenameString.push_back(filenamepath + "Output_QCD_HT1500to2000_TuneCP5_13TeV-madgraph-pythia8.root");
+filenameString.push_back(filenamepath + "Output_QCD_HT2000toInf_TuneCP5_13TeV-madgraph-pythia8.root");
 //
 
 // not used so far
-TString filenamesigpath("/home/ptiwari/bbMET_final/bbMET/BR_Condor_Farmout/signal/");
+TString filenamesigpath("../../../bbMET/BR_Condor_Farmout/signal/");
 //bbMET Signal Sample 46 - 83
 filenameString.push_back(filenamesigpath + "Output_scalar_NLO_Mchi-50_Mphi-400.root");
 filenameString.push_back(filenamesigpath + "Output_scalar_NLO_Mchi-50_Mphi-350.root");
@@ -265,7 +269,7 @@ filenameString.push_back(filenamesigpath + "Output_pseudo_NLO_Mchi-100_Mphi-350.
 
 //
 
-TString filenamedatapath("/home/ptiwari/bbMET_final/bbMET/BR_Condor_Farmout/data/");
+TString filenamedatapath("../../../bbMET/BR_Condor_Farmout/hadd_outputs/");
 //Data File 84
 filenameString.push_back(filenamedatapath + "data_combined_'''+dtset+'''.root");
 
@@ -293,7 +297,7 @@ Xsec[2] = 16.6;                    // ZZ
 Xsec[3] = 1.23 * 280.35;           // Znunu HT 100-200
 Xsec[4] = 1.23 * 77.67;            // Znunu HT 200-400
 Xsec[5] = 1.23 * 10.73;            // Znunu HT 400-600
-Xsec[6] = 0*1.23 * 2.559;            // Znunu HT 600-800
+Xsec[6] = 1.23 * 2.559;            // Znunu HT 600-800
 Xsec[7] = 1.23 * 1.1796;           // Znunu HT 800-1200
 Xsec[8] = 1.23 * 0.28833;          // Znunu HT 1200-2500
 Xsec[9] = 1.23 * 0.006945;         // Znunu HT 2500-inf
@@ -336,11 +340,11 @@ Xsec[37] = 0;    //246300000;              // QCD_HT50to100
 Xsec[38] = 0;    //27990000;               // QCD_HT100to200
 Xsec[39] = 0;    //1712000 * QCDSF;                // QCD_HT200to300
 Xsec[40] = 0;    //347700 * QCDSF;                 // QCD_HT300to500
-Xsec[41] = 0*32100 * QCDSF;                  // QCD_HT500to700
-Xsec[42] = 0*6831 * QCDSF;                   // QCD_HT700to1000
-Xsec[43] = 0*1207 * QCDSF;                   // QCD_HT1000to1500
-Xsec[44] = 0*119.9 * QCDSF;                   // QCD_HT1500to2000
-Xsec[45] = 0*25.24 * QCDSF;                   // QCD_HT2000toInf
+Xsec[41] = 32100 * QCDSF;                  // QCD_HT500to700
+Xsec[42] = 6831 * QCDSF;                   // QCD_HT700to1000
+Xsec[43] = 1207 * QCDSF;                   // QCD_HT1000to1500
+Xsec[44] = 119.9 * QCDSF;                   // QCD_HT1500to2000
+Xsec[45] = 25.24 * QCDSF;                   // QCD_HT2000toInf
 
 
 //Xsec[38] = 93.46;                   // Dummy
