@@ -131,8 +131,8 @@ gStyle->SetLineWidth(1);
 
 //Provide luminosity of total data
 //cout << endl << "*************** WARNING: Assuming incomplete data: full luminosity is not used. ***************" << endl << endl; //Adjust the last factor in the next line according to available data.
-float lumi = 35.545 * 1000; // 35.540082604 * 1000; // 3.1054555906 * 1000 ; ////11706.;// * 0.96838; // from the twiki https://twiki.cern.ch/twiki/bin/view/CMS/PdmV2016Analysis  //36.773
-float luminosity = 35.5;// It will print on your plots too
+float lumi = 35.9 * 1000; // 35.540082604 * 1000; // 3.1054555906 * 1000 ; ////11706.;// * 0.96838; // from the twiki https://twiki.cern.ch/twiki/bin/view/CMS/PdmV2016Analysis  //36.773
+float luminosity = 35.9;// It will print on your plots too
 
 std::vector<TString> filenameString;
 //Change here Directories of the file
