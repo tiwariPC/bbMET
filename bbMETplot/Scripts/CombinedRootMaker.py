@@ -25,7 +25,7 @@ CRnames=['Topemu','Topmunu','Wenu','Wmunu','Zee','Zmumu','Gamma','SR','signal']
 
 fdict={}
 for CR in CRnames:
-    for reg in ['1b','2b']:    
+    for reg in ['1b','2b']:
         fdict[CR+"_"+reg]=TFile("DataCardRootFiles/bbDM_2016_"+CR+"_"+reg+".root","RECREATE")
 
 f=TFile("DataCardRootFiles/AllMETHistos.root","RECREATE")
@@ -38,7 +38,7 @@ inSystfiles=[fold_syst+"/"+i for i in os.listdir(fold_syst) if "syst" in i]
 bins=[200.,250.,300.,400.,500.,700.,1000.,2000.]
 
 def getCRcat(infile):
-    
+
     flnamesplit=infile.split('/')[-1].split('.')[0].split('_')
     if 'sr1' in infile:
         CR="SR"
@@ -67,7 +67,7 @@ def getCRcat(infile):
 
 #def getSortKey(infile):
 #    CR,category=getCRcat(infile)
-#    newname="bbDM_2016_"+CR+"_"+sampname+"_"+category      
+#    newname="bbDM_2016_"+CR+"_"+sampname+"_"+category
 #    flnamesplit=infile.split('/')[-1].split('.')[0].split('_')
 #    if 'syst' in infile:
 #        newname += "_"+flnamesplit[2]+"_"+flnamesplit[4]
@@ -77,11 +77,11 @@ SRCRhistos=[]
 
 for infile in sorted(inCRfiles+inSRfiles+inSystfiles):
     fin=TFile(infile,"READ")
-    
+
     flnamesplit=infile.split('/')[-1].split('.')[0].split('_')
-    
+
     samplist=['DIBOSON','ZJets','GJets','STop','TT','WJets','DYJets','QCD']
-    
+
     if 'sr' in infile or 'syst' in infile:
         samplist.append('bkgSum')
     else:
@@ -90,11 +90,11 @@ for infile in sorted(inCRfiles+inSRfiles+inSystfiles):
     CR,category=getCRcat(infile)
     #except:
         #print infile
-    h_tot=fin.Get('bkgSum')    
-    
-    
-    print    
-    if not 'syst' in infile:        
+    h_tot=fin.Get('bkgSum')
+
+
+    print
+    if not 'syst' in infile:
     #    print infile
         print "Region: "+CR+category
         try:
@@ -113,23 +113,23 @@ for infile in sorted(inCRfiles+inSRfiles+inSystfiles):
             print e
             print "WARNING: Skipping for "+CR+category+" "+flnamesplit[2]+" "+flnamesplit[4]+".******************************************************************************"
             continue
-        
+
     for samp in samplist:
         h_temp2=fin.Get(samp)
-        
+
         if (samp=='bkgSum' or samp=='data_obs') and not 'syst' in infile:
             sampname='data_obs'
         elif samp=='bkgSum' and 'syst' in infile:
             sampname='bkgSum'
         else:
             sampname=samp
-            
+
         sampname=sampname.replace("TT","Top")
-            
-        newname=CR+"_"+category+"_"+sampname 
-        
+
+        newname=CR+"_"+category+"_"+sampname
+
         shortname=sampname
-        
+
         if 'syst' in infile:
             newname += "_"+flnamesplit[2]+"_"+flnamesplit[4]
             shortname += "_"+flnamesplit[2]+"_"+flnamesplit[4]
@@ -137,23 +137,23 @@ for infile in sorted(inCRfiles+inSRfiles+inSystfiles):
         h_temp=setHistStyle(h_temp2,bins,shortname)
         #if CR=="SR": h_temp.Scale(20)
         sel=h_temp.Integral()
-        fdict[CR+"_"+category].cd()       
-        h_temp.Write() 
-        
+        fdict[CR+"_"+category].cd()
+        h_temp.Write()
+
         h_temp=setHistStyle(h_temp2,bins,newname)
         #if CR=="SR": h_temp.Scale(20)
-        f.cd()       
-        h_temp.Write() 
-            
+        f.cd()
+        h_temp.Write()
+
 #        except:
 #            sel=0.
-#            print "Skipped "+infile+" "+samp 
+#            print "Skipped "+infile+" "+samp
         if not 'syst' in infile:
             if tot!=0:
                 frac=sel/tot
             else:
                 frac=0.
-            if samp!="data_obs" and samp!="bkgSum": print "    Sample = " + samp+": Count = %.2f, Fraction = %.4f"%(sel,frac)    
+            if samp!="data_obs" and samp!="bkgSum": print "    Sample = " + samp+": Count = %.2f, Fraction = %.4f"%(sel,frac)
     fin.Close()
 
 
@@ -170,66 +170,66 @@ for infile in LOFiles+NLOFiles+ttDMFiles:
     fin=TFile(infile,"READ")
     h_total=fin.Get('h_total_weight')
     tot=h_total.Integral()
-    
+
     Mchi=''
     Mphi=''
-    
+
     for partname in infile.split('/')[-1].split('.')[0].split('_'):
         if partname.startswith('Mchi'): Mchi=partname.replace('-','_')
         if partname.startswith('Mphi'): Mphi=partname.replace('-','_')
     print "Total = "+str(tot)
-    
+
     if 'ttDM' in infile:
         samp='tt'
     elif 'NLO' in infile:
         samp='bbNLO'
     else:
         samp='bbLO'
-    
+
     if "pseudo" in infile:
         samp+="_pseudo"
     else:
         samp+="_scalar"
-    
+
     # Store SR1 and SR2 in the signal_*b file
-    for sr,category in [['sr1','1b'],['sr2','2b']]:    
-        h_temp2=fin.Get('h_met_'+sr+'_')       
-            
+    for sr,category in [['sr1','1b'],['sr2','2b']]:
+        h_temp2=fin.Get('h_met_'+sr+'_')
+
         newname=samp+"_"+category+"_"+Mchi+"_"+Mphi
-        
+
         h_temp=setHistStyle(h_temp2,bins,newname)
         sel=h_temp.Integral()
         h_temp.Scale(lumi/tot)
-        
-        fdict['signal_'+category].cd()       
-        h_temp.Write() 
-        
-        f.cd()       
+
+        fdict['signal_'+category].cd()
         h_temp.Write()
-        
+
+        f.cd()
+        h_temp.Write()
+
         if samp.startswith("bb"):
             print (samp)
             #h_temp=setHistStyle(h_temp2,bins,samp[2:]+"_mphi_"+Mphi.split('-')[1]+"_mchi_"+Mchi.split('-')[1])
             h_temp=setHistStyle(h_temp2,bins,samp[2:]+"_mphi_"+Mphi.split('_')[1]+"_mchi_"+Mchi.split('_')[1])
-            h_temp.Scale(lumi/tot)            
-            
-            fdict['SR_'+category].cd()       
+            h_temp.Scale(lumi/tot)
+
+            fdict['SR_'+category].cd()
             h_temp.Write()
-                
+
         if samp=="bbNLO_scalar" and Mchi=="Mchi_1" and Mphi=="Mphi_300":
             h_temp=setHistStyle(h_temp2,bins,"sig")
             h_temp.Scale(lumi/tot)
-            
-            fdict['SR_'+category].cd()       
+
+            fdict['SR_'+category].cd()
             h_temp.Write()
-        
+
         print "    "+sr.upper()+": Count %.2f, Sel Eff. = %.8f"%(sel,sel/tot)
-    
+
     # Store all CR
-   
+
     for reg in regions:
         h_temp2=fin.Get('h_reg_'+reg+'_'+'hadrecoil_')
-        
+
         if samp.startswith("bb"):
             pseudofile=fold+"/"+"reg_"+reg+"_hadrecoil.root"
             CR,category=getCRcat(pseudofile)
@@ -240,30 +240,29 @@ for infile in LOFiles+NLOFiles+ttDMFiles:
                     h_temp.SetBinContent(ibin,6e-4)
             if h_temp.Integral()<0.:
                 h_temp.Scale(6e-4/h_temp.Integral())
-            
+
             fdict[CR+'_'+category].cd()
             h_temp.Write()
-        
+
         #if samp.startswith("bb"):
             #h_temp=setHistStyle(h_temp2,bins,samp[2:]+"_mphi_"+Mphi.split('-')[1]+"_mchi_"+Mchi.split('-')[1])
             #h_temp.Scale(lumi/tot)
-            
+
             #for CR in CRnames:
-                #fdict[CR+'_'+category].cd()       
-                #h_temp.Write() 
-        
+                #fdict[CR+'_'+category].cd()
+                #h_temp.Write()
+
         #if samp=="bbNLO_scalar" and Mchi=="Mchi-1" and Mphi=="Mphi-300":
             #h_temp=setHistStyle(h_temp2,bins,"sig")
             #h_temp.Scale(lumi/tot)
-            
+
             #for CR in CRnames:
-                #fdict[CR+'_'+category].cd()       
-                #h_temp.Write() 
-        
-            
-      
+                #fdict[CR+'_'+category].cd()
+                #h_temp.Write()
+
+
+
 for CR in CRnames:
-    for reg in ['1b','2b']:    
+    for reg in ['1b','2b']:
         fdict[CR+"_"+reg].Close()
 f.Close()
-    
