@@ -8,8 +8,8 @@ gROOT.SetBatch(True)
 
 fold=sys.argv[1].strip('/')
 fold_syst=sys.argv[2].strip('/')
+
 def setHistStyle(h_temp2,bins,newname):
-    
     h_temp=h_temp2.Rebin(len(bins)-1,"h_temp",array.array('d',bins))
     h_temp.SetName(newname)
     h_temp.SetTitle(newname)
@@ -21,7 +21,7 @@ def setHistStyle(h_temp2,bins,newname):
     h_temp.SetMarkerStyle(2);
     return h_temp
 
-CRnames=['Top','Wenu','Wmunu','Zee','Zmumu','Gamma','SR','signal']
+CRnames=['Topenu','Topmunu','Wenu','Wmunu','Zee','Zmumu','Gamma','SR','signal']
 
 fdict={}
 for CR in CRnames:
@@ -35,7 +35,7 @@ inCRfiles=[fold+"/"+i for i in os.listdir(fold) if i.endswith('hadrecoil.root')]
 inSRfiles=[fold+"/"+i for i in ['met_sr1.root','met_sr2.root']]
 inSystfiles=[fold_syst+"/"+i for i in os.listdir(fold_syst) if "syst" in i]
 
-bins=[200,250,300,400,500,700,1000,2000]
+bins=[200.,250.,300.,400.,500.,700.,1000.,2000.]
 
 def getCRcat(infile):
     
@@ -49,11 +49,13 @@ def getCRcat(infile):
     else:
         reg=flnamesplit[1]
         category=reg[-2:]
-        if reg.startswith('1mu1e'):
-            CR='Top'
-        elif reg.startswith('1e'):
+        if reg.startswith('1mutop'):
+            CR='Topmunu'
+        if reg.startswith('1etop'):
+            CR='Topenu'
+        elif reg.startswith('1e') and not reg.startswith('1etop'):
             CR='Wenu'
-        elif reg.startswith('1mu'):
+        elif reg.startswith('1mu') and not reg.startswith('1mutop'):
             CR='Wmunu'
         elif reg.startswith('2e'):
             CR='Zee'
@@ -88,7 +90,6 @@ for infile in sorted(inCRfiles+inSRfiles+inSystfiles):
     CR,category=getCRcat(infile)
     #except:
         #print infile
-            
     h_tot=fin.Get('bkgSum')    
     
     
@@ -134,13 +135,13 @@ for infile in sorted(inCRfiles+inSRfiles+inSystfiles):
             shortname += "_"+flnamesplit[2]+"_"+flnamesplit[4]
 
         h_temp=setHistStyle(h_temp2,bins,shortname)
-        if CR=="SR": h_temp.Scale(20)
-        sel=h_temp.Integral()  
+        #if CR=="SR": h_temp.Scale(20)
+        sel=h_temp.Integral()
         fdict[CR+"_"+category].cd()       
         h_temp.Write() 
         
         h_temp=setHistStyle(h_temp2,bins,newname)
-        if CR=="SR": h_temp.Scale(20)
+        #if CR=="SR": h_temp.Scale(20)
         f.cd()       
         h_temp.Write() 
             
@@ -161,7 +162,7 @@ LOFiles=[fold+"/LO/"+i for i in os.listdir(fold+"/LO/") if i.endswith('.root')]
 NLOFiles=[fold+"/NLO/"+i for i in os.listdir(fold+"/NLO/") if i.endswith('.root')]
 ttDMFiles=[fold+"/ttDM/"+i for i in os.listdir(fold+"/ttDM/") if i.endswith('.root')]
 
-regions=['2e1b','2mu1b','2e2b','2mu2b','1e1b','1mu1b','1e2b','1mu2b','1mu1e1b','1mu1e2b']
+regions=['2e1b','2mu1b','2e2b','2mu2b','1e1b','1mu1b','1e2b','1mu2b','1mutop1b','1mutop2b','1etop1b','1etop2b']
 
 lumi=35900.
 
@@ -173,11 +174,9 @@ for infile in LOFiles+NLOFiles+ttDMFiles:
     Mchi=''
     Mphi=''
     
-    for partname in infile.split('/')[2].split('.')[0].split('_'):
-        if partname.startswith('Mchi'): Mchi=partname
-        if partname.startswith('Mphi'): Mphi=partname
-    print
-    print infile.split('/')[1]+": "+Mchi+" "+Mphi
+    for partname in infile.split('/')[-1].split('.')[0].split('_'):
+        if partname.startswith('Mchi'): Mchi=partname.replace('-','_')
+        if partname.startswith('Mphi'): Mphi=partname.replace('-','_')
     print "Total = "+str(tot)
     
     if 'ttDM' in infile:
@@ -209,13 +208,15 @@ for infile in LOFiles+NLOFiles+ttDMFiles:
         h_temp.Write()
         
         if samp.startswith("bb"):
-            h_temp=setHistStyle(h_temp2,bins,samp[2:]+"_mphi_"+Mphi.split('-')[1]+"_mchi_"+Mchi.split('-')[1])
+            print (samp)
+            #h_temp=setHistStyle(h_temp2,bins,samp[2:]+"_mphi_"+Mphi.split('-')[1]+"_mchi_"+Mchi.split('-')[1])
+            h_temp=setHistStyle(h_temp2,bins,samp[2:]+"_mphi_"+Mphi.split('_')[1]+"_mchi_"+Mchi.split('_')[1])
             h_temp.Scale(lumi/tot)            
             
             fdict['SR_'+category].cd()       
             h_temp.Write()
                 
-        if samp=="bbNLO_scalar" and Mchi=="Mchi-1" and Mphi=="Mphi-300":
+        if samp=="bbNLO_scalar" and Mchi=="Mchi_1" and Mphi=="Mphi_300":
             h_temp=setHistStyle(h_temp2,bins,"sig")
             h_temp.Scale(lumi/tot)
             
@@ -232,7 +233,7 @@ for infile in LOFiles+NLOFiles+ttDMFiles:
         if samp.startswith("bb"):
             pseudofile=fold+"/"+"reg_"+reg+"_hadrecoil.root"
             CR,category=getCRcat(pseudofile)
-            h_temp=setHistStyle(h_temp2,bins,samp[2:]+"_mphi_"+Mphi.split('-')[1]+"_mchi_"+Mchi.split('-')[1])
+            h_temp=setHistStyle(h_temp2,bins,samp[2:]+"_mphi_"+Mphi.split('_')[1]+"_mchi_"+Mchi.split('_')[1])
             h_temp.Scale(lumi/tot)
             if h_temp.Integral()==0.:
                 for ibin in range(h_temp.GetSize()-1):
