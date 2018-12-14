@@ -161,7 +161,7 @@ class MonoHbbQuantities:
                 low='0.'
                 high='400.'
             elif 'met' in quant:
-                bins='40'
+                bins='2000'
                 low='0.'
                 high='2000.'
             elif 'chf' in quant or 'nhf' in quant or 'EF' in quant:
@@ -177,7 +177,7 @@ class MonoHbbQuantities:
                 low='0'
                 high='6'
             elif 'recoil' in quant:
-                bins='40'
+                bins='2000'
                 low='0.'
                 high='2000.'
             elif '_dR_' in quant:
@@ -205,7 +205,7 @@ class MonoHbbQuantities:
                 low='0.'
                 high='100.'
             elif 'syst' in quant:
-                bins='40'
+                bins='2000'
                 low='0.'
                 high='2000.'
             else:                   # for pT, mass, etc.
