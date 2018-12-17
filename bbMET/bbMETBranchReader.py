@@ -15,60 +15,60 @@ pileup2017file = TFile('PU_Reweight_2017.root')
 pileup2017histo=pileup2017file.Get('PU_Ratio')
 
 #Electron Trigger reweights
-eleTrigReweightFile = TFile('scalefactors/electron_Trigger_eleTrig.root')
+eleTrigReweightFile = TFile('scalefactors/electron_Trigger_eleTrig_2016.root')
 eleTrig_hEffEtaPt = eleTrigReweightFile.Get('hEffEtaPt')
 
 #Electron Reconstruction efficiency. Scale factors for 80X
-eleRecoSFsFile = TFile('scalefactors/electron_Reco_SFs_egammaEffi_txt_EGM2D.root')
+eleRecoSFsFile = TFile('scalefactors/electron_Reco_SFs_egammaEffi_txt_EGM2D_2017.root')
 eleRecoSF_EGamma_SF2D = eleRecoSFsFile.Get('EGamma_SF2D')
 
 #Loose electron ID SFs
-eleLooseIDSFsFile = TFile('scalefactors/electron_Loose_ID_SFs_egammaEffi_txt_EGM2D.root')
+eleLooseIDSFsFile = TFile('scalefactors/electron_Loose_ID_SFs_egammaEffi_txt_EGM2D_2017.root')
 eleLooseIDSF_EGamma_SF2D = eleLooseIDSFsFile.Get('EGamma_SF2D')
 
 #Tight electron ID SFs
-phoTightIDSFsFile = TFile('scalefactors/photon_Tight_ID_SFs_egammaEffi_txt_EGM2D.root')
+phoTightIDSFsFile = TFile('scalefactors/photon_Tight_ID_SFs_egammaEffi_txt_EGM2D_2017.root')
 phoTightIDSF_EGamma_SF2D = phoTightIDSFsFile.Get('EGamma_SF2D')
 
 #Loose photon ID SFs
-phoLooseIDSFsFile = TFile('scalefactors/photon_Loose_ID_SFs_egammaEffi_txt_EGM2D.root')
+phoLooseIDSFsFile = TFile('scalefactors/photon_Loose_ID_SFs_egammaEffi_txt_EGM2D_2017.root')
 phoLooseIDSF_EGamma_SF2D = phoLooseIDSFsFile.Get('EGamma_SF2D')
 
 #Tight photon ID SFs
-eleTightIDSFsFile = TFile('scalefactors/electron_Tight_ID_SFs_egammaEffi_txt_EGM2D.root')
+eleTightIDSFsFile = TFile('scalefactors/electron_Tight_ID_SFs_egammaEffi_txt_EGM2D_2017.root')
 eleTightIDSF_EGamma_SF2D = eleTightIDSFsFile.Get('EGamma_SF2D')
 
 # Veto cut-based electron ID SFs
-eleVetoCutBasedIDSFsFile = TFile('scalefactors/electron_Veto_cut-based_ID_SFs_egammaEffi_txt_EGM2D.root')
+eleVetoCutBasedIDSFsFile = TFile('scalefactors/electron_Veto_cut-based_ID_SFs_egammaEffi_txt_EGM2D_2017.root')
 eleVetoCutBasedIDSF_egammaEffi_txt_EGM2D = eleVetoCutBasedIDSFsFile.Get('EGamma_SF2D')
 
 #Muon Trigger SFs
 #BCDEF
-muonTrigSFsRunBCDEFFile = TFile('scalefactors/muon_single_lepton_trigger_EfficienciesAndSF.root')
+muonTrigSFsRunBCDEFFile = TFile('scalefactors/muon_single_lepton_trigger_EfficienciesAndSF_2017.root')
 muonTrigSFs_EfficienciesAndSF_RunBtoF = muonTrigSFsRunBCDEFFile.Get('IsoMu27_PtEtaBins/abseta_pt_ratio')
 
 #Muon ID SFs
 #BCDEF
-muonIDSFsBCDEFFile = TFile('scalefactors/muon_ID_SFs_EfficienciesAndSF_BCDEF.root')
+muonIDSFsBCDEFFile = TFile('scalefactors/muon_ID_SFs_EfficienciesAndSF_BCDEF_2017.root')
 muonLooseIDSFs_EfficienciesAndSF_BCDEF = muonIDSFsBCDEFFile.Get('NUM_LooseID_DEN_genTracks_pt_abseta')
 muonTightIDSFs_EfficienciesAndSF_BCDEF = muonIDSFsBCDEFFile.Get('NUM_TightID_DEN_genTracks_pt_abseta')
 
 #Muon Iso SFs
 #BCDEF
-muonIsoSFsBCDEFFile = TFile('scalefactors/muon_Iso_SFs_EfficienciesAndSF_BCDEF.root')
+muonIsoSFsBCDEFFile = TFile('scalefactors/muon_Iso_SFs_EfficienciesAndSF_BCDEF_2017.root')
 muonLooseIsoSFs_EfficienciesAndSF_BCDEF = muonIsoSFsBCDEFFile.Get('NUM_LooseRelIso_DEN_LooseID_pt_abseta')
 muonTightIsoSFs_EfficienciesAndSF_BCDEF = muonIsoSFsBCDEFFile.Get('NUM_TightRelIso_DEN_TightIDandIPCut_pt_abseta')
 
 #Muon Tracking SFs
-muonTrackingSFsFile = TFile('scalefactors/muon_Tracking_SFs_Tracking_EfficienciesAndSF_BCDEF.root')
+muonTrackingSFsFile = TFile('scalefactors/muon_Tracking_SFs_Tracking_EfficienciesAndSF_BCDEF_2016.root')
 muonTrackingSFs_EfficienciesAndSF_BCDEF = muonTrackingSFsFile.Get('ratio_eff_aeta_dr030e030_corr')
 
 
 #MET Trigger reweights
-metTrigEff_zmmfile = TFile('scalefactors/metTriggerEfficiency_zmm_recoil_monojet_TH1F.root')
+metTrigEff_zmmfile = TFile('scalefactors/metTriggerEfficiency_zmm_recoil_monojet_TH1F_2016.root')
 metTrig_firstmethod = metTrigEff_zmmfile.Get('hden_monojet_recoil_clone_passed')
 
-metTrigEff_secondfile = TFile('scalefactors/metTriggerEfficiency_recoil_monojet_TH1F.root')
+metTrigEff_secondfile = TFile('scalefactors/metTriggerEfficiency_recoil_monojet_TH1F_2016.root')
 metTrig_secondmethod = metTrigEff_secondfile.Get('hden_monojet_recoil_clone_passed')
 
 
