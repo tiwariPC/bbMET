@@ -11,31 +11,31 @@ import AllQuantList
 ROOT.gROOT.SetBatch(True)
 from bbMETQuantities import *
 #from PileUpWeights import PUWeight
-pileup2017file = TFile('PU_Reweight_2017.root')
-pileup2017histo=pileup2017file.Get('PU_Ratio')
+pileup2017file = TFile('PU_Reweight_2018.root')
+pileup2017histo=pileup2017file.Get('pieup')
 
 #Electron Trigger reweights
 eleTrigReweightFile = TFile('scalefactors/electron_Trigger_eleTrig_2016.root')
 eleTrig_hEffEtaPt = eleTrigReweightFile.Get('hEffEtaPt')
 
 #Electron Reconstruction efficiency. Scale factors for 80X
-eleRecoSFsFile = TFile('scalefactors/electron_Reco_SFs_egammaEffi_txt_EGM2D_2017.root')
+eleRecoSFsFile = TFile('scalefactors/electron_Reco_SFs_egammaEffi_txt_EGM2D_2018.root')
 eleRecoSF_EGamma_SF2D = eleRecoSFsFile.Get('EGamma_SF2D')
 
 #Loose electron ID SFs
-eleLooseIDSFsFile = TFile('scalefactors/electron_Loose_ID_SFs_egammaEffi_txt_EGM2D_2017.root')
+eleLooseIDSFsFile = TFile('scalefactors/electron_Loose_ID_SFs_egammaEffi_txt_EGM2D_2018.root')
 eleLooseIDSF_EGamma_SF2D = eleLooseIDSFsFile.Get('EGamma_SF2D')
 
 #Tight electron ID SFs
-phoTightIDSFsFile = TFile('scalefactors/photon_Tight_ID_SFs_egammaEffi_txt_EGM2D_2017.root')
+phoTightIDSFsFile = TFile('scalefactors/photon_Tight_ID_SFs_egammaEffi_txt_EGM2D_2018.root')
 phoTightIDSF_EGamma_SF2D = phoTightIDSFsFile.Get('EGamma_SF2D')
 
 #Loose photon ID SFs
-phoLooseIDSFsFile = TFile('scalefactors/photon_Loose_ID_SFs_egammaEffi_txt_EGM2D_2017.root')
+phoLooseIDSFsFile = TFile('scalefactors/photon_Loose_ID_SFs_egammaEffi_txt_EGM2D_2018.root')
 phoLooseIDSF_EGamma_SF2D = phoLooseIDSFsFile.Get('EGamma_SF2D')
 
 #Tight photon ID SFs
-eleTightIDSFsFile = TFile('scalefactors/electron_Tight_ID_SFs_egammaEffi_txt_EGM2D_2017.root')
+eleTightIDSFsFile = TFile('scalefactors/electron_Tight_ID_SFs_egammaEffi_txt_EGM2D_2018.root')
 eleTightIDSF_EGamma_SF2D = eleTightIDSFsFile.Get('EGamma_SF2D')
 
 # Veto cut-based electron ID SFs
@@ -251,7 +251,7 @@ def TheaCorrection(puppipt=200.0,  puppieta=0.0):
     totalWeight = genCorr * recoCorr
     return totalWeight
 
-triglist=['HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_PFHT60_v','HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v','HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v','HLT_IsoMu27_v','HLT_IsoMu24_v','HLT_Ele27_WPTight_Gsf_v','HLT_Ele32_WPTight_Gsf_L1DoubleEG_v','HLT_Photon200_v']
+triglist=['HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_PFHT60_v','HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v','HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v','HLT_IsoMu24_v','HLT_Ele27_WPTight_Gsf_v','HLT_Ele32_WPTight_Gsf_v','HLT_Photon200_v']
 
 #st_quantlist = triglist + ['st_lumiSection', 'st_eventId', 'st_pfMetCorrPt', 'st_pfMetCorrPhi', 'st_THINnJet', 'st_THINjetP4', 'st_THINjetCISVV2', 'st_THINjetHadronFlavor', 'st_THINjetNHadEF', 'st_THINjetCHadEF', 'st_THINjetNPV', 'st_AK4deepCSVnJet', 'st_AK4deepCSVjetP4', 'st_AK4deepCSVjetDeepCSV_b', 'st_AK4deepCSVjetHadronFlavor', 'st_AK4deepCSVjetNHadEF', 'st_AK4deepCSVjetCHadEF', 'st_AK4deepCSVjetNPV', 'st_nPho', 'st_phoP4', 'st_phoIsPassLoose', 'st_phoIsPassMedium', 'st_phoIsPassTight', 'st_nEle', 'st_eleP4', 'st_eleIsPassLoose', 'st_eleIsPassMedium', 'st_eleIsPassTight', 'st_nMu', 'st_muP4', 'st_isLooseMuon', 'st_isMediumMuon', 'st_isTightMuon', 'st_muChHadIso', 'st_muNeHadIso', 'st_muGamIso', 'st_muPUPt', 'st_HPSTau_n', 'st_HPSTau_4Momentum', 'st_isData', 'mcweight', 'st_pu_nTrueInt', 'st_pu_nPUVert', 'st_nGenPar', 'st_genParId', 'st_genMomParId', 'st_genParSt', 'st_genParP4', 'WenuRecoil', 'Wenumass', 'WenuPhi', 'WmunuRecoil', 'Wmunumass', 'WmunuPhi', 'ZeeRecoil', 'ZeeMass', 'ZeePhi', 'ZmumuRecoil', 'ZmumuMass', 'ZmumuPhi', 'TOPRecoil', 'TOPPhi', 'GammaRecoil', 'GammaPhi']
 
@@ -697,7 +697,7 @@ def AnalyzeDataSet():
         ## Also segregate CSV or DeepCSV collection of jets in this step itself
         ##Working point from https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
         CSVMWP=0.8838
-        DeepCSVMWP=0.4941
+        DeepCSVMWP=0.4184
 
         mybjets=[]
         mybJet_disc=[]
