@@ -407,20 +407,21 @@ def AnalyzeDataSet():
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         filterstatus = False
-        filter1 = False; filter2 = False;filter3 = False;filter4 = False; filter5 = False; filter6 = False
+        filter1 = False; filter2 = False;filter3 = False;filter4 = False; filter5 = False; filter6 = False; filter7 =False; filter8 = False
         ifilter_=0
         filter1 = CheckFilter(filterName, filterResult, 'Flag_HBHENoiseFilter')
-        filter2 = CheckFilter(filterName, filterResult, 'Flag_globalTightHalo2016Filter')
+        filter2 = CheckFilter(filterName, filterResult, 'Flag_globalSuperTightHalo2016Filter')
         filter3 = CheckFilter(filterName, filterResult, 'Flag_eeBadScFilter')
         filter4 = CheckFilter(filterName, filterResult, 'Flag_goodVertices')
         filter5 = CheckFilter(filterName, filterResult, 'Flag_EcalDeadCellTriggerPrimitiveFilter')
-
-        filter6 = True #Flag_HBHENoiseIsoFilter
+        filter6 = CheckFilter(filterName, filterResult, 'Flag_BadPFMuonFilter')
+        filter7 = CheckFilter(filterName, filterResult, 'Flag_BadChargedCandidateFilter')
+        filter8 = CheckFilter(filterName, filterResult, 'Flag_HBHENoiseIsoFilter')
 
         if not isData:
             filterstatus = True
         if isData:
-            filterstatus =  filter1 & filter2 & filter3 & filter4 & filter5 & filter6
+            filterstatus =  filter1 & filter2 & filter3 & filter4 & filter5 & filter6 & filter7 & filter8
         if filterstatus == False: continue
 
 
