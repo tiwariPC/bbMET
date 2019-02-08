@@ -41,7 +41,7 @@ def AnalyzeDataSet():
     h_total = TH1F('h_total','h_total',2,0,2)
     h_total_mcweight = TH1F('h_total_mcweight','h_total_mcweight',2,0,2)
 
-    triglist=['HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_PFHT60_v','HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v','HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v','HLT_IsoMu27_v','HLT_IsoMu24_v','HLT_Ele27_WPTight_Gsf_v','HLT_Ele32_WPTight_Gsf_L1DoubleEG_v','HLT_Photon200_v']
+    triglist=['HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_PFHT60_v','HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v','HLT_PFMETNoMu140_PFMHTNoMu140_IDTight_v','HLT_IsoMu24_v','HLT_Ele27_WPTight_Gsf_v','HLT_Ele32_WPTight_Gsf_v','HLT_Photon200_v']
 
 
 
