@@ -1372,7 +1372,7 @@ def AnalyzeDataSet():
         if nJets>=2:
             if j2.Pt() < 30.0: jetcond=False
 
-            if j2.Pt() > 50.0:
+            if j2.Pt() > 30.0:
                 SR2jet2=True
             else:
                 SR2jet2=False
