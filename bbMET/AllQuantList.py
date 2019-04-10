@@ -16,11 +16,6 @@ def getAll():
             for reg in ['sr1','sr2','2e1b','2mu1b','2e2b','2mu2b','1e1b','1mu1b','1e2b','1mu2b','1mu1e1b','1mu1e2b','1gamma1b','1gamma2b','1etop1b','1etop2b','1mutop1b','1mutop2b']:
                 allquantlist.append(jetprop+'_syst_'+reg+'_'+syst)
 
-    # for jetprop in ['jer','jec']:
-    #     for syst in ['up','down']:
-    #         for reg in ['sr1','sr2']:
-    #             allquantlist.append(jetprop+'_syst_'+reg+'_'+syst)
-
 
     for dt in ['','mu_','ele_','pho_']:
         allquantlist.append(dt+'noPuReweightPV')
@@ -29,22 +24,6 @@ def getAll():
         #allquantlist.append(dt+'PuReweightnPVert')
 
     for nSR in ['1','2']:                                                   # Leptons: Makes all combinations of region, lepton number, etc.
-#        for lep in ['mu','el']:
-#            props = ['pT','eta','phi']
-#            if lep=='mu':
-#              props.append('iso')
-#              for lepprop in props:
-#                 for nCR in ['1','2']:       # For ZCR, because Z has 2 mu or 2 ele
-#                       allquantlist.append(lep+nCR+"_"+lepprop+"_Zmumucr"+nSR)
-#                 for region in ['Wecr','Wmucr','TOPcr']:          # For ZCR, only 1 mu and/or ele
-#                       allquantlist.append(lep+"1_"+lepprop+"_"+region+nSR)
-#            if lep=='el':
-#              for lepprop in props:
-#                 for nCR in ['1','2']:       # For ZCR, because Z has 2 mu or 2 ele
-#                       allquantlist.append(lep+nCR+"_"+lepprop+"_Zeecr"+nSR)
-#                 for region in ['Wecr','Wmucr','TOPcr']:          # For ZCR, only 1 mu and/or ele
-#                       allquantlist.append(lep+"1_"+lepprop+"_"+region+nSR)
-
         for quantname in ['met','jet1_nhf','jet1_chf']:
             allquantlist.append(quantname+"_sr"+nSR)
 

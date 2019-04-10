@@ -17,7 +17,11 @@ cd $CMSSW_BASE
 cmsenv
 cd ../../
 
-python bbMETBranchReader.py -a -F -i "$1" -D . -o BROutput.root --csv
+export X509_USER_PROXY=$1
+voms-proxy-info -all
+voms-proxy-info -all -file $1
+
+python bbMET_merged.py -a -F -i "$2" -D . -o BROutput.root --csv
 
 exitcode=$?
 
@@ -26,4 +30,3 @@ if [ ! -e "BROutput.root" ]; then
 
 fi
 exit $exitcode
-

@@ -3,7 +3,7 @@ import ROOT as ROOT
 import AllQuantList
 from array import array
 
-class MonoHbbQuantities:
+class bbMETQuantities:
 
     def __init__(self, rootfilename):
 
@@ -422,7 +422,6 @@ class MonoHbbQuantities:
 
     def WriteHisto(self, (nevts,nevts_weight,npass,cutflowvalues,cutflownames,cutflowvaluesSR1,cutflownamesSR1,cutflowvaluesSR2,cutflownamesSR2,CRvalues,CRnames,regionnames, CRcutnames,CRcutflowvaluesSet, CRSummary,regNames, CRSummaryMu,regNamesMu, CRSummaryEle,regNamesEle)):
         f = TFile(self.rootfilename,'RECREATE')
-        print
         f.cd()
         self.h_total[0].SetBinContent(1,nevts)
         self.h_total[0].Write()
