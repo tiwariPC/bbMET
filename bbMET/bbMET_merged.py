@@ -2731,9 +2731,9 @@ def AnalyzeDataSet():
                             if QCD1b_Cut4_jet1:
                                 CRQCD1bCutFlow['jetconds']+=allweights
 
-                                    if QCD1b_Cut7_nLep:
-                                        CRQCD1bCutFlow['nlep/npho']+=allweights
-                                        CRQCD1bCutFlow['lepconds']+=allweights
+                                if QCD1b_Cut7_nLep:
+                                    CRQCD1bCutFlow['nlep/npho']+=allweights
+                                    CRQCD1bCutFlow['lepconds']+=allweights
 
         if QCD2b_Cut3_trigstatus:
             CRQCD2bCutFlow['trig']+=allweights
@@ -2753,9 +2753,9 @@ def AnalyzeDataSet():
                             if QCD2b_Cut4_jet1:
                                 CRQCD2bCutFlow['jetconds']+=allweights
 
-                                        if QCD2b_Cut8_nLep:
-                                            CRQCD2bCutFlow['nlep/npho']+=allweights
-                                            CRQCD2bCutFlow['lepconds']+=allweights
+                                if QCD2b_Cut8_nLep:
+                                    CRQCD2bCutFlow['nlep/npho']+=allweights
+                                    CRQCD2bCutFlow['lepconds']+=allweights
         ####################################### QCD cutflow #####################################
  # ---
         #CR Summary
