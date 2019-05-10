@@ -17,7 +17,7 @@ cd $CMSSW_BASE
 cmsenv
 cd ../../
 
-python bbMETBranchReader.py -a -F -i "$1" -D . -o BROutput.root --csv
+python bbMETBranchReader_tDM.py -a -F -i "$1" -D . -o BROutput.root --csv
 
 exitcode=$?
 
@@ -26,4 +26,3 @@ if [ ! -e "BROutput.root" ]; then
 
 fi
 exit $exitcode
-

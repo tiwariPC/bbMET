@@ -3,7 +3,7 @@ import ROOT as ROOT
 import AllQuantList
 from array import array
 
-class MonoHbbQuantities:
+class bbMETQuantities:
 
     def __init__(self, rootfilename):
 
@@ -209,9 +209,9 @@ class MonoHbbQuantities:
                 low='0.'
                 high='2000.'
             else:                   # for pT, mass, etc.
-                bins='50'
+                bins='2000'
                 low='0.'
-                high='1000.'
+                high='2000.'
 
             return bins,low,high
 
@@ -296,6 +296,7 @@ class MonoHbbQuantities:
 
         regquants=AllQuantList.getRegionQuants()
         for quant in regquants:
+           # print 'Event Weight', WF
             exec("if self."+quant+" is not None: self.h_"+quant+"[0] .Fill(self."+quant+", WF)")
 
         Histos2D=AllQuantList.getHistos2D()
@@ -341,7 +342,8 @@ class MonoHbbQuantities:
         WF_jec_down = self.weight_jec_down
         if WF_jec_down == 1.0:
             WF_jec_down = WF
-        #print "WF = ", WF
+        print "All weight step 3:  ", WF
+        print "\n"
         self.h_met[0]        .Fill(self.met,       WF)
 
 
