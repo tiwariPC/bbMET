@@ -3983,11 +3983,12 @@ def AnalyzeDataSet():
 
     allquantities.WriteHisto((NEntries_total,NEntries_Weight,npass,cutflowvalues,cutflownames,cutflowvaluesSR1,cutflownamesSR1, cutflowvaluesSR2,cutflownamesSR2,CRvalues,CRs,regionnames,CRcutnames,CRcutflowvaluesSet, CRSummary,regNames, CRSummaryMu,regNamesMu, CRSummaryEle,regNamesEle))
 
-    if NEntries > 0:
+    if NEntries > 0 and NEntries_total > 0:
         eff=round(float(npass/float(NEntries_total)),5)
+        print "efficiency =", eff
     else:
         eff = "NA"
-    print "efficiency =", eff
+        print "efficiency =", eff
 
 #    os.system("mkdir -p "+outputdir+'/efficiencyfiles/')
 
