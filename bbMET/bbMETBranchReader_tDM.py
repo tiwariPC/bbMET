@@ -83,6 +83,10 @@ metTrigEff_secondfile = TFile('scalefactors/metTriggerEfficiency_recoil_monojet_
 metTrig_secondmethod = metTrigEff_secondfile.Get('hden_monojet_recoil_clone_passed')
 
 
+btag_eff = TFile('btag_eff_forweight.root')
+btag_eff_light = btag_eff.Get('efficiency_light')
+btag_eff_b = btag_eff.Get('efficiency_b')
+
 ROOT.gROOT.ProcessLine('.L BTagCalibrationStandalone.cpp+')
 
 #ROOT.gROOT.ProcessLine('.L TheaCorrection.cpp+')
@@ -876,7 +880,7 @@ def AnalyzeDataSet():
         SR1_Cut7_nLep           =   nEle+nMu+nTauLooseEleMu == 0
         SR1_Cut8_pfMET          =   pfmetstatus
 
-        
+
      ## for SR2
         # 3 jets and 2 btagged
 
@@ -932,7 +936,7 @@ def AnalyzeDataSet():
         SR2_Cut8_nLep           =   nEle+nMu+nTauLooseEleMu == 0
         SR2_Cut9_pfMET          =   pfmetstatus
 
-        
+
 # --------------------------------------------------------------------------------------------------------------------------------------------------------
 
         #Control Regions
@@ -1150,7 +1154,7 @@ def AnalyzeDataSet():
                 if min( [DeltaPhi(WmunuPhi,myJetP4[nb].Phi()) for nb in range(nJets)] ) < 0.5: WdPhicond=False
 
 
-       
+
 
 # -------------------------------------------
 # Old Top CR
@@ -1160,7 +1164,7 @@ def AnalyzeDataSet():
 
         TopdPhicond=True
 
-        
+
 # -------------------------------------------
 # Gamma CR
 # -------------------------------------------
@@ -1576,22 +1580,22 @@ def AnalyzeDataSet():
                 jetWeight=[]
                 jetWeight=weightbtag(reader1, jetflav(myJetHadronFlavor[jet]), myJetP4[jet].Pt(), myJetP4[jet].Eta())
                 allweights = allweights * jetWeight[0]
-        
+
         if tDMJetCond:
-            P_MC = (1.0-0.65)**nJets
+            P_MC = 1.0
             P_Data = 1.0
+            btagweight = 1.0
             for jet in range(nJets):
+                P_MC *= (1-getBeff(myJetP4[i]))
                 reader1.eval_auto_bounds('central', 0, 1.2, 50.)
                 SF_jet = []
                 SF_jet=weightbtag(reader1, jetflav(myJetHadronFlavor[jet]), myJetP4[jet].Pt(), myJetP4[jet].Eta())
-                P_Data *= (1.0 - SF_jet[0] * 0.65)
-            btagweight = P_Data/P_MC
+                P_Data *= (1 - (SF_jet[0]*getBeff(myJetP4[i])))
+            if P_MC > 0:
+                btagweight = P_Data/P_MC
             allweights = allweights * btagweight
         print 'btag_weight:  ', allweights/temp_weight_withOutBtag
-        ## for not applying btag weights
-        #allweights = temp_weight_withOutBtag
-        #print 'allweights without genpTReweighting: ', (allweights/genpTReweighting)
-        #print 'allweights with genpTReweighting: ', (allweights)
+
         temp_original_weight  = allweights
         print 'All weight step1:  ', allweights
         allweights_jec_up = temp_original_weight*jecUncUP
@@ -2191,7 +2195,14 @@ def jetflav(flav):
         flavor = 2
     return flavor
 
-
+def getBeff(P4):
+    xbin = btag_eff_light.GetXaxis().FindBin(P4.Eta())
+    ybin = btag_eff_light.GetYaxis().FindBin(P4.Pt())
+    btag_efficiency_light = btag_eff_light.GetBinContent(xbin,ybin)
+    xbin = btag_eff_b.GetXaxis().FindBin(P4.Eta())
+    ybin = btag_eff_b.GetYaxis().FindBin(P4.Pt())
+    btag_efficiency_b = btag_eff_b.GetBinContent(xbin,ybin)
+    return btag_efficiency_light
 
 
 def GenWeightProducer(sample,nGenPar, genParId, genMomParId, genParSt,genParP4):
