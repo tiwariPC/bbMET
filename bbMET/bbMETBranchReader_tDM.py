@@ -2148,20 +2148,6 @@ def MakeTable():
         toprint =  legendTemplate[ih] + " & " + str(eff) + " \\\\"
         print toprint
 
-
-def DeltaR(p4_1, p4_2):
-    eta1 = p4_1.Eta()
-    eta2 = p4_2.Eta()
-    eta = eta1 - eta2
-    eta_2 = eta * eta
-
-    phi1 = p4_1.Phi()
-    phi2 = p4_2.Phi()
-    phi = Phi_mpi_pi(phi1-phi2)
-    phi_2 = phi * phi
-
-    return math.sqrt(eta_2 + phi_2)
-
 def DeltaPhi(phi1,phi2):
    phi = Phi_mpi_pi(phi1-phi2)
 
@@ -2270,12 +2256,9 @@ def GenWeightProducer(sample,nGenPar, genParId, genMomParId, genParSt,genParP4):
         if(len(goodLepID)==2):
             l4_thisLep = genParP4[goodLepID[0]]
             l4_thatLep = genParP4[goodLepID[1]]
-            pt1 = TMath.Min(400.0, l4_thisLep.Pt())
-            pt2 = TMath.Min(400.0, l4_thatLep.Pt())
-
-            w1 = TMath.Exp(0.156 - 0.00137*pt1);
-            w2 = TMath.Exp(0.156 - 0.00137*pt2);
-            k2 =  1.001*TMath.Sqrt(w1*w2);
+            w1 = TMath.Exp(0.0615 - 0.0005*l4_thisLep.Pt());
+            w2 = TMath.Exp(0.0615 - 0.0005*l4_thatLep.Pt());
+            k2 =  TMath.Sqrt(w1*w2);
 
     if(sample=="all"):
         k2 = 1.0
