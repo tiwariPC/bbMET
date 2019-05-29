@@ -11,6 +11,7 @@ usage = "usage: %prog [options] arg1 arg2"
 parser = optparse.OptionParser(usage)
 
 parser.add_option("-d", "--data", dest="datasetname")
+parser.add_option("-i", "--inputfiles",  dest="inputfiles")
 parser.add_option("-s", "--sr", action="store_true", dest="plotSRs")
 parser.add_option("-m", "--mu", action="store_true", dest="plotMuRegs")
 parser.add_option("-e", "--ele", action="store_true", dest="plotEleRegs")
@@ -105,12 +106,13 @@ PUreg=[]
 lumi2016 = 35.9 * 1000
 
 
+os.system("ls "+options.inputfiles+" | cat > samplelist.txt")
+
 def makeplot(plot_location,plot,titleX,XMIN,XMAX,Rebin,ISLOG,NORATIOPLOT,reg):
     file=open("samplelist.txt","r")
     xsec=1.0
     norm = 1.0
     BLINDFACTOR = 1.0
-    r_fold = 'rootFiles/'
     DIBOSON = rt.TH1F()
     Top = rt.TH1F()
     WJets = rt.TH1F()
@@ -125,7 +127,7 @@ def makeplot(plot_location,plot,titleX,XMIN,XMAX,Rebin,ISLOG,NORATIOPLOT,reg):
     Top_files     = []; QCD_files   = []
     data_file_MET = []; data_file_SE = []
     for i in file.readlines()[:]:
-        f = rt.TFile('rootFiles/'+str(i.rstrip()),'READ')
+        f = rt.TFile(options.inputfiles+'/'+str(i.rstrip()),'READ')
         file_name = str(f)
         if 'data_combined_MET' in file_name:
             data_file_MET.append(f)
