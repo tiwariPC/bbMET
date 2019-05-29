@@ -68,7 +68,7 @@ tdrstyle.setTDRStyle()
 
 #change the CMS_lumi variables (see CMS_lumi.py)
 CMS_lumi.writeExtraText = 1
-CMS_lumi.extraText = "Preliminary"
+CMS_lumi.extraText = " Preliminary"
 CMS_lumi.lumi_sqrtS = "13 TeV" # used with iPeriod = 0, e.g. for simulation-only plots (default is an empty string)
 
 iPos = 0
