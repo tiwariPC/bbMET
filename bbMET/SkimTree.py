@@ -9,39 +9,40 @@ import numpy as numpy_
 
 ROOT.gROOT.LoadMacro("Loader.h+")
 
-#to find which sample is being used
-#def WhichSample(filename):
-#    samplename = 'all'
-#    if filename.find('WJets')>-1:
-#        samplename = 'WJETS'
-#    elif filename.find('ZJets')>-1:
-#        samplename = 'ZJETS'
-#    elif filename.find('TT')>-1:
-#        samplename  = 'TT'
-#    else:
-#        samplename = 'all'
-#    return samplename
-
-## When not running on farmout
-#inputfilename= 'FileList.txt' uncomment it for providing list of file
 outfilename= 'SkimmedTree.root'
 PUPPI = True
 CA15  = False
+usage = "usage: %prog [options] arg1 arg2"
+parser = optparse.OptionParser(usage)
 
-## When running on farmout
-#inputfilename = os.environ['INPUT']
-#outfilename   = os.environ['OUTPUT']
+parser.add_option("-i", "--inputfile",  dest="inputfile")
+parser.add_option("-F", "--farmout", action="store_true",  dest="farmout")
 
+(options, args) = parser.parse_args()
+
+if options.farmout==None:
+    isfarmout = False
+else:
+    isfarmout = options.farmout
+inputfilename = options.inputfile
 
 skimmedTree = TChain("tree/treeMaker")
-##======use this for providing list of file======##
-#infile = open(inputfilename)
-#for ifile in infile:
-#    skimmedTree.Add(ifile.rstrip())
-#    samplename = WhichSample(inputfilename)
-##======use this for providing list of file======##
-skimmedTree.Add(sys.argv[1])
-#samplename = WhichSample(sys.argv[1])
+
+if isfarmout:
+    infile = open(inputfilename)
+    failcount=0
+    for ifile in infile:
+        try:
+            f_tmp = TFile.Open(ifile.rstrip(),'READ')
+            if f_tmp.IsZombie():            # or fileIsCorr(ifile.rstrip()):
+                failcount += 1
+                continue
+            skimmedTree.Add(ifile.rstrip())
+        except:
+            failcount += 1
+    if failcount>0: print "Could not read %d files. Skipping them." %failcount
+if not isfarmout:
+    skimmedTree.Add(inputfilename)
 
 def arctan(x,y):
     corr=0
@@ -67,58 +68,16 @@ def AnalyzeDataSet():
     h_total = TH1F('h_total','h_total',2,0,2)
     h_total_mcweight = TH1F('h_total_mcweight','h_total_mcweight',2,0,2)
 
-    triglist=['HLT_PFMET170_','HLT_PFMET170_NoiseCleaned','HLT_PFMET170_JetIdCleaned_v','HLT_PFMET170_HBHECleaned_v',
-        'HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v','HLT_PFMETNoMu100_PFMHTNoMu100_IDTight_v','HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_v',
-        'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v','HLT_PFMET110_PFMHT110_','HLT_IsoMu24_v','HLT_IsoTkMu24_v','HLT_Ele27_WPTight_Gsf',
-        'HLT_IsoMu20','HLT_Ele27_WPLoose_Gsf','HLT_Photon165_HE10','HLT_Photon175']
-
-#    METtrigs = ['HLT_PFMET120_Mu5_v', 'HLT_MET600_v', 'HLT_PFMET100_PFMHT100_IDTight_v', 'HLT_MET250_v', 'HLT_PFMET400_v', 'HLT_PFMETTypeOne190_HBHE_BeamHaloCleaned_v', 'HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_v', 'HLT_PFMETNoMu100_PFMHTNoMu100_IDTight_v', 'HLT_PFMET90_PFMHT90_IDTight_v', 'HLT_Mu6_PFHT200_PFMET100_v', 'HLT_PFMET600_v', 'HLT_Mu14er_PFMET100_v', 'HLT_PFMET170_NoiseCleaned_v', 'HLT_CaloMHTNoPU90_PFMET90_PFMHT90_IDTight_v', 'HLT_PFMET170_NotCleaned_v', 'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v', 'HLT_PFMET100_PFMHT100_IDTight_BeamHaloCleaned_v', 'HLT_Mu3er_PFHT140_PFMET125_v', 'HLT_MET200_v', 'HLT_PFMET170_HBHE_BeamHaloCleaned_v', 'HLT_MET75_IsoTrk50_v', 'HLT_MET90_IsoTrk50_v', 'HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v', 'HLT_DoubleMu3_PFMET50_v', 'HLT_MonoCentralPFJet80_PFMETNoMu110_PFMHTNoMu110_IDTight_v', 'HLT_PFMET110_PFMHT110_IDTight_v', 'HLT_DiCentralPFJet55_PFMET110_v', 'HLT_MET700_v', 'HLT_MonoCentralPFJet80_PFMETNoMu90_PFMHTNoMu90_IDTight_v', 'HLT_MET60_IsoTrk35_Loose_v', 'HLT_PFMET170_JetIdCleaned_v', 'HLT_PFMET170_BeamHaloCleaned_v', 'HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight_v', 'HLT_MET300_v', 'HLT_PFMET120_PFMHT120_IDTight_v', 'HLT_Mu6_PFHT200_PFMET80_BTagCSV_p067_v', 'HLT_MonoCentralPFJet80_PFMETNoMu100_PFMHTNoMu100_IDTight_v', 'HLT_CaloMHTNoPU90_PFMET90_PFMHT90_IDTight_BTagCSV_p067_v', 'HLT_PFMET170_HBHECleaned_v', 'HLT_PFMET120_BTagCSV_p067_v', 'HLT_PFMET500_v','HLT_PFMET300_v']
-
-#    SingleElectrontrigs=['HLT_Ele15_IsoVVVL_PFHT350_PFMET50_v', 'HLT_Ele45_WPLoose_Gsf_v', 'HLT_Ele32_eta2p1_WPLoose_Gsf_v', 'HLT_Ele27_WPTight_Gsf_L1JetTauSeeded_v', 'HLT_Ele32_WPTight_Gsf_v', 'HLT_Ele50_CaloIdVT_GsfTrkIdT_PFJet165_v', 'HLT_Ele105_CaloIdVT_GsfTrkIdT_v', 'HLT_Ele25_eta2p1_WPTight_Gsf_v', 'HLT_Ele27_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_SingleL1_v', 'HLT_Ele32_eta2p1_WPTight_Gsf_v', 'HLT_Ele27_WPLoose_Gsf_v', 'HLT_Ele27_eta2p1_WPLoose_Gsf_DoubleMediumIsoPFTau32_Trk1_eta2p1_Reg_v', 'HLT_Ele27_WPLoose_Gsf_WHbbBoost_v', 'HLT_Ele27_eta2p1_WPLoose_Gsf_DoubleMediumIsoPFTau35_Trk1_eta2p1_Reg_v', 'HLT_Ele300_CaloIdVT_GsfTrkIdT_v', 'HLT_Ele35_WPLoose_Gsf_v', 'HLT_Ele50_CaloIdVT_GsfTrkIdT_PFJet140_v', 'HLT_Ele50_IsoVVVL_PFHT400_v', 'HLT_Ele25_eta2p1_WPLoose_Gsf_v', 'HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v' , 'HLT_Ele250_CaloIdVT_GsfTrkIdT_v', 'HLT_Ele24_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_v', 'HLT_Ele15_IsoVVVL_PFHT400_PFMET50_v', 'HLT_Ele24_eta2p1_WPLoose_Gsf_v', 'HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau29_v', 'HLT_Ele32_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_SingleL1_v', 'HLT_Ele27_WPTight_Gsf_v', 'HLT_Ele15_IsoVVVL_PFHT350_v', 'HLT_Ele35_CaloIdVT_GsfTrkIdT_PFJet150_PFJet50_v', 'HLT_Ele30_eta2p1_WPLoose_Gsf_v', 'HLT_Ele200_CaloIdVT_GsfTrkIdT_v', 'HLT_Ele30_eta2p1_WPTight_Gsf_v', 'HLT_Ele45_WPLoose_Gsf_L1JetTauSeeded_v', 'HLT_Ele24_eta2p1_WPLoose_Gsf_LooseIsoPFTau30_v', 'HLT_Ele22_eta2p1_WPLoose_Gsf_v', 'HLT_Ele15_IsoVVVL_BTagCSV_p067_PFHT400_v', 'HLT_Ele36_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_SingleL1_v', 'HLT_Ele115_CaloIdVT_GsfTrkIdT_v', 'HLT_Ele23_WPLoose_Gsf_v', 'HLT_Ele22_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_SingleL1_v', 'HLT_Ele145_CaloIdVT_GsfTrkIdT_v', 'HLT_Ele27_eta2p1_WPLoose_Gsf_HT200_v', 'HLT_Ele23_WPLoose_Gsf_WHbbBoost_v', 'HLT_Ele20_eta2p1_WPLoose_Gsf_LooseIsoPFTau28_v', 'HLT_Ele24_eta2p1_WPLoose_Gsf_LooseIsoPFTau20_SingleL1_v', 'HLT_Ele27_eta2p1_WPLoose_Gsf_DoubleMediumIsoPFTau40_Trk1_eta2p1_Reg_v', 'HLT_Ele27_eta2p1_WPTight_Gsf_v', 'HLT_Ele15_IsoVVVL_PFHT400_v', 'HLT_Ele30_WPTight_Gsf_v', 'HLT_Ele15_IsoVVVL_PFHT600_v', 'HLT_Ele27_eta2p1_WPLoose_Gsf_v', 'HLT_Ele25_WPTight_Gsf_v']
-
-#    SinglePhotontrigs = ['HLT_Photon120_R9Id90_HE10_Iso40_EBOnly_PFMET40_v',
-#    'HLT_Photon120_R9Id90_HE10_Iso40_EBOnly_VBF_v',
-#    'HLT_Photon120_R9Id90_HE10_IsoM_v',
-#    'HLT_Photon120_v',
-#    'HLT_Photon135_PFMET100_v',
-#    'HLT_Photon165_HE10_v',
-#    'HLT_Photon165_R9Id90_HE10_IsoM_v',
-#    'HLT_Photon175_v',
-#    'HLT_Photon22_R9Id90_HE10_Iso40_EBOnly_PFMET40_v',
-#    'HLT_Photon22_R9Id90_HE10_Iso40_EBOnly_VBF_v',
-#    'HLT_Photon22_R9Id90_HE10_IsoM_v',
-#    'HLT_Photon22_v',
-#    'HLT_Photon250_NoHE_v',
-#    'HLT_Photon300_NoHE_v',
-#    'HLT_Photon30_R9Id90_HE10_IsoM_v',
-#    'HLT_Photon30_v',
-#    'HLT_Photon36_R9Id90_HE10_Iso40_EBOnly_PFMET40_v',
-#    'HLT_Photon36_R9Id90_HE10_Iso40_EBOnly_VBF_v',
-#    'HLT_Photon36_R9Id90_HE10_IsoM_v',
-#    'HLT_Photon36_v',
-#    'HLT_Photon500_v',
-#    'HLT_Photon50_R9Id90_HE10_Iso40_EBOnly_PFMET40_v',
-#    'HLT_Photon50_R9Id90_HE10_Iso40_EBOnly_VBF_v',
-#    'HLT_Photon50_R9Id90_HE10_IsoM_v',
-#    'HLT_Photon50_v',
-#    'HLT_Photon600_v',
-#    'HLT_Photon75_R9Id90_HE10_Iso40_EBOnly_PFMET40_v',
-#    'HLT_Photon75_R9Id90_HE10_Iso40_EBOnly_VBF_v',
-#    'HLT_Photon75_R9Id90_HE10_IsoM_v',
-#    'HLT_Photon75_v',
-#    'HLT_Photon90_CaloIdL_PFHT500_v',
-#    'HLT_Photon90_CaloIdL_PFHT600_v',
-#    'HLT_Photon90_R9Id90_HE10_Iso40_EBOnly_PFMET40_v',
-#    'HLT_Photon90_R9Id90_HE10_Iso40_EBOnly_VBF_v',
-#    'HLT_Photon90_R9Id90_HE10_IsoM_v',
-#    'HLT_Photon90_v']
-
+    triglist=["HLT_PFMET170_BeamHaloCleaned_v","HLT_PFMET170_HBHE_BeamHaloCleaned_v","HLT_PFMET170_NotCleaned_v","HLT_PFMET170_NoiseCleaned_v","HLT_PFMET170_JetIdCleaned_v","HLT_PFMET170_HBHECleaned_v","HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v","HLT_PFMETNoMu100_PFMHTNoMu100_IDTight_v","HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_v","HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v","HLT_PFMET110_PFMHT110_IDTight_v","HLT_IsoMu24_v","HLT_IsoTkMu24_v","HLT_IsoMu27_v","HLT_IsoTkMu27_v","HLT_Ele27_WPTight_Gsf_v","HLT_Ele105_CaloIdVT_GsfTrkIdT_v","HLT_Ele115_CaloIdVT_GsfTrkIdT_v","HLT_Ele32_WPTight_Gsf_v","HLT_IsoMu20_v","HLT_Ele27_eta2p1_WPTight_Gsf_v","HLT_Ele27_WPLoose_Gsf_v","HLT_Ele32_eta2p1_WPTight_Gsf_v","HLT_Photon165_HE10_v","HLT_Photon175_v","HLT_Ele105_CaloIdVT_GsfTrkIdT_v"]
 
 
     outfile = TFile(outfilename,'RECREATE')
 
     outTree = TTree( 'outTree', 'tree branches' )
-    samplepath = TNamed('samplepath', str(sys.argv[1]))
+    if isfarmout:
+        samplepath = TNamed('samplepath', str(f_tmp).split('"')[1])
+    else:
+        samplepath = TNamed('samplepath', str(inputfilename))
 
     st_runId                  = numpy_.zeros(1, dtype=int)
     st_lumiSection            = array( 'L', [ 0 ] )
@@ -165,40 +124,24 @@ def AnalyzeDataSet():
 
     st_nEle                = array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
     st_eleP4               = ROOT.std.vector('TLorentzVector')()
-    st_eleIsPassLoose      = ROOT.std.vector('bool')()
-    st_eleIsPassMedium     = ROOT.std.vector('bool')()
     st_eleIsPassTight      = ROOT.std.vector('bool')()
 
     st_nPho                = array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
     st_phoP4               = ROOT.std.vector('TLorentzVector')()
-    st_phoIsPassLoose      = ROOT.std.vector('bool')()
-    st_phoIsPassMedium     = ROOT.std.vector('bool')()
     st_phoIsPassTight      = ROOT.std.vector('bool')()
 
     st_nMu= array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
     st_muP4                = ROOT.std.vector('TLorentzVector')()
-    st_isLooseMuon         = ROOT.std.vector('bool')()
-    st_isMediumMuon        = ROOT.std.vector('bool')()
     st_isTightMuon         = ROOT.std.vector('bool')()
-    st_muChHadIso          = ROOT.std.vector('float')()
-    st_muNeHadIso          = ROOT.std.vector('float')()
-    st_muGamIso            = ROOT.std.vector('float')()
-    st_muPUPt              = ROOT.std.vector('float')()
-    st_muCharge            = ROOT.std.vector('int')()
+    st_muIso            = ROOT.std.vector('float')()
 
-#    st_trigResult          = ROOT.std.vector('bool')()
-#    st_trigName            = ROOT.std.vector('string')()
 
     st_HPSTau_n= array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
-    st_HPSTau_4Momentum= ROOT.std.vector('TLorentzVector')()
-    
-    st_disc_againstElectronLoose    =    ROOT.std.vector('bool')()
-    st_disc_againstElectronMedium   =    ROOT.std.vector('bool')()
-    st_disc_againstElectronTight    =    ROOT.std.vector('bool')()
-    st_disc_againstMuonLoose        =    ROOT.std.vector('bool')()
-#    st_disc_againstMuonMedium       =    ROOT.std.vector('bool')()
-    st_disc_againstMuonTight        =    ROOT.std.vector('bool')()
-    
+    st_nTauTightElectron= array( 'L', [ 0 ] )
+    st_nTauTightMuon= array( 'L', [ 0 ] )
+    st_nTauTightEleMu= array( 'L', [ 0 ] )
+    st_nTauLooseEleMu= array( 'L', [ 0 ] )
+
     mcweight = array( 'f', [ 0 ] )
     st_pu_nTrueInt= array( 'f', [ 0 ] ) #ROOT.std.vector('std::vector<float>')()
     st_pu_nPUVert= array( 'f', [ 0 ] )
@@ -247,11 +190,6 @@ def AnalyzeDataSet():
     for trigs in triglist:
         exec("outTree.Branch( 'st_"+trigs+"', st_"+trigs+" , 'st_"+trigs+"/O')")
 
-#    outTree.Branch( 'st_MET_trig', st_MET_trig , 'st_MET_trig/O')
-#    outTree.Branch( 'st_SE_trig', st_SE_trig , 'st_SE_trig/O')
-#    outTree.Branch( 'st_SP_trig', st_SP_trig , 'st_SP_trig/O')
-#    outTree.Branch( 'st_HLT_IsoMu20', st_HLT_IsoMu20 , 'st_HLT_IsoMu20/O')
-#    outTree.Branch( 'st_HLT_Ele27_WPLoose_Gsf', st_HLT_Ele27_WPLoose_Gsf , 'st_HLT_Ele27_WPLoose_Gsf/O')
 
     outTree.Branch( 'st_THINnJet',st_THINnJet, 'st_THINnJet/L' )
     outTree.Branch( 'st_THINjetP4',st_THINjetP4 )
@@ -277,40 +215,24 @@ def AnalyzeDataSet():
 
     outTree.Branch( 'st_nEle',st_nEle , 'st_nEle/L')
     outTree.Branch( 'st_eleP4',st_eleP4 )
-    outTree.Branch( 'st_eleIsPassLoose', st_eleIsPassLoose)#, 'st_eleIsPassLoose/O' )
-    outTree.Branch( 'st_eleIsPassMedium', st_eleIsPassMedium)#, 'st_eleIsPassMedium/O' )
     outTree.Branch( 'st_eleIsPassTight', st_eleIsPassTight)#, 'st_eleIsPassTight/O' )
 
     outTree.Branch( 'st_nPho',st_nPho , 'st_nPho/L')
     outTree.Branch( 'st_phoP4',st_phoP4 )
-    outTree.Branch( 'st_phoIsPassLoose', st_phoIsPassLoose)#, 'st_phoIsPassLoose/O' )
-    outTree.Branch( 'st_phoIsPassMedium', st_phoIsPassMedium)#, 'st_phoIsPassMedium/O' )
     outTree.Branch( 'st_phoIsPassTight', st_phoIsPassTight)#, 'st_phoIsPassTight/O' )
 
 
     outTree.Branch( 'st_nMu',st_nMu , 'st_nMu/L')
     outTree.Branch( 'st_muP4',st_muP4 )
-    outTree.Branch( 'st_isLooseMuon', st_isLooseMuon)#, 'st_isLooseMuon/O' )
-    outTree.Branch( 'st_isMediumMuon', st_isMediumMuon)#, 'st_isMediumMuon/O' )
     outTree.Branch( 'st_isTightMuon', st_isTightMuon)#, 'st_isTightMuon/O' )
-    outTree.Branch( 'st_muChHadIso', st_muChHadIso)#, 'st_muChHadIso/F')
-    outTree.Branch( 'st_muNeHadIso', st_muNeHadIso)#, 'st_muNeHadIso/F')
-    outTree.Branch( 'st_muGamIso', st_muGamIso)#, 'st_muGamIso/F')
-    outTree.Branch( 'st_muPUPt', st_muPUPt)#, 'st_muPUPt/F')
-
-#    outTree.Branch( 'st_trigName', st_trigName)
-#    outTree.Branch( 'st_trigResult', st_trigResult)
+    outTree.Branch( 'st_muIso', st_muIso)#, 'st_muIso/F')
 
     outTree.Branch( 'st_HPSTau_n', st_HPSTau_n, 'st_HPSTau_n/L')
-    outTree.Branch( 'st_HPSTau_4Momentum', st_HPSTau_4Momentum)    
-    
-    outTree.Branch( 'st_disc_againstElectronLoose', st_disc_againstElectronLoose)
-    outTree.Branch( 'st_disc_againstElectronMedium', st_disc_againstElectronMedium)
-    outTree.Branch( 'st_disc_againstElectronTight', st_disc_againstElectronTight)
-    outTree.Branch( 'st_disc_againstMuonLoose', st_disc_againstMuonLoose)
-#    outTree.Branch( 'st_disc_againstMuonMedium', st_disc_againstMuonMedium)
-    outTree.Branch( 'st_disc_againstMuonTight', st_disc_againstMuonTight)
-    
+    outTree.Branch( 'st_nTauTightElectron', st_nTauTightElectron, 'st_nTauTightElectron/L')
+    outTree.Branch( 'st_nTauTightMuon', st_nTauTightMuon, 'st_nTauTightMuon/L')
+    outTree.Branch( 'st_nTauTightEleMu', st_nTauTightEleMu, 'st_nTauTightEleMu/L')
+    outTree.Branch( 'st_nTauLooseEleMu', st_nTauLooseEleMu, 'st_nTauLooseEleMu/L')
+
     outTree.Branch( 'st_pu_nTrueInt', st_pu_nTrueInt, 'st_pu_nTrueInt/F')
     outTree.Branch( 'st_pu_nPUVert', st_pu_nPUVert, 'st_pu_nPUVert/F')
     outTree.Branch( 'st_AK4deepCSVjetNPV', st_AK4deepCSVjetNPV, 'st_AK4deepCSVjetNPV/F')
@@ -344,9 +266,9 @@ def AnalyzeDataSet():
     outTree.Branch( 'GammaRecoil', GammaRecoil, 'GammaRecoil/F')
     outTree.Branch( 'GammaPhi', GammaPhi, 'GammaPhi/F')
 
-    if len(sys.argv)>2:
-        NEntries=int(sys.argv[2])
-        print "WARNING: Running in TEST MODE"
+    #if len(sys.argv)>2:
+    #    NEntries=int(sys.argv[2])
+    #    print "WARNING: Running in TEST MODE"
 
     for ievent in range(NEntries):
 
@@ -425,13 +347,13 @@ def AnalyzeDataSet():
         tauP4                      = skimmedTree.__getattr__('HPSTau_4Momentum')
         isDecayModeFinding         = skimmedTree.__getattr__('disc_decayModeFinding')
         passLooseTauIso            = skimmedTree.__getattr__('disc_byLooseIsolationMVA3oldDMwLT')
-        
+
         disc_againstElectronLoose  = skimmedTree.__getattr__('disc_againstElectronLooseMVA5')
         disc_againstElectronMedium = skimmedTree.__getattr__('disc_againstElectronMediumMVA5')
         disc_againstElectronTight  = skimmedTree.__getattr__('disc_againstElectronTightMVA5')
         disc_againstMuonLoose      = skimmedTree.__getattr__('disc_againstMuonLoose3')
         disc_againstMuonTight      = skimmedTree.__getattr__('disc_againstMuonTight3')
-        
+
         isData                     = skimmedTree.__getattr__('isData')
         mcWeight                   = skimmedTree.__getattr__('mcWeight')
         pu_nTrueInt                = skimmedTree.__getattr__('pu_nTrueInt')         #int()
@@ -443,9 +365,6 @@ def AnalyzeDataSet():
         phoIsPassMedium            = skimmedTree.__getattr__('phoIsPassMedium')
         phoIsPassTight             = skimmedTree.__getattr__('phoIsPassTight')
 
-#        print skimmedTree.__getattr__('pu_nTrueInt')
-#        print pu_nTrueInt
-#        print
 
         nGenPar                    = skimmedTree.__getattr__('nGenPar')
         genParId                   = skimmedTree.__getattr__('genParId')
@@ -454,12 +373,10 @@ def AnalyzeDataSet():
         genParP4                   = skimmedTree.__getattr__('genParP4')
 
 
-        #---------------------------------------------------------------------------------------------------------------------------------------------------------------
-        #        print len(tauP4), len(disc_againstElectronLoose),len(disc_againstElectronMedium),len(disc_againstElectronTight), len(disc_againstMuonLoose),len(disc_againstMuonTight)
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # MC Weights ----------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-        # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+        #
         mcweight[0] = 0.0
         if isData==1:   mcweight[0] =  1.0
         if not isData :
@@ -469,35 +386,9 @@ def AnalyzeDataSet():
 
         h_total.Fill(1.);
         h_total_mcweight.Fill(1.,mcweight[0]);
-
-
-
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-        # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-        ## Trigger selection
-        # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-        # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-#        itrig_=0; trig1 = False; trig2 = False; trig3 = False; trig4 = False; trig5 = False; trig6 = False; trig7 = False; trig8 = False; trig9 = False; trig10 = False; trig11 = False; trig12 = False;
-#        trig1 = CheckFilter(trigName, trigResult, 'HLT_PFMET170_') # added from  monojet
-#        trig2 = CheckFilter(trigName, trigResult, 'HLT_PFMET170_NoiseCleaned')
-#        trig3 = CheckFilter(trigName, trigResult, 'HLT_PFMET170_JetIdCleaned_v')
-#        trig4 = CheckFilter(trigName, trigResult, 'HLT_PFMET170_HBHECleaned_v')
-#        trig5 = CheckFilter(trigName, trigResult, 'HLT_PFMETNoMu90_PFMHTNoMu90_IDTight_v')
-#        trig6 = CheckFilter(trigName, trigResult, 'HLT_PFMETNoMu100_PFMHTNoMu100_IDTight_v') #added from  tt+DM all hadronic analysis
-#        trig7 = CheckFilter(trigName, trigResult, 'HLT_PFMETNoMu110_PFMHTNoMu110_IDTight_v')
-#        trig8 = CheckFilter(trigName, trigResult, 'HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_v')
-#        trig9 = CheckFilter(trigName, trigResult, 'HLT_PFMET110_PFMHT110_')
-#        trig10 = CheckFilter(trigName, trigResult, 'HLT_IsoMu24_v') #added from tt+DM all hadronic analysis
-#        trig11 = CheckFilter(trigName, trigResult, 'HLT_IsoTkMu24_v') #added from tt+DM all hadronic analysis
-#        trig12 = CheckFilter(trigName, trigResult, 'HLT_Ele27_WPTight_Gsf') #added from Siew Yan slides
-#        trig13 = CheckFilter(trigName, trigResult, 'HLT_IsoMu20')  #Added from AN CR 2015
-#        trig14 = CheckFilter(trigName, trigResult, 'HLT_Ele27_WPLoose_Gsf')   #Added from AN CR
-
-#        if ievent==0:
-#            for i in sorted(trigName):
-#            # if i.find('PFMETNoMu')>-1:
-#                print i
-
+        ## Trigger selection ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+        #
         trigstatus=False
         for itrig in range(len(triglist)):
             exec(triglist[itrig]+" = CheckFilter(trigName, trigResult, " + "'" + triglist[itrig] + "')")        #Runs the above commented-off code dynamically.
@@ -510,35 +401,6 @@ def AnalyzeDataSet():
         if not trigstatus: continue
 
 
-        # PD-wise triggers. Simply saves one boolean signifying whether at least one of the trigger paths of each PD was passed.
-
-#        METtrigstatus=False
-#        for itrig in METtrigs:
-#            if CheckFilter(trigName, trigResult, itrig):
-#                METtrigstatus=True
-#                break
-#        SEtrigstatus=False
-#        for itrig in SingleElectrontrigs:
-#            if CheckFilter(trigName, trigResult, itrig):
-#                SEtrigstatus=True
-#                break
-#        SPtrigstatus=False
-#        for itrig in SinglePhotontrigs:
-#            if CheckFilter(trigName, trigResult, itrig):
-#                SPtrigstatus=True
-#                break
-
-#        print METtrigstatus,SEtrigstatus, SPtrigstatus
-
-#        st_MET_trig[0]=METtrigstatus
-#        st_SE_trig[0]=SEtrigstatus
-#        st_SP_trig[0]=SPtrigstatus
-#
-#        for itrig in range(len(list(trigName))):
-#            st_trigName.push_back(list(trigName)[itrig])
-#            st_trigResult.push_back(bool(list(trigResult)[itrig]))
-
-#        print (isData,trigstatus)
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Filter selection
@@ -590,11 +452,11 @@ def AnalyzeDataSet():
 
         for jthinjet in range(nTHINdeepCSVJets):
             j1 = thindeepCSVjetP4[jthinjet]
-
-            if thindeepCSVJetLooseID==None:
-                deepCSVJetLooseID=True
-            else:
-                deepCSVJetLooseID=bool(passThinJetLooseID[jthinjet])
+            if (j1.Pt() > 30.0):
+                if thindeepCSVJetLooseID==None:
+                    deepCSVJetLooseID=True
+                else:
+                    deepCSVJetLooseID=bool(thindeepCSVJetLooseID[jthinjet])
 
             if (j1.Pt() > 30.0)&(abs(j1.Eta())<4.5) and deepCSVJetLooseID: #  &(bool(passThinJetLooseID[jthinjet])==True):
                 thindCSVjetpassindex.append(jthinjet)
@@ -602,14 +464,6 @@ def AnalyzeDataSet():
 
 
         if len(thinjetpassindex) < 1 and len(thindCSVjetpassindex) < 1 : continue
-
-#        except:
-#            if len(thinjetpassindex) < 1: continue
-
-#        print ('njet: ',len(thinjetpassindex))
-#        if len(thindCSVjetpassindex) < 1 : continue
-#        print nBjets
-#        if nBjets < 1: continue
 
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -629,17 +483,10 @@ def AnalyzeDataSet():
         myEles=[]
         for iele in range(nEle):
             if (eleP4[iele].Pt() > 10. ) & (abs(eleP4[iele].Eta()) <2.5) & (bool(eleIsPassLoose[iele]) == True) :
-
-#                # Clean eles against jets: if ele in jet coll, remove ele. Currently only for CSV coll
-#                isClean=True
-#                for ithinjet in thinjetpassindex:
-#                    if DeltaR(thinjetP4[ithinjet],eleP4[iele]) < 0.4:
-#                        isClean=False
-#                        break
-#                        #print DeltaR(thinjetP4[ithinjet],eleP4[iele])
-#                if isClean:
-
                 myEles.append(iele)
+                #print 'eleIsPassTight:  ', bool(eleIsPassTight[iele])
+            #print '\n'
+
 
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -647,25 +494,65 @@ def AnalyzeDataSet():
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         myMuos = []
+        myMuonIso = {}
         for imu in range(nMu):
             if (muP4[imu].Pt()>10.) & (abs(muP4[imu].Eta()) < 2.4) & (bool(isLooseMuon[imu]) == True):
                 relPFIso = (muChHadIso[imu]+ max(0., muNeHadIso[imu] + muGamIso[imu] - 0.5*muPUPt[imu]))/muP4[imu].Pt()
                 if relPFIso<0.25 :
                     myMuos.append(imu)
+                    myMuonIso[imu]=relPFIso
 
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Tau Veto
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         myTaus=[]
+        nTausDRbased=0
+        myTausTightElectron=[]
+        myTausTightMuon=[]
+        myTausTightEleMu=[]
+        myTausLooseEleMu=[]
         for itau in range(nTau):
             if (tauP4[itau].Pt()>18.) & (abs(tauP4[itau].Eta())<2.3) & (bool(isDecayModeFinding[itau]) == True) & (bool(passLooseTauIso[itau]) == True):
                 myTaus.append(itau)
-
+                foundTau=False
+                if disc_againstElectronLoose!=None and disc_againstMuonLoose!=None:
+                    foundTau = True
+                    if disc_againstElectronTight[itau] and disc_againstMuonLoose[itau]:
+                        myTausTightElectron.append(tauP4[itau])
+                        
+                    if disc_againstMuonTight[itau] and disc_againstElectronLoose[itau]:
+                        myTausTightMuon.append(tauP4[itau])
+                        
+                    if disc_againstMuonLoose[itau] and disc_againstElectronLoose[itau]:
+                        myTausLooseEleMu.append(tauP4[itau])        
+                        
+                if disc_againstElectronLoose!=None and not foundTau:
+                    if disc_againstElectronTight[itau]:
+                        myTausTightElectron.append(tauP4[itau])
+                    if disc_againstElectronLoose[itau]:
+                        myTausLooseEleMu.append(tauP4[itau])
+                        
+                if disc_againstMuonLoose!=None and not foundTau:
+                    if disc_againstMuonTight[itau]:
+                        myTausTightMuon.append(tauP4[itau])
+                    if disc_againstMuonLoose[itau]:
+                        myTausLooseEleMu.append(tauP4[itau])
+                #---Fake tau cleaner----
+                isClean=True
+                for iele in myEles:
+                    lep_tau_dR=DeltaR(eleP4[iele],tauP4[itau])    # math.sqrt(  (  iele.Eta()-tauP4[itau].Eta() )**2  + (  DeltaPhi(iele.Phi(),tauP4[itau].Phi()) )**2 )
+                    if lep_tau_dR < 0.4:
+                        isClean=False
+                        break
+                for imu in myMuos:
+                    lep_tau_dR=DeltaR(muP4[imu],tauP4[itau])
+                    if lep_tau_dR < 0.4:
+                        isClean=False
+                        break
+                if not isClean: nTausDRbased+=1
+                
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
         st_runId[0]             = long(run)
         st_lumiSection[0]       = lumi
         st_eventId[0]           = event
@@ -700,26 +587,21 @@ def AnalyzeDataSet():
         st_AK4deepCSVjetCorrUnc.clear()
 
         st_eleP4.clear()
+        st_eleIsPassTight.clear()
+
         st_muP4.clear()
+        st_isTightMuon.clear()
+        st_muIso.clear()
+
         st_phoP4.clear()
-        st_muChHadIso.clear()
-        st_muGamIso.clear()
-        st_muNeHadIso.clear()
-        st_HPSTau_4Momentum.clear()
-        
-        st_disc_againstElectronLoose.clear()
-        st_disc_againstElectronMedium.clear()
-        st_disc_againstElectronTight.clear()
-        st_disc_againstMuonLoose.clear()
-#        st_disc_againstMuonMedium.clear()
-        st_disc_againstMuonTight.clear()
+        st_phoIsPassTight.clear()
 
         st_genParId.clear()
         st_genMomParId.clear()
         st_genParSt.clear()
         st_genParP4.clear()
 
-        
+
         st_THINnJet[0] = len(thinjetpassindex)
         for ithinjet in thinjetpassindex:
             st_THINjetP4.push_back(thinjetP4[ithinjet])
@@ -749,35 +631,23 @@ def AnalyzeDataSet():
         st_nEle[0] = len(myEles)
         for iele in myEles:
             st_eleP4.push_back(eleP4[iele])
-            st_eleIsPassLoose.push_back(bool(eleIsPassLoose[iele]))
-            st_eleIsPassMedium.push_back(bool(eleIsPassMedium[iele]))
             st_eleIsPassTight.push_back(bool(eleIsPassTight[iele]))
 
         st_nMu[0] = len(myMuos)
         for imu in myMuos:
             st_muP4.push_back(muP4[imu])
-            st_isLooseMuon.push_back(bool(isLooseMuon[imu]))
             st_isTightMuon.push_back(bool(isTightMuon[imu]))
-            st_isMediumMuon.push_back(bool(isMediumMuon[imu]))
-            st_muChHadIso.push_back(muChHadIso[imu])
-            st_muNeHadIso.push_back(muNeHadIso[imu])
-            st_muGamIso.push_back(muGamIso[imu])
-            st_muPUPt.push_back(muPUPt[imu])
+            st_muIso.push_back(myMuonIso[imu])
 
         st_HPSTau_n[0] = len(myTaus)
-        for itau in myTaus:
-            st_HPSTau_4Momentum.push_back(tauP4[itau])
-            st_disc_againstElectronLoose.push_back(bool(disc_againstElectronLoose[itau]))
-            st_disc_againstElectronMedium.push_back(bool(disc_againstElectronMedium[itau]))
-            st_disc_againstElectronTight.push_back(bool(disc_againstElectronTight[itau]))
-            st_disc_againstMuonLoose.push_back(bool(disc_againstMuonLoose[itau]))
-            st_disc_againstMuonTight.push_back(bool(disc_againstMuonTight[itau]))
+        st_nTauTightElectron[0] = len(myTausTightElectron)
+        st_nTauTightMuon[0] = len(myTausTightMuon)
+        st_nTauTightEleMu[0] = len(myTausTightEleMu)
+        st_nTauLooseEleMu[0] = len(myTausLooseEleMu)
 
         st_nPho[0]=nPho
         for ipho in range(nPho):
             st_phoP4.push_back(phoP4[ipho])
-            st_phoIsPassLoose.push_back(bool(phoIsPassLoose[ipho]))
-            st_phoIsPassMedium.push_back(bool(phoIsPassMedium[ipho]))
             st_phoIsPassTight.push_back(bool(phoIsPassTight[ipho]))
 
         st_pu_nTrueInt[0] = pu_nTrueInt
@@ -950,7 +820,7 @@ def AnalyzeDataSet():
         if len(myPhos) >= 1:
 
 #           pho1 = myPhos[0]
-           myPhosP4=[phoP4[myPhos[i]] for i in range(len(myPhos))]           
+           myPhosP4=[phoP4[myPhos[i]] for i in range(len(myPhos))]
            p4_pho1 = sorted(myPhosP4,key=getPT,reverse=True)[0]
 #           if len(myPhos) > 1:
 #              print [i.Pt() for i in myPhosP4]
@@ -1118,4 +988,3 @@ def MT(Pt, met, dphi):
 
 if __name__ == "__main__":
     AnalyzeDataSet()
-
