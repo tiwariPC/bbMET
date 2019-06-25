@@ -603,11 +603,12 @@ def AnalyzeDataSet():
 
          # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 #        print (HLT_IsoMu24,HLT_Ele27_WPLoose_Gsf)
-
+    
+        crak_reg = (abs(eleP4[iele].Eta()) < 1.4442) and (abs(eleP4[iele].Eta()) > 1.566)
         myEles=[]
         myEleTightID=[]
         for iele in range(nEle):
-            if abs(eleP4[iele].Eta()) >2.1: continue
+            if abs(eleP4[iele].Eta()) >2.1 and crak_reg: continue
             myEles.append(eleP4[iele])
             myEleTightID.append(eleIsPassTight[iele])
 
