@@ -2287,17 +2287,17 @@ def getBeff(P4):
     if flav == 5:
         xbin = eff_b_pass.GetXaxis().FindBin(P4.Eta())
         ybin = eff_b_pass.GetYaxis().FindBin(P4.Pt())
-        btag_eff = eff_b_pass.GetBinContent(xbin,ybin)
+        btag_eff = eff_b_fail.GetBinContent(xbin,ybin)
         return btag_eff
     elif flav == 4:
         xbin = eff_c_pass.GetXaxis().FindBin(P4.Eta())
         ybin = eff_c_pass.GetYaxis().FindBin(P4.Pt())
-        ctag_eff = eff_c_pass.GetBinContent(xbin,ybin)
+        ctag_eff = eff_c_fail.GetBinContent(xbin,ybin)
         return ctag_eff
     elif flav!=4 and flav!=5:
         xbin = eff_light_pass.GetXaxis().FindBin(P4.Eta())
         ybin = eff_light_pass.GetYaxis().FindBin(P4.Pt())
-        lighttag_eff = eff_light_pass.GetBinContent(xbin,ybin)
+        lighttag_eff = eff_light_fail.GetBinContent(xbin,ybin)
         return lighttag_eff
 
 def MT(Pt, met, dphi):
