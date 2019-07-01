@@ -1713,7 +1713,7 @@ def AnalyzeDataSet():
 #            print 'Warning:: photon weight is 0, setting it to 1'
             phoweights = 1.0
 
-        allweights = puweight * mcweight * genpTReweighting * eleweights * metTrig_firstmethodReweight * muweights*phoweights
+        allweights = puweight * mcweight * genpTReweighting * eleweights * metTrig_firstmethodReweight * muweights
 
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
