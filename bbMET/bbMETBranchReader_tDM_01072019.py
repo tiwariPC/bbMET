@@ -315,11 +315,26 @@ print "Dataset classified as: " + samplename
 UnPrescaledIsoMu20 = IsoMu20isUnPrescaled(samplepath)
 #print UnPrescaledIsoMu20
 #print samplename
-btag_eff = TFile('btag_eff_forweight.root')
-print('Eff_Files/'+str(f_tmp).split('/')[-2].strip('_000')+'.root')
-#btag_eff = TFile('Eff_Files/'+str(f_tmp).split('/')[-2].strip('_000')+'.root')
-btag_eff_light = btag_eff.Get('efficiency_light')
-btag_eff_b = btag_eff.Get('efficiency_b')
+#btag_eff = TFile('btag_eff_forweight.root')
+print('Eff_Files_v2/'+str(f_tmp).split('/')[-2].strip('_000')+'.root')
+data_file = False
+if '190610_09' in 'Eff_Files/'+str(f_tmp).split('/')[-2].strip('_000')+'.root': data_file=True
+if 'SingleElectron' in 'Eff_Files/'+str(f_tmp).split('/')[-2].strip('_000')+'.root': data_file=True
+if data_file:
+    btag_eff = TFile('btag_eff_forweight.root')
+else:
+    btag_eff = TFile('Eff_Files_v2/'+str(f_tmp).split('/')[-2].strip('_000')+'.root')
+
+eff_b_pass = btag_eff.Get('efficiency_beff_pass')
+eff_b_fail = btag_eff.Get('efficiency_beff_fail')
+
+eff_c_pass = btag_eff.Get('efficiency_ceff_pass')
+eff_c_fail  = btag_eff.Get('efficiency_ceff_fail')
+
+eff_light_pass = btag_eff.Get('efficiency_lighteff_pass')
+eff_light_fail = btag_eff.Get('efficiency_lighteff_fail')
+#btag_eff_light = btag_eff.Get('efficiency_light')
+#btag_eff_b = btag_eff.Get('efficiency_b')
 
 def AnalyzeDataSet():
     ## Input rootfile name
@@ -1736,11 +1751,12 @@ def AnalyzeDataSet():
             P_Data = 1.0
             btagweight = 1.0
             for i in range(nJets):
-                P_MC *= (1-getBeff(myJetP4[i]))
+                tag_eff = getBeff(myJetP4[i],myJetHadronFlavor[i])
+                P_MC *= (1-tag_eff)
                 reader1.eval_auto_bounds('central', 0, 2.4, 30.)
                 SF_jet = []
                 SF_jet=weightbtag(reader1, jetflav(myJetHadronFlavor[jet]), myJetP4[jet].Pt(), myJetP4[jet].Eta())
-                P_Data *= (1 - SF_jet[0] *getBeff(myJetP4[i]))
+                P_Data *= (1 - SF_jet[0] * tag_eff)
                 #print 'eff: ',getBeff(myJetP4[i])
             if P_MC > 0:
                 btagweight = P_Data/P_MC
@@ -2268,13 +2284,21 @@ def GenWeightProducer(sample,nGenPar, genParId, genMomParId, genParSt,genParP4):
     return k2
 
 def getBeff(P4):
-    xbin = btag_eff_light.GetXaxis().FindBin(P4.Eta())
-    ybin = btag_eff_light.GetYaxis().FindBin(P4.Pt())
-    btag_efficiency_light = btag_eff_light.GetBinContent(xbin,ybin)
-    xbin = btag_eff_b.GetXaxis().FindBin(P4.Eta())
-    ybin = btag_eff_b.GetYaxis().FindBin(P4.Pt())
-    btag_efficiency_b = btag_eff_b.GetBinContent(xbin,ybin)
-    return btag_efficiency_light
+    if flav == 5:
+        xbin = eff_b_pass.GetXaxis().FindBin(P4.Eta())
+        ybin = eff_b_pass.GetYaxis().FindBin(P4.Pt())
+        btag_eff = eff_b_pass.GetBinContent(xbin,ybin)
+        return btag_eff
+    elif flav == 4:
+        xbin = eff_c_pass.GetXaxis().FindBin(P4.Eta())
+        ybin = eff_c_pass.GetYaxis().FindBin(P4.Pt())
+        ctag_eff = eff_c_pass.GetBinContent(xbin,ybin)
+        return ctag_eff
+    elif flav!=4 and flav!=5:
+        xbin = eff_light_pass.GetXaxis().FindBin(P4.Eta())
+        ybin = eff_light_pass.GetYaxis().FindBin(P4.Pt())
+        lighttag_eff = eff_light_pass.GetBinContent(xbin,ybin)
+        return lighttag_eff
 
 def MT(Pt, met, dphi):
     return ROOT.TMath.Sqrt( 2 * Pt * met * (1.0 - ROOT.TMath.Cos(dphi)) )
