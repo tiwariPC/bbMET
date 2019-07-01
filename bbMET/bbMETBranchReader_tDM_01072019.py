@@ -686,7 +686,7 @@ def AnalyzeDataSet():
         myJetEleEF=[]
         myJetMuoEF=[]
         #print '\n'
-        if options.CSV: 
+        if options.CSV:
             for nb in range(nTHINJets):
                 TightLepVeto = (thinjetNhadEF[nb]<0.90 and thinjetCEmEF[nb]<0.90 and thinjetMuoEF[nb]<0.8 and thinjetPhoEF[nb]<0.90)
                 '''
@@ -1042,7 +1042,7 @@ def AnalyzeDataSet():
 # -------------------------------------------
         iLeadLep = 0
         #print run,' : ',lumi,' : ',event,' : nJets ', nJets,' : nBjets ',nBjets
-        ''' 
+        '''
         if nJets==2:
             print nJets,' : ',run, ' : ', lumi, ' : ', event, ' : ',myEles_tight[iLeadLep].Pt(),' : ',myEles_tight[iLeadLep].Eta(),' : ',myEles_tight[iLeadLep].Phi(),' : ',j1.Pt(),' : ',j1.Eta(),' : ',j1.Phi(),' : ',j2.Pt(),' : ',j2.Eta(),' : ',j2.Phi(),' : ',pfMet,' : ',myEles_Wmass[iLeadLep]
         elif nJets >=3:
@@ -1112,7 +1112,7 @@ def AnalyzeDataSet():
                 #print nBjets
                 if  nJets>=3 and nBjets==0:
                     npass_we = npass_we + 1
-                    #print 'run', run, ': lumi', lumi, ': event', event, ': elept ',myEles[iLeadLep].Pt(),': eleeta',myEles[iLeadLep].Eta(),': elephi',myEles[iLeadLep].Phi(),': jet1pt',j1.Pt(),': jet1eta',j1.Eta(),': jet1phi',j1.Phi(),': jet2pt',j2.Pt(),': jet2eta',j2.Eta(), 
+                    #print 'run', run, ': lumi', lumi, ': event', event, ': elept ',myEles[iLeadLep].Pt(),': eleeta',myEles[iLeadLep].Eta(),': elephi',myEles[iLeadLep].Phi(),': jet1pt',j1.Pt(),': jet1eta',j1.Eta(),': jet1phi',j1.Phi(),': jet2pt',j2.Pt(),': jet2eta',j2.Eta(),
                     #print 'run', run, ' : lumi', lumi, ' : event', event, ' : elept ',myEles[iLeadLep].Pt(),' : eleeta',myEles[iLeadLep].Eta(),' : elephi',myEles[iLeadLep].Phi(),' : jet1pt',j1.Pt(),' : jet1eta',j1.Eta(),' : jet1phi',j1.Phi(),' : jet2pt',j2.Pt(),' : jet2eta',j2.Eta(),' : jet2phi',j2.Eta(),' : jet3pt',j3.Pt(),' : jet3eta',j3.Eta(),' : jet1phi',j3.Phi(),' : met',pfMet,' : mt',Wenumass
                     #print run, ' : ', lumi, ' : ', event, ' : ',myEles[iLeadLep].Pt(),' : ',myEles[iLeadLep].Eta(),' : ',myEles[iLeadLep].Phi(),' : ',j1.Pt(),' : ',j1.Eta(),' : ',j1.Phi(),' : ',j2.Pt(),' : ',j2.Eta(),' : ',j2.Phi(),' : ',j3.Pt(),' : ',j3.Eta(),' : ',j3.Phi(),' : ',pfMet,' : ',Wenumass
                     #print run,lumi,event
@@ -1416,8 +1416,10 @@ def AnalyzeDataSet():
             #print gn_pT
             if samplename=="TT":
                 genpTReweighting = GenWeightProducer(samplename, nGenPar, genParId, genMomParId, genParSt,genParP4)
-            else:
+            elif samplename=='WJETS':
                 genpTReweighting = kfactor.getEWKW(gn_pT)*kfactor.getQCDW(gn_pT)
+            elif samplename=='ZJETS':
+                genpTReweighting = kfactor.getEWKZ(gn_pT)*kfactor.getQCDZ(gn_pT)
         #genpTReweighting = 1.0
         #print 'genpTReweighting: ', genpTReweighting
         #----------------------------------------------------------------------------------------------------------------------------------------------------------------
