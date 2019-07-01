@@ -1751,12 +1751,12 @@ def AnalyzeDataSet():
             P_Data = 1.0
             btagweight = 1.0
             for i in range(nJets):
-                tag_eff = getBeff(myJetP4[i],myJetHadronFlavor[i])
-                P_MC *= (1-tag_eff)
+                nontag_eff = getBeff(myJetP4[i],myJetHadronFlavor[i])
+                P_MC *= (1-nontag_eff)
                 reader1.eval_auto_bounds('central', 0, 2.4, 30.)
                 SF_jet = []
                 SF_jet=weightbtag(reader1, jetflav(myJetHadronFlavor[jet]), myJetP4[jet].Pt(), myJetP4[jet].Eta())
-                P_Data *= (1 - SF_jet[0] * tag_eff)
+                P_Data *= (1 - SF_jet[0] * nontag_eff)
                 #print 'eff: ',getBeff(myJetP4[i])
             if P_MC > 0:
                 btagweight = P_Data/P_MC
