@@ -70,7 +70,7 @@ def AnalyzeDataSet():
     CSVMWP=0.8484
     DCSVMWP=0.6324
     NEntries = skimmedTree.GetEntries()
-#    NEntries = 1000
+    #NEntries = 1000
     h_total = TH1F('h_total','h_total',2,0,2)
     h_total_mcweight = TH1F('h_total_mcweight','h_total_mcweight',2,0,2)
 
@@ -104,6 +104,10 @@ def AnalyzeDataSet():
 
     st_THINnJet                     = array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
     st_THINjetP4                    = ROOT.std.vector('TLorentzVector')()
+    st_THINjetPx                    = ROOT.std.vector('float')()
+    st_THINjetPy                    = ROOT.std.vector('float')()
+    st_THINjetPz                    = ROOT.std.vector('float')()
+    st_THINjetEnergy                = ROOT.std.vector('float')()
     st_THINjetCISVV2                = ROOT.std.vector('float')()
     st_THINjetHadronFlavor          = ROOT.std.vector('int')()
     st_THINjetNHadEF                = ROOT.std.vector('float')()
@@ -126,14 +130,27 @@ def AnalyzeDataSet():
 
     st_nEle                = array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
     st_eleP4               = ROOT.std.vector('TLorentzVector')()
+    st_elePx               = ROOT.std.vector('float')()
+    st_elePy               = ROOT.std.vector('float')()
+    st_elePz               = ROOT.std.vector('float')()
+    st_eleEnergy           = ROOT.std.vector('float')()
+    st_eleIsPassLoose      = ROOT.std.vector('bool')()
     st_eleIsPassTight      = ROOT.std.vector('bool')()
 
     st_nPho                = array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
     st_phoP4               = ROOT.std.vector('TLorentzVector')()
+    st_phoPx               = ROOT.std.vector('float')()
+    st_phoPy               = ROOT.std.vector('float')()
+    st_phoPz               = ROOT.std.vector('float')()
+    st_phoEnergy           = ROOT.std.vector('float')()
     st_phoIsPassTight      = ROOT.std.vector('bool')()
 
     st_nMu= array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
     st_muP4                = ROOT.std.vector('TLorentzVector')()
+    st_muPx                = ROOT.std.vector('float')()
+    st_muPy                = ROOT.std.vector('float')()
+    st_muPz                = ROOT.std.vector('float')()
+    st_muEnergy            = ROOT.std.vector('float')()
     st_isTightMuon         = ROOT.std.vector('bool')()
     st_muIso            = ROOT.std.vector('float')()
 
@@ -156,6 +173,10 @@ def AnalyzeDataSet():
     st_genMomParId = ROOT.std.vector('int')()
     st_genParSt = ROOT.std.vector('int')()
     st_genParP4 = ROOT.std.vector('TLorentzVector')()
+    st_genParPx = ROOT.std.vector('float')()
+    st_genParPy = ROOT.std.vector('float')()
+    st_genParPz = ROOT.std.vector('float')()
+    st_genParEnergy = ROOT.std.vector('float')()
 
     WenuRecoil = array( 'f', [ 0. ] )
     Wenumass = array( 'f', [ 0. ] )
@@ -201,6 +222,12 @@ def AnalyzeDataSet():
 
     outTree.Branch( 'st_THINnJet',st_THINnJet, 'st_THINnJet/L' )
     outTree.Branch( 'st_THINjetP4',st_THINjetP4 )
+
+    outTree.Branch( 'st_THINjetPx', st_THINjetPx  )
+    outTree.Branch( 'st_THINjetPy' , st_THINjetPy )
+    outTree.Branch( 'st_THINjetPz', st_THINjetPz )
+    outTree.Branch( 'st_THINjetEnergy', st_THINjetEnergy )
+
     outTree.Branch( 'st_THINjetCISVV2',st_THINjetCISVV2 )
     outTree.Branch( 'st_THINjetHadronFlavor',st_THINjetHadronFlavor )
     outTree.Branch( 'st_THINjetNHadEF',st_THINjetNHadEF )
@@ -222,15 +249,29 @@ def AnalyzeDataSet():
 
     outTree.Branch( 'st_nEle',st_nEle , 'st_nEle/L')
     outTree.Branch( 'st_eleP4',st_eleP4 )
+    outTree.Branch( 'st_elePx', st_elePx  )
+    outTree.Branch( 'st_elePy' , st_elePy )
+    outTree.Branch( 'st_elePz', st_elePz )
+    outTree.Branch( 'st_eleEnergy', st_eleEnergy )
+
     outTree.Branch( 'st_eleIsPassTight', st_eleIsPassTight)#, 'st_eleIsPassTight/O' )
+    outTree.Branch( 'st_eleIsPassLoose', st_eleIsPassLoose)#, 'st_eleIsPassLoose/O' )
 
     outTree.Branch( 'st_nPho',st_nPho , 'st_nPho/L')
     outTree.Branch( 'st_phoP4',st_phoP4 )
     outTree.Branch( 'st_phoIsPassTight', st_phoIsPassTight)#, 'st_phoIsPassTight/O' )
+    outTree.Branch( 'st_phoPx', st_phoPx  )
+    outTree.Branch( 'st_phoPy' , st_phoPy )
+    outTree.Branch( 'st_phoPz', st_phoPz )
+    outTree.Branch( 'st_phoEnergy', st_phoEnergy )
 
 
     outTree.Branch( 'st_nMu',st_nMu , 'st_nMu/L')
     outTree.Branch( 'st_muP4',st_muP4 )
+    outTree.Branch( 'st_muPx', st_muPx)
+    outTree.Branch( 'st_muPy' , st_muPy)
+    outTree.Branch( 'st_muPz', st_muPz)
+    outTree.Branch( 'st_muEnergy', st_muEnergy)
     outTree.Branch( 'st_isTightMuon', st_isTightMuon)#, 'st_isTightMuon/O' )
     outTree.Branch( 'st_muIso', st_muIso)#, 'st_muIso/F')
 
@@ -250,6 +291,10 @@ def AnalyzeDataSet():
     outTree.Branch( 'st_genMomParId',st_genMomParId )
     outTree.Branch( 'st_genParSt',st_genParSt )
     outTree.Branch( 'st_genParP4', st_genParP4)
+    outTree.Branch( 'st_genParPx', st_genParPx  )
+    outTree.Branch( 'st_genParPy' , st_genParPy )
+    outTree.Branch( 'st_genParPz', st_genParPz )
+    outTree.Branch( 'st_genParEnergy', st_genParEnergy )
 
     outTree.Branch( 'WenuRecoil', WenuRecoil, 'WenuRecoil/F')
     outTree.Branch( 'Wenumass', Wenumass, 'Wenumass/F')
@@ -276,7 +321,8 @@ def AnalyzeDataSet():
     #if len(sys.argv)>2:
      #   NEntries=int(sys.argv[2])
       #  print "WARNING: Running in TEST MODE"
-
+    e_num_tight = 0
+    e_num = 0
     for ievent in range(NEntries):
 
 #    print "\n*****\nWARNING: *Test run* Processing 200 events only.\n*****\n"
@@ -337,6 +383,7 @@ def AnalyzeDataSet():
 
         nEle                       = skimmedTree.__getattr__('nEle')
         eleP4                      = skimmedTree.__getattr__('eleP4')
+        eleIsPassVeto              = skimmedTree.__getattr__('eleIsPassVeto')
         eleIsPassLoose             = skimmedTree.__getattr__('eleIsPassLoose')
         eleIsPassMedium            = skimmedTree.__getattr__('eleIsPassMedium')
         eleIsPassTight             = skimmedTree.__getattr__('eleIsPassTight')
@@ -446,7 +493,7 @@ def AnalyzeDataSet():
 #        if samplename=="all":
         pfmetstatus = ( pfMet >= 250.0 )
         if pfmetstatus == False : continue
-        print 'pfMet: ', pfMet
+        #print 'pfMet: ', pfMet
 
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -470,7 +517,7 @@ def AnalyzeDataSet():
                 if thindeepCSVJetLooseID==None:
                     deepCSVJetLooseID=True
                 else:
-                    deepCSVJetLooseID=bool(passThinJetLooseID[jthinjet])
+                    deepCSVJetLooseID=bool(thindeepCSVJetLooseID[jthinjet])
 
             if (j1.Pt() > 30.0)&(abs(j1.Eta())<4.5) and deepCSVJetLooseID: #  &(bool(passThinJetLooseID[jthinjet])==True):
                 thindCSVjetpassindex.append(jthinjet)
@@ -495,9 +542,18 @@ def AnalyzeDataSet():
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         myEles=[]
+        myEles_tight=[]
+        #e_num = 0
+        #e_num_tight = 0
         for iele in range(nEle):
-            if (eleP4[iele].Pt() > 10. ) & (abs(eleP4[iele].Eta()) <2.5) & (bool(eleIsPassLoose[iele]) == True) :
+            if (eleP4[iele].Pt() > 10. ) & (abs(eleP4[iele].Eta()) <2.5) & (bool(eleIsPassVeto[iele]) == True) :
                 myEles.append(iele)
+                e_num = e_num + 1
+                if (bool(eleIsPassTight[iele]) == True):
+                    myEles_tight.append(iele)
+                    e_num_tight = e_num_tight +1
+        #print 'selected ele', len(myEles)
+        #print 'selected ele with tight ID', len(myEles_tight)
 
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -506,12 +562,15 @@ def AnalyzeDataSet():
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         myMuos = []
         myMuonIso = {}
+        myMuos_tight = []
         for imu in range(nMu):
             if (muP4[imu].Pt()>10.) & (abs(muP4[imu].Eta()) < 2.4) & (bool(isLooseMuon[imu]) == True):
                 relPFIso = (muChHadIso[imu]+ max(0., muNeHadIso[imu] + muGamIso[imu] - 0.5*muPUPt[imu]))/muP4[imu].Pt()
                 if relPFIso<0.25 :
                     myMuos.append(imu)
                     myMuonIso[imu]=relPFIso
+                    if relPFIso<0.15 and (bool(isTightMuon[imu])==True):
+                        myMuos_tight.append(imu)
 
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -525,16 +584,6 @@ def AnalyzeDataSet():
         myTausLooseEleMu=[]
         for itau in range(nTau):
             if (tauP4[itau].Pt()>18.) & (abs(tauP4[itau].Eta())<2.3) & (bool(isDecayModeFinding[itau]) == True) & (bool(passLooseTauIso[itau]) == True):
-                myTaus.append(itau)
-                if disc_againstElectronLoose!=None:
-                    if disc_againstElectronTight[itau] and disc_againstMuonLoose[itau]:
-                        myTausTightElectron.append(tauP4[itau])
-                    if disc_againstMuonTight[itau] and disc_againstElectronLoose[itau]:
-                        myTausTightMuon.append(tauP4[itau])
-                    if disc_againstMuonTight[itau] and disc_againstElectronTight[itau]:
-                        myTausTightEleMu.append(tauP4[itau])
-                    if disc_againstMuonLoose[itau] and disc_againstElectronLoose[itau]:
-                        myTausLooseEleMu.append(tauP4[itau])
                 #---Fake tau cleaner----
                 isClean=True
                 for iele in myEles:
@@ -547,8 +596,18 @@ def AnalyzeDataSet():
                     if lep_tau_dR < 0.4:
                         isClean=False
                         break
-                if isClean: nTausDRbased+=1
-
+                if not isClean: continue 
+                myTaus.append(itau)
+                if disc_againstElectronLoose!=None:
+                    if disc_againstElectronTight[itau] and disc_againstMuonLoose[itau]:
+                        myTausTightElectron.append(tauP4[itau])
+                    if disc_againstMuonTight[itau] and disc_againstElectronLoose[itau]:
+                        myTausTightMuon.append(tauP4[itau])
+                    if disc_againstMuonTight[itau] and disc_againstElectronTight[itau]:
+                        myTausTightEleMu.append(tauP4[itau])
+                    if disc_againstMuonLoose[itau] and disc_againstElectronLoose[itau]:
+                        myTausLooseEleMu.append(tauP4[itau])
+                                
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -568,6 +627,10 @@ def AnalyzeDataSet():
         st_pfMetUncJetEnDown.clear()
 
         st_THINjetP4.clear()
+        st_THINjetPx.clear()
+        st_THINjetPy.clear()
+        st_THINjetPz.clear()
+        st_THINjetEnergy.clear()
         st_THINjetCISVV2.clear()
         st_THINjetHadronFlavor.clear()
         st_THINjetNHadEF.clear()
@@ -587,24 +650,47 @@ def AnalyzeDataSet():
         st_AK4deepCSVjetCorrUnc.clear()
 
         st_eleP4.clear()
+        st_elePx.clear()
+        st_elePy.clear()
+        st_elePz.clear()
+        st_eleEnergy.clear()
         st_eleIsPassTight.clear()
+        st_eleIsPassLoose.clear()
 
         st_muP4.clear()
+        st_muPx.clear()
+        st_muPy.clear()
+        st_muPz.clear()
+        st_muEnergy.clear()
         st_isTightMuon.clear()
         st_muIso.clear()
 
         st_phoP4.clear()
+        st_phoPx.clear()
+        st_phoPy.clear()
+        st_phoPz.clear()
+        st_phoEnergy.clear()
         st_phoIsPassTight.clear()
 
         st_genParId.clear()
         st_genMomParId.clear()
         st_genParSt.clear()
         st_genParP4.clear()
+        st_genParPx.clear()
+        st_genParPy.clear()
+        st_genParPz.clear()
+        st_genParEnergy.clear()
 
 
         st_THINnJet[0] = len(thinjetpassindex)
         for ithinjet in thinjetpassindex:
             st_THINjetP4.push_back(thinjetP4[ithinjet])
+            st_THINjetPx.push_back(thinjetP4[ithinjet].Px())
+            st_THINjetPy.push_back(thinjetP4[ithinjet].Py())
+            st_THINjetPz.push_back(thinjetP4[ithinjet].Pz())
+#            print ("st_THINjetPz", thinjetP4[ithinjet].Pz())
+            st_THINjetEnergy.push_back(thinjetP4[ithinjet].E())
+
             st_THINjetCISVV2.push_back(thinJetCSV[ithinjet])
             st_THINjetHadronFlavor.push_back(THINjetHadronFlavor[ithinjet])
             st_THINjetNHadEF.push_back(thinjetNhadEF[ithinjet])
@@ -631,11 +717,21 @@ def AnalyzeDataSet():
         st_nEle[0] = len(myEles)
         for iele in myEles:
             st_eleP4.push_back(eleP4[iele])
+            st_elePx.push_back(eleP4[iele].Px())
+            st_elePy.push_back(eleP4[iele].Py())
+            st_elePz.push_back(eleP4[iele].Pz())
+            st_eleEnergy.push_back(eleP4[iele].E())
+            st_eleIsPassLoose.push_back(bool(eleIsPassLoose[iele]))
             st_eleIsPassTight.push_back(bool(eleIsPassTight[iele]))
 
         st_nMu[0] = len(myMuos)
         for imu in myMuos:
             st_muP4.push_back(muP4[imu])
+            st_muPx.push_back(muP4[imu].Px())
+            st_muPy.push_back(muP4[imu].Py())
+            st_muPz.push_back(muP4[imu].Pz())
+            st_muEnergy.push_back(muP4[imu].E())
+
             st_isTightMuon.push_back(bool(isTightMuon[imu]))
             st_muIso.push_back(myMuonIso[imu])
 
@@ -645,9 +741,13 @@ def AnalyzeDataSet():
         st_nTauTightEleMu[0] = len(myTausTightEleMu)
         st_nTauLooseEleMu[0] = len(myTausLooseEleMu)
 
-        st_nPho[0]=nPho
-        for ipho in range(nPho):
+        st_nPho[0]=len(myPhos)
+        for ipho in myPhos:
             st_phoP4.push_back(phoP4[ipho])
+            st_phoPx.push_back(phoP4[ipho].Px())
+            st_phoPy.push_back(phoP4[ipho].Py())
+            st_phoPz.push_back(phoP4[ipho].Pz())
+            st_phoEnergy.push_back(phoP4[ipho].E())
             st_phoIsPassTight.push_back(bool(phoIsPassTight[ipho]))
 
 
@@ -666,6 +766,11 @@ def AnalyzeDataSet():
             st_genMomParId.push_back(genMomParId[igp])
             st_genParSt.push_back(genParSt[igp])
             st_genParP4.push_back(genParP4[igp])
+
+            st_genParPx.push_back(genParP4[igp].Px())
+            st_genParPy.push_back(genParP4[igp].Py())
+            st_genParPz.push_back(genParP4[igp].Pz())
+            st_genParEnergy.push_back(genParP4[igp].E())
 
         st_pfMetUncJetResUp.push_back(pfMetJetUnc[0])
         st_pfMetUncJetResDown.push_back(pfMetJetUnc[1])
@@ -746,8 +851,8 @@ def AnalyzeDataSet():
 # ------------------
 
         ## for Single electron
-        if len(myEles) == 1:
-           ele1 = myEles[0]
+        if len(myEles_tight) == 1:
+           ele1 = myEles_tight[0]
            p4_ele1 = eleP4[ele1]
 
            e_mass = MT(p4_ele1.Pt(),pfMet, DeltaPhi(p4_ele1.Phi(),pfMetPhi)) #transverse mass defined as sqrt{2pT*MET*(1-cos(dphi)}
@@ -756,14 +861,14 @@ def AnalyzeDataSet():
            WenuRecoilPy = -( pfMet*math.sin(pfMetPhi) + p4_ele1.Py())
            WenuRecoilPt = math.sqrt(WenuRecoilPx**2  +  WenuRecoilPy**2)
            #if WenuRecoilPt > 250.:
-           print 'WenuRecoilPt: ', WenuRecoilPt
+           #print 'WenuRecoilPt: ', WenuRecoilPt
            WenuRecoil[0] = WenuRecoilPt
            Wenumass[0] = e_mass
            WenuPhi[0] = arctan(WenuRecoilPx,WenuRecoilPy)
 
         ## for Single muon
-        if len(myMuos) == 1:
-           mu1 = myMuos[0]
+        if len(myMuos_tight) == 1:
+           mu1 = myMuos_tight[0]
            p4_mu1 = muP4[mu1]
 
            mu_mass = MT(p4_mu1.Pt(),pfMet, DeltaPhi(p4_mu1.Phi(),pfMetPhi)) #transverse mass defined as sqrt{2pT*MET*(1-cos(dphi)}
@@ -772,7 +877,7 @@ def AnalyzeDataSet():
            WmunuRecoilPy = -( pfMet*math.sin(pfMetPhi) + p4_mu1.Py())
            WmunuRecoilPt = math.sqrt(WmunuRecoilPx**2  +  WmunuRecoilPy**2)
            #if WmunuRecoilPt > 250.:
-           print 'WmunuRecoilPt: ', WmunuRecoilPt
+           #print 'WmunuRecoilPt: ', WmunuRecoilPt
            WmunuRecoil[0] = WmunuRecoilPt
            Wmunumass[0] = mu_mass
            WmunuPhi[0] = arctan(WmunuRecoilPx,WmunuRecoilPy)
@@ -787,7 +892,8 @@ def AnalyzeDataSet():
         #if pfmetstatus==False and ZRecoilstatus==False and WRecoilstatus==False: continue
         #if pfmetstatus==False : continue
         outTree.Fill()
-
+    print 'e_num', e_num
+    print 'e_num_tight', e_num_tight
     h_total_mcweight.Write()
     h_total.Write()
     samplepath.Write()
