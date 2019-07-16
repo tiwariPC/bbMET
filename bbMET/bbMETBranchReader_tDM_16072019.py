@@ -1062,7 +1062,7 @@ def AnalyzeDataSet():
         #if nEle==1 and nMu==0 and nTauTightElectron==0 and EleCRtrigstatus and  jetcond and Wenumass <= 160. and pfmetstatus:
         #if nEle_tight==1 and nMu==0 and EleCRtrigstatus and  jetcond and Wenumass <= 160. and pfmetstatus:
         #print nEle_tight,' : ',nMu,' : ',EleCRtrigstatus,' : ',jetcond,' : ',pfmetstatus
-        if nEle==1 and nMu==0 and nTau==0 and EleCRtrigstatus and  jetcond and pfmetstatus:
+        if nEle==1 and nMu==0 and EleCRtrigstatus and  jetcond and pfmetstatus:
             iLeadLep=0
 
             # if myEles[iLeadLep].Pt() > 10. and myEleTightID[iLeadLep]:
