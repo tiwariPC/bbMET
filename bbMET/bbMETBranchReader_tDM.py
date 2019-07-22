@@ -7,6 +7,7 @@ import sys, optparse
 from array import array
 import math
 import AllQuantList, kfactor
+import pandas as pd
 
 ROOT.gROOT.SetBatch(True)
 from bbMETQuantities import *
@@ -433,6 +434,7 @@ def AnalyzeDataSet():
 
     e_num = 0
     e_num_tight = 0
+    mu_dataframe = []
     for ievent in range(NEntries):
     #for ievent in range(501):
 
@@ -469,7 +471,7 @@ def AnalyzeDataSet():
 
             #if event != 4126: continue
             #if lumi  != 42: continue
-            if ievent%100==0: print (ievent)
+            #if ievent%100==0: print (ievent)
             #trigName                   = skimmedTree.__getattr__('st_hlt_trigName')
             #trigResult                 = skimmedTree.__getattr__('st_hlt_trigResult')
             #filterName                 = skimmedTree.__getattr__('st_hlt_filterName')
@@ -628,7 +630,7 @@ def AnalyzeDataSet():
         ## PFMET Selection
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-        pfmetstatus = ( pfMet >= 250.0 )
+        pfmetstatus = ( pfMet > 250.0 )
         #----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
          # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -644,10 +646,13 @@ def AnalyzeDataSet():
             myEles.append(eleP4[iele])
             #myEleTightID.append(eleIsPassTight[iele])
             if bool(eleIsPassTight[iele])==True and eleP4[iele].Pt() > 30. and abs(eleP4[iele].Eta())<2.1:
-                e_mass = MT(eleP4[iele].Pt(),pfMet, DeltaPhi(eleP4[iele].Phi(),pfMetPhi))
+                #e_mass = MT(eleP4[iele].Pt(),pfMet, DeltaPhi(eleP4[iele].Phi(),pfMetPhi))
                 myEles_tight.append(eleP4[iele])
-                myEles_Wmass.append(e_mass)
+                #myEles_Wmass.append(e_mass)
                 myEleTightID.append(eleIsPassTight[iele])
+        if len(myEles_tight)==1:
+            e_mass = MT(myEles_tight[0].Pt(),pfMet, DeltaPhi(myEles_tight[0].Phi(),pfMetPhi))
+            myEles_Wmass.append(e_mass)
 
         myMuos = []
         myMuTightID=[]
@@ -660,12 +665,14 @@ def AnalyzeDataSet():
             #myMuTightID.append(isTightMuon[imu])
             myMuIso.append(muIso[imu])
             if bool(isTightMuon[imu])==True and (muIso[imu] < 0.15) and muP4[imu].Pt() > 30.:
-                mu_mass = MT(muP4[imu].Pt(),pfMet, DeltaPhi(muP4[imu].Phi(),pfMetPhi))
+                #mu_mass = MT(muP4[imu].Pt(),pfMet, DeltaPhi(muP4[imu].Phi(),pfMetPhi))
                 myMuos_tight.append(muP4[imu])
-                myMuos_Wmass.append(mu_mass)
+                #myMuos_Wmass.append(mu_mass)
                 myMuTightID.append(isTightMuon[imu])
             #print 'muID: ', bool(isTightMuon[imu]),'muIso: ',muIso[imu]
-
+        if len(myMuos_tight)==1:
+            mu_mass = MT(myMuos_tight[0].Pt(),pfMet, DeltaPhi(myMuos_tight[0].Phi(),pfMetPhi))
+            myMuos_Wmass.append(mu_mass)
         #--------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # Jet Selection
@@ -1041,6 +1048,7 @@ def AnalyzeDataSet():
 # W CR
 # -------------------------------------------
         iLeadLep = 0
+
         #print run,' : ',lumi,' : ',event,' : nJets ', nJets,' : nBjets ',nBjets
 
         #W CR specific bools
@@ -1090,7 +1098,7 @@ def AnalyzeDataSet():
             #print myEles_Wmass[iLeadLep]
             #print myEles_tight[iLeadLep].Pt(),' : ',myEles_Wmass[iLeadLep]
             #if myEles[iLeadLep].Pt() > 30. and myEles_Wmass[iLeadLep] <= 160. and myEleTightID[iLeadLep] and abs(myEles[iLeadLep].Eta()) <= 2.1:
-            if myEles_tight[iLeadLep].Pt() > 30. and myEles_Wmass[iLeadLep] <= 160.:
+            if myEles_tight[iLeadLep].Pt() > 30. and myEles_Wmass[iLeadLep] < 160.:
 
                 WpT = math.sqrt( ( pfMet*math.cos(pfMetPhi) + myEles[iLeadLep].Px())**2 + ( pfMet*math.sin(pfMetPhi) + myEles[iLeadLep].Py())**2)
 
@@ -1185,7 +1193,7 @@ def AnalyzeDataSet():
         #if nMu==1 and nEle==0 and nTauTightMuon==0 and MuCRtrigstatus and WmunuRecoil>200. and jetcond and Wmunumass>50. and Wmunumass<160. and pfMet > 50.:
         #if nMu==1 and nEle==0 and nTauTightMuon==0 and MuCRtrigstatus and WmunuRecoil>200. and jetcond and Wmunumass<160. and pfMet > 50.:
         #if nMu==1 and nEle==0 and  nTauTightMuon==0 and MuCRtrigstatus and jetcond and Wmunumass <= 160. and pfmetstatus:
-        if nMu==1 and nMu_tight==1 and nEle==0 and MuCRtrigstatus and jetcond and pfmetstatus:
+        elif nMu==1 and nMu_tight==1 and nEle==0 and nTau==0 and MuCRtrigstatus and jetcond and pfmetstatus:
             iLeadLep=0
 
             # if myMuos[iLeadLep].Pt() > 10. and myMuTightID[iLeadLep] and myMuIso[iLeadLep]<0.15:
@@ -1211,7 +1219,7 @@ def AnalyzeDataSet():
             #         allquantities.reg_1mu2b_hadrecoil_looseID = WmunuRecoil
 
             #if myMuos[iLeadLep].Pt() > 30. and myMuTightID[iLeadLep] and myMuIso[iLeadLep]<0.15:
-            if myMuos_tight[iLeadLep].Pt() > 30. and myMuos_Wmass[iLeadLep] <= 160.:
+            if myMuos_tight[iLeadLep].Pt() > 30. and myMuos_Wmass[iLeadLep] < 160.:
 
                 WpT = math.sqrt( ( pfMet*math.cos(pfMetPhi) + myMuos[iLeadLep].Px())**2 + ( pfMet*math.sin(pfMetPhi) + myMuos[iLeadLep].Py())**2)
 
@@ -1226,7 +1234,9 @@ def AnalyzeDataSet():
                 #if  nBjets==1 and WdPhicond and (nJets-nBjets)==0:
                 if  nJets>=3 and nBjets==0:
                     npass_wmu = npass_wmu + 1
-                    #print 'In Wmu CR :', run, lumi, event
+                    #print run,':',lumi,':',event
+                    wmu_event = [run,lumi,event,myMuos_tight[iLeadLep].Pt(),myMuos_tight[iLeadLep].Eta(),myMuos_tight[iLeadLep].Phi(),nJets,nBjets,j1.Pt(),j1.Eta(),j1.Phi(),j2.Pt(),j2.Eta(),j2.Phi(),j3.Pt(),j3.Eta(),j3.Phi(),pfMet,myMuos_Wmass[iLeadLep]]
+                    mu_dataframe.append(wmu_event)
                     allquantities.reg_1mu1b_Wmass = myMuos_Wmass[iLeadLep]
                     allquantities.reg_1mu1b_WpT=WpT
 
@@ -1288,7 +1298,7 @@ def AnalyzeDataSet():
                     allquantities.jer_syst_1mu1b_up = WmunuRecoil
                     allquantities.jer_syst_1mu1b_down = WmunuRecoil
                     isWmunuCR1 = True
-
+        #print (mu_dataframe)
 
 
 # -------------------------------------------
@@ -2060,7 +2070,9 @@ def AnalyzeDataSet():
         #print (allquantities.regime, allquantities.met,allquantities.mass )
         allquantities.FillRegionHisto()
         allquantities.FillHisto()
-
+    df = pd.DataFrame(mu_dataframe,columns=['run','lumi','event','myMuos_tight_Pt','myMuos_tight_Eta','myMuos_tight_Phi','nJets','nBjets','j1_Pt','j1_Eta','j1_Phi','j2_Pt','j2_Eta','j2_Phi','j3_Pt','j3_Eta','j3_Phi','pfMet','Wmu_mass'])
+    print df
+    df.to_csv (r'export_mu_dataframe.csv', index = None, header=True) #Don't forget to add '.csv' at the end of the path
     #print cutStatus
     NEntries_Weight = h_t_weight.Integral()
     NEntries_total  = h_t.Integral()
