@@ -491,7 +491,7 @@ def AnalyzeDataSet():
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 #        if samplename=="all":
-        pfmetstatus = ( pfMet >= 250.0 )
+        pfmetstatus = ( pfMet > 250.0 )
         if pfmetstatus == False : continue
         #print 'pfMet: ', pfMet
 
