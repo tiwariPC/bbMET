@@ -506,8 +506,8 @@ def AnalyzeDataSet():
                 thinjetpassindex.append(ithinjet)
                 if thinJetCSV[ithinjet] > CSVMWP and abs(j1.Eta())<2.4 : nBjets += 1
 
-        thindCSVjetpassindex=[]
-        ndBjets=0
+        #thindCSVjetpassindex=[]
+        #ndBjets=0
         #
         #
         # for jthinjet in range(nTHINdeepCSVJets):
