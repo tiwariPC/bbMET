@@ -641,10 +641,14 @@ def AnalyzeDataSet():
         myEleTightID=[]
         myEles_Wmass = []
         for iele in range(nEle):
+            no_crack_reg = (abs(eleP4[iele].Eta()) < 1.44 & abs(eleP4[iele].Eta()) > 1.556)
+            if not no_crack_reg : continue
             e_num = e_num + 1
             #if abs(eleP4[iele].Eta()) >2.1: continue
+            
             myEles.append(eleP4[iele])
             #myEleTightID.append(eleIsPassTight[iele])
+            
             if bool(eleIsPassTight[iele])==True and eleP4[iele].Pt() > 30. and abs(eleP4[iele].Eta())<2.1:
                 #e_mass = MT(eleP4[iele].Pt(),pfMet, DeltaPhi(eleP4[iele].Phi(),pfMetPhi))
                 myEles_tight.append(eleP4[iele])
