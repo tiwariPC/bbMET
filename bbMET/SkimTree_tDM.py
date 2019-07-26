@@ -546,7 +546,8 @@ def AnalyzeDataSet():
         #e_num = 0
         #e_num_tight = 0
         for iele in range(nEle):
-            if (eleP4[iele].Pt() > 10. ) & (abs(eleP4[iele].Eta()) <2.5) & (bool(eleIsPassVeto[iele]) == True) :
+            no_crak_reg = (abs(eleP4[iele].Eta()) < 1.44 & abs(eleP4[iele].Eta()) > 1.556)
+            if (eleP4[iele].Pt() > 10. ) & (abs(eleP4[iele].Eta()) <2.5) & (bool(eleIsPassVeto[iele]) == True) & no_crak_reg:
                 myEles.append(iele)
                 e_num = e_num + 1
                 if (bool(eleIsPassTight[iele]) == True):
