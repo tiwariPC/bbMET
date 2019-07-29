@@ -112,14 +112,6 @@ def AnalyzeDataSet():
     st_THINjetMuoEF                 = ROOT.std.vector('float')()
     st_THINjetCorrUnc               = ROOT.std.vector('float')()
 
-    st_AK4deepCSVnJet               = array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
-    st_AK4deepCSVjetP4              = ROOT.std.vector('TLorentzVector')()
-    st_AK4deepCSVjetDeepCSV_b       = ROOT.std.vector('float')()
-    st_AK4deepCSVjetHadronFlavor    = ROOT.std.vector('int')()
-    st_AK4deepCSVjetNHadEF          = ROOT.std.vector('float')()
-    st_AK4deepCSVjetCHadEF          = ROOT.std.vector('float')()
-    st_AK4deepCSVjetCorrUnc         = ROOT.std.vector('float')()
-
 
     st_nEle                = array( 'L', [ 0 ] ) #ROOT.std.vector('int')()
     st_eleP4               = ROOT.std.vector('TLorentzVector')()
@@ -219,15 +211,6 @@ def AnalyzeDataSet():
     outTree.Branch( 'st_THINjetEleEF',st_THINjetEleEF )
     outTree.Branch( 'st_THINjetMuoEF',st_THINjetMuoEF )
     outTree.Branch('st_THINjetCorrUnc', st_THINjetCorrUnc)
-
-    outTree.Branch( 'st_AK4deepCSVnJet',st_AK4deepCSVnJet, 'st_AK4deepCSVnJet/L' )
-    outTree.Branch( 'st_AK4deepCSVjetP4',st_AK4deepCSVjetP4 )
-    outTree.Branch( 'st_AK4deepCSVjetDeepCSV_b',st_AK4deepCSVjetDeepCSV_b )
-    outTree.Branch( 'st_AK4deepCSVjetHadronFlavor',st_AK4deepCSVjetHadronFlavor )
-    outTree.Branch( 'st_AK4deepCSVjetNHadEF',st_AK4deepCSVjetNHadEF )
-    outTree.Branch( 'st_AK4deepCSVjetCHadEF',st_AK4deepCSVjetCHadEF )
-    outTree.Branch( 'st_AK4deepCSVjetCorrUnc', st_AK4deepCSVjetCorrUnc)
-
 
     outTree.Branch( 'st_nEle',st_nEle , 'st_nEle/L')
     outTree.Branch( 'st_eleP4',st_eleP4 )
@@ -435,8 +418,7 @@ def AnalyzeDataSet():
             j1 = thinjetP4[ithinjet]
             if (j1.Pt() > 30.0)&(abs(j1.Eta())<4.5)&(bool(passThinJetLooseID[ithinjet])==True):
                 thinjetpassindex.append(ithinjet)
-                if thinJetDeepCSV[ithinjet] > CSVMWP and abs(j1.Eta())<2.4 : nBjets += 1
-
+                if thinJetDeepCSV[ithinjet] > DCSVMWP and abs(j1.Eta())<2.4 : nBjets += 1
         len(thindCSVjetpassindex) < 1 : continue
 
         # ----------------------------------------------------
@@ -546,13 +528,6 @@ def AnalyzeDataSet():
         st_THINjetEleEF.clear()
         st_THINjetMuoEF.clear()
         st_THINjetCorrUnc.clear()
-
-        st_AK4deepCSVjetP4.clear()
-        st_AK4deepCSVjetDeepCSV_b.clear()
-        st_AK4deepCSVjetHadronFlavor.clear()
-        st_AK4deepCSVjetNHadEF.clear()
-        st_AK4deepCSVjetCHadEF.clear()
-        st_AK4deepCSVjetCorrUnc.clear()
 
         st_eleP4.clear()
         st_elePx.clear()
@@ -686,7 +661,6 @@ def AnalyzeDataSet():
 # ------------------
 # Z CR
 # ------------------
-
         ## for dielectron
         if len(myEles) == 2:
             iele1=myEles[0]
@@ -725,7 +699,6 @@ def AnalyzeDataSet():
             ZRecoilstatus =(ZmumuRecoil[0] > 200)
         else:
             ZRecoilstatus=False
-
 
 # ------------------
 # W CR
@@ -848,10 +821,6 @@ def GenWeightProducer(sample,nGenPar, genParId, genMomParId, genParSt,genParP4):
             PID    = genParId[ig]
             momPID = genMomParId[ig]
             status = genParSt[ig]
-            #print "inside WJ loop pdgid", PID
-            #print ("if status =",      (abs(PID) != 11),( abs(PID) != 12),(  abs(PID) != 13 ),(  abs(PID) != 14),(  abs(PID) != 15),(  abs(PID) != 16))
-            #print "and of if status ", ( (abs(PID) != 11) & (abs(PID) != 12) &  (abs(PID) != 13) & (abs(PID) != 14) &  (abs(PID) != 15) &  (abs(PID) != 16) )
-
             if ( (abs(PID) != 11) & (abs(PID) != 12) &  (abs(PID) != 13) & (abs(PID) != 14) &  (abs(PID) != 15) &  (abs(PID) != 16) ): continue
             #print "lepton found"
             if ( ( (status != 1) & (abs(PID) != 15)) | ( (status != 2) & (abs(PID) == 15)) ): continue

@@ -3,7 +3,7 @@ import ROOT as ROOT
 import AllQuantList
 from array import array
 
-class MonoHbbQuantities:
+class bbMETQuantities:
 
     def __init__(self, rootfilename):
 
