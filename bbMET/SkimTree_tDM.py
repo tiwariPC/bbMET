@@ -80,6 +80,7 @@ def AnalyzeDataSet():
     outfile = TFile(outfilename,'RECREATE')
 
     outTree = TTree( 'outTree', 'tree branches' )
+    #print str(f_tmp)
     if isfarmout:
         samplepath = TNamed('samplepath', str(f_tmp).split('"')[1])
     else:
@@ -403,6 +404,7 @@ def AnalyzeDataSet():
         tauP4                      = skimmedTree.__getattr__('HPSTau_4Momentum')
         isDecayModeFinding         = skimmedTree.__getattr__('disc_decayModeFinding')
         passLooseTauIso            = skimmedTree.__getattr__('disc_byLooseIsolationMVA3oldDMwLT')
+        passTightTauIso            = skimmedTree.__getattr__('disc_byVTightIsolationMVA3newDMwLT')
 
         disc_againstElectronLoose  = skimmedTree.__getattr__('disc_againstElectronLooseMVA5')
         disc_againstElectronMedium = skimmedTree.__getattr__('disc_againstElectronMediumMVA5')
@@ -455,7 +457,7 @@ def AnalyzeDataSet():
         if not isData: trigstatus=True
 
         if not trigstatus: continue
-        #print 'Done Trigger Selection'
+
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Filter selection
@@ -481,7 +483,6 @@ def AnalyzeDataSet():
             filterstatus = filter1 & filter2 & filter3 & filter4 & filter5 & filter6 & filter8
 
         if filterstatus == False: continue
-        #print 'Done Filter'
         ###################################MET FILTER###################################
 
 
@@ -506,7 +507,7 @@ def AnalyzeDataSet():
             if (j1.Pt() > 30.0)&(abs(j1.Eta())<4.5)&(bool(passThinJetLooseID[ithinjet])==True):
                 thinjetpassindex.append(ithinjet)
                 if thinJetCSV[ithinjet] > CSVMWP and abs(j1.Eta())<2.4 : nBjets += 1
-        #print 'nJet', len(thinjetpassindex)
+
         #thindCSVjetpassindex=[]
         #ndBjets=0
         #
@@ -536,7 +537,7 @@ def AnalyzeDataSet():
         for ipho in range(nPho):
             if (phoP4[ipho].Pt() > 15.) & (abs(phoP4[ipho].Eta()) <2.5) & (bool(phoIsPassLoose[ipho]) == True):
                 myPhos.append(ipho)
-        #print 'myPhos', len(myPhos)
+
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Electron Veto
@@ -555,7 +556,7 @@ def AnalyzeDataSet():
                     e_num_tight = e_num_tight +1
         #print 'selected ele', len(myEles)
         #print 'selected ele with tight ID', len(myEles_tight)
-        #print 'myEle', len(myEles)
+
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Muon Veto
@@ -572,7 +573,7 @@ def AnalyzeDataSet():
                     myMuonIso[imu]=relPFIso
                     if relPFIso<0.15 and (bool(isTightMuon[imu])==True):
                         myMuos_tight.append(imu)
-        #print 'myMuos', len(myMuos)
+
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Tau Veto
@@ -584,7 +585,8 @@ def AnalyzeDataSet():
         myTausTightEleMu=[]
         myTausLooseEleMu=[]
         for itau in range(nTau):
-            if (tauP4[itau].Pt()>18.) & (abs(tauP4[itau].Eta())<2.3) & (bool(isDecayModeFinding[itau]) == True) & (bool(passLooseTauIso[itau]) == True):
+            #if (tauP4[itau].Pt()>18.) & (abs(tauP4[itau].Eta())<2.3) & (bool(isDecayModeFinding[itau]) == True) & (bool(passLooseTauIso[itau]) == True):
+            if (tauP4[itau].Pt()>18.) & (abs(tauP4[itau].Eta())<2.3) &  (bool(passTightTauIso[itau]) == True):
                 #---Fake tau cleaner----
                 isClean=True
                 for iele in myEles:
