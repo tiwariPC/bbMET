@@ -80,7 +80,6 @@ def AnalyzeDataSet():
     outfile = TFile(outfilename,'RECREATE')
 
     outTree = TTree( 'outTree', 'tree branches' )
-    print str(f_tmp)
     if isfarmout:
         samplepath = TNamed('samplepath', str(f_tmp).split('"')[1])
     else:
@@ -456,7 +455,7 @@ def AnalyzeDataSet():
         if not isData: trigstatus=True
 
         if not trigstatus: continue
-
+        #print 'Done Trigger Selection'
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Filter selection
@@ -472,6 +471,7 @@ def AnalyzeDataSet():
         filter3 = CheckFilter(filterName, filterResult, 'Flag_eeBadScFilter')
         filter4 = CheckFilter(filterName, filterResult, 'Flag_goodVertices')
         filter5 = CheckFilter(filterName, filterResult, 'Flag_EcalDeadCellTriggerPrimitiveFilter')
+        #filter6 = CheckFilter(filterName, filterResult, 'Flag_BadPFMuonFilter')
         filter6 = BadPFMuonFilter
         #filter7 = BadChCandidate
         filter8 = CheckFilter(filterName, filterResult, 'Flag_HBHENoiseIsoFilter')
@@ -481,6 +481,7 @@ def AnalyzeDataSet():
             filterstatus = filter1 & filter2 & filter3 & filter4 & filter5 & filter6 & filter8
 
         if filterstatus == False: continue
+        #print 'Done Filter'
         ###################################MET FILTER###################################
 
 
@@ -505,7 +506,7 @@ def AnalyzeDataSet():
             if (j1.Pt() > 30.0)&(abs(j1.Eta())<4.5)&(bool(passThinJetLooseID[ithinjet])==True):
                 thinjetpassindex.append(ithinjet)
                 if thinJetCSV[ithinjet] > CSVMWP and abs(j1.Eta())<2.4 : nBjets += 1
-
+        #print 'nJet', len(thinjetpassindex)
         #thindCSVjetpassindex=[]
         #ndBjets=0
         #
@@ -535,7 +536,7 @@ def AnalyzeDataSet():
         for ipho in range(nPho):
             if (phoP4[ipho].Pt() > 15.) & (abs(phoP4[ipho].Eta()) <2.5) & (bool(phoIsPassLoose[ipho]) == True):
                 myPhos.append(ipho)
-
+        #print 'myPhos', len(myPhos)
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Electron Veto
@@ -546,8 +547,7 @@ def AnalyzeDataSet():
         #e_num = 0
         #e_num_tight = 0
         for iele in range(nEle):
-            no_crack_reg = (abs(eleP4[iele].Eta()) < 1.4442 & abs(eleP4[iele].Eta()) > 1.556)
-            if (eleP4[iele].Pt() > 10. ) & (abs(eleP4[iele].Eta()) <2.5) & (bool(eleIsPassVeto[iele]) == True) & no_crak_reg:
+            if (eleP4[iele].Pt() > 10. ) & (abs(eleP4[iele].Eta()) <2.5) & (bool(eleIsPassVeto[iele]) == True) :
                 myEles.append(iele)
                 e_num = e_num + 1
                 if (bool(eleIsPassTight[iele]) == True):
@@ -555,7 +555,7 @@ def AnalyzeDataSet():
                     e_num_tight = e_num_tight +1
         #print 'selected ele', len(myEles)
         #print 'selected ele with tight ID', len(myEles_tight)
-
+        #print 'myEle', len(myEles)
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Muon Veto
@@ -572,7 +572,7 @@ def AnalyzeDataSet():
                     myMuonIso[imu]=relPFIso
                     if relPFIso<0.15 and (bool(isTightMuon[imu])==True):
                         myMuos_tight.append(imu)
-
+        #print 'myMuos', len(myMuos)
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         ## Tau Veto
